@@ -21,8 +21,8 @@
 </script>
 
 <div>
-	<div class="flex items-center gap-4 mt-4">
-		<div class="flex items-center">
+	<div class="flex items-center gap-4 mt-4 flex-wrap px-4">
+		<div class="flex items-center -ml-4">
 			<Button onclick={onDelete} size="sm" variant="ghost">
 				<X size={14} />
 			</Button>

@@ -29,7 +29,7 @@
 		value = val.value;
 	}}
 >
-	<Select.Trigger class="w-[175px]">
+	<Select.Trigger class="md:w-[175px] w-full">
 		<Select.Value placeholder={$page.data.t.forms.fields.filters.filter_type.placeholder()} />
 	</Select.Trigger>
 	<Select.Content>
