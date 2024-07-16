@@ -16,6 +16,6 @@ COPY --from=build /app/package.json .
 COPY --from=build /app/package-lock.json .
 COPY --from=build /app/.env.production .env
 RUN npm ci --omit dev --force
-RUN npm i dotenv
+RUN npm i dotenv --force
 EXPOSE 3000
 CMD ["npm", "run", "start:production"]
