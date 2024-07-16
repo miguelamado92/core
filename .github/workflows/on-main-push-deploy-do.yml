@@ -19,6 +19,7 @@ jobs:
             rm -rf belcoda
             git clone git@github.com:belcoda/core belcoda
             cp .env.production ./belcoda/.env.production
+            cp .env.production ./belcoda/.env
             cd belcoda
             docker compose up --build -d
             echo 'Deployment finished'
