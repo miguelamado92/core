@@ -1,0 +1,22 @@
+import { json, pino, error } from '$lib/server';
+import { create as createInteraction } from '$lib/server/api/people/interactions';
+const log = pino('WORKER:/utils/people/record_interaction');
+export async function POST(event) {
+	try {
+		const body = await event.request.json();
+		log.debug('recording interaction');
+		await createInteraction({
+			instanceId: event.locals.instance.id,
+			body,
+			t: event.locals.t
+		});
+		return json({ success: true });
+	} catch (err) {
+		return error(
+			500,
+			'WORKER:/utils/people/record_interaction:01',
+			event.locals.t.errors.http[500](),
+			err
+		);
+	}
+}

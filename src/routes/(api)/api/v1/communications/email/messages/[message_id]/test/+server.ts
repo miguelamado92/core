@@ -1,0 +1,29 @@
+import { error, json } from '$lib/server';
+import { sendTestEmail } from '$lib/schema/communications/email/messages';
+import { parse } from '$lib/schema/valibot';
+import { read } from '$lib/server/api/communications/email/messages';
+export async function PUT(event) {
+	try {
+		const body = await event.request.json();
+		const message = await read({
+			instanceId: event.locals.instance.id,
+			t: event.locals.t,
+			messageId: Number(event.params.message_id)
+		});
+		const parsed = parse(sendTestEmail, { ...body, message });
+		await event.locals.queue(
+			'/utils/email/send_test_email',
+			event.locals.instance.id,
+			parsed,
+			event.locals.admin.id
+		);
+		return json({ success: true });
+	} catch (err) {
+		return error(
+			500,
+			'API:/api/v1/communications/emails/messages/[message_id]:PUT01',
+			event.locals.t.errors.http[500](),
+			err
+		);
+	}
+}
