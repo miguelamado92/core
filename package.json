@@ -12,6 +12,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"zapatos": "node zapatos.js",
+		"start:production": "node -r dotenv/config . | npx --yes pino-pretty",
 		"queue": "DATABASE_URL=postgresql://dmsynge@localhost/belcoda_dev GRAPHILE_WORKER_ENDPOINT=http://localhost:5173/worker GRAPHILE_WORKER_TOKEN=65babe4e-8b4d-4576-9c0a-54d297bbb843 npx graphile-worker"
 	},
 	"devDependencies": {
