@@ -16,9 +16,9 @@ jobs:
           key: ${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}
           script: |
             docker system prune -af
-            rm -rf core
-            git clone git@github.com:belcoda/core
-            cp .env.production ./core/.env.production
-            cd core
+            rm -rf belcoda
+            git clone git@github.com:belcoda/core belcoda
+            cp .env.production ./belcoda/.env.production
+            cd belcoda
             docker compose up --build -d
             echo 'Deployment finished'
