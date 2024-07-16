@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+    # run redis
+    cache:
+        image: redis:7-alpine
+        container_name: cache
+        restart: always
+        volumes: 
+          - cache:/data
+        healthcheck:
+          test: ["CMD", "redis-cli", "ping"]
+          interval: 1s
+          timeout: 2s
+          retries: 10
+    # Run the node application
+    app:
+        container_name: app
+        restart: unless-stopped
+        build:
+          context: ./
+        depends_on:
+          - cache
+        links:
+          - cache
+    # Run the graphile worker queue
+    queue:
+        container_name: queue
+        restart: unless-stopped
+        build:
+          dockerfile: ./queue.Dockerfile
+        depends_on:
+          - app
+    # Run the caddy server        
+    caddy:
+        image: caddy/caddy:2.7-alpine
+        container_name: caddy
+        restart: unless-stopped
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:            
+        - $PWD/Caddyfile:/etc/caddy/Caddyfile
+        - $PWD/site:/srv
+        - caddy_data:/data
+        - caddy_config:/config
+volumes:
+  caddy_data:
+  caddy_config: 
+  cache:
+    driver: local
