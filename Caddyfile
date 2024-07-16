@@ -1,5 +1,5 @@
 dashboard.belcoda.com {
-  reverse_proxy app:3000  {
+  reverse_proxy app:5173  {
     header_down Strict-Transport-Security max-age=31536000;
   }
 }

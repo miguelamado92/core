@@ -26,6 +26,10 @@ services:
     queue:
         container_name: queue
         restart: unless-stopped
+        environment: 
+          - DATABASE_URL=${DATABASE_URL}
+          - GRAPHILE_WORKER_ENDPOINT=${GRAPHILE_WORKER_ENDPOINT}
+          - GRAPHILE_WORKER_TOKEN=${GRAPHILE_WORKER_TOKEN}
         build:
           dockerfile: ./queue.Dockerfile
         depends_on:
