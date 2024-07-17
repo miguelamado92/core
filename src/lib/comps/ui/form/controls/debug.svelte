@@ -1,8 +1,8 @@
 <script lang="ts">
 	import SuperDebug from 'sveltekit-superforms';
 	export let data: any;
-	import { PUBLIC_FROM_DEBUG_MODE } from '$env/static/public';
-	const debug = Boolean(PUBLIC_FROM_DEBUG_MODE);
+	import { dev } from '$app/environment';
+	const debug = dev;
 	let className: string = 'my-6';
 	export { className as class };
 	import { cn } from '$lib/utils';
