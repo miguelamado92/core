@@ -13,9 +13,10 @@
 		class?: string;
 		count: number;
 		content: Snippet<[T, number?]>;
-		header: Snippet<[Snippet, string]>;
+		header?: Snippet<[Snippet, string]>;
 		separator?: boolean;
 		filterKey?: string;
+		pagination?: boolean;
 	};
 
 	const {
@@ -25,6 +26,7 @@
 		separator = true,
 		class: className,
 		header,
+		pagination = true,
 		filterKey = 'name'
 	}: Props = $props();
 </script>
@@ -33,11 +35,15 @@
 	<Filter {filterKey} bind:loading />
 {/snippet}
 
-<div
-	class={cn('flex w-full flex-wrap lg:flex-nowrap gap-4 items-center justify-between ', className)}
->
-	{@render header(filter, filterKey)}
-</div>
+{#if header}<div
+		class={cn(
+			'flex w-full flex-wrap lg:flex-nowrap gap-4 items-center justify-between ',
+			className
+		)}
+	>
+		{@render header(filter, filterKey)}
+	</div>
+{/if}
 {#if separator}
 	<Separator class="mt-6" />
 {/if}
@@ -63,4 +69,6 @@
 {#if separator}
 	<Separator class="mb-6" />
 {/if}
-<Pagination {count} bind:loading />
+{#if pagination}
+	<Pagination {count} bind:loading />
+{/if}
