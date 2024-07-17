@@ -2114,6 +2114,18 @@ export default function (locale: SL) {
 						zh: '添加组'
 					});
 				}
+			},
+			see_all: () => {
+				return t(locale, {
+					en: 'See all',
+					ja: 'すべてを見る',
+					pt: 'Ver tudo',
+					es: 'Ver todo',
+					fr: 'Voir tout',
+					sw: 'Ona yote',
+					th: 'ดูทั้งหมด',
+					zh: '查看全部'
+				});
 			}
 		},
 		actions: {
