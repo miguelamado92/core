@@ -56,7 +56,7 @@
 		<div class="hidden lg:block lg:col-span-3 xl:col-span-2">
 			{#key $page.url.pathname}<Sidebar />{/key}
 		</div>
-		<div class="col-span-12 lg:col-span-9 xl:col-span-10">
+		<div class="col-span-12 lg:col-span-9 xl:col-span-10 mb-24 lg:mb-0">
 			{#key $page.url.pathname}<Breadcrumb />{/key}
 			{@render children()}
 		</div>
