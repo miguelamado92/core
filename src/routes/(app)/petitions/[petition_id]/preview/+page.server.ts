@@ -18,7 +18,7 @@ import { parse } from '$lib/schema/valibot';
 const log = pino('(app)/events/preview/+page.server.ts');
 
 export async function load(event) {
-	const response = await event.fetch(`/api/v1/events/${event.params.petition_id}`);
+	const response = await event.fetch(`/api/v1/petitions/${event.params.petition_id}`);
 	if (!response.ok) return loadError(response);
 	const petitionBody = await response.json();
 	const parsedPetition = parse(read, petitionBody);
@@ -26,6 +26,6 @@ export async function load(event) {
 	const url = new URL(PUBLIC_HOST);
 	return redirect(
 		301,
-		`${url.protocol}//${event.locals.instance.slug}.${url.host}/events/${parsedPetition.slug}`
+		`${url.protocol}//${event.locals.instance.slug}.${url.host}/petitions/${parsedPetition.slug}`
 	);
 }
