@@ -5,7 +5,7 @@
 	import type { ViewBase as PetitionSignature } from '$lib/schema/petitions/signatures';
 	const {
 		person,
-		linkToProfile = false
+		linkToProfile = true
 	}: {
 		linkToProfile?: boolean;
 		person: Read | List['items'][number] | EventAttendee | PetitionSignature;
