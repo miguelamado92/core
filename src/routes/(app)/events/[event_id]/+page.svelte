@@ -12,6 +12,10 @@
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import CalendarClock from 'lucide-svelte/icons/calendar-clock';
 	import Link from 'lucide-svelte/icons/link';
+	import { PUBLIC_HOST } from '$env/static/public';
+	import { page } from '$app/stores';
+	const url = new URL(PUBLIC_HOST);
+	const previewUrl = `${url.protocol}//${$page.data.instance.slug}.${url.host}/events/${data.event.slug}`;
 
 	import Tags from '$lib/comps/widgets/tags/Tags.svelte';
 	import PointPerson from '$lib/comps/widgets/point_person/PointPerson.svelte';
@@ -38,7 +42,7 @@
 <PageHeader title={data.event.name} separator={false}>
 	{#snippet button()}
 		<div class="flex items-center gap-1">
-			<Button variant="outline" target="_blank" href="/events/{data.event.id}/preview"
+			<Button variant="outline" target="_blank" href={previewUrl}
 				>{data.t.forms.buttons.preview()}</Button
 			>
 			<Button href="/events/{data.event.id}/edit">{data.t.forms.buttons.edit()}</Button>

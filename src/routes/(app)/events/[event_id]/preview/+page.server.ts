@@ -27,8 +27,11 @@ export async function load(event) {
 	if (!attendeesResponse.ok) return loadError(attendeesResponse);
 	const attendeesBody = await attendeesResponse.json();
 	const attendees = parse(listForEvent, attendeesBody);
-
+	log.error(PUBLIC_HOST);
 	const url = new URL(PUBLIC_HOST);
+	log.error(
+		`${url.protocol}//${event.locals.instance.slug}.${url.host}/events/${parsedEvent.slug}`
+	);
 	return redirect(
 		301,
 		`${url.protocol}//${event.locals.instance.slug}.${url.host}/events/${parsedEvent.slug}`
