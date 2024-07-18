@@ -66,7 +66,9 @@ export default async function ({
 	);
 	const updatedPeople = await Promise.all(promises);
 	if (updatedPeople.length === 0) {
-		const full_name = `${personInfo.given_name} ${personInfo.family_name}`.trim(); //TODO: Make name construction dependent on locale
+		const full_name = personInfo.full_name
+			? personInfo.full_name.trim()
+			: `${personInfo.given_name} ${personInfo.family_name}`.trim(); //TODO: Make name construction dependent on locale
 		const created = await createPerson({
 			instance_id: instanceId,
 			body: { ...personInfo, full_name },
