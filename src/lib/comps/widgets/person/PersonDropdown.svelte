@@ -77,7 +77,9 @@
 				/>
 				<Command.List>
 					{#if loading}
-						<Command.Loading>{$page.data.t.common.status.loading()}</Command.Loading>
+						<Command.Loading class="p-2 text-foreground-muted"
+							>{$page.data.t.common.status.loading()}</Command.Loading
+						>
 					{:else}
 						<Command.Empty>{$page.data.t.common.data.no_items()}</Command.Empty>
 						{#each selectablePeople as person, i}
@@ -89,7 +91,7 @@
 									if (selectablePeople.length === 0) open = false;
 								}}
 							>
-								<PersonBadge {person} />
+								<PersonBadge {person} linkToProfile={false} />
 							</Command.Item>
 						{/each}
 					{/if}
