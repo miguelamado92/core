@@ -121,7 +121,7 @@ export const filterGroup: v.GenericSchema<FilterGroup> = v.object({
 export const DEFAULT_FILTER_GROUP: FilterGroup = {
 	type: 'group',
 	groups: [],
-	filters: [],
+	filters: [DEFAULT_FILTER_TYPE],
 	logic: 'AND'
 };
 
