@@ -33,7 +33,7 @@ export default async function (event: RequestEvent, subdomain: string): Promise<
 			? event.cookies.get(COOKIE_SESSION_NAME)
 			: null;
 		const { content_slug, content_type_slug } = read_url({ url: event.url });
-		log.debug({ content_slug, content_type_slug });
+		//log.debug({ content_slug, content_type_slug });
 		let return_object: Response = new Response();
 		switch (content_type_slug) {
 			case 'petitions': {
