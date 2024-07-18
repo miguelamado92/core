@@ -101,6 +101,7 @@ export const petitionSignature = v.object({
 	family_name: createPerson.entries.family_name,
 	family_name_alt: createPerson.entries.family_name_alt,
 	given_name: createPerson.entries.given_name,
+	full_name: createPerson.entries.full_name,
 	given_name_alt: createPerson.entries.given_name_alt,
 	email: v.optional(v.nullable(v.pipe(v.string(), v.email())), null),
 	phone_number: v.optional(v.nullable(phoneNumber), null),
