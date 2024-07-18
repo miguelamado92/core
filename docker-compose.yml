@@ -36,10 +36,9 @@ services:
           - app
     # Run the caddy server        
     caddy:
+        image: caddy/caddy:2.7-alpine
         container_name: caddy
         restart: unless-stopped
-        build:
-          dockerfile: ./caddy.Dockerfile
         ports:
             - "80:80"
             - "443:443"
