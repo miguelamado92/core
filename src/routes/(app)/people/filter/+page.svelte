@@ -11,6 +11,7 @@
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import FilterGroupWidget from './FilterGroupWidget.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
+	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
 
 	import { getFlash } from 'sveltekit-flash-message';
 	import { parse } from '$lib/schema/valibot';
@@ -95,7 +96,14 @@
 		count={people.count}
 	>
 		{#snippet content(person: typeof people.items[0])}
-			<div>{person.full_name}</div>
+			<div class="flex justify-between items-center w-full py-2 pl-2">
+				<div><PersonBadge {person} /></div>
+				<div>
+					<Button variant="secondary" href="/people/{person.id}"
+						>{$page.data.t.forms.buttons.view()}</Button
+					>
+				</div>
+			</div>
 		{/snippet}
 
 		{#snippet button()}
