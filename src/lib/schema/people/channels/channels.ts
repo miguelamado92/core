@@ -6,6 +6,7 @@ import {
 	country
 } from '$lib/schema/valibot';
 import type { SupportedCountry } from '$lib/i18n';
+import { Verified } from 'lucide-svelte';
 
 export const email = v.object({
 	email: emailAddress,
@@ -28,29 +29,48 @@ export const phoneNumber = v.pipe(
 		subscribed: v.optional(v.boolean(), false),
 		textable: v.optional(v.boolean(), false),
 		whatsapp: v.optional(v.boolean(), false),
+		strict: v.optional(v.boolean(), false),
+		validated: v.optional(v.boolean(), false),
 		country: country
 	}),
 	v.transform((value) => {
 		const pn = parsePhoneNumber(value.phone_number, { regionCode: value.country.toUpperCase() });
-		if (!pn.valid)
-			throw new v.ValiError([
-				{
-					kind: 'validation',
-					type: 'custom',
-					input: `phone_number: ${value.phone_number}, country: ${value.country}`,
-					expected: 'Valid phone number for this country',
-					received: 'Invalid phone number for this country',
-					message: 'Invalid phone number'
-				}
-			]);
-		return {
-			phone_number: pn.number.e164,
-			contactable: value.contactable,
-			subscribed: value.subscribed,
-			textable: value.textable,
-			whatsapp: value.whatsapp,
-			country: value.country
-		};
+		if (!pn.valid) {
+			if (value.strict) {
+				throw new v.ValiError([
+					{
+						kind: 'validation',
+						type: 'custom',
+						input: `phone_number: ${value.phone_number}, country: ${value.country}`,
+						expected: 'Valid phone number for this country',
+						received: 'Invalid phone number for this country',
+						message: 'Invalid phone number'
+					}
+				]);
+			} else {
+				return {
+					phone_number: value.phone_number,
+					contactable: value.contactable,
+					subscribed: value.subscribed,
+					textable: value.textable,
+					whatsapp: value.whatsapp,
+					strict: value.strict,
+					validated: false,
+					country: value.country
+				};
+			}
+		} else {
+			return {
+				phone_number: pn.number.e164,
+				contactable: value.contactable,
+				subscribed: value.subscribed,
+				textable: value.textable,
+				strict: value.strict,
+				validated: true,
+				whatsapp: value.whatsapp,
+				country: value.country
+			};
+		}
 	})
 );
 export function generateDefaultPhoneNumber(country: SupportedCountry) {
@@ -60,39 +80,10 @@ export function generateDefaultPhoneNumber(country: SupportedCountry) {
 		subscribed: true,
 		textable: true,
 		whatsapp: false,
+		strict: false,
+		validated: false,
 		country: country
 	};
 }
 
 export type PhoneNumber = v.InferOutput<typeof phoneNumber>;
-
-export const whatsapp = v.pipe(
-	v.object({
-		phone_number: basePhoneNumber,
-		contactable: v.optional(v.boolean(), false),
-		subscribed: v.optional(v.boolean(), false),
-		country: country
-	}),
-	v.transform((value) => {
-		const pn = parsePhoneNumber(value.phone_number, { regionCode: value.country.toUpperCase() });
-		if (!pn.valid)
-			throw new v.ValiError([
-				{
-					kind: 'validation',
-					type: 'custom',
-					input: `phone_number: ${value.phone_number}, country: ${value.country}`,
-					expected: 'Valid phone number for this country',
-					received: 'Invalid phone number for this country',
-					message: 'Invalid phone number'
-				}
-			]);
-		return {
-			phone_number: pn.number.e164,
-			contactable: value.contactable,
-			subscribed: value.subscribed,
-			country: value.country
-		};
-	})
-);
-
-export type Whatsapp = v.InferOutput<typeof whatsapp>;
