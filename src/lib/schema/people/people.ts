@@ -70,7 +70,7 @@ export const list = v.object({ items: v.array(v.omit(read, ['interactions'])), c
 export type List = v.InferOutput<typeof list>;
 
 export const _listWithSearch = v.object({
-	items: v.array(v.object({ ...read.entries, search: longString })),
+	items: v.array(v.object({ ...v.omit(read, ['interactions']).entries, search: longString })),
 	count: count
 });
 export type _ListWithSearch = v.InferOutput<typeof _listWithSearch>;
