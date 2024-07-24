@@ -18,6 +18,7 @@ export async function create({
 	const result = await db
 		.insert('communications.whatsapp_numbers', { instance_id: instanceId, ...parsed })
 		.run(pool);
+
 	const parsedResult = parse(schema.read, result);
 	await redis.del(redisString(instanceId, 'all'));
 	return parsedResult;
@@ -76,7 +77,10 @@ export async function list({
 			{ limit: options.limit, offset: options.offset }
 		)
 		.run(pool);
-	const parsedResult = parse(schema.list, result);
+	const count = await db
+		.count('communications.whatsapp_numbers', { instance_id: instanceId })
+		.run(pool);
+	const parsedResult = parse(schema.list, { items: result, count: count });
 	if (!filtered) await redis.set(redisString(instanceId, 'all'), parsedResult);
 	return parsedResult;
 }

@@ -1,4 +1,4 @@
-import { v, id, mediumString, timestamp, uuid, language, shortString } from '$lib/schema/valibot';
+import { v, id, mediumString, timestamp, count, language, shortString } from '$lib/schema/valibot';
 import { template } from '$lib/schema/communications/whatsapp/elements/template';
 
 export const base = v.object({
@@ -16,7 +16,7 @@ export const base = v.object({
 export const read = base;
 export type Read = v.InferOutput<typeof read>;
 
-export const list = v.array(read);
+export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({

@@ -97,7 +97,10 @@ export async function list({
 	const result = await db
 		.select('communications.whatsapp_threads', { instance_id: instanceId, ...where }, options)
 		.run(pool);
-	const parsedResult = parse(schema.list, result);
+	const count = await db
+		.count('communications.whatsapp_threads', { instance_id: instanceId, ...where })
+		.run(pool);
+	const parsedResult = parse(schema.list, { items: result, count: count });
 	if (!filtered) {
 		await redis.set(redisString(instanceId, 'all'), parsedResult);
 	}

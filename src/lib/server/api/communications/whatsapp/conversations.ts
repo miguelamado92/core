@@ -88,7 +88,10 @@ export async function listForPerson({
 			{ limit: options.limit, offset: options.offset }
 		)
 		.run(pool);
-	const parsedResult = parse(schema.list, result);
+	const count = await db
+		.count('communications.whatsapp_conversations', { person_id: personId })
+		.run(pool);
+	const parsedResult = parse(schema.list, { items: result, count: count });
 	if (!filtered) {
 		await redis.set(redisStringPerson(instanceId, personId), parsedResult);
 	}

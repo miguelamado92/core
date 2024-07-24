@@ -92,7 +92,8 @@ export async function listForMessage({
 			}
 		)
 		.run(pool);
-	const parsedSelected = parse(schema.list, selected);
+	const count = await db.count('communications.whatsapp_sends', { thread_id: threadId }).run(pool);
+	const parsedSelected = parse(schema.list, { items: selected, count: count });
 	if (!query.filtered) await redis.set(redisString(instanceId, threadId, 'all'), parsedSelected);
 	return parsedSelected;
 }

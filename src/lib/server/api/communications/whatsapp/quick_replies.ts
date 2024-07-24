@@ -57,7 +57,10 @@ export async function list({
 			{ limit: options.limit, offset: options.offset }
 		)
 		.run(pool);
-	const parsedResult = parse(schema.list, result);
+	const count = await db
+		.count('communications.whatsapp_quick_replies', { thread_id: threadId })
+		.run(pool);
+	const parsedResult = parse(schema.list, { items: result, count: count });
 	return parsedResult;
 }
 

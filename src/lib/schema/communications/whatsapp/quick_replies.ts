@@ -1,4 +1,4 @@
-import { v, id, uuid, timestamp } from '$lib/schema/valibot';
+import { v, id, uuid, timestamp, count } from '$lib/schema/valibot';
 
 export const base = v.object({
 	id: id,
@@ -10,7 +10,7 @@ export const base = v.object({
 export const read = v.omit(base, ['thread_id']);
 export type Read = v.InferOutput<typeof read>;
 
-export const list = v.array(read);
+export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({

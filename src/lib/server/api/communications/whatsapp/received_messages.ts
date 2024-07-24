@@ -81,7 +81,10 @@ export async function list({
 	const result = await db
 		.select('communications.received_whatsapp_messages', { person_id: personId }, options)
 		.run(pool);
-	const parsedResult = parse(schema.list, result);
+	const count = await db
+		.count('communications.received_whatsapp_messages', { person_id: personId })
+		.run(pool);
+	const parsedResult = parse(schema.list, { items: result, count: count });
 	if (!filtered) await redis.set(redisString(instanceId, personId), parsedResult);
 	return parsedResult;
 }

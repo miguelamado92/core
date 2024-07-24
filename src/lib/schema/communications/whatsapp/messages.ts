@@ -1,4 +1,4 @@
-import { v, id, mediumString, timestamp, uuid, language, shortString } from '$lib/schema/valibot';
+import { v, id, mediumString, timestamp, uuid, count, shortString } from '$lib/schema/valibot';
 import { actions, keyword_triggers } from '$lib/schema/communications/actions/actions';
 import { message } from '$lib/schema/communications/whatsapp/elements/message';
 export const base = v.object({
@@ -20,9 +20,12 @@ export const base = v.object({
 export const read = base;
 export type Read = v.InferOutput<typeof read>;
 
-export const list = v.array(
-	v.omit(read, ['message', 'keywords', 'actions', 'on_read_action', 'on_sent_action', 'next'])
-);
+export const list = v.object({
+	items: v.array(
+		v.omit(read, ['message', 'keywords', 'actions', 'on_read_action', 'on_sent_action', 'next'])
+	),
+	count: count
+});
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
