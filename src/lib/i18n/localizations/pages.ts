@@ -191,17 +191,29 @@ export default function (l: SL) {
 					zh: '通讯'
 				});
 			},
-			whatsapp: () => {
-				return t(l, {
-					en: `WhatsApp`,
-					ja: 'WhatsApp',
-					pt: 'WhatsApp',
-					es: 'WhatsApp',
-					fr: 'WhatsApp',
-					sw: 'WhatsApp',
-					th: 'WhatsApp',
-					zh: 'WhatsApp'
-				});
+			whatsapp: {
+				index: () => {
+					return t(l, {
+						en: `WhatsApp`,
+						ja: 'WhatsApp',
+						pt: 'WhatsApp',
+						es: 'WhatsApp',
+						fr: 'WhatsApp',
+						sw: 'WhatsApp',
+						th: 'WhatsApp',
+						zh: 'WhatsApp'
+					});
+				},
+				new: () => {
+					return t(l, {
+						en: 'New thread'
+					});
+				},
+				edit: () => {
+					return t(l, {
+						en: `{THREADNAME|Edit thread}`
+					});
+				}
 			},
 			email: {
 				index: () => {

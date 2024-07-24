@@ -22,8 +22,45 @@ export default function (t: Localization) {
 				href: () => '/communications'
 			},
 			{
-				title: () => t.pages.communications.whatsapp(),
+				title: () => t.pages.communications.whatsapp.index(),
 				href: () => '/communications/whatsapp'
+			}
+		],
+		'/(app)/communications/whatsapp/new': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.communications.index(),
+				href: () => '/communications'
+			},
+			{
+				title: () => t.pages.communications.whatsapp.index(),
+				href: () => '/communications/whatsapp'
+			},
+			{
+				title: () => t.pages.communications.whatsapp.new(),
+				href: () => '/communications/whatsapp/new'
+			}
+		],
+		'/(app)/communications/whatsapp/[thread_id]': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.communications.index(),
+				href: () => '/communications'
+			},
+			{
+				title: () => t.pages.communications.whatsapp.index(),
+				href: () => '/communications/whatsapp'
+			},
+			{
+				title: () => t.pages.communications.whatsapp.edit(),
+				href: (pageParams?: Record<string, unknown>) =>
+					`/communications/whatsapp/${pageParams?.thread_id}`
 			}
 		],
 		'/(app)/communications/email': [

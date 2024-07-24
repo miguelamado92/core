@@ -37,7 +37,7 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.people.view_person(),
-				href: (pageParams: Record<string, unknown>) => `/people/${pageParams.person_id}`
+				href: (pageParams?: Record<string, unknown>) => `/people/${pageParams?.person_id}`
 			}
 		],
 		'/(app)/people/[person_id]/edit': [
@@ -51,11 +51,11 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.people.view_person(),
-				href: (pageParams: Record<string, unknown>) => `/people/${pageParams.person_id}`
+				href: (pageParams?: Record<string, unknown>) => `/people/${pageParams?.person_id}`
 			},
 			{
 				title: () => t.pages.people.edit_person(),
-				href: (pageParams: Record<string, unknown>) => `/people/${pageParams.person_id}/edit`
+				href: (pageParams?: Record<string, unknown>) => `/people/${pageParams?.person_id}/edit`
 			}
 		],
 		'/(app)/people/filter': [
@@ -119,7 +119,7 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.people.groups.view(),
-				href: (pageParams: Record<string, unknown>) => `/people/groups/${pageParams.group_id}`
+				href: (pageParams?: Record<string, unknown>) => `/people/groups/${pageParams?.group_id}`
 			}
 		],
 		'/(app)/people/lists': [
@@ -169,7 +169,7 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.people.lists.view(),
-				href: (pageParams: Record<string, unknown>) => `/people/lists/${pageParams.list_id}`
+				href: (pageParams?: Record<string, unknown>) => `/people/lists/${pageParams?.list_id}`
 			}
 		],
 		'/(app)/people/lists/[list_id]/edit': [
@@ -187,11 +187,11 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.people.lists.view(),
-				href: (pageParams: Record<string, unknown>) => `/people/lists/${pageParams.list_id}`
+				href: (pageParams?: Record<string, unknown>) => `/people/lists/${pageParams?.list_id}`
 			},
 			{
 				title: () => t.pages.people.lists.edit(),
-				href: (pageParams: Record<string, unknown>) => `/people/lists/${pageParams.list_id}/edit`
+				href: (pageParams?: Record<string, unknown>) => `/people/lists/${pageParams?.list_id}/edit`
 			}
 		]
 	};
