@@ -1,4 +1,4 @@
-import { API_KEY_HEADER } from '$env/static/private';
+/* import { API_KEY_HEADER } from '$env/static/private';
 import { Localization, DEFAULT_LANGUAGE } from '$lib/i18n';
 const t = new Localization(DEFAULT_LANGUAGE);
 
@@ -42,7 +42,6 @@ interface BodySchema {
 }
 
 import { toJSONSchema, type ToJSONSchemaOptions } from '@gcornut/valibot-json-schema';
-import { generate } from 'zapatos/generate';
 
 export function generateSchema(options: ToJSONSchemaOptions) {
 	return toJSONSchema(options);
@@ -257,3 +256,4 @@ export function generateRoute(options: RouteGenerator): RouteSpecification {
 	if (!options.body) delete returnObject.requestBody;
 	return returnObject;
 }
+ */
