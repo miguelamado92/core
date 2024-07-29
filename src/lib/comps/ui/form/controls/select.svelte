@@ -16,10 +16,10 @@
 
 	import { page } from '$app/stores';
 	import * as Select from '$lib/comps/ui/select';
-	export let value: string;
+	export let value: string | number;
 	export let placeholder: string = $page.data.t.forms.generic.select.placeholder();
 
-	export let options: { label: string; value: string }[] = [];
+	export let options: { label: string; value: string | number }[] = [];
 	$: currentOption = options.find((option) => option.value === value);
 
 	$: selectedItem = value
