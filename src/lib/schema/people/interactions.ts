@@ -3,9 +3,12 @@ import {
 	shortString,
 	longString,
 	timestamp,
+	uuid,
 	id,
 	shortStringNotEmpty
 } from '$lib/schema/valibot';
+
+import { message as whatsappMessage } from '$lib/schema/communications/whatsapp/elements/message';
 
 export const addedAndJoinedTypes = {
 	manual: v.object({ method: v.literal('manual') }),
@@ -69,6 +72,16 @@ export const interactionTypes = {
 	phone_call_inbound: v.object({
 		type: v.literal('phone_call_inbound'),
 		notes: longString
+	}),
+	outbound_whatsapp: v.object({
+		type: v.literal('outbound_whatsapp'),
+		message_id: uuid,
+		message: whatsappMessage
+	}),
+	inbound_whatsapp: v.object({
+		type: v.literal('inbound_whatsapp'),
+		message_id: uuid,
+		message: whatsappMessage
 	}),
 	email_outbound: v.object({
 		type: v.literal('email_outbound'),

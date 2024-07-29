@@ -35,18 +35,27 @@ export const send_sms = v.object({
 	sms_id: id
 });
 
-export const actions = v.record(
-	uuid,
-	v.array(
-		v.variant('type', [
-			trigger_function,
-			register_for_event,
-			sign_petition,
-			send_whatsapp_message,
-			send_email,
-			send_sms
-		])
-	)
+export const actionArray = v.array(
+	v.variant('type', [
+		trigger_function,
+		register_for_event,
+		sign_petition,
+		send_whatsapp_message,
+		send_email,
+		send_sms
+	])
 );
+export type ActionArray = v.InferOutput<typeof actionArray>;
+
+export const actions = v.record(uuid, actionArray);
 
 export type Actions = v.InferOutput<typeof actions>;
+
+export const actionTriggerType = v.picklist(['whatsapp_message']);
+
+export const triggerAction = v.object({
+	type: actionTriggerType,
+	received_whatsapp_message_id: uuid,
+	person_id: id,
+	action_id: uuid
+});
