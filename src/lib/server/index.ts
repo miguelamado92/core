@@ -10,7 +10,7 @@ import { pino } from '$lib/server';
 const log = pino('$lib/server/errors');
 import { error as returnError, type NumericRange } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
-import { renderValiError, parse, id } from '$lib/schema/valibot';
+import { renderValiError } from '$lib/schema/valibot';
 
 export class BelcodaError extends Error {
 	public code: NumericRange<400, 599>;
