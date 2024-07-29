@@ -875,6 +875,12 @@ declare module 'zapatos/schema' {
       */
       plan: string;
       /**
+      * **instances.secrets**
+      * - `instance_secrets` (base type: `jsonb`) in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+      secrets: c.PgInstance_secrets;
+      /**
       * **instances.settings**
       * - `instance_settings` (base type: `jsonb`) in database
       * - `NOT NULL`, default: `'{}'::jsonb`
@@ -942,6 +948,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'free'::text`
       */
       plan: string;
+      /**
+      * **instances.secrets**
+      * - `instance_secrets` (base type: `jsonb`) in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+      secrets: c.PgInstance_secrets;
       /**
       * **instances.settings**
       * - `instance_settings` (base type: `jsonb`) in database
@@ -1011,6 +1023,12 @@ declare module 'zapatos/schema' {
       */
       plan?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       /**
+      * **instances.secrets**
+      * - `instance_secrets` (base type: `jsonb`) in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+      secrets?: c.PgInstance_secrets | db.Parameter<c.PgInstance_secrets> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgInstance_secrets | db.Parameter<c.PgInstance_secrets> | db.SQLFragment | db.ParentColumn>;
+      /**
       * **instances.settings**
       * - `instance_settings` (base type: `jsonb`) in database
       * - `NOT NULL`, default: `'{}'::jsonb`
@@ -1079,6 +1097,12 @@ declare module 'zapatos/schema' {
       */
       plan?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
       /**
+      * **instances.secrets**
+      * - `instance_secrets` (base type: `jsonb`) in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+      secrets?: c.PgInstance_secrets | db.Parameter<c.PgInstance_secrets> | db.DefaultType | db.SQLFragment;
+      /**
       * **instances.settings**
       * - `instance_settings` (base type: `jsonb`) in database
       * - `NOT NULL`, default: `'{}'::jsonb`
@@ -1146,6 +1170,12 @@ declare module 'zapatos/schema' {
       * - `NOT NULL`, default: `'free'::text`
       */
       plan?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **instances.secrets**
+      * - `instance_secrets` (base type: `jsonb`) in database
+      * - `NOT NULL`, default: `'{}'::jsonb`
+      */
+      secrets?: c.PgInstance_secrets | db.Parameter<c.PgInstance_secrets> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, c.PgInstance_secrets | db.Parameter<c.PgInstance_secrets> | db.DefaultType | db.SQLFragment>;
       /**
       * **instances.settings**
       * - `instance_settings` (base type: `jsonb`) in database
@@ -9113,10 +9143,10 @@ declare module 'zapatos/schema' {
         id: string;
         /**
         * **communications.received_whatsapp_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message: c.PgWhatsapp_message;
+        message: c.PgIncoming_whatsapp_message;
         /**
         * **communications.received_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9169,10 +9199,10 @@ declare module 'zapatos/schema' {
         id: string;
         /**
         * **communications.received_whatsapp_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message: c.PgWhatsapp_message;
+        message: c.PgIncoming_whatsapp_message;
         /**
         * **communications.received_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9225,10 +9255,10 @@ declare module 'zapatos/schema' {
         id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.received_whatsapp_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn>;
+        message?: c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.received_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9281,10 +9311,10 @@ declare module 'zapatos/schema' {
         id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
         /**
         * **communications.received_whatsapp_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment;
+        message: c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment;
         /**
         * **communications.received_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9337,10 +9367,10 @@ declare module 'zapatos/schema' {
         id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
         /**
         * **communications.received_whatsapp_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment>;
+        message?: c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment>;
         /**
         * **communications.received_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9735,9 +9765,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - Nullable, no default
+        * - `NOT NULL`, no default
         */
-        message_id: string | null;
+        message_id: string;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9815,9 +9845,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - Nullable, no default
+        * - `NOT NULL`, no default
         */
-        message_id: string | null;
+        message_id: string;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9895,7 +9925,7 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - Nullable, no default
+        * - `NOT NULL`, no default
         */
         message_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
@@ -9975,9 +10005,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - Nullable, no default
+        * - `NOT NULL`, no default
         */
-        message_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+        message_id: string | db.Parameter<string> | db.SQLFragment;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -10055,9 +10085,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - Nullable, no default
+        * - `NOT NULL`, no default
         */
-        message_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+        message_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -11239,6 +11269,12 @@ declare module 'zapatos/schema' {
         */
         id: string;
         /**
+        * **communications.whatsapp_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number;
+        /**
         * **communications.whatsapp_messages.keywords**
         * - `keyword_triggers` (base type: `jsonb`) in database
         * - `NOT NULL`, default: `'{}'::jsonb`
@@ -11271,9 +11307,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.whatsapp_messages.thread_id**
         * - `int4` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        thread_id: number;
+        thread_id: number | null;
         /**
         * **communications.whatsapp_messages.updated_at**
         * - `timestamptz` in database
@@ -11307,6 +11343,12 @@ declare module 'zapatos/schema' {
         */
         id: string;
         /**
+        * **communications.whatsapp_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number;
+        /**
         * **communications.whatsapp_messages.keywords**
         * - `keyword_triggers` (base type: `jsonb`) in database
         * - `NOT NULL`, default: `'{}'::jsonb`
@@ -11339,9 +11381,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.whatsapp_messages.thread_id**
         * - `int4` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        thread_id: number;
+        thread_id: number | null;
         /**
         * **communications.whatsapp_messages.updated_at**
         * - `timestamptz` in database
@@ -11375,6 +11417,12 @@ declare module 'zapatos/schema' {
         */
         id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **communications.whatsapp_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **communications.whatsapp_messages.keywords**
         * - `keyword_triggers` (base type: `jsonb`) in database
         * - `NOT NULL`, default: `'{}'::jsonb`
@@ -11407,7 +11455,7 @@ declare module 'zapatos/schema' {
         /**
         * **communications.whatsapp_messages.thread_id**
         * - `int4` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
         thread_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
         /**
@@ -11443,6 +11491,12 @@ declare module 'zapatos/schema' {
         */
         id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
         /**
+        * **communications.whatsapp_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number | db.Parameter<number> | db.SQLFragment;
+        /**
         * **communications.whatsapp_messages.keywords**
         * - `keyword_triggers` (base type: `jsonb`) in database
         * - `NOT NULL`, default: `'{}'::jsonb`
@@ -11475,9 +11529,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.whatsapp_messages.thread_id**
         * - `int4` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        thread_id: number | db.Parameter<number> | db.SQLFragment;
+        thread_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
         /**
         * **communications.whatsapp_messages.updated_at**
         * - `timestamptz` in database
@@ -11511,6 +11565,12 @@ declare module 'zapatos/schema' {
         */
         id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
         /**
+        * **communications.whatsapp_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+        /**
         * **communications.whatsapp_messages.keywords**
         * - `keyword_triggers` (base type: `jsonb`) in database
         * - `NOT NULL`, default: `'{}'::jsonb`
@@ -11543,9 +11603,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.whatsapp_messages.thread_id**
         * - `int4` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        thread_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+        thread_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **communications.whatsapp_messages.updated_at**
         * - `timestamptz` in database
@@ -11765,6 +11825,12 @@ declare module 'zapatos/schema' {
         */
         message_id: string;
         /**
+        * **communications.whatsapp_quick_replies.name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        name: string;
+        /**
         * **communications.whatsapp_quick_replies.thread_id**
         * - `int4` in database
         * - `NOT NULL`, no default
@@ -11790,6 +11856,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         message_id: string;
+        /**
+        * **communications.whatsapp_quick_replies.name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        name: string;
         /**
         * **communications.whatsapp_quick_replies.thread_id**
         * - `int4` in database
@@ -11817,6 +11889,12 @@ declare module 'zapatos/schema' {
         */
         message_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **communications.whatsapp_quick_replies.name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **communications.whatsapp_quick_replies.thread_id**
         * - `int4` in database
         * - `NOT NULL`, no default
@@ -11842,6 +11920,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         message_id: string | db.Parameter<string> | db.SQLFragment;
+        /**
+        * **communications.whatsapp_quick_replies.name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        name: string | db.Parameter<string> | db.SQLFragment;
         /**
         * **communications.whatsapp_quick_replies.thread_id**
         * - `int4` in database
@@ -11869,13 +11953,19 @@ declare module 'zapatos/schema' {
         */
         message_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
         /**
+        * **communications.whatsapp_quick_replies.name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
         * **communications.whatsapp_quick_replies.thread_id**
         * - `int4` in database
         * - `NOT NULL`, no default
         */
         thread_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
       }
-      export type UniqueIndex = 'whatsapp_quick_replies_pkey';
+      export type UniqueIndex = 'whatsapp_quick_replies_pkey' | 'whatsapp_quick_replies_thread_id_name_unique';
       export type Column = keyof Selectable;
       export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
       export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -12111,12 +12201,6 @@ declare module 'zapatos/schema' {
         */
         instance_id: number;
         /**
-        * **communications.whatsapp_templates.language**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        language: string;
-        /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
@@ -12146,12 +12230,6 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         whatsapp_id: string | null;
-        /**
-        * **communications.whatsapp_templates.whatsapp_name**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        whatsapp_name: string;
       }
       export interface JSONSelectable {
         /**
@@ -12172,12 +12250,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         instance_id: number;
-        /**
-        * **communications.whatsapp_templates.language**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        language: string;
         /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
@@ -12208,12 +12280,6 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         whatsapp_id: string | null;
-        /**
-        * **communications.whatsapp_templates.whatsapp_name**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        whatsapp_name: string;
       }
       export interface Whereable {
         /**
@@ -12234,12 +12300,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-        /**
-        * **communications.whatsapp_templates.language**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        language?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
@@ -12270,12 +12330,6 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         whatsapp_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
-        /**
-        * **communications.whatsapp_templates.whatsapp_name**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        whatsapp_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
       }
       export interface Insertable {
         /**
@@ -12296,12 +12350,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         instance_id: number | db.Parameter<number> | db.SQLFragment;
-        /**
-        * **communications.whatsapp_templates.language**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        language: string | db.Parameter<string> | db.SQLFragment;
         /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
@@ -12332,12 +12380,6 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         whatsapp_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
-        /**
-        * **communications.whatsapp_templates.whatsapp_name**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        whatsapp_name: string | db.Parameter<string> | db.SQLFragment;
       }
       export interface Updatable {
         /**
@@ -12358,12 +12400,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
-        /**
-        * **communications.whatsapp_templates.language**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        language?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
         /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
@@ -12394,14 +12430,8 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         whatsapp_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
-        /**
-        * **communications.whatsapp_templates.whatsapp_name**
-        * - `text` in database
-        * - `NOT NULL`, no default
-        */
-        whatsapp_name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       }
-      export type UniqueIndex = 'whatsapp_templates_instance_id_name_unique' | 'whatsapp_templates_instance_id_whatsapp_name_unique' | 'whatsapp_templates_pkey';
+      export type UniqueIndex = 'whatsapp_templates_instance_id_name_unique' | 'whatsapp_templates_instance_id_whatsapp_id_unique' | 'whatsapp_templates_pkey';
       export type Column = keyof Selectable;
       export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
       export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -12422,12 +12452,6 @@ declare module 'zapatos/schema' {
         */
         created_at: Date;
         /**
-        * **communications.whatsapp_threads.first_message_id**
-        * - `uuid` in database
-        * - Nullable, no default
-        */
-        first_message_id: string | null;
-        /**
         * **communications.whatsapp_threads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('communications.whatsapp_threads_id_seq'::regclass)`
@@ -12457,6 +12481,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         template_id: number;
+        /**
+        * **communications.whatsapp_threads.template_message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        template_message: c.PgWhatsapp_message;
         /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
@@ -12472,12 +12502,6 @@ declare module 'zapatos/schema' {
         */
         created_at: db.TimestampTzString;
         /**
-        * **communications.whatsapp_threads.first_message_id**
-        * - `uuid` in database
-        * - Nullable, no default
-        */
-        first_message_id: string | null;
-        /**
         * **communications.whatsapp_threads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('communications.whatsapp_threads_id_seq'::regclass)`
@@ -12508,6 +12532,12 @@ declare module 'zapatos/schema' {
         */
         template_id: number;
         /**
+        * **communications.whatsapp_threads.template_message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        template_message: c.PgWhatsapp_message;
+        /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -12521,12 +12551,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
-        /**
-        * **communications.whatsapp_threads.first_message_id**
-        * - `uuid` in database
-        * - Nullable, no default
-        */
-        first_message_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.whatsapp_threads.id**
         * - `int4` in database
@@ -12558,6 +12582,12 @@ declare module 'zapatos/schema' {
         */
         template_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **communications.whatsapp_threads.template_message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        template_message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -12571,12 +12601,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
-        /**
-        * **communications.whatsapp_threads.first_message_id**
-        * - `uuid` in database
-        * - Nullable, no default
-        */
-        first_message_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
         /**
         * **communications.whatsapp_threads.id**
         * - `int4` in database
@@ -12608,6 +12632,12 @@ declare module 'zapatos/schema' {
         */
         template_id: number | db.Parameter<number> | db.SQLFragment;
         /**
+        * **communications.whatsapp_threads.template_message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        template_message: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment;
+        /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -12621,12 +12651,6 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
-        /**
-        * **communications.whatsapp_threads.first_message_id**
-        * - `uuid` in database
-        * - Nullable, no default
-        */
-        first_message_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **communications.whatsapp_threads.id**
         * - `int4` in database
@@ -12658,13 +12682,19 @@ declare module 'zapatos/schema' {
         */
         template_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
         /**
+        * **communications.whatsapp_threads.template_message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        template_message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment>;
+        /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
       }
-      export type UniqueIndex = 'whatsapp_threads_pkey';
+      export type UniqueIndex = 'whatsapp_threads_instance_id_name_unique' | 'whatsapp_threads_pkey';
       export type Column = keyof Selectable;
       export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
       export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
