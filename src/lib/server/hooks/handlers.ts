@@ -2,7 +2,7 @@ import { handleApiFaviconRequest } from '$lib/server/hooks/simple_handlers';
 import type { MaybePromise, RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { pino } from '$lib/server';
 const log = pino('$lib/server/hooks/handlers');
-
+import whatsappHandler from '$lib/server/hooks/whatsapp';
 const SUBDOMAIN_LIST = ['admin', 'app', 'dashboard', 'localhost', 'www', 'localhost:5173']; //list of subdomains that are not site subdomains
 
 import worker from '$lib/server/hooks/worker';
@@ -25,6 +25,9 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 		log.info(`✨ ${event.request.method} ${event.url.href}`);
 	} else {
 		log.info(`🌎 ${event.request.method} ${event.url.href}`);
+	}
+	if (event.url.pathname.startsWith('/webhooks/whatsapp')) {
+		return await whatsappHandler(event, resolve);
 	}
 
 	const workerResponse = await worker(event, resolve);
