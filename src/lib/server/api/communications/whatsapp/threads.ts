@@ -1,8 +1,9 @@
 import { db, pool, redis, filterQuery, BelcodaError } from '$lib/server';
 import { parse } from '$lib/schema/valibot';
+import { type SupportedLanguage } from '$lib/i18n';
 
 import * as schema from '$lib/schema/communications/whatsapp/threads';
-
+import { read as readTemplate } from '$lib/server/api/communications/whatsapp/templates';
 function redisString(instanceId: number, templateId: number | 'all') {
 	return `i:${instanceId}:whatsapp_threads:${templateId}`;
 }
@@ -36,14 +37,39 @@ export async function exists({
 
 export async function create({
 	instanceId,
-	body
+	body,
+	t,
+	defaultTemplateId,
+	adminId,
+	instanceLanguage
 }: {
 	instanceId: number;
 	body: schema.Create;
+	t: App.Localization;
+	defaultTemplateId: number;
+	adminId: number;
+	instanceLanguage: SupportedLanguage;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
+	const template = await readTemplate({ instanceId, templateId: defaultTemplateId, t: t });
+	const typeTemplate: 'template' = 'template'; //needed to avoid typescript errors due to literal types in validation
+	const languagePolicy: 'deterministic' = 'deterministic'; //needed to avoid typescript errors due to literal types in validation
+	const toInsert = {
+		name: parsed.name,
+		template_id: defaultTemplateId,
+		point_person_id: adminId,
+		template_message: {
+			type: typeTemplate,
+			template: {
+				name: template.message.name,
+				language: { code: instanceLanguage, policy: languagePolicy },
+				components: []
+			}
+		}
+	};
+
 	const result = await db
-		.insert('communications.whatsapp_threads', { instance_id: instanceId, ...parsed })
+		.insert('communications.whatsapp_threads', { instance_id: instanceId, ...toInsert })
 		.run(pool);
 	const parsedResult = parse(schema.read, result);
 	await redis.del(redisString(instanceId, 'all'));

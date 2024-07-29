@@ -2,9 +2,10 @@ import { db, pool, redis, filterQuery, BelcodaError } from '$lib/server';
 import { parse } from '$lib/schema/valibot';
 
 import * as schema from '$lib/schema/communications/whatsapp/messages';
+import { type ActionArray, actionArray } from '$lib/schema/communications/actions/actions';
 
-function redisString(instanceId: number, threadId: number, msgId: string | 'all') {
-	return `i:${instanceId}:wa_thread:${threadId}:msg:${msgId}`;
+function redisString(instanceId: number, threadId: number) {
+	return `i:${instanceId}:wa_thread:${threadId}:msgs`;
 }
 
 export async function create({
@@ -13,16 +14,15 @@ export async function create({
 	body
 }: {
 	instanceId: number;
-	threadId: number;
+	threadId?: number;
 	body: schema.Create;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const result = await db
-		.insert('communications.whatsapp_messages', { thread_id: threadId, ...parsed })
+		.insert('communications.whatsapp_messages', { instance_id: instanceId, ...parsed })
 		.run(pool);
 	const parsedResult = parse(schema.read, result);
-	await redis.del(redisString(instanceId, threadId, 'all'));
-	await redis.set(redisString(instanceId, threadId, parsedResult.id), parsedResult);
+	if (parsed.thread_id) await redis.del(redisString(instanceId, parsed.thread_id));
 	return parsedResult;
 }
 
@@ -33,16 +33,21 @@ export async function read({
 	t
 }: {
 	instanceId: number;
-	threadId: number;
+	threadId?: number;
 	messageId: string;
 	t: App.Localization;
 }): Promise<schema.Read> {
-	const cached = await redis.get(redisString(instanceId, threadId, messageId));
-	if (cached) {
-		return parse(schema.read, cached);
+	if (threadId) {
+		const cached = await redis.get(redisString(instanceId, threadId));
+		if (cached) {
+			return parse(schema.read, cached);
+		}
 	}
 	const result = await db
-		.selectExactlyOne('communications.whatsapp_messages', { thread_id: threadId, id: messageId })
+		.selectExactlyOne('communications.whatsapp_messages', {
+			instance_id: instanceId,
+			id: messageId
+		})
 		.run(pool)
 		.catch((err) => {
 			throw new BelcodaError(
@@ -53,7 +58,6 @@ export async function read({
 			);
 		});
 	const parsedResult = parse(schema.read, result);
-	await redis.set(redisString(instanceId, threadId, messageId), parsedResult);
 	return parsedResult;
 }
 
@@ -68,7 +72,7 @@ export async function list({
 }): Promise<schema.List> {
 	const { filtered, options, where } = filterQuery(url);
 	if (!filtered) {
-		const cached = await redis.get(redisString(instanceId, threadId, 'all'));
+		const cached = await redis.get(redisString(instanceId, threadId));
 		if (cached) {
 			return parse(schema.list, cached);
 		}
@@ -81,27 +85,25 @@ export async function list({
 		.run(pool);
 	const parsedResult = parse(schema.list, { items: result, count: count });
 	if (!filtered) {
-		await redis.set(redisString(instanceId, threadId, 'all'), parsedResult);
+		await redis.set(redisString(instanceId, threadId), parsedResult);
 	}
 	return parsedResult;
 }
 
 export async function update({
 	instanceId,
-	threadId,
 	messageId,
 	body,
 	t
 }: {
 	instanceId: number;
-	threadId: number;
 	messageId: string;
 	body: schema.Update;
 	t: App.Localization;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.update, body);
 	const result = await db
-		.update('communications.whatsapp_messages', parsed, { thread_id: threadId, id: messageId })
+		.update('communications.whatsapp_messages', parsed, { instance_id: instanceId, id: messageId })
 		.run(pool);
 	if (result.length !== 1) {
 		throw new BelcodaError(
@@ -111,7 +113,29 @@ export async function update({
 		);
 	}
 	const parsedResult = parse(schema.read, result[0]);
-	await redis.del(redisString(instanceId, threadId, 'all'));
-	await redis.set(redisString(instanceId, threadId, parsedResult.id), parsedResult);
+	if (parsedResult.thread_id) await redis.del(redisString(instanceId, parsedResult.thread_id));
 	return parsedResult;
+}
+
+export async function _getActions({
+	actionId,
+	instanceId,
+	t
+}: {
+	actionId: string;
+	instanceId: number;
+	t: App.Localization;
+}): Promise<ActionArray> {
+	const actions = await db.sql`SELECT actions->${db.param(actionId)} AS action
+    FROM ${'communications.whatsapp_messages'}
+    WHERE actions ? ${db.param(actionId)} AND instance_id = ${db.param(instanceId)}`.run(pool);
+	if (actions.length !== 1) {
+		throw new BelcodaError(
+			404,
+			'DATA:COMMUNICATIONS:WHATSAPP:MESSAGES:GET_ACTIONS:01',
+			t.errors.not_found()
+		);
+	}
+	const parsed = parse(actionArray, actions[0].action);
+	return parsed;
 }
