@@ -1,4 +1,14 @@
-import { v, id, slug, language, country, timestamp, shortString, email } from '$lib/schema/valibot';
+import {
+	v,
+	id,
+	slug,
+	language,
+	country,
+	timestamp,
+	shortString,
+	email,
+	longStringNotEmpty
+} from '$lib/schema/valibot';
 
 export const settings = v.object({
 	default_admin_id: id,
@@ -10,6 +20,11 @@ export const settings = v.object({
 		email: v.object({
 			default_from_name: shortString,
 			default_template_id: id
+		}),
+		whatsapp: v.object({
+			default_template_id: id,
+			phone_number_id: v.nullable(shortString),
+			business_account_id: v.nullable(shortString)
 		})
 	}),
 	petitions: v.object({
@@ -23,6 +38,12 @@ export const settings = v.object({
 });
 export type Settings = v.InferOutput<typeof settings>;
 
+//do not add to any read etc, because it is not meant to be exposed normally.
+export const secrets = v.object({
+	WHATSAPP_ACCESS_KEY: longStringNotEmpty
+});
+export type Secrets = v.InferOutput<typeof secrets>;
+
 export const base = v.object({
 	id: id,
 	name: shortString,
@@ -33,10 +54,11 @@ export const base = v.object({
 	country: country,
 	created_at: timestamp,
 	updated_at: timestamp,
-	settings: settings
+	settings: settings,
+	secrets: secrets
 });
 
-export const read = base;
+export const read = v.omit(base, ['secrets']);
 
 export type Read = v.InferOutput<typeof read>;
 
@@ -44,9 +66,9 @@ export const list = v.array(read);
 
 export type List = v.InferOutput<typeof list>;
 
-export const create = v.omit(base, ['id', 'created_at', 'updated_at']);
+export const create = v.omit(read, ['id', 'created_at', 'updated_at']);
 export type Create = v.InferOutput<typeof create>;
 
-export const update = v.partial(v.omit(base, ['id', 'created_at', 'updated_at']));
+export const update = v.partial(v.omit(read, ['id', 'created_at', 'updated_at']));
 
 export type Update = v.InferOutput<typeof update>;
