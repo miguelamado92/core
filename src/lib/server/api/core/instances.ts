@@ -1,7 +1,6 @@
 import * as schema from '$lib/schema/core/instance';
 import { v } from '$lib/schema/valibot';
 import { db, redis, pool, BelcodaError } from '$lib/server';
-import { type SupportedLanguage } from '$lib/i18n';
 
 export const read = async ({ instance_id }: { instance_id: number }): Promise<schema.Read> => {
 	const cached = await redis.get(`i:${instance_id}`);
@@ -42,3 +41,32 @@ export const readBySubdomain = async ({
 	await redis.set(`i:${subdomain}`, parsedResponse);
 	return parsedResponse;
 };
+export async function _readSecretsUnsafe({
+	instanceId
+}: {
+	instanceId: number;
+}): Promise<Record<string, string>> {
+	const response = await db
+		.selectExactlyOne('instances', { id: instanceId }, { columns: ['secrets'] })
+		.run(pool);
+	const parsed = v.parse(schema.secrets, response.secrets);
+	return parsed;
+}
+
+export async function _getInstanceByWhatsappPhoneNumberId({
+	whatsappPhoneNumberId
+}: {
+	whatsappPhoneNumberId: string;
+}): Promise<schema.Read> {
+	const response =
+		await db.sql`SELECT id FROM instances WHERE settings->'communications'->'whatsapp'->>'phone_number_id' = ${db.param(whatsappPhoneNumberId)} limit 1`.run(
+			pool
+		);
+	if (response.length !== 1)
+		throw new BelcodaError(
+			400,
+			'DATA:INSTANCES:GET_BY_WHATSAPP_PHONE_NUMBER_ID:01',
+			'No instance found with that phone number id'
+		);
+	return await read({ instance_id: response[0].id });
+}
