@@ -14,6 +14,7 @@
 	import Check from 'lucide-svelte/icons/check';
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import Mail from 'lucide-svelte/icons/mail';
+	import Phone from 'lucide-svelte/icons/phone';
 	import Interaction from '$lib/comps/widgets/interactions/Interaction.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { parse } from '$lib/schema/valibot';
@@ -85,7 +86,7 @@
 
 	{#if data.person.phone_number}
 		<div class="flex items-center gap-1.5">
-			<Mail size={18} />
+			<Phone size={18} />
 			<div>{data.person.phone_number.phone_number}</div>
 			{#if data.person.phone_number.subscribed}
 				<Badge class="gap-1 bg-success-600 hover:bg-success-600"
