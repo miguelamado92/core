@@ -1,8 +1,3 @@
-import {
-	generateFilterQueryParams,
-	type RouteSpecification,
-	generateRoute
-} from '$lib/schema/openapi';
 import { read } from '$lib/schema/core/admin';
 /* export function GET(): RouteSpecification {
 	return generateRoute({
