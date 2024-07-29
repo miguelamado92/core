@@ -3,7 +3,8 @@ import { actions, keyword_triggers } from '$lib/schema/communications/actions/ac
 import { message } from '$lib/schema/communications/whatsapp/elements/message';
 export const base = v.object({
 	id: uuid,
-	thread_id: id,
+	thread_id: v.nullable(id),
+	instance_id: id,
 	wamid: v.nullable(shortString),
 	name: shortString,
 	point_person_id: id,
@@ -17,7 +18,7 @@ export const base = v.object({
 	updated_at: timestamp
 });
 
-export const read = base;
+export const read = v.omit(base, ['instance_id']);
 export type Read = v.InferOutput<typeof read>;
 
 export const list = v.object({
@@ -30,6 +31,7 @@ export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
 	wamid: v.optional(base.entries.wamid, null),
+	thread_id: base.entries.thread_id,
 	name: base.entries.name,
 	point_person_id: base.entries.point_person_id,
 	actions: v.optional(base.entries.actions, {}),

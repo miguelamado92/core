@@ -212,3 +212,4 @@ export const message = v.variant('type', [
 	messagesTypes.unknown,
 	messagesTypes.video
 ]);
+export type Message = v.InferOutput<typeof message>;

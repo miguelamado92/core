@@ -1,14 +1,12 @@
 import { v, id, mediumString, timestamp, count, language, shortString } from '$lib/schema/valibot';
-import { template } from '$lib/schema/communications/whatsapp/elements/template';
-
+import { messageTypes } from '$lib/schema/communications/whatsapp/elements/message';
 export const base = v.object({
 	id: id,
 	template_id: id,
 	instance_id: id,
 	name: shortString,
-	template_message: template, //has params
+	template_message: messageTypes.template, //has params
 	point_person_id: id,
-	first_message_id: v.nullable(id),
 	created_at: timestamp,
 	updated_at: timestamp
 });
@@ -20,10 +18,7 @@ export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
-	template_id: base.entries.template_id,
-	name: base.entries.name,
-	point_person_id: base.entries.point_person_id,
-	template_message: base.entries.template_message
+	name: base.entries.name
 });
 export type Create = v.InferOutput<typeof create>;
 

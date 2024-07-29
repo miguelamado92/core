@@ -1,5 +1,5 @@
 import { v, mediumString, uuid } from '$lib/schema/valibot';
-import { message } from '$lib/schema/communications/whatsapp/elements/message';
+import { message } from '$lib/schema/communications/whatsapp/webhooks/messages';
 
 export const contact = v.object({
 	wa_id: mediumString,
@@ -31,7 +31,7 @@ export const metadata = v.object({
 });
 
 export const status = v.object({
-	biv_opaque_callback_data: uuid,
+	biz_opaque_callback_data: uuid,
 	conversation: v.object({
 		id: mediumString,
 		origin: v.object({
@@ -58,7 +58,7 @@ export const webhook = v.object({
 			changes: v.array(
 				v.object({
 					field: v.literal('messages'),
-					values: v.object({
+					value: v.object({
 						contacts: v.optional(v.array(contact)),
 						errors: v.optional(v.array(error)),
 						messaging_product: v.literal('whatsapp'),

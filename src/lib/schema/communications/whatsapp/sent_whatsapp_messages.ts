@@ -4,7 +4,7 @@ export const base = v.object({
 	id: uuid,
 	person_id: id,
 	message_id: uuid,
-	conversation_id: id,
+	conversation_id: v.nullable(id),
 	message: message,
 	wamid: shortString,
 	delivered: v.boolean(),
@@ -25,7 +25,7 @@ export type List = v.InferOutput<typeof list>;
 export const create = v.object({
 	person_id: base.entries.person_id,
 	message_id: base.entries.message_id,
-	conversation_id: base.entries.conversation_id,
+	conversation_id: v.optional(base.entries.conversation_id),
 	message: base.entries.message,
 	wamid: base.entries.wamid,
 	delivered: v.optional(base.entries.delivered, false),
@@ -34,7 +34,7 @@ export const create = v.object({
 	stale: v.optional(base.entries.stale, false),
 	reacted_emoji: v.optional(base.entries.reacted_emoji, null)
 });
-export type Create = v.InferOutput<typeof create>;
+export type Create = v.InferInput<typeof create>;
 
 export const update = v.partial(
 	v.pick(create, ['delivered', 'read', 'reacted', 'stale', 'reacted_emoji'])

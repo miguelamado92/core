@@ -27,14 +27,13 @@ export const image = v.object({
 	caption: v.optional(mediumString)
 });
 
-export const sticker = v.object({
-	id: mediumString,
-	animated: v.optional(v.boolean(), false)
-});
-
 export const video = v.object({
 	id: mediumString,
 	caption: v.optional(mediumString)
+});
+export const sticker = v.object({
+	id: mediumString,
+	animated: v.optional(v.boolean(), false)
 });
 
 export const text = v.object({

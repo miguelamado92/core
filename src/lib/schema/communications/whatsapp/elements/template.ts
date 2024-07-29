@@ -22,7 +22,7 @@ export const templateComponents = {
 	headers: {
 		text: v.object({
 			type: v.literal('HEADER'),
-			format: v.literal('text'),
+			format: v.literal('TEXT'),
 			text: v.pipe(v.string(), v.maxLength(60)),
 			example: v.optional(
 				v.object({
@@ -67,6 +67,14 @@ export const templateComponents = {
 		)
 	})
 };
+
+export type TemplateComponentsHeaderImage = v.InferOutput<typeof templateComponents.headers.media>;
+export type TemplateComponentsHeaderLocation = v.InferOutput<
+	typeof templateComponents.headers.location
+>;
+export type TemplateComponentsHeaderText = v.InferOutput<typeof templateComponents.headers.text>;
+export type TemplateComponentsBody = v.InferOutput<typeof templateComponents.body>;
+export type TemplateComponentsFooter = v.InferOutput<typeof templateComponents.footer>;
 
 export const template = v.object({
 	name: shortString,

@@ -1,5 +1,20 @@
-import { v, shortString, uuid } from '$lib/schema/valibot';
-import { document, image, video } from '$lib/schema/communications/whatsapp/elements/media';
+import { v, shortString, mediumString, uuid } from '$lib/schema/valibot';
+
+export const document = v.object({
+	id: mediumString,
+	filename: mediumString,
+	caption: v.optional(mediumString)
+});
+
+export const image = v.object({
+	id: mediumString,
+	caption: v.optional(mediumString)
+});
+
+export const video = v.object({
+	id: mediumString,
+	caption: v.optional(mediumString)
+});
 
 export const parameters = {
 	text: v.object({
@@ -31,6 +46,22 @@ export const parameters = {
 	})
 };
 
+export type ParametersText = v.InferOutput<typeof parameters.text>;
+export type ParametersDocument = v.InferOutput<typeof parameters.document>;
+export type ParametersImage = v.InferOutput<typeof parameters.image>;
+export type ParametersVideo = v.InferOutput<typeof parameters.video>;
+export type ParametersDateTime = v.InferOutput<typeof parameters.date_time>;
+export type ParametersButton = v.InferOutput<typeof parameters.button>;
+
+export type HeaderParams =
+	| ParametersText
+	| ParametersDocument
+	| ParametersImage
+	| ParametersVideo
+	| ParametersDateTime;
+export type BodyParams = ParametersText | ParametersDateTime;
+export type ButtonParams = ParametersButton;
+
 export const components = {
 	header: v.object({
 		type: v.literal('header'),
@@ -46,15 +77,7 @@ export const components = {
 	}),
 	body: v.object({
 		type: v.literal('body'),
-		parameters: v.array(
-			v.union([
-				parameters.text,
-				parameters.document,
-				parameters.image,
-				parameters.video,
-				parameters.date_time
-			])
-		)
+		parameters: v.array(v.union([parameters.text, parameters.date_time]))
 	}),
 	button: v.object({
 		type: v.literal('button'),
