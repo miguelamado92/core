@@ -13,6 +13,7 @@
 		"format": "prettier --write .",
 		"zapatos": "node zapatos.js",
 		"start:production": "node -r dotenv/config . | npx --yes pino-pretty",
+		"ngrok": "ngrok http --domain=rodent-fond-polliwog.ngrok-free.app 5173",
 		"queue": "DATABASE_URL=postgresql://dmsynge@localhost/belcoda_dev GRAPHILE_WORKER_ENDPOINT=http://localhost:5173/worker GRAPHILE_WORKER_TOKEN=65babe4e-8b4d-4576-9c0a-54d297bbb843 npx graphile-worker"
 	},
 	"devDependencies": {
@@ -45,7 +46,6 @@
 		"@aws-sdk/client-s3": "^3.608.0",
 		"@aws-sdk/client-ses": "^3.609.0",
 		"@aws-sdk/s3-request-presigner": "^3.608.0",
-		"@gcornut/valibot-json-schema": "^0.31.0",
 		"@leodog896/svelte-french-toast": "^1.3.1",
 		"@sveltejs/adapter-node": "^5.1.1",
 		"@tinymce/tinymce-svelte": "^3.0.0",
@@ -54,6 +54,7 @@
 		"clsx": "^2.1.1",
 		"cmdk-sv": "^0.0.17",
 		"codeflask": "^1.4.1",
+		"embla-carousel-svelte": "^8.1.7",
 		"formsnap": "^1.0.1",
 		"google-auth-library": "^9.11.0",
 		"graphile-worker": "^0.16.6",
