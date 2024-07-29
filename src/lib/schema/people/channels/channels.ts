@@ -6,7 +6,6 @@ import {
 	country
 } from '$lib/schema/valibot';
 import type { SupportedCountry } from '$lib/i18n';
-import { Verified } from 'lucide-svelte';
 
 export const email = v.object({
 	email: emailAddress,
@@ -31,6 +30,7 @@ export const phoneNumber = v.pipe(
 		whatsapp: v.optional(v.boolean(), false),
 		strict: v.optional(v.boolean(), false),
 		validated: v.optional(v.boolean(), false),
+		whatsapp_id: v.optional(v.nullable(v.string())),
 		country: country
 	}),
 	v.transform((value) => {
@@ -82,6 +82,7 @@ export function generateDefaultPhoneNumber(country: SupportedCountry) {
 		whatsapp: false,
 		strict: false,
 		validated: false,
+		whatsapp_id: null,
 		country: country
 	};
 }

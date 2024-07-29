@@ -313,3 +313,47 @@ export async function exists({
 	//will throw an error if it doesn't exist...
 	return true;
 }
+
+export async function _updateWhatsappId({
+	instanceId,
+	personId,
+	whatsappId
+}: {
+	instanceId: number;
+	personId: number;
+	whatsappId: string;
+}): Promise<true> {
+	await db.sql`UPDATE ${'people.people'} SET phone_number->>'whatsapp_id' = ${db.param(whatsappId)} WHERE id = ${db.param(personId)} AND instance_id = ${db.param(instanceId)}`.run(
+		pool
+	);
+	await redis.del(redisString(instanceId, personId));
+	await redis.del(redisString(instanceId, 'all'));
+	return true;
+}
+import { parsePhoneNumber } from 'awesome-phonenumber';
+
+export async function _getPersonByWhatsappId({
+	instanceId,
+	whatsappId,
+	t
+}: {
+	instanceId: number;
+	whatsappId: string;
+	t: App.Localization;
+}): Promise<schema.Read> {
+	const phoneNumber = parsePhoneNumber(whatsappId);
+	const parsedPhoneNumber = phoneNumber.valid ? phoneNumber.number.e164 : whatsappId;
+	const person =
+		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(whatsappId)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)}) AND instance_id = ${db.param(instanceId)}`.run(
+			pool
+		);
+	log.info(whatsappId);
+	if (person.length !== 1) {
+		throw new BelcodaError(
+			404,
+			'DATA:PEOPLE:PEOPLE:GET_PERSON_BY_WHATSAPP_ID:01',
+			t.errors.not_found_variants.person()
+		);
+	}
+	return await read({ instance_id: instanceId, person_id: person[0].id, t });
+}
