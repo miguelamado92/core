@@ -3,7 +3,8 @@
 	import { Grid, Input, Debug, Error, Button, superForm, valibotClient } from '$lib/comps/ui/forms';
 	import { create } from '$lib/schema/communications/whatsapp/threads';
 	const form = superForm(data.form, {
-		validators: valibotClient(create)
+		validators: valibotClient(create),
+		dataType: 'json'
 	});
 	const { form: formData, enhance, message } = form;
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';

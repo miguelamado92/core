@@ -15,7 +15,8 @@ export async function load(event) {
 	if (!threadResult.ok) return loadError(threadResult);
 	const threadBody = await threadResult.json();
 	const threadParsed = parse(read, threadBody);
-
+	console.log('threadParsed.actions');
+	console.log(threadParsed.actions);
 	return {
 		templates: parsed,
 		thread: threadParsed,
