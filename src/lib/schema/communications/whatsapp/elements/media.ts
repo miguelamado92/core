@@ -1,4 +1,4 @@
-import { mediumString, language, DEFAULT_LANGUAGE, v } from '$lib/schema/valibot';
+import { mediumString, language, DEFAULT_LANGUAGE, v, url } from '$lib/schema/valibot';
 import { components } from '$lib/schema/communications/whatsapp/elements/template_message';
 
 export const type = v.picklist([
@@ -13,26 +13,26 @@ export const type = v.picklist([
 ]);
 
 export const audio = v.object({
-	id: mediumString
+	link: url
 });
 
 export const document = v.object({
-	id: mediumString,
+	link: url,
 	filename: mediumString,
 	caption: v.optional(mediumString)
 });
 
 export const image = v.object({
-	id: mediumString,
+	link: url,
 	caption: v.optional(mediumString)
 });
 
 export const video = v.object({
-	id: mediumString,
+	link: url,
 	caption: v.optional(mediumString)
 });
 export const sticker = v.object({
-	id: mediumString,
+	link: url,
 	animated: v.optional(v.boolean(), false)
 });
 

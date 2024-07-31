@@ -1,5 +1,7 @@
 import { v, id, mediumString, timestamp, uuid, language, shortString } from '$lib/schema/valibot';
 
+//DOCUMENTATION: https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates
+//https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/components
 const templateButtonTypes = {
 	phone: v.object({
 		type: v.literal('PHONE_NUMBER'),
@@ -48,7 +50,7 @@ export const templateComponents = {
 		text: v.pipe(v.string(), v.maxLength(1024)),
 		example: v.optional(
 			v.object({
-				body_text: v.pipe(v.string(), v.maxLength(1024))
+				body_text: v.array(v.array(v.pipe(v.string(), v.maxLength(1024))))
 			})
 		)
 	}),

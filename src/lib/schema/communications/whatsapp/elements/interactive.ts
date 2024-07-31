@@ -39,6 +39,7 @@ export const action = v.object({
 		v.maxLength(3)
 	)
 });
+export type Action = v.InferOutput<typeof action>;
 
 export const interactive = v.object({
 	action: action,

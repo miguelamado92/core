@@ -13,6 +13,9 @@ import {
 import { interactive } from '$lib/schema/communications/whatsapp/elements/interactive';
 import { context } from '$lib/schema/communications/whatsapp/elements/reactions';
 
+export const allowableTypes = v.picklist(['text', 'image', 'interactive']);
+export type AllowableTypes = v.InferOutput<typeof allowableTypes>;
+
 export const messageBase = v.object({
 	type: type,
 	to: v.string(),

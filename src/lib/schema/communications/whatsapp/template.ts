@@ -23,6 +23,7 @@ export const base = v.object({
 	instance_id: id,
 	name: shortString,
 	whatsapp_id: v.nullable(mediumString),
+	interactive: v.boolean(),
 	message: template, //this is the template that doesn't have para
 	status: whatsappTemplateStatus,
 	created_at: timestamp,

@@ -6,8 +6,6 @@ export const base = v.object({
 	thread_id: v.nullable(id),
 	instance_id: id,
 	wamid: v.nullable(shortString),
-	name: shortString,
-	point_person_id: id,
 	actions: actions,
 	keywords: keyword_triggers,
 	message: message,
@@ -22,18 +20,14 @@ export const read = v.omit(base, ['instance_id']);
 export type Read = v.InferOutput<typeof read>;
 
 export const list = v.object({
-	items: v.array(
-		v.omit(read, ['message', 'keywords', 'actions', 'on_read_action', 'on_sent_action', 'next'])
-	),
+	items: v.array(read),
 	count: count
 });
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
 	wamid: v.optional(base.entries.wamid, null),
-	thread_id: base.entries.thread_id,
-	name: base.entries.name,
-	point_person_id: base.entries.point_person_id,
+	thread_id: v.optional(base.entries.thread_id, null),
 	actions: v.optional(base.entries.actions, {}),
 	keywords: v.optional(base.entries.keywords, {}),
 	message: base.entries.message,

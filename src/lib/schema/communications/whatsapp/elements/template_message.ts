@@ -1,19 +1,29 @@
-import { v, shortString, mediumString, uuid } from '$lib/schema/valibot';
+import { v, shortString, mediumString, uuid, url } from '$lib/schema/valibot';
 
 export const document = v.object({
-	id: mediumString,
+	link: url,
 	filename: mediumString,
 	caption: v.optional(mediumString)
 });
 
 export const image = v.object({
-	id: mediumString,
+	link: url,
 	caption: v.optional(mediumString)
 });
 
 export const video = v.object({
-	id: mediumString,
+	link: url,
 	caption: v.optional(mediumString)
+});
+
+export const urlButtonParam = v.object({
+	type: v.literal('text'),
+	text: shortString
+});
+
+export const quickReplyButtonParam = v.object({
+	type: v.literal('payload'),
+	payload: uuid
 });
 
 export const parameters = {
@@ -39,11 +49,7 @@ export const parameters = {
 			fallback_value: shortString
 		})
 	}),
-	button: v.object({
-		type: v.picklist(['payload', 'text']),
-		payload: uuid, //required for quick reply buttons
-		text: v.optional(v.string()) //reqired for url buttons, this text is appended to the URL defined in the template
-	})
+	button: v.variant('type', [quickReplyButtonParam, urlButtonParam])
 };
 
 export type ParametersText = v.InferOutput<typeof parameters.text>;
@@ -86,6 +92,8 @@ export const components = {
 		index: v.pipe(v.number(), v.minValue(0), v.maxValue(9))
 	})
 };
+
+export type TemplateMessageButtonComponentParameter = v.InferOutput<typeof components.button>;
 
 export const template = v.object({
 	name: v.pipe(v.string(), v.maxLength(512)),
