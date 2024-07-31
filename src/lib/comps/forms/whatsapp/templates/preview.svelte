@@ -1,65 +1,89 @@
 <script lang="ts">
 	import { type Read } from '$lib/schema/communications/whatsapp/template';
-	const { template, selected }: { template: Read | undefined; selected: boolean } = $props();
+	import { type Template as TemplateType } from '$lib/schema/communications/whatsapp/elements/template_message';
+
+	import {
+		extractComponents,
+		extractTemplateMessageParams,
+		templateMessageParamsIndexes,
+		interpolateTextParams
+	} from '$lib/comps/forms/whatsapp/templates/components';
+	const {
+		template,
+		selected,
+		components
+	}: {
+		template: Read | undefined;
+		selected: boolean;
+		components: TemplateType['components'];
+	} = $props();
 	import Reply from 'lucide-svelte/icons/reply';
 	import ExternalLink from 'lucide-svelte/icons/external-link';
 	import Phone from 'lucide-svelte/icons/phone';
-	import MessageFrame from '$lib/comps/forms/whatsapp/MessageFrame.svelte';
+	import Frame from '$lib/comps/forms/whatsapp/Frame.svelte';
+	const templateMessageParams = $derived(extractTemplateMessageParams(components));
+	const templateParamIndexes = $derived(templateMessageParamsIndexes(components));
 </script>
 
 {#if template}
-	<div class="flex justify-center">
-		<MessageFrame selected>
-			{#each template.message.components as component}
-				{#if component.type === 'HEADER'}
-					{#if component.format === 'TEXT'}
-						<div class="font-bold padding">{component.text}</div>
+	{@const templateComps = extractComponents(template.message.components)}
+	<Frame {selected} removePadding={true} messageId={`TEMPLATE:${template.id}`}>
+		{#if templateComps.header && templateMessageParams.header}
+			{#if templateComps.header.format === 'TEXT'}
+				<div class="font-bold padding">
+					{interpolateTextParams(
+						templateComps.header.text,
+						templateMessageParams.header?.parameters
+					)}
+				</div>
+			{/if}
+			{#if templateComps.header.format === 'IMAGE' && templateMessageParams.header.parameters[0].type === 'image'}
+				<div class="rounded-t-lg cover w-full">
+					<img
+						src={templateMessageParams.header.parameters[0].image.link}
+						class="rounded-t-lg object-cover max-h-screen"
+						alt={templateMessageParams.header.parameters[0].image.caption}
+					/>
+				</div>
+			{/if}
+			{#if templateComps.header.format === 'VIDEO' && templateMessageParams.header.parameters[0].type === 'video'}
+				<div class="rounded-t-lg cover w-full">
+					<img
+						src={templateMessageParams.header.parameters[0].video.link}
+						class="rounded-t-lg object-cover max-h-screen"
+						alt={templateMessageParams.header.parameters[0].video.caption}
+					/>
+				</div>
+			{/if}
+		{/if}
+		{#if templateComps.body && templateMessageParams.body}
+			{#if templateComps.body.format === 'TEXT'}
+				<div class="padding text-sm">
+					{interpolateTextParams(templateComps.body.text, templateMessageParams.body?.parameters)}
+				</div>
+			{/if}
+		{/if}
+		{#if templateComps.footer}
+			<div class="padding text-xs text-muted-foreground">{templateComps.footer.text}</div>
+		{/if}
+		{#if templateComps.buttons && templateMessageParams.buttons.length > 0}
+			{#each templateComps.buttons.buttons as button, i}
+				<div
+					class="border-t flex justify-center items-center gap-2 text-blue-600 padding cursor-pointer"
+					class:text-white={selected}
+				>
+					{#if button.type === 'QUICK_REPLY'}
+						<Reply size={20} />
+					{:else if button.type === 'URL'}
+						<ExternalLink size={18} />
+					{:else}
+						<Phone size={20} />
 					{/if}
-					{#if component.format === 'IMAGE'}
-						<div class="rounded-t-lg cover w-full">
-							<img
-								src="https://placehold.it/400x300"
-								class="rounded-t-lg object-cover max-h-screen"
-								alt="Placeholder"
-							/>
-						</div>
-					{/if}
-					{#if component.format === 'VIDEO'}
-						<div class="rounded-t-lg cover w-full">
-							<img
-								src="https://placehold.it/400x300"
-								class="rounded-t-lg object-cover max-h-screen"
-								alt="Video thumbnail placeholder"
-							/>
-						</div>
-					{/if}
-				{/if}
-
-				{#if component.type === 'BODY'}
-					<div class="padding text-sm">{component.text}</div>
-				{/if}
-				{#if component.type === 'FOOTER'}
-					<div class="padding text-xs text-muted-foreground">{component.text}</div>
-				{/if}
-				{#if component.type === 'BUTTONS'}
-					{#each component.buttons as button}
-						<div
-							class="border-t flex justify-center items-center gap-2 text-blue-600 padding cursor-pointer hover:bg-slate-100"
-						>
-							{#if button.type === 'QUICK_REPLY'}
-								<Reply size={20} />
-							{:else if button.type === 'URL'}
-								<ExternalLink size={18} />
-							{:else}
-								<Phone size={20} />
-							{/if}
-							<div>{button.text}</div>
-						</div>
-					{/each}
-				{/if}
+					<div>{button.text}</div>
+				</div>
 			{/each}
-		</MessageFrame>
-	</div>
+		{/if}
+	</Frame>
 {/if}
 
 <style lang="postcss">
