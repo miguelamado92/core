@@ -5,12 +5,15 @@
 	import * as Alert from '$lib/comps/ui/alert';
 	import Loader from 'lucide-svelte/icons/loader';
 	import CheckCircle from 'lucide-svelte/icons/circle-check';
+	import Input from '$lib/comps/ui/input/input.svelte';
 	import AlertTriangle from 'lucide-svelte/icons/triangle-alert';
 	const file_upload_widget_id = crypto.randomUUID();
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
-	export let site_id: number;
 	export let label: string | null = null;
 	export let description: string | null = null;
+
 	export let maximum_file_size: number = 10485760; //~10mb
 	export let file_types: string[] = [
 		'image/png',
@@ -22,7 +25,7 @@
 	];
 
 	export let url: string | null | undefined = undefined;
-	export let upload_id: string | null | undefined = undefined;
+	//export let upload_id: string | null | undefined = undefined;
 	export let uploaded_file_name: string | null | undefined = undefined;
 
 	const acceptable_file_types = file_types.join(', ');
@@ -63,7 +66,7 @@
 			});
 
 			//get a signed url from the server
-			const push_file_request_response = await fetch(`/api/v1/sites/${site_id}/uploads/link`, {
+			const push_file_request_response = await fetch(`/api/v1/website/uploads/link`, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -85,7 +88,7 @@
 			//const aws_response_body = await aws_response.text();
 			if (!aws_response.ok) throw { message: $page.data.t.errors.file_upload.upload_error() };
 
-			//create the upload in the database
+			/* //create the upload in the database
 			const create_upload_response = await fetch(`/api/v1/sites/${site_id}/uploads`, {
 				method: 'POST',
 				headers: {
@@ -95,17 +98,18 @@
 					name: file_name,
 					url: `${bucket_url}${new URL(aws_response.url).pathname}`
 				})
-			});
+			}); */
 
-			if (!create_upload_response.ok)
+			/* if (!create_upload_response.ok)
 				throw { message: $page.data.t.errors.file_upload.upload_error() };
 			const create_upload_body = await create_upload_response.json();
-			upload_id = create_upload_body.id;
+			upload_id = create_upload_body.id; */
 
 			url = `${bucket_url}${new URL(aws_response.url).pathname}`;
 			uploaded_file_name = file_name;
 			loading = false;
 			success = true;
+			dispatch('uploaded', { url, file_name: uploaded_file_name });
 		} catch (err) {
 			if (err instanceof Error) {
 				error = err.message;
@@ -124,7 +128,7 @@
 		for={file_upload_widget_id}>{label}</label
 	>{/if}
 <div class="flex items-center gap-2">
-	<input
+	<Input
 		on:change={handleUpload}
 		{disabled}
 		accept={acceptable_file_types}
