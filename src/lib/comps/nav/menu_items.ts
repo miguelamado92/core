@@ -121,11 +121,11 @@ function menus(t: Localization): { [key: string]: MenuItem } {
 					href: () => '/communications',
 					icon: Dashboard
 				}, */
-				/* {
-					title: () => t.pages.communications.whatsapp(),
+				{
+					title: () => t.pages.communications.whatsapp.index(),
 					href: () => '/communications/whatsapp',
 					icon: WhatsApp
-				}, */
+				},
 				{
 					title: () => t.pages.communications.email.index(),
 					href: () => '/communications/email',
