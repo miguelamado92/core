@@ -12201,6 +12201,12 @@ declare module 'zapatos/schema' {
         */
         instance_id: number;
         /**
+        * **communications.whatsapp_templates.interactive**
+        * - `bool` in database
+        * - `NOT NULL`, no default
+        */
+        interactive: boolean;
+        /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
@@ -12251,6 +12257,12 @@ declare module 'zapatos/schema' {
         */
         instance_id: number;
         /**
+        * **communications.whatsapp_templates.interactive**
+        * - `bool` in database
+        * - `NOT NULL`, no default
+        */
+        interactive: boolean;
+        /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
@@ -12300,6 +12312,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.whatsapp_templates.interactive**
+        * - `bool` in database
+        * - `NOT NULL`, no default
+        */
+        interactive?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
@@ -12351,6 +12369,12 @@ declare module 'zapatos/schema' {
         */
         instance_id: number | db.Parameter<number> | db.SQLFragment;
         /**
+        * **communications.whatsapp_templates.interactive**
+        * - `bool` in database
+        * - `NOT NULL`, no default
+        */
+        interactive: boolean | db.Parameter<boolean> | db.SQLFragment;
+        /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
@@ -12401,6 +12425,12 @@ declare module 'zapatos/schema' {
         */
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
         /**
+        * **communications.whatsapp_templates.interactive**
+        * - `bool` in database
+        * - `NOT NULL`, no default
+        */
+        interactive?: boolean | db.Parameter<boolean> | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment>;
+        /**
         * **communications.whatsapp_templates.message**
         * - `whatsapp_template` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
@@ -12445,6 +12475,12 @@ declare module 'zapatos/schema' {
     export namespace whatsapp_threads {
       export type Table = 'communications.whatsapp_threads';
       export interface Selectable {
+        /**
+        * **communications.whatsapp_threads.actions**
+        * - `communication_actions` (base type: `jsonb`) in database
+        * - `NOT NULL`, default: `'{}'::jsonb`
+        */
+        actions: c.PgCommunication_actions;
         /**
         * **communications.whatsapp_threads.created_at**
         * - `timestamptz` in database
@@ -12496,6 +12532,12 @@ declare module 'zapatos/schema' {
       }
       export interface JSONSelectable {
         /**
+        * **communications.whatsapp_threads.actions**
+        * - `communication_actions` (base type: `jsonb`) in database
+        * - `NOT NULL`, default: `'{}'::jsonb`
+        */
+        actions: c.PgCommunication_actions;
+        /**
         * **communications.whatsapp_threads.created_at**
         * - `timestamptz` in database
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -12545,6 +12587,12 @@ declare module 'zapatos/schema' {
         updated_at: db.TimestampTzString;
       }
       export interface Whereable {
+        /**
+        * **communications.whatsapp_threads.actions**
+        * - `communication_actions` (base type: `jsonb`) in database
+        * - `NOT NULL`, default: `'{}'::jsonb`
+        */
+        actions?: c.PgCommunication_actions | db.Parameter<c.PgCommunication_actions> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgCommunication_actions | db.Parameter<c.PgCommunication_actions> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.whatsapp_threads.created_at**
         * - `timestamptz` in database
@@ -12596,6 +12644,12 @@ declare module 'zapatos/schema' {
       }
       export interface Insertable {
         /**
+        * **communications.whatsapp_threads.actions**
+        * - `communication_actions` (base type: `jsonb`) in database
+        * - `NOT NULL`, default: `'{}'::jsonb`
+        */
+        actions?: c.PgCommunication_actions | db.Parameter<c.PgCommunication_actions> | db.DefaultType | db.SQLFragment;
+        /**
         * **communications.whatsapp_threads.created_at**
         * - `timestamptz` in database
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -12645,6 +12699,12 @@ declare module 'zapatos/schema' {
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
       }
       export interface Updatable {
+        /**
+        * **communications.whatsapp_threads.actions**
+        * - `communication_actions` (base type: `jsonb`) in database
+        * - `NOT NULL`, default: `'{}'::jsonb`
+        */
+        actions?: c.PgCommunication_actions | db.Parameter<c.PgCommunication_actions> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, c.PgCommunication_actions | db.Parameter<c.PgCommunication_actions> | db.DefaultType | db.SQLFragment>;
         /**
         * **communications.whatsapp_threads.created_at**
         * - `timestamptz` in database
