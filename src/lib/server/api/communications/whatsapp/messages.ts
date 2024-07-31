@@ -7,17 +7,17 @@ import { type ActionArray, actionArray } from '$lib/schema/communications/action
 function redisString(instanceId: number, threadId: number) {
 	return `i:${instanceId}:wa_thread:${threadId}:msgs`;
 }
-
 export async function create({
 	instanceId,
-	threadId,
 	body
 }: {
 	instanceId: number;
-	threadId?: number;
 	body: schema.Create;
 }): Promise<schema.Read> {
-	const parsed = parse(schema.create, body);
+	const toParse: schema.Create = {
+		...body
+	};
+	const parsed = parse(schema.create, toParse);
 	const result = await db
 		.insert('communications.whatsapp_messages', { instance_id: instanceId, ...parsed })
 		.run(pool);
@@ -78,7 +78,11 @@ export async function list({
 		}
 	}
 	const result = await db
-		.select('communications.whatsapp_messages', { thread_id: threadId, ...where }, options)
+		.select(
+			'communications.whatsapp_messages',
+			{ thread_id: threadId, ...where },
+			{ ...options, order: { by: 'created_at', direction: 'ASC' } }
+		)
 		.run(pool);
 	const count = await db
 		.count('communications.whatsapp_messages', { thread_id: threadId, ...where })

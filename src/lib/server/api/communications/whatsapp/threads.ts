@@ -1,4 +1,4 @@
-import { db, pool, redis, filterQuery, BelcodaError } from '$lib/server';
+import { db, pool, redis, pino, filterQuery, BelcodaError } from '$lib/server';
 import { parse } from '$lib/schema/valibot';
 import { type SupportedLanguage } from '$lib/i18n';
 
@@ -7,6 +7,7 @@ import { read as readTemplate } from '$lib/server/api/communications/whatsapp/te
 function redisString(instanceId: number, templateId: number | 'all') {
 	return `i:${instanceId}:whatsapp_threads:${templateId}`;
 }
+const log = pino('api:communications:whatsapp:threads');
 
 export async function exists({
 	instanceId,
@@ -146,7 +147,7 @@ export async function update({
 }): Promise<schema.Read> {
 	const parsed = parse(schema.update, body);
 	const result = await db
-		.update('communications.whatsapp_threads', { instance_id: instanceId, id: threadId }, parsed)
+		.update('communications.whatsapp_threads', parsed, { instance_id: instanceId, id: threadId })
 		.run(pool);
 	if (result.length !== 1) {
 		throw new BelcodaError(
@@ -155,7 +156,7 @@ export async function update({
 			t.errors.not_found()
 		);
 	}
-	const parsedResult = parse(schema.read, result);
+	const parsedResult = parse(schema.read, result[0]);
 	await redis.del(redisString(instanceId, 'all'));
 	await redis.set(redisString(instanceId, threadId), parsedResult);
 	return parsedResult;
