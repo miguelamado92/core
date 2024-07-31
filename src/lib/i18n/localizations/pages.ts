@@ -211,7 +211,14 @@ export default function (l: SL) {
 				},
 				edit: () => {
 					return t(l, {
-						en: `{THREADNAME|Edit thread}`
+						en: `{THREADNAME|Edit thread}`,
+						ja: `{THREADNAME|スレッドを編集}`,
+						pt: `{THREADNAME|Editar thread}`,
+						es: `{THREADNAME|Editar hilo}`,
+						fr: `{THREADNAME|Modifier le fil}`,
+						sw: `{THREADNAME|Hariri mjadala}`,
+						th: `{THREADNAME|แก้ไขเธรด}`,
+						zh: `{THREADNAME|编辑线程}`
 					});
 				}
 			},
