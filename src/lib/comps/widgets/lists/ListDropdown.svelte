@@ -6,7 +6,7 @@
 		list?: List['items'][number];
 		lists?: List['items'];
 		value?: number;
-		onSelectList: (list: List['items'][number]) => void;
+		onSelectList?: (list: List['items'][number]) => void;
 	};
 	let {
 		list = $bindable(),
@@ -38,7 +38,7 @@
 	async function handleAddPerson(listId: number) {
 		value = listId;
 		const selectedList = lists.findIndex((l) => l.id === listId);
-		onSelectList(lists[selectedList]);
+		if (onSelectList) onSelectList(lists[selectedList]);
 		list = lists[selectedList];
 	}
 
