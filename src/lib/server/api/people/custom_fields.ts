@@ -1,4 +1,4 @@
-import { db, pool, redis, error, BelcodaError, pino, queue, filterQuery } from '$lib/server';
+import { db, pool, redis, error, BelcodaError, pino, filterQuery } from '$lib/server';
 //import * as schema from '$lib/schema/people/custom_fields';
 import { redisString } from '$lib/server/api/people/people';
 const log = pino('$lib/server/api/people/custom_fields');

@@ -1,4 +1,4 @@
-import { db } from '$lib/server';
+import { db } from '$lib/server/utils/db/index';
 const DEFAULT_AMOUNT_PER_PAGE: 25 = 25;
 
 function get_number(input: string | null, DEFAULT = 1) {
