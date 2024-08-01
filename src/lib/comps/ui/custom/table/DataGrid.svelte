@@ -12,6 +12,7 @@
 		items: T[];
 		class?: string;
 		count: number;
+		children?: Snippet;
 		content: Snippet<[T, number?]>;
 		header?: Snippet<[Snippet, string]>;
 		separator?: boolean;
@@ -22,6 +23,7 @@
 	const {
 		items,
 		count,
+		children,
 		content,
 		separator = true,
 		class: className,
@@ -47,7 +49,7 @@
 {#if separator}
 	<Separator class="mt-6" />
 {/if}
-
+{#if children}{@render children()}{/if}
 <div class="grid grid-cols-1 relative divide-y">
 	{#each items as item, i}
 		<div class="hover:bg-slate-100">
