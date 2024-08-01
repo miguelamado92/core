@@ -1,5 +1,6 @@
 <script lang="ts">
 	const { data } = $props();
+	let actions = $state({ ...data.thread.actions });
 	import { page } from '$app/stores';
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import Template from '$lib/comps/forms/whatsapp/templates/Template.svelte';
@@ -7,13 +8,12 @@
 	import { createMessageComponentsFromTemplateComponents } from '$lib/comps/forms/whatsapp/templates/components';
 	import TemplateSelectDropdown from '$lib/comps/forms/whatsapp/templates/select/Dropdown.svelte';
 	let selectedIndex: number = $state(-1);
-	let actions = $state(data.thread.actions);
 	let templateId = $state(data.thread.template_id);
-	let template = $derived(data.templates.items.find((template) => template.id === templateId));
+	const template = $derived(data.templates.items.find((template) => template.id === templateId));
 	import { type Read as ReadThread } from '$lib/schema/communications/whatsapp/threads';
-	function updateStartingComponents(
+	function updateComponents(
 		template: (typeof data.templates.items)[0],
-		actions: ReadThread['actions'] = data.thread.actions
+		actions: ReadThread['actions'] = data.actions
 	) {
 		return createMessageComponentsFromTemplateComponents(
 			template.message.components,
@@ -22,9 +22,7 @@
 		);
 	}
 	//not sure about this warning... looks like it was fixed https://github.com/sveltejs/svelte/pull/11540
-	const startingCompoments = template
-		? updateStartingComponents(template, data.thread.actions).components
-		: [];
+	const startingCompoments = template ? updateComponents(template, actions).components : [];
 	let components: TemplateType['components'] = $state(startingCompoments);
 	import Messages from '$lib/comps/forms/whatsapp/messages/Messages.svelte';
 	let loading: boolean = $state(false);
@@ -66,7 +64,7 @@
 				onselect={async (template) => {
 					loading = true;
 					templateId = template.id;
-					const output = updateStartingComponents(template, actions);
+					const output = updateComponents(template, actions);
 					components = output.components;
 					actions = output.actions;
 					await updateThread();

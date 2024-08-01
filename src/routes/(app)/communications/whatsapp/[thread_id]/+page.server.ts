@@ -15,28 +15,10 @@ export async function load(event) {
 	if (!threadResult.ok) return loadError(threadResult);
 	const threadBody = await threadResult.json();
 	const threadParsed = parse(read, threadBody);
-	console.log('threadParsed.actions');
-	console.log(threadParsed.actions);
 	return {
+		actions: { ...threadParsed.actions }, //this is because I hit on a weird hydration bug where the actions object was being mutated by the formAction function somehow... shallow cloning the actions object fixed it.
 		templates: parsed,
 		thread: threadParsed,
 		pageTitle: [{ key: 'THREADNAME', title: threadParsed.name }]
 	};
 }
-
-export const actions = {
-	upload: async function (event) {
-		const formData = Object.fromEntries(await event.request.formData());
-		if (
-			!(formData.fileToUpload as File).name ||
-			(formData.fileToUpload as File).name === 'undefined'
-		) {
-			return fail(400, {
-				error: true,
-				message: 'You must provide a file to upload'
-			});
-		}
-
-		const { fileToUpload } = formData as { fileToUpload: File };
-	}
-};
