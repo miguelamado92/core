@@ -58,7 +58,7 @@ export function renderBreadcrumb(
 	const [keyword, fallback] = parts;
 	let returnValue = fallback;
 	pageTitle.forEach((item) => {
-		console.log(item.key, keyword, fallback, item.key === keyword, item.title);
+		//console.log(item.key, keyword, fallback, item.key === keyword, item.title);
 		if (item.key === keyword) returnValue = item.title;
 	});
 

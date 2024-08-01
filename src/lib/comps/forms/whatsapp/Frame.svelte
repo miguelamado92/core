@@ -14,8 +14,8 @@
 	<div class="flex">
 		<div
 			class="bg-white rounded-lg border text-sm text-left"
-			class:bg-primary-500={selected}
-			class:border-primary-500={selected}
+			class:bg-blue-500={selected}
+			class:border-blue-500={selected}
 			class:text-white={selected}
 			class:p-2={!removePadding}
 			class:py-1.5={!removePadding}

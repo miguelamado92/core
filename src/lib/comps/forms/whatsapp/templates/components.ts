@@ -16,9 +16,7 @@ export function extractTemplateMessageParams(array: TemplateMessage['components'
 export function interpolateTextParams(text: string, params: HeaderParams[]) {
 	if (!params) return text;
 	const textParams = params.filter((param) => param.type === 'text');
-	console.log(text, params, textParams);
 	return text.replace(/{{(\d+)}}/g, function (match, number) {
-		console.log(match, number);
 		const index = parseInt(number, 10);
 		return textParams[index - 1].text; //in the text the params are {{index}} and index is 1-based
 	});
@@ -73,6 +71,7 @@ export function createMessageComponentsFromTemplateComponents(
 	threadMessage: ReadThread['template_message']
 ): { components: TemplateMessage['components']; actions: ReadThread['actions'] } {
 	const { header, body, buttons } = extractComponents(componentArray);
+	const actionsObject = { ...actions };
 	const message = extractTemplateMessageComponents(threadMessage.template.components);
 	const components: TemplateMessage['components'] = [];
 	if (header) {
@@ -216,9 +215,10 @@ export function createMessageComponentsFromTemplateComponents(
 					break;
 				}
 			}
-			actions[buttonId] = [];
+
+			actionsObject[buttonId] = actionsObject[buttonId]?.length > 0 ? actionsObject[buttonId] : [];
 		});
 		components.push(...buttonParams);
 	}
-	return { components, actions };
+	return { components, actions: actionsObject };
 }
