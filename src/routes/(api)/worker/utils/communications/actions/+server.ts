@@ -1,16 +1,15 @@
 import { json, pino, error } from '$lib/server';
 import { triggerAction } from '$lib/schema/communications/actions/actions';
 import { parse } from '$lib/schema/valibot';
-import { _getActions } from '$lib/server/api/communications/whatsapp/messages.js';
+import { _getActions, _getByAction } from '$lib/server/api/communications/whatsapp/messages.js';
 import { sendMessage } from '$lib/schema/communications/whatsapp/elements/message';
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
 		const parsed = parse(triggerAction, body);
-		const actions = await _getActions({
-			instanceId: event.locals.instance.id,
+		const { messageId, actions } = await _getByAction({
 			t: event.locals.t,
-			actionId: parsed.action_id
+			action: parsed.action_id
 		});
 		for (const action of actions) {
 			switch (action.type) {

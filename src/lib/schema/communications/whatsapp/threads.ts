@@ -1,4 +1,4 @@
-import { v, id, mediumString, timestamp, count, language, shortString } from '$lib/schema/valibot';
+import { v, id, mediumString, timestamp, count, uuid, shortString } from '$lib/schema/valibot';
 import { messageTypes } from '$lib/schema/communications/whatsapp/elements/message';
 import { actions } from '$lib/schema/communications/actions/actions';
 export const base = v.object({
@@ -7,7 +7,8 @@ export const base = v.object({
 	instance_id: id,
 	actions: actions,
 	name: shortString,
-	template_message: messageTypes.template, //has params
+	//template_message: messageTypes.template, //has params
+	template_message_id: uuid,
 	point_person_id: id,
 	created_at: timestamp,
 	updated_at: timestamp
@@ -30,7 +31,7 @@ export const update = v.partial(
 	v.object({
 		name: v.optional(base.entries.name),
 		actions: v.optional(base.entries.actions),
-		template_message: v.optional(base.entries.template_message),
+		//template_message: v.optional(base.entries.template_message),
 		template_id: v.optional(base.entries.template_id)
 	})
 );

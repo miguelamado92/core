@@ -10,10 +10,12 @@ export async function create({
 	instanceId,
 	threadId,
 	adminId,
+	queue,
 	body
 }: {
 	instanceId: number;
 	threadId: number;
+	queue: App.Queue;
 	adminId: number;
 	body: schema.Create;
 }): Promise<schema.Read> {
@@ -27,6 +29,7 @@ export async function create({
 	const parsedInserted = parse(schema.read, inserted);
 	await redis.del(redisString(instanceId, threadId, 'all'));
 	await redis.set(redisString(instanceId, threadId, parsedInserted.id), parsedInserted);
+	await queue('/whatsapp/send_thread', instanceId, parsedInserted, adminId);
 	return parsedInserted;
 }
 
@@ -60,7 +63,7 @@ export async function read({
 	return parse(schema.read, selected);
 }
 
-export async function listForMessage({
+export async function listForThread({
 	instanceId,
 	threadId,
 	t,

@@ -6,7 +6,7 @@ export const base = v.object({
 	list_id: id,
 	sent_by_id: id,
 	started_at: timestamp,
-	completed_at: timestamp
+	completed_at: v.nullable(timestamp)
 });
 
 export const read = base;

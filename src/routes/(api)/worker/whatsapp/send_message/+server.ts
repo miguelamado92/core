@@ -4,15 +4,12 @@ import {
 	sendMessage,
 	type MessageWithBase
 } from '$lib/schema/communications/whatsapp/elements/message';
-import { create as createInteraction } from '$lib/server/api/people/interactions';
-import { create as createInteractionSchema } from '$lib/schema/people/interactions';
 import { read as readMessage } from '$lib/server/api/communications/whatsapp/messages';
 import { parse } from '$lib/schema/valibot';
 import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { _updateWhatsappId, read } from '$lib/server/api/people/people';
-import { create as createSentMessage } from '$lib/server/api/communications/whatsapp/sent_messages';
-import { type Create } from '$lib/schema/communications/whatsapp/sent_whatsapp_messages';
 
+import type { AfterSend } from '$lib/schema/communications/whatsapp/worker/sending.js';
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
@@ -46,81 +43,36 @@ export async function POST(event) {
 			recipient_type: 'individual',
 			...message.message
 		};
-
 		const response = await fetch(`https://graph.facebook.com/v20.0/${PHONE_NUMBER_ID}/messages`, {
 			body: JSON.stringify(messageBody),
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${WHATSAPP_ACCESS_KEY}`
-			}
+			},
+			method: 'POST'
 		});
 		if (response.ok) {
 			const body = await response.json();
 			const parsed = parse(successfulResponse, body);
-			//for each contacts, update whatsapp id
-			for (const contact of parsed.contacts) {
-				//update contact
-				await _updateWhatsappId({
-					instanceId: event.locals.instance.id,
-					personId: parsedMessage.person_id,
-					whatsappId: contact.wa_id
-				});
-			}
-			//for each messages, create a sent message.
-			for (const sentMessage of parsed.messages) {
-				//create sent message
-				const sentMessageBody: Create = {
-					person_id: parsedMessage.person_id,
-					message_id: parsedMessage.message_id,
-					message: message.message,
-					wamid: sentMessage.id
-				};
-				//TODO: Handle situations where message.message_status is not 'accepted', but rather sent for quality evaulation. The sent message should make that v.clear
-				await createSentMessage({
-					instanceId: event.locals.instance.id,
-					body: sentMessageBody,
-					t: event.locals.t
-				});
 
-				const interaction = {
-					person_id: parsedMessage.person_id,
-					admin_id: parsedMessage.from_admin_id,
-					details: {
-						type: 'outbound_whatsapp',
-						message_id: parsedMessage.message_id,
-						message: message.message
-					}
-				};
-				const interactionParsed = parse(createInteractionSchema, interaction);
-				await createInteraction({
-					instanceId: event.locals.instance.id,
-					body: interactionParsed,
-					t: event.locals.t
-				});
-			}
-		}
-
-		//this is when we have a message that should immediately have a message sent out after it. Eg, we send an image, then ask a question about that image in the following message.
-		if (message.next) {
-			const nextMessage = await readMessage({
-				instanceId: event.locals.instance.id,
-				messageId: message.next,
-				t: event.locals.t
-			});
-			const toSend = {
+			const afterSendBody: AfterSend = {
+				message_id: parsedMessage.message_id,
+				sent_by_id: parsedMessage.from_admin_id,
 				person_id: parsedMessage.person_id,
-				message_id: message.next,
-				message: nextMessage.message,
-				from_admin_id: parsedMessage.from_admin_id
+				message: message.message,
+				whatsapp_response: parsed
 			};
 			await event.locals.queue(
-				'/whatsapp/send_message',
+				'/whatsapp/after_sent',
 				event.locals.instance.id,
-				toSend,
+				afterSendBody,
 				event.locals.admin.id
 			);
+		} else {
+			console.log('Whatsapp responded with an error');
+			console.log(response.status);
+			console.log(await response.json());
 		}
-
 		return json({ success: true });
 	} catch (err) {
 		return error(
