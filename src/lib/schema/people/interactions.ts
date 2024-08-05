@@ -9,6 +9,8 @@ import {
 } from '$lib/schema/valibot';
 
 import { message as whatsappMessage } from '$lib/schema/communications/whatsapp/elements/message';
+import { template as templateMessage } from '$lib/schema/communications/whatsapp/elements/template';
+import { message as whatsappWebhookMessage } from '$lib/schema/communications/whatsapp/webhooks/messages';
 
 export const addedAndJoinedTypes = {
 	manual: v.object({ method: v.literal('manual') }),
@@ -76,12 +78,13 @@ export const interactionTypes = {
 	outbound_whatsapp: v.object({
 		type: v.literal('outbound_whatsapp'),
 		message_id: uuid,
-		message: whatsappMessage
+		message: whatsappMessage,
+		template: v.optional(templateMessage)
 	}),
 	inbound_whatsapp: v.object({
 		type: v.literal('inbound_whatsapp'),
 		message_id: uuid,
-		message: whatsappMessage
+		message: whatsappWebhookMessage
 	}),
 	email_outbound: v.object({
 		type: v.literal('email_outbound'),
@@ -187,7 +190,9 @@ export const interactionTypes = {
 		group_id: id
 	})
 };
-
+export type InteractionTypeOutboundWhatsapp = v.InferOutput<
+	typeof interactionTypes.outbound_whatsapp
+>;
 export const interactionType = v.variant('type', Array.from(Object.values(interactionTypes)));
 export type InteractionType = v.InferOutput<typeof interactionType>;
 import { read as readAdmin } from '$lib/schema/core/admin';
