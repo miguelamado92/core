@@ -42,9 +42,57 @@ export default function (locale: SL) {
 						zh: `您请求的电子邮件地址${email || '已'}已从我们的邮件列表中取消订阅。`
 					});
 				}
+			},
+			nouns: {
+				template: () => {
+					return t(locale, {
+						en: 'Template',
+						ja: 'テンプレート',
+						pt: 'Modelo',
+						es: 'Plantilla',
+						fr: 'Modèle',
+						sw: 'Kiolezo',
+						th: 'เทมเพลต',
+						zh: '模板'
+					});
+				}
 			}
 		},
 		status: {
+			sending: () => {
+				return t(locale, {
+					en: 'Sending',
+					ja: '送信中',
+					pt: 'Enviando',
+					es: 'Enviando',
+					fr: 'Envoi en cours',
+					sw: 'Inatuma',
+					th: 'กำลังส่ง',
+					zh: '发送中'
+				});
+			},
+			sent: () => {
+				return t(locale, {
+					en: 'Sent',
+					ja: '送信済み',
+					pt: 'Enviado',
+					es: 'Enviado',
+					fr: 'Envoyé',
+					sw: 'Imetumwa',
+					th: 'ส่งแล้ว',
+					zh: '已发送'
+				});
+			},
+			completed: {
+				en: 'Completed',
+				ja: '完了',
+				pt: 'Concluído',
+				es: 'Completado',
+				fr: 'Terminé',
+				sw: 'Imekamilika',
+				th: 'เสร็จสิ้น',
+				zh: '已完成'
+			},
 			active: () => {
 				return t(locale, {
 					en: 'Active',

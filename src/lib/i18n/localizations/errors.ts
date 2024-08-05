@@ -125,6 +125,22 @@ export default function (locale: SL) {
 				zh: '提供的信息无效。 请检查值并重试。'
 			});
 		},
+		communications: {
+			whatsapp: {
+				no_active_conversation: () => {
+					return t(locale, {
+						en: `There is no active conversation with this person.`,
+						ja: 'この人物とのアクティブな会話はありません。',
+						pt: 'Não há uma conversa ativa com esta pessoa.',
+						es: 'No hay una conversación activa con esta persona.',
+						fr: "Il n'y a pas de conversation active avec cette personne.",
+						sw: 'Hakuna mazungumzo yanayoendelea na mtu huyu.',
+						th: 'ไม่มีการสนทนาที่กำลังเกิดขึ้นกับคนนี้',
+						zh: '与此人没有活动对话。'
+					});
+				}
+			}
+		},
 		http: {
 			500: () => {
 				return t(locale, {

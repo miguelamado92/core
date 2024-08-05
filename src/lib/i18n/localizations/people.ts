@@ -56,6 +56,18 @@ export default function (locale: SL) {
 		},
 		interactions: {
 			create_types: {
+				whatsapp_msg_input_placeholder: () => {
+					return t(locale, {
+						en: 'Type a message...',
+						ja: 'メッセージを入力...',
+						pt: 'Digite uma mensagem...',
+						es: 'Escribe un mensaje...',
+						fr: 'Tapez un message...',
+						sw: 'Andika ujumbe...',
+						th: 'พิมพ์ข้อความ...',
+						zh: '输入消息...'
+					});
+				},
 				notes_input_placeholder: () => {
 					return t(locale, {
 						en: 'Add a note...',
@@ -78,6 +90,18 @@ export default function (locale: SL) {
 						sw: 'Maelezo',
 						th: 'บันทึก',
 						zh: '笔记'
+					});
+				},
+				whatsapp: () => {
+					return t(locale, {
+						en: 'WhatsApp',
+						ja: 'WhatsApp',
+						pt: 'WhatsApp',
+						es: 'WhatsApp',
+						fr: 'WhatsApp',
+						sw: 'WhatsApp',
+						th: 'WhatsApp',
+						zh: 'WhatsApp'
 					});
 				},
 				phone_call_outbound: () => {
