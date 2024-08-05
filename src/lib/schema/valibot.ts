@@ -150,7 +150,7 @@ export const phoneNumber = v.pipe(
 );
 
 export { DEFAULT_COUNTRY, DEFAULT_LANGUAGE };
-export { v };
+
 export const parse = v.parse;
 export const safeParse = v.safeParse;
 export const parseAsync = v.parseAsync;
@@ -195,3 +195,5 @@ export function renderValiError(err: unknown):
 		return { isValiError: false };
 	}
 }
+
+export { v };
