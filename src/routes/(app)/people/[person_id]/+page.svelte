@@ -21,28 +21,34 @@
 	import { list as listParseSchema } from '$lib/schema/people/interactions';
 	import LogInteraction from '$lib/comps/widgets/interactions/LogInteraction.svelte';
 	let timer: null | ReturnType<typeof setInterval> = $state(null);
+	async function fetchLatestInteractions() {
+		const result = await fetch(`/api/v1/people/${data.person.id}/interactions`);
+		if (result.ok) {
+			const body = await result.json();
+			const parsed = parse(listParseSchema, body);
+			data.person.interactions = parsed;
+		}
+	}
+
 	onMount(() => {
 		document.querySelector('#bottom')?.scrollIntoView({ behavior: 'smooth' });
-		timer = setInterval(async () => {
-			const result = await fetch(`/api/v1/people/${data.person.id}/interactions`);
-			if (result.ok) {
-				const body = await result.json();
-				const parsed = parse(listParseSchema, body);
-				data.person.interactions = parsed;
-			}
-		}, 30000);
+		timer = setInterval(async () => await fetchLatestInteractions(), 30000);
 	});
 	onDestroy(() => {
 		if (timer) clearInterval(timer);
 	});
 
-	function handleAddInteraction(interaction: (typeof data.person.interactions)[0]) {
-		const parsed = parse(listParseSchema.item, interaction);
-		data.person.interactions = [parsed, ...data.person.interactions];
-		setTimeout(
-			() => document.querySelector('#bottom')?.scrollIntoView({ behavior: 'smooth' }),
-			100
-		);
+	async function handleAddInteraction(
+		interaction: (typeof data.person.interactions)[0] | undefined
+	) {
+		if (interaction) {
+			const parsed = parse(listParseSchema.item, interaction);
+			data.person.interactions = [parsed, ...data.person.interactions];
+		}
+		setTimeout(async () => {
+			await fetchLatestInteractions();
+			document.querySelector('#bottom')?.scrollIntoView({ behavior: 'smooth' });
+		}, 1000);
 	}
 	let interactionsArray = $derived(data.person.interactions.toReversed());
 </script>
