@@ -5,7 +5,6 @@
 	import { type Template as TemplateType } from '$lib/schema/communications/whatsapp/elements/template_message';
 	import { list, type List } from '$lib/schema/communications/whatsapp/messages';
 	import { type Read as ReadThread } from '$lib/schema/communications/whatsapp/threads';
-	import { type Read as ReadMessage } from '$lib/schema/communications/whatsapp/messages';
 
 	type Props = {
 		selectedIndex: number;
