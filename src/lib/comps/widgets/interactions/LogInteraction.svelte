@@ -28,6 +28,33 @@
 	let flash = getFlash(page);
 	let notes: string | undefined = $state(undefined);
 
+	let activeConversation: boolean = $state(false);
+	let activeConversationLoading: boolean = $state(false);
+
+	async function getConversationStatus() {
+		try {
+			activeConversationLoading = true;
+			activeConversation = false;
+			const response = await fetch(
+				`/api/v1/people/${personId}/communication/whatsapp/conversations`
+			);
+			if (response.ok) {
+				const body = await response.json();
+				if (body.active) activeConversation = body.active;
+			} else {
+				throw new Error();
+			}
+		} catch (err) {
+			if (err instanceof Error) {
+				$flash = { type: 'error', message: err?.message || $page.data.t.errors.generic() };
+			} else {
+				$flash = { type: 'error', message: $page.data.t.errors.generic() };
+			}
+		} finally {
+			activeConversationLoading = false;
+		}
+	}
+
 	async function logInteraction(e: SubmitEvent) {
 		try {
 			e.preventDefault();
@@ -51,8 +78,6 @@
 			} else {
 				throw new Error();
 			}
-			//}
-
 			$flash = { type: 'success', message: $page.data.t.forms.actions.created() };
 		} catch (err) {
 			if (err instanceof Error) {
@@ -73,7 +98,15 @@
 		method="post"
 		action="?/sendWhatsappMessage"
 	>
-		<Select.Root items={types} bind:selected>
+		<Select.Root
+			items={types}
+			bind:selected
+			onSelectedChange={async (val) => {
+				if (val && val.value === 'outbound_whatsapp') {
+					await getConversationStatus();
+				}
+			}}
+		>
 			<Select.Trigger class="w-[160px]">
 				<Select.Value placeholder="[Interaction]" />
 			</Select.Trigger>
@@ -87,18 +120,44 @@
 			<Select.Input name="type" />
 		</Select.Root>
 		<div class="flex-grow">
-			<Input
-				bind:value={notes}
-				name="message"
-				class="flex items-center h-10 w-full rounded px-3 text-sm"
-				type="text"
-				placeholder={selected.value === 'outbound_whatsapp'
-					? $page.data.t.people.interactions.create_types.whatsapp_msg_input_placeholder()
-					: $page.data.t.people.interactions.create_types.notes_input_placeholder()}
-			/>
+			{#if selected.value === 'outbound_whatsapp'}
+				{#if activeConversationLoading}
+					{$page.data.t.common.status.loading()}
+				{:else if activeConversation}
+					<Input
+						bind:value={notes}
+						name="message"
+						class="flex items-center h-10 w-full rounded px-3 text-sm"
+						type="text"
+						placeholder={$page.data.t.people.interactions.create_types.whatsapp_msg_input_placeholder()}
+					/>
+				{:else}
+					<div class="text-muted-foreground text-sm flex justify-center">
+						{$page.data.t.people.interactions.create_types.whatsapp_no_conversation_active()}
+					</div>
+					<div class="flex justify-center mt-2">
+						<Button variant="secondary" href="/communications/whatsapp/new"
+							>{$page.data.t.pages.communications.whatsapp.new()}</Button
+						>
+					</div>
+				{/if}
+			{:else}
+				<Input
+					bind:value={notes}
+					name="message"
+					class="flex items-center h-10 w-full rounded px-3 text-sm"
+					type="text"
+					placeholder={$page.data.t.people.interactions.create_types.notes_input_placeholder()}
+				/>
+			{/if}
 		</div>
 		<div>
-			<Button type="submit" variant="ghost" size="sm"><Send size={20} /></Button>
+			{#if selected.value !== 'outbound_whatsapp' || activeConversation}<Button
+					type="submit"
+					variant="ghost"
+					size="sm"><Send size={20} /></Button
+				>
+			{/if}
 		</div>
 	</form>
 </div>
