@@ -14,7 +14,7 @@
 		count: number;
 		children?: Snippet;
 		content: Snippet<[T, number?]>;
-		header?: Snippet<[Snippet, string]>;
+		header?: Snippet<[Snippet<[string?]>, string]>;
 		separator?: boolean;
 		filterKey?: string;
 		pagination?: boolean;

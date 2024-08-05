@@ -7,6 +7,7 @@
 	let loading = $state(false);
 	import Pagination from '$lib/comps/ui/custom/pagination/pagination.svelte';
 	import { page } from '$app/stores';
+	import Separator from '$lib/comps/ui/separator/separator.svelte';
 
 	type Props = {
 		items: T[];
@@ -39,7 +40,6 @@
 		{#if button}{@render button()}{/if}
 	</div>
 {/snippet}
-
 {#if header}
 	<PageHeader separator={false} title={header} subtitle={subheader} button={headerSnippet}
 	></PageHeader>
@@ -48,7 +48,9 @@
 		<Filter {filterKey} bind:loading />
 	</div>
 {/if}
-
+{#if seperator}
+	<Separator class="mt-4" />
+{/if}
 {#if items.length > 0}
 	<Table.Root class="relative overflow-y-visible">
 		<Table.Body>
