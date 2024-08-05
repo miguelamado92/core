@@ -9765,9 +9765,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        message_id: string;
+        message_id: string | null;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9845,9 +9845,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        message_id: string;
+        message_id: string | null;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -9925,7 +9925,7 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
         message_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
@@ -10005,9 +10005,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        message_id: string | db.Parameter<string> | db.SQLFragment;
+        message_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -10085,9 +10085,9 @@ declare module 'zapatos/schema' {
         /**
         * **communications.sent_whatsapp_messages.message_id**
         * - `uuid` in database
-        * - `NOT NULL`, no default
+        * - Nullable, no default
         */
-        message_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        message_id?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **communications.sent_whatsapp_messages.person_id**
         * - `int4` in database
@@ -11236,7 +11236,7 @@ declare module 'zapatos/schema' {
         */
         whatsapp_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
       }
-      export type UniqueIndex = 'whatsapp_conversations_pkey';
+      export type UniqueIndex = 'whatsapp_conversations_pkey' | 'whatsapp_conversations_whatsapp_id_unique';
       export type Column = keyof Selectable;
       export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
       export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -12518,11 +12518,11 @@ declare module 'zapatos/schema' {
         */
         template_id: number;
         /**
-        * **communications.whatsapp_threads.template_message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * **communications.whatsapp_threads.template_message_id**
+        * - `uuid` in database
         * - `NOT NULL`, no default
         */
-        template_message: c.PgWhatsapp_message;
+        template_message_id: string;
         /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
@@ -12574,11 +12574,11 @@ declare module 'zapatos/schema' {
         */
         template_id: number;
         /**
-        * **communications.whatsapp_threads.template_message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * **communications.whatsapp_threads.template_message_id**
+        * - `uuid` in database
         * - `NOT NULL`, no default
         */
-        template_message: c.PgWhatsapp_message;
+        template_message_id: string;
         /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
@@ -12630,11 +12630,11 @@ declare module 'zapatos/schema' {
         */
         template_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
         /**
-        * **communications.whatsapp_threads.template_message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * **communications.whatsapp_threads.template_message_id**
+        * - `uuid` in database
         * - `NOT NULL`, no default
         */
-        template_message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn>;
+        template_message_id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
@@ -12686,11 +12686,11 @@ declare module 'zapatos/schema' {
         */
         template_id: number | db.Parameter<number> | db.SQLFragment;
         /**
-        * **communications.whatsapp_threads.template_message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * **communications.whatsapp_threads.template_message_id**
+        * - `uuid` in database
         * - `NOT NULL`, no default
         */
-        template_message: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment;
+        template_message_id: string | db.Parameter<string> | db.SQLFragment;
         /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
@@ -12742,11 +12742,11 @@ declare module 'zapatos/schema' {
         */
         template_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
         /**
-        * **communications.whatsapp_threads.template_message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * **communications.whatsapp_threads.template_message_id**
+        * - `uuid` in database
         * - `NOT NULL`, no default
         */
-        template_message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment>;
+        template_message_id?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
         /**
         * **communications.whatsapp_threads.updated_at**
         * - `timestamptz` in database
