@@ -56,20 +56,21 @@ export function countTextTemplatePlaceholders(input: string): number {
 import { v4 as uuid } from 'uuid';
 import { type Read as ReadThread } from '$lib/schema/communications/whatsapp/threads';
 
-export function extractTemplateMessageComponents(
-	componentArray: ReadThread['template_message']['template']['components']
-) {
+export function extractTemplateMessageComponents(componentArray: TemplateMessage['components']) {
 	const header = componentArray.find((component) => component.type === 'header');
 	const body = componentArray.find((component) => component.type === 'body');
 	const buttons = componentArray.filter((component) => component.type === 'button');
 	return { header, body, buttons };
 }
-
+import { type Read as ReadMessage } from '$lib/schema/communications/whatsapp/messages';
 export function createMessageComponentsFromTemplateComponents(
 	componentArray: Template['components'],
 	actions: ReadThread['actions'],
-	threadMessage: ReadThread['template_message']
+	threadMessage: ReadMessage['message']
 ): { components: TemplateMessage['components']; actions: ReadThread['actions'] } {
+	if (threadMessage.type !== 'template') {
+		return { components: [], actions };
+	}
 	const { header, body, buttons } = extractComponents(componentArray);
 	const actionsObject = { ...actions };
 	const message = extractTemplateMessageComponents(threadMessage.template.components);
@@ -180,7 +181,7 @@ export function createMessageComponentsFromTemplateComponents(
 		const buttonParams: TemplateMessageButtonComponentParameter[] = [];
 		buttons.buttons.forEach((button, i) => {
 			let buttonId = uuid();
-			if (message.buttons[i]?.subtype === 'quick_reply') {
+			if (message.buttons[i]?.sub_type === 'quick_reply') {
 				if (message.buttons[i]?.parameters[0]?.type === 'payload') {
 					buttonId = message.buttons[i].parameters[0].payload;
 				}
@@ -189,7 +190,7 @@ export function createMessageComponentsFromTemplateComponents(
 				case 'QUICK_REPLY': {
 					buttonParams.push({
 						type: 'button',
-						subtype: 'quick_reply',
+						sub_type: 'quick_reply',
 						index: i,
 						parameters: [
 							{
@@ -203,7 +204,7 @@ export function createMessageComponentsFromTemplateComponents(
 				case 'URL': {
 					buttonParams.push({
 						type: 'button',
-						subtype: 'url',
+						sub_type: 'url',
 						index: i,
 						parameters: [
 							{

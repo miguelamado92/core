@@ -5,6 +5,7 @@
 	import { type Template as TemplateType } from '$lib/schema/communications/whatsapp/elements/template_message';
 	import { list, type List } from '$lib/schema/communications/whatsapp/messages';
 	import { type Read as ReadThread } from '$lib/schema/communications/whatsapp/threads';
+	import { type Read as ReadMessage } from '$lib/schema/communications/whatsapp/messages';
 
 	type Props = {
 		selectedIndex: number;
@@ -32,7 +33,12 @@
 		role="button"
 		tabindex={0}
 	>
-		<Preview {components} selected={selectedIndex === 0} {template} />
+		<Preview
+			{components}
+			selected={selectedIndex === 0}
+			template={template?.message}
+			templateId={template?.id}
+		/>
 	</div>
 	{#if selectedIndex === 0 && template}
 		<div class="bg-white shadow px-3 py-2 rounded" transition:slide={{ axis: 'y', duration: 200 }}>

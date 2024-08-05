@@ -49,6 +49,7 @@
 		items = await load(searchString);
 		loading = false;
 	}
+	import ChevronDown from 'lucide-svelte/icons/chevron-down';
 </script>
 
 <div class="flex items-center justify-start gap-2 flex-wrap">
@@ -61,10 +62,11 @@
 				size="sm"
 				builders={[builder]}
 				variant="outline"
-				class="justify-start gap-x-1 rounded-lg px-2 py-3"
+				class="justify-start gap-x-1 rounded-lg px-2 py-3 bg-white flex items-center"
 			>
 				{#if item}
-					{item.name}
+					{$page.data.t.common.communications.nouns.template()}: {item.name}
+					<div><ChevronDown size={16} /></div>
 				{:else}
 					<Plus size={14} />
 					<div class="text-sm">{$page.data.t.forms.buttons.search()}</div>

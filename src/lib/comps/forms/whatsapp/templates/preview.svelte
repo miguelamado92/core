@@ -11,10 +11,12 @@
 	const {
 		template,
 		selected,
-		components
+		components,
+		templateId
 	}: {
-		template: Read | undefined;
+		template: Read['message'] | undefined;
 		selected: boolean;
+		templateId?: number;
 		components: TemplateType['components'];
 	} = $props();
 	import Reply from 'lucide-svelte/icons/reply';
@@ -23,11 +25,12 @@
 	import Frame from '$lib/comps/forms/whatsapp/Frame.svelte';
 	const templateMessageParams = $derived(extractTemplateMessageParams(components));
 	const templateParamIndexes = $derived(templateMessageParamsIndexes(components));
+	const displayMessageId = templateId ? `TEMPLATE:${templateId}` : null;
 </script>
 
 {#if template}
-	{@const templateComps = extractComponents(template.message.components)}
-	<Frame {selected} removePadding={true} messageId={`TEMPLATE:${template.id}`}>
+	{@const templateComps = extractComponents(template.components)}
+	<Frame {selected} removePadding={true} messageId={displayMessageId}>
 		{#if templateComps.header && templateMessageParams.header}
 			{#if templateComps.header.format === 'TEXT'}
 				<div class="font-bold padding">

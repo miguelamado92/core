@@ -2,18 +2,20 @@
 	import type { Snippet } from 'svelte';
 	type Props = {
 		selected: boolean;
-		messageId?: string;
+		messageId?: string | null;
+		noStyle?: boolean;
 		children: Snippet;
 		removePadding?: boolean;
 	};
-	let { selected, messageId, children, removePadding = false }: Props = $props();
+	let { selected, noStyle = false, messageId, children, removePadding = false }: Props = $props();
 </script>
 
 <div>
 	{#if messageId}<div class="mt-1 text-xs text-muted-foreground">MSGID:{messageId}</div>{/if}
 	<div class="flex">
 		<div
-			class="bg-white rounded-lg border text-sm text-left"
+			class={noStyle ? '' : 'rounded-lg border text-sm text-left'}
+			class:bg-white={!selected}
 			class:bg-blue-500={selected}
 			class:border-blue-500={selected}
 			class:text-white={selected}
