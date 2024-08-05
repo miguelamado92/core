@@ -22,6 +22,9 @@
 	import CalendarMinus from 'lucide-svelte/icons/calendar-minus';
 	import CalendarCheck from 'lucide-svelte/icons/calendar-check';
 	import CalendarX from 'lucide-svelte/icons/calendar-x';
+
+	import RenderInboundWhatsapp from '$lib/comps/widgets/interactions/RenderInboundWhatsapp.svelte';
+	import RenderOutboundWhatsapp from '$lib/comps/widgets/interactions/RenderOutboundWhatsapp.svelte';
 </script>
 
 {#if interaction.details.type === 'person_added'}
@@ -85,6 +88,25 @@
 		interaction.created_at,
 		Mail
 	)}
+{/if}
+
+{#if interaction.details.type === 'outbound_whatsapp'}
+	<RenderOutboundWhatsapp
+		messageId={interaction.details.message_id}
+		message={interaction.details.message}
+		template={interaction.details.template}
+		admin={interaction.admin}
+		timeAgo={interaction.created_at}
+	/>
+{/if}
+
+{#if interaction.details.type === 'inbound_whatsapp'}
+	<RenderInboundWhatsapp
+		{person}
+		timeAgo={interaction.created_at}
+		messageId={interaction.details.message_id}
+		message={interaction.details.message}
+	/>
 {/if}
 
 {#if interaction.details.type === 'signed_petition'}
@@ -306,11 +328,15 @@
 	<div class="flex w-full mt-2 space-x-3 max-w-xl">
 		<Avatar profile_picture_url={null} full_name={user.full_name} class="h-10 w-10" />
 		<div>
-			<div class="bg-gray-300 p-3 rounded-r-lg rounded-bl-lg flex gap-2 items-start">
-				<div class="mt-0.5"><svelte:component this={icon} class="opacity-70" size={20} /></div>
-				<p class="text-sm">{@html message}</p>
+			<div class="flex">
+				<div class="mt-1 px-2 py-1.5 border rounded-lg text-sm">
+					{@html message}
+				</div>
 			</div>
-			<span class="text-xs text-gray-500 leading-none">{$page.data.timeAgo.format(timeAgo)}</span>
+			<div class="flex gap-1 items-center mt-1">
+				<div><svelte:component this={icon} class="h-4 w-4 text-gray-500" /></div>
+				<span class="text-xs text-gray-500 leading-none">{$page.data.timeAgo.format(timeAgo)}</span>
+			</div>
 		</div>
 	</div>
 {/snippet}
@@ -318,15 +344,15 @@
 {#snippet adminMessage(admin: ReadAdmin, message: string, timeAgo: Date, icon: ComponentType<Icon> | Component)}
 	<div class="flex w-full mt-2 space-x-3 max-w-xl ml-auto justify-end">
 		<div>
-			<div class="bg-blue-600 text-white p-3 rounded-l-lg rounded-md flex items-start gap-2">
-				<div class="mt-0.5"><svelte:component this={icon} class="opacity-70" size={20} /></div>
-				<div class="flex-grow">
-					<p class="text-sm flex-grow">
-						{@html message}
-					</p>
+			<div class="flex justify-end">
+				<div class="mt-1 px-2 py-1.5 bg-blue-500 text-white rounded-lg text-sm">
+					{@html message}
 				</div>
 			</div>
-			<span class="text-xs text-gray-500 leading-none">{$page.data.timeAgo.format(timeAgo)}</span>
+			<div class="flex gap-1 items-center mt-1">
+				<div><svelte:component this={icon} class="h-4 w-4 text-gray-500" /></div>
+				<span class="text-xs text-gray-500 leading-none">{$page.data.timeAgo.format(timeAgo)}</span>
+			</div>
 		</div>
 		<Avatar
 			profile_picture_url={admin.profile_picture_url}
