@@ -1,6 +1,6 @@
 <script lang="ts">
 	const { data } = $props();
-	let actions = $state({ ...data.thread.actions });
+	let actions = $state({ ...data.templateMessage.actions });
 	import { page } from '$app/stores';
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import Template from '$lib/comps/forms/whatsapp/templates/Template.svelte';
@@ -13,17 +13,19 @@
 	import { type Read as ReadThread } from '$lib/schema/communications/whatsapp/threads';
 	function updateComponents(
 		template: (typeof data.templates.items)[0],
-		actions: ReadThread['actions'] = data.actions
+		actions: ReadThread['actions'] = data.templateMessage.actions
 	) {
 		return createMessageComponentsFromTemplateComponents(
 			template.message.components,
 			actions,
-			data.thread.template_message
+			data.templateMessage.message
 		);
 	}
 	//not sure about this warning... looks like it was fixed https://github.com/sveltejs/svelte/pull/11540
-	const startingCompoments = template ? updateComponents(template, actions).components : [];
-	let components: TemplateType['components'] = $state(startingCompoments);
+	const startingCompoments = () => {
+		return template ? updateComponents(template, actions).components : [];
+	};
+	let components: TemplateType['components'] = $state(startingCompoments());
 	import Messages from '$lib/comps/forms/whatsapp/messages/Messages.svelte';
 	let loading: boolean = $state(false);
 
@@ -37,20 +39,31 @@
 		const res = await fetch(`/api/v1/communications/whatsapp/threads/${data.thread.id}`, {
 			method: 'PUT',
 			body: JSON.stringify({
-				actions,
-				template_id: templateId,
-				template_message: {
-					template_id: templateId,
-					...data.thread.template_message,
-					template: {
-						...data.thread.template_message.template,
-						components: components
-					}
-				}
+				template_id: templateId
 			})
 		});
 		if (!res.ok) {
 			console.error('Failed to update thread', res);
+		}
+		if (data.templateMessage.message.type === 'template') {
+			const messageRes = await fetch(
+				`/api/v1/communications/whatsapp/messages/${data.templateMessage.id}`,
+				{
+					method: 'PUT',
+					body: JSON.stringify({
+						actions: actions,
+						message: {
+							template_id: templateId,
+							...data.templateMessage.message,
+							template: {
+								...data.templateMessage.message.template,
+								name: template?.message.name,
+								components: components
+							}
+						}
+					})
+				}
+			);
 		}
 		loading = false;
 	}
@@ -59,6 +72,16 @@
 <PageHeader title={'Edit thread'}>
 	{#snippet button()}
 		<div class="flex justify-end gap-2">
+			<Button variant="secondary" href="/communications/whatsapp/{data.thread.id}/sends">
+				Send
+			</Button>
+			<Button onclick={updateThread}>{data.t.forms.buttons.save()}</Button>
+		</div>
+	{/snippet}
+</PageHeader>
+<div class="relative">
+	<div class="w-full mt-6">
+		<div class="flex justify-center mb-4">
 			<TemplateSelectDropdown
 				value={templateId}
 				onselect={async (template) => {
@@ -71,12 +94,7 @@
 					loading = false;
 				}}
 			/>
-			<Button onclick={updateThread}>{data.t.forms.buttons.save()}</Button>
 		</div>
-	{/snippet}
-</PageHeader>
-<div class="relative">
-	<div class="w-full mt-6">
 		<Template bind:selectedIndex bind:actions {messages} {template} bind:components />
 	</div>
 

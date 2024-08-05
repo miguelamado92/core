@@ -9,10 +9,11 @@
 	items={data.threads.items}
 	count={data.threads.count}
 	header={data.t.pages.communications.whatsapp.index()}
+	seperator={true}
 >
 	{#snippet content(send: typeof data.threads.items[0])}
 		<div class="flex items-center gap-2 justify-between">
-			<div>{send.name}</div>
+			<div class="font-medium">{send.name}</div>
 			<Button href={`/communications/whatsapp/${send.id}`} variant="default" size="sm">
 				{data.t.forms.buttons.view()}
 			</Button>

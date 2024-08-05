@@ -1,68 +1,48 @@
 <script lang="ts">
 	const { data } = $props();
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
-	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import H1 from '$lib/comps/typography/H3.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import CirclePlus from 'lucide-svelte/icons/circle-plus';
-	let newSendOpen = $state(false);
-	import { create } from '$lib/schema/communications/whatsapp/sends';
-	import {
-		superForm,
-		valibotClient,
-		Input,
-		Grid,
-		Debug,
-		Error,
-		Button as FormButton
-	} from '$lib/comps/ui/forms';
-	import ListDropdown from '$lib/comps/widgets/lists/ListDropdown.svelte';
-	const form = superForm(data.form, {
-		validators: valibotClient(create),
-		dataType: 'json'
-	});
-	const { form: formData, enhance, message } = form;
+
+	import { Badge } from '$lib/comps/ui/badge/index.js';
+	import Check from 'lucide-svelte/icons/check';
+	import CheckCheck from 'lucide-svelte/icons/check-check';
 </script>
 
 <DataGrid items={data.sends.items} count={data.sends.count}>
 	{#snippet header(filter, filterKey)}
 		<div class="w-full">
 			<div class="flex justify-between items-center w-full">
-				<div><H1>Title</H1></div>
+				<div><H1>Sends</H1></div>
 				<div class="flex items-center gap-2">
-					<Button
-						variant="secondary"
-						class="flex gap-1 items-center"
-						onclick={() => (newSendOpen = !newSendOpen)}
-					>
-						<CirclePlus size={16} /> New send
-					</Button>
 					{@render filter(filterKey)}
+					<Button href="/communications/whatsapp/{data.thread.id}/sends/new">New</Button>
 				</div>
 			</div>
-			{#if newSendOpen}
-				<form use:enhance method="post">
-					<Grid cols={1} class="mt-4">
-						<Error errors={$message} />
-						<div class="flex items-center gap-4">
-							<div>Choose list:</div>
-							<ListDropdown bind:value={$formData.list_id} />
-							<FormButton>{data.t.forms.buttons.send()}</FormButton>
-						</div>
-						<Debug data={$formData} />
-					</Grid>
-				</form>
-			{/if}
 		</div>
 	{/snippet}
 
-	{#snippet content(send: typeof data.sends.items[0], i: number)}
-		<div class="flex items-center justify-between p-4">
-			<div class="flex items">
-				<p>{send.id}</p>
-				<p>{send.list_id}</p>
-				<p>{send.thread_id}</p>
+	{#snippet content(send: typeof data.sends.items[0], i: number | undefined)}
+		<div class="flex items-center justify-between p-4 gap-2">
+			<div class="flex items-center justify-start gap-2">
+				<div>
+					<div class="font-medium">{send.list.name}</div>
+					<div class="text-muted-foreground text-sm font-light">
+						{data.timeAgo.format(send.started_at)}
+					</div>
+				</div>
 			</div>
+			{#if send.started_at && !send.completed_at}
+				<div>
+					<Badge>{data.t.common.status.sending()}</Badge>
+				</div>
+			{/if}
+			{#if send.completed_at}
+				<div>
+					<Badge variant="outline"><Check size={12} /> {send.delivered}</Badge>
+					<Badge variant="outline"><CheckCheck size={12} /> {send.read}</Badge>
+				</div>
+			{/if}
 		</div>
 	{/snippet}
 </DataGrid>
