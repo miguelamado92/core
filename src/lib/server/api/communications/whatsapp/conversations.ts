@@ -57,7 +57,7 @@ export async function read({
 	const parsedResult = parse(schema.read, result);
 
 	await personExists({ instanceId, personId: parsedResult.person_id, t: t });
-	await threadExists({ instanceId, threadId: parsedResult.thread_id, t: t });
+	//await threadExists({ instanceId, threadId: parsedResult.thread_id, t: t });
 
 	return parsedResult;
 }
@@ -169,4 +169,52 @@ export async function update({
 	await redis.del(redisStringThread(instanceId, parsedResult.thread_id));
 	await redis.del(redisStringPerson(instanceId, parsedResult.person_id));
 	return parsedResult;
+}
+
+export async function _idempotentUpdateExpiryTime({
+	whatsappId,
+	expiresAt
+}: {
+	whatsappId: string;
+	expiresAt: Date;
+}) {
+	await db
+		.update(
+			'communications.whatsapp_conversations',
+			{ expires_at: expiresAt },
+			{ whatsapp_id: whatsappId }
+		)
+		.run(pool);
+}
+
+export async function getActiveForPerson({
+	instanceId,
+	personId,
+	t
+}: {
+	instanceId: number;
+	personId: number;
+	t: App.Localization;
+}): Promise<boolean> {
+	await personExists({ instanceId, personId, t });
+	const result = await db
+		.select('communications.whatsapp_conversations', {
+			person_id: personId,
+			expires_at: db.conditions.after(db.conditions.now)
+		})
+		.run(pool)
+		.catch((err) => {
+			throw new BelcodaError(
+				404,
+				'DATA:COMMUNICATIONS:WHATSAPP:CONVERSATIONS:READ:01',
+				t.errors.not_found(),
+				err
+			);
+		});
+
+	if (result.length > 0) {
+		return true;
+	} else {
+		return false;
+	}
 }

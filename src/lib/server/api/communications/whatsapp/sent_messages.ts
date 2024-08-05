@@ -1,4 +1,4 @@
-import { db, pool, redis, filterQuery, BelcodaError } from '$lib/server';
+import { db, pool, redis, pino, filterQuery, BelcodaError } from '$lib/server';
 import { parse } from '$lib/schema/valibot';
 
 import * as schema from '$lib/schema/communications/whatsapp/sent_whatsapp_messages';
@@ -8,6 +8,7 @@ function redisString(instanceId: number, personId: number) {
 	return `i:${instanceId}:person:${personId}:sent_whatsapp_messages`;
 }
 
+const log = pino('data:/communications/whatsapp/sent_messages');
 export async function create({
 	instanceId,
 	body,
@@ -105,7 +106,10 @@ export async function update({
 	const parsed = parse(schema.update, body);
 	await personExists({ instanceId, personId, t });
 	const result = await db
-		.update('communications.sent_whatsapp_messages', parsed, { person_id: personId, id: messageId })
+		.update('communications.sent_whatsapp_messages', parsed, {
+			person_id: personId,
+			message_id: messageId
+		})
 		.run(pool);
 	if (result.length !== 1) {
 		throw new BelcodaError(

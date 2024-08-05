@@ -1,5 +1,5 @@
 import { db, pool, redis, pino, BelcodaError, error, filterQuery, type s } from '$lib/server';
-
+import { format } from 'node-pg-format';
 import * as schema from '$lib/schema/people/people';
 import { read as instanceApi } from '$lib/server/api/core/instances';
 
@@ -211,11 +211,13 @@ export async function getIdsFromEmailPhoneNumber({
 	email?: string | null;
 	phoneNumber?: string | null;
 }): Promise<number[]> {
+	log.debug('getIdsFromEmailPhoneNumber');
 	const peopleIds = await db.sql<s.people.people.SQL, s.people.people.Selectable[]>`
 	SELECT id FROM ${'people.people'} WHERE (email->>'email' = ${db.param(email)} OR phone_number->>'phone_number' = ${db.param(phoneNumber)}) AND ${'instance_id'} = ${db.param(instanceId)}`.run(
 		pool
 	);
 	const ids = peopleIds.map((f) => f.id);
+	log.debug('getIdsFromEmailPhoneNumber done');
 	return ids;
 }
 
@@ -323,11 +325,17 @@ export async function _updateWhatsappId({
 	personId: number;
 	whatsappId: string;
 }): Promise<true> {
-	await db.sql`UPDATE ${'people.people'} SET phone_number->>'whatsapp_id' = ${db.param(whatsappId)} WHERE id = ${db.param(personId)} AND instance_id = ${db.param(instanceId)}`.run(
-		pool
+	log.debug('_updateWhatsappId');
+	const sql = format(
+		`UPDATE people.people SET "phone_number" = jsonb_set("phone_number", '{whatsapp_id}', %L) WHERE id = %L AND instance_id = %L`,
+		`"${whatsappId}"`,
+		personId,
+		instanceId
 	);
+	await db.sql`${db.raw(sql)}`.run(pool);
 	await redis.del(redisString(instanceId, personId));
 	await redis.del(redisString(instanceId, 'all'));
+	log.debug('_updateWhatsappId done');
 	return true;
 }
 import { parsePhoneNumber } from 'awesome-phonenumber';
@@ -343,6 +351,8 @@ export async function _getPersonByWhatsappId({
 }): Promise<schema.Read> {
 	const phoneNumber = parsePhoneNumber(whatsappId);
 	const parsedPhoneNumber = phoneNumber.valid ? phoneNumber.number.e164 : whatsappId;
+	log.debug('_getPersonByWhatsappId');
+	log.debug(whatsappId);
 	const person =
 		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(whatsappId)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)}) AND instance_id = ${db.param(instanceId)}`.run(
 			pool
@@ -355,5 +365,6 @@ export async function _getPersonByWhatsappId({
 			t.errors.not_found_variants.person()
 		);
 	}
+	log.debug('_getPersonByWhatsappId done');
 	return await read({ instance_id: instanceId, person_id: person[0].id, t });
 }

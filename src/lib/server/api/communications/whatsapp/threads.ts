@@ -4,6 +4,7 @@ import { type SupportedLanguage } from '$lib/i18n';
 
 import * as schema from '$lib/schema/communications/whatsapp/threads';
 import { read as readTemplate } from '$lib/server/api/communications/whatsapp/templates';
+import { create as createMessage } from '$lib/server/api/communications/whatsapp/messages';
 function redisString(instanceId: number, templateId: number | 'all') {
 	return `i:${instanceId}:whatsapp_threads:${templateId}`;
 }
@@ -55,18 +56,24 @@ export async function create({
 	const template = await readTemplate({ instanceId, templateId: defaultTemplateId, t: t });
 	const typeTemplate: 'template' = 'template'; //needed to avoid typescript errors due to literal types in validation
 	const languagePolicy: 'deterministic' = 'deterministic'; //needed to avoid typescript errors due to literal types in validation
+	const createdMesaage = await createMessage({
+		instanceId,
+		body: {
+			message: {
+				type: typeTemplate,
+				template: {
+					name: template.message.name,
+					language: { code: instanceLanguage, policy: languagePolicy },
+					components: []
+				}
+			}
+		}
+	});
 	const toInsert = {
 		name: parsed.name,
 		template_id: defaultTemplateId,
 		point_person_id: adminId,
-		template_message: {
-			type: typeTemplate,
-			template: {
-				name: template.message.name,
-				language: { code: instanceLanguage, policy: languagePolicy },
-				components: []
-			}
-		}
+		template_message_id: createdMesaage.id
 	};
 
 	const result = await db
@@ -160,4 +167,21 @@ export async function update({
 	await redis.del(redisString(instanceId, 'all'));
 	await redis.set(redisString(instanceId, threadId), parsedResult);
 	return parsedResult;
+}
+
+export async function _getThreadByStartingMessageId({
+	instanceId,
+	startingMessageId
+}: {
+	instanceId: number;
+	startingMessageId: string;
+}): Promise<schema.Read> {
+	const selected = await db
+		.selectExactlyOne('communications.whatsapp_threads', {
+			instance_id: instanceId,
+			template_message_id: startingMessageId
+		})
+		.run(pool);
+	const parsed = parse(schema.read, selected);
+	return parsed;
 }

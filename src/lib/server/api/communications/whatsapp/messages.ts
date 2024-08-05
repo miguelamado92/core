@@ -143,3 +143,24 @@ export async function _getActions({
 	const parsed = parse(actionArray, actions[0].action);
 	return parsed;
 }
+
+export async function _getByAction({
+	action,
+	t
+}: {
+	action: string;
+	t: App.Localization;
+}): Promise<{ actions: ActionArray; messageId: string }> {
+	const result = await db.sql`SELECT id, actions->${db.param(action)} AS action
+FROM communications.whatsapp_messages
+WHERE actions ? ${db.param(action)}`.run(pool);
+	if (result.length !== 1) {
+		throw new BelcodaError(
+			404,
+			'DATA:COMMUNICATIONS:WHATSAPP:MESSAGES:GET_BY_ACTION:01',
+			t.errors.not_found()
+		);
+	}
+	const parsed = parse(actionArray, result[0].action);
+	return { messageId: result[0].id, actions: parsed };
+}
