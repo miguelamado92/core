@@ -68,6 +68,18 @@ export default function (locale: SL) {
 						zh: '输入消息...'
 					});
 				},
+				whatsapp_no_conversation_active: () => {
+					return t(locale, {
+						en: 'There is no conversation window currently active with this person. Create a new thread to start a conversation.',
+						ja: 'この人とは現在会話ウィンドウがアクティブではありません。 会話を開始するには新しいスレッドを作成してください。',
+						pt: 'Não há janela de conversa atualmente ativa com esta pessoa. Crie um novo tópico para iniciar uma conversa.',
+						es: 'No hay una ventana de conversación actualmente activa con esta persona. Cree un nuevo hilo para iniciar una conversación.',
+						fr: "Il n'y a pas de fenêtre de conversation actuellement active avec cette personne. Créez un nouveau fil pour commencer une conversation.",
+						sw: 'Hakuna dirisha la mazungumzo linaloendelea kwa sasa na mtu huyu. Unda mjadala mpya kuanza mazungumzo.',
+						th: 'ไม่มีหน้าต่างสนทนาที่กำลังใช้งานอยู่กับคนนี้ในขณะนี้ สร้างเรื่องใหม่เพื่อเริ่มการสนทนา',
+						zh: '目前没有与此人进行中的对话窗口。 创建新主题以开始对话。'
+					});
+				},
 				notes_input_placeholder: () => {
 					return t(locale, {
 						en: 'Add a note...',
