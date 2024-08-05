@@ -165,7 +165,7 @@ export const successfulResponse = v.object({
 	messages: v.array(
 		v.object({
 			id: v.string(),
-			message_status: v.picklist(['held_for_quality_assessment', 'accepted'])
+			message_status: v.optional(v.picklist(['held_for_quality_assessment', 'accepted']))
 		})
 	)
 });

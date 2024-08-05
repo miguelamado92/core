@@ -1,5 +1,13 @@
 import { v, uuid, mediumString, url } from '$lib/schema/valibot';
-import { error } from '$lib/schema/communications/whatsapp/webhooks/webhook';
+
+export const error = v.object({
+	code: v.pipe(v.number(), v.integer()),
+	title: mediumString,
+	message: mediumString,
+	error_data: v.object({
+		details: mediumString
+	})
+});
 
 export const messages_type = v.picklist([
 	'audio',
@@ -132,7 +140,7 @@ export const order = v.object({
 });
 
 export const messageBase = v.object({
-	context: v.optional(context),
+	context: v.optional(v.partial(context)),
 	errors: v.optional(v.array(error)),
 	from: mediumString,
 	id: mediumString,

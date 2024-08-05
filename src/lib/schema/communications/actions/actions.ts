@@ -1,7 +1,6 @@
-import { v, id, uuid, mediumString } from '$lib/schema/valibot';
-import { maxLength } from 'valibot';
+import { id, uuid, mediumString, v } from '$lib/schema/valibot';
 
-export const keyword_triggers = v.record(v.pipe(v.string(), maxLength(20)), uuid);
+export const keyword_triggers = v.record(v.pipe(v.string(), v.maxLength(20)), uuid);
 export type KeywordTriggers = v.InferOutput<typeof keyword_triggers>;
 
 export const trigger_function = v.object({

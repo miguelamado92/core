@@ -35,7 +35,7 @@ export const create = v.object({
 	on_read_action: v.optional(base.entries.on_read_action, null),
 	next: v.optional(base.entries.next, null)
 });
-export type Create = v.InferOutput<typeof create>;
+export type Create = v.InferInput<typeof create>;
 
 export const update = v.partial(create);
 export type Update = v.InferOutput<typeof update>;

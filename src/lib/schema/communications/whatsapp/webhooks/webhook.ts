@@ -1,19 +1,10 @@
 import { v, mediumString, uuid } from '$lib/schema/valibot';
-import { message } from '$lib/schema/communications/whatsapp/webhooks/messages';
+import { message, error } from '$lib/schema/communications/whatsapp/webhooks/messages';
 
 export const contact = v.object({
 	wa_id: mediumString,
 	profile: v.object({
 		name: mediumString
-	})
-});
-
-export const error = v.object({
-	code: v.pipe(v.number(), v.integer()),
-	title: mediumString,
-	message: mediumString,
-	error_data: v.object({
-		details: mediumString
 	})
 });
 
@@ -31,23 +22,40 @@ export const metadata = v.object({
 });
 
 export const status = v.object({
-	biz_opaque_callback_data: uuid,
-	conversation: v.object({
-		id: mediumString,
-		origin: v.object({
-			type: conversation_category,
-			expiration_timestamp: v.optional(v.pipe(v.number(), v.integer()))
-		})
-	}),
-	errors: v.array(error),
 	id: mediumString,
-	pricing: v.object({
-		category: conversation_category,
-		pricing_model: v.literal('CBP')
-	}),
-	recipient_id: mediumString,
 	status: v.picklist(['sent', 'delivered', 'read']),
-	timestamp: v.pipe(v.number(), v.integer())
+	timestamp: v.pipe(
+		v.union([v.string(), v.number()]),
+		v.transform((input) => Number(input)),
+		v.number(),
+		v.integer()
+	),
+	recipient_id: mediumString,
+	biz_opaque_callback_data: v.optional(uuid),
+	conversation: v.optional(
+		v.object({
+			id: mediumString,
+			origin: v.object({
+				type: conversation_category
+			}),
+			expiration_timestamp: v.optional(
+				v.pipe(
+					v.union([v.string(), v.number()]),
+					v.transform((input) => Number(input)),
+					v.number(),
+					v.integer()
+				)
+			)
+		})
+	),
+	errors: v.optional(v.array(error)),
+	pricing: v.optional(
+		v.object({
+			pricing: v.optional(v.boolean(), true),
+			category: conversation_category,
+			pricing_model: v.literal('CBP')
+		})
+	)
 });
 
 export const webhook = v.object({
@@ -71,3 +79,4 @@ export const webhook = v.object({
 		})
 	)
 });
+export type Webhook = v.InferOutput<typeof webhook>;

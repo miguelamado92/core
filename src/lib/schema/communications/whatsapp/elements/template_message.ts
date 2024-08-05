@@ -87,7 +87,7 @@ export const components = {
 	}),
 	button: v.object({
 		type: v.literal('button'),
-		subtype: v.picklist(['url', 'quick_reply']),
+		sub_type: v.picklist(['url', 'quick_reply']),
 		parameters: v.array(parameters.button),
 		index: v.pipe(v.number(), v.minValue(0), v.maxValue(9))
 	})
