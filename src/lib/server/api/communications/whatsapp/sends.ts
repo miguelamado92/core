@@ -28,8 +28,8 @@ export async function create({
 		list_id: parsed.list_id
 	};
 	const inserted = await db.insert('communications.whatsapp_sends', toInsert).run(pool);
-	const parsedInserted = await read({ instanceId, threadId, sendId: inserted.id, t: t });
 	await redis.del(redisString(instanceId, threadId, 'all'));
+	const parsedInserted = await read({ instanceId, threadId, sendId: inserted.id, t: t });
 	await redis.set(redisString(instanceId, threadId, parsedInserted.id), parsedInserted);
 	await queue('/whatsapp/send_thread', instanceId, parsedInserted, adminId);
 	return parsedInserted;
@@ -108,8 +108,9 @@ export async function update({
 		);
 	}
 	await redis.del(redisString(instanceId, threadId, 'all'));
-	await redis.set(redisString(instanceId, threadId, sendId), updated);
-	return parse(schema.read, updated[0]);
+	await redis.del(redisString(instanceId, threadId, sendId));
+	const retrieved = await read({ instanceId, threadId, sendId, t });
+	return retrieved;
 }
 
 export async function listForThread({
