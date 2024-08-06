@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import {
 		type Message,
 		type AllowableTypes
@@ -25,12 +26,6 @@
 		{#if message.type === 'text'}
 			<Input type="text" bind:value={message.text.body} class="w-full" />
 		{/if}
-		{#if message.type === 'image' as 'text'}
-			upload file
-		{/if}
-		{#if message.type === 'interactive' as 'text'}
-			interactive
-		{/if}
 	</div>
 	<div>
 		<Button
@@ -39,7 +34,7 @@
 				oncreate(message);
 			}}
 		>
-			Create
+			{$page.data.t.forms.buttons.create()}
 		</Button>
 	</div>
 </div>

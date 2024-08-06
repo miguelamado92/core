@@ -199,6 +199,32 @@ export default function (locale: SL) {
 							zh: '请仅使用字母数字字符和破折号。不要使用空格或特殊字符。'
 						});
 					}
+				},
+				file_upload: {
+					label: () => {
+						return t(locale, {
+							en: 'Upload a file',
+							ja: 'ファイルをアップロード',
+							pt: 'Carregar um arquivo',
+							es: 'Subir un archivo',
+							fr: 'Télécharger un fichier',
+							sw: 'Pakia faili',
+							th: 'อัปโหลดไฟล์',
+							zh: '上传文件'
+						});
+					},
+					description(fileFormats: string, maxSize: string) {
+						return t(locale, {
+							en: `Please upload a file. Accepted formats: ${fileFormats}. Maximum size: ${maxSize}`,
+							ja: `ファイルをアップロードしてください。受け入れられる形式: ${fileFormats}。最大サイズ: ${maxSize}`,
+							pt: `Por favor, carregue um arquivo. Formatos aceitos: ${fileFormats}. Tamanho máximo: ${maxSize}`,
+							es: `Por favor, sube un archivo. Formatos aceptados: ${fileFormats}. Tamaño máximo: ${maxSize}`,
+							fr: `Veuillez télécharger un fichier. Formats acceptés : ${fileFormats}. Taille maximale : ${maxSize}`,
+							sw: `Tafadhali pakia faili. Miundo inayokubalika: ${fileFormats}. Ukubwa wa juu: ${maxSize}`,
+							th: `โปรดอัปโหลดไฟล์ รูปแบบที่ยอมรับ: ${fileFormats} ขนาดสูงสุด: ${maxSize}`,
+							zh: `请上传文件。接受的格式：${fileFormats}。最大尺寸：${maxSize}`
+						});
+					}
 				}
 			},
 			people: {
@@ -2032,6 +2058,32 @@ export default function (locale: SL) {
 								zh: '[点击发送消息]'
 							});
 						}
+					},
+					message_edit_form: {
+						add_button: () => {
+							return t(locale, {
+								en: 'Add button',
+								ja: 'ボタンを追加',
+								pt: 'Adicionar botão',
+								es: 'Agregar botón',
+								fr: 'Ajouter un bouton',
+								sw: 'Ongeza kitufe',
+								th: 'เพิ่มปุ่ม',
+								zh: '添加按钮'
+							});
+						},
+						delete_button_confirm: () => {
+							return t(locale, {
+								en: 'Are you sure you want to delete this button?',
+								ja: 'このボタンを削除してもよろしいですか？',
+								pt: 'Tem certeza de que deseja excluir este botão?',
+								es: '¿Está seguro de que desea eliminar este botón?',
+								fr: 'Êtes-vous sûr de vouloir supprimer ce bouton?',
+								sw: 'Je, una uhakika unataka kufuta kitufe hiki?',
+								th: 'คุณแน่ใจหรือว่าต้องการลบปุ่มนี้?',
+								zh: '您确定要删除此按钮吗？'
+							});
+						}
 					}
 				}
 			}
@@ -2088,6 +2140,18 @@ export default function (locale: SL) {
 			remove: () => {
 				return t(locale, {
 					en: 'Remove'
+				});
+			},
+			create: () => {
+				return t(locale, {
+					en: 'Create',
+					ja: '作成',
+					pt: 'Criar',
+					es: 'Crear',
+					fr: 'Créer',
+					sw: 'Unda',
+					th: 'สร้าง',
+					zh: '创建'
 				});
 			},
 			save: () => {

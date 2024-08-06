@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { slide } from 'svelte/transition';
 	import { debounce } from '$lib/utils';
 
@@ -107,7 +108,11 @@
 					</button>
 					<button
 						onclick={() => {
-							if (confirm('Are you sure you want to delete this button?')) {
+							if (
+								confirm(
+									$page.data.t.forms.fields.communications.whatsapp.message_edit_form.delete_button_confirm()
+								)
+							) {
 								message = removeButtonFromMessage(message, i);
 								selectedButtonIndex = -1;
 								update();
@@ -165,7 +170,9 @@
 		}}
 				>
 					<Select.Trigger class="w-full flex-grow">
-						<Select.Value placeholder="[On tap send message]" />
+						<Select.Value
+							placeholder={$page.data.t.forms.fields.communications.whatsapp.send_message.placeholder()}
+						/>
 					</Select.Trigger>
 					<Select.Content>
 						{#each messagesToSelect as m}
@@ -290,10 +297,14 @@
 {#snippet addButtonSnippet()}
 	{#if message.message.type === 'interactive'}
 		{#if message.message.interactive.action.buttons.length < 3}
-			<Button variant="secondary" onclick={addButton}>Add Button</Button>
+			<Button variant="secondary" onclick={addButton}
+				>{$page.data.t.forms.fields.communications.whatsapp.message_edit_form.add_button()}</Button
+			>
 		{/if}
 	{:else}
-		<Button variant="secondary" onclick={addButton}>Add Button</Button>
+		<Button variant="secondary" onclick={addButton}
+			>{$page.data.t.forms.fields.communications.whatsapp.message_edit_form.add_button()}</Button
+		>
 	{/if}
 {/snippet}
 

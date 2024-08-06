@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { type Template as TemplateType } from '$lib/schema/communications/whatsapp/elements/template_message';
 	import { list, type List } from '$lib/schema/communications/whatsapp/messages';
 	import { type Read as ReadThread } from '$lib/schema/communications/whatsapp/threads';
@@ -78,7 +79,9 @@
 	}}
 			>
 				<Select.Trigger class="w-full flex-grow">
-					<Select.Value placeholder="[On tap send message]" />
+					<Select.Value
+						placeholder={$page.data.t.forms.fields.communications.whatsapp.send_message.placeholder()}
+					/>
 				</Select.Trigger>
 				<Select.Content>
 					{#each messagesToSelect as m}
