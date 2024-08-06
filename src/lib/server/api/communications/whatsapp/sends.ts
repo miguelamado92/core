@@ -11,22 +11,24 @@ export async function create({
 	threadId,
 	adminId,
 	queue,
-	body
+	body,
+	t
 }: {
 	instanceId: number;
 	threadId: number;
 	queue: App.Queue;
 	adminId: number;
 	body: schema.Create;
+	t: App.Localization;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const toInsert = {
 		sent_by_id: adminId,
 		thread_id: threadId,
-		...parsed
+		list_id: parsed.list_id
 	};
 	const inserted = await db.insert('communications.whatsapp_sends', toInsert).run(pool);
-	const parsedInserted = parse(schema.read, inserted);
+	const parsedInserted = await read({ instanceId, threadId, sendId: inserted.id, t: t });
 	await redis.del(redisString(instanceId, threadId, 'all'));
 	await redis.set(redisString(instanceId, threadId, parsedInserted.id), parsedInserted);
 	await queue('/whatsapp/send_thread', instanceId, parsedInserted, adminId);

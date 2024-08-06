@@ -14,7 +14,7 @@ export async function GET(event) {
 	} catch (err) {
 		return error(
 			500,
-			'API:/api/v1/communications/whatsapp/threads/[thread_id]/send/+server.ts:GET',
+			'API:/api/v1/communications/whatsapp/threads/[thread_id]/sends/+server.ts:GET',
 			event.locals.t.errors.http[500](),
 			err
 		);
@@ -25,18 +25,20 @@ export async function POST(event) {
 	try {
 		const threadId = Number(event.params.thread_id);
 		const body = await event.request.json();
+		console.log(body);
 		const send = await create({
 			instanceId: event.locals.instance.id,
 			threadId,
 			queue: event.locals.queue,
 			adminId: event.locals.admin.id,
-			body: body
+			body: body,
+			t: event.locals.t
 		});
 		return json(send);
 	} catch (err) {
 		return error(
 			500,
-			'API:/api/v1/communications/whatsapp/threads/[thread_id]/send/+server.ts:POST',
+			'API:/api/v1/communications/whatsapp/threads/[thread_id]/sends/+server.ts:POST',
 			event.locals.t.errors.http[500](),
 			err
 		);
