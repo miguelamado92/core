@@ -19,7 +19,7 @@ export async function POST(event) {
 
 		const list = await getAllPersonIds({
 			instanceId: event.locals.instance.id,
-			listId: parsed.list_id,
+			listId: parsed.list.id,
 			t: event.locals.t
 		});
 
