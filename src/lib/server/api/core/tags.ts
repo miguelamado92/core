@@ -15,6 +15,7 @@ export async function create({
 	const inserted = await db.insert('tags', { instance_id: instanceId, ...parsed }).run(pool);
 	await redis.del(redisString(instanceId, 'all'));
 	const parsedInserted = parse(schema.read, inserted);
+	await redis.set(redisString(instanceId, parsedInserted.id), parsedInserted);
 	return parsedInserted;
 }
 
