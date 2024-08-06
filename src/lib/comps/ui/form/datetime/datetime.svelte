@@ -14,6 +14,7 @@
 
 	import { Button } from '$lib/comps/ui/button/index.js';
 	import { Calendar } from '$lib/comps/ui/calendar/index.js';
+	import { page } from '$app/stores';
 	import * as Popover from '$lib/comps/ui/popover/index.js';
 	import Globe from 'lucide-svelte/icons/globe';
 	const df = new DateFormatter('en-US', {
@@ -76,7 +77,7 @@
 						<CalendarIcon class="mr-2 h-4 w-4" />
 						{value
 							? `${tf.format(zonedValue.toDate())} ${df.format(zonedValue.toDate())}`
-							: 'Pick a date'}
+							: $page.data.t.forms.generic.date.placeholder()}
 					</Button>
 				</Popover.Trigger>
 				<Popover.Content class="flex w-auto flex-col space-y-2 p-2">
@@ -93,7 +94,6 @@
         if (!v) return;
 					const newValue = zonedValue.set({ hour: parseInt(v), second: 0 });
 					value = newValue.toDate();
-					console.log(value);
       }}
 						>
 							{#each hourOptions as item}
@@ -135,7 +135,6 @@
 									second: 0
 								});
 								value = newValue.toDate();
-								console.log(value);
 							}}
 						/>
 					</div>

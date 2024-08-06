@@ -10,6 +10,7 @@ export { default as HTML } from '$lib/comps/ui/form/controls/html.svelte';
 export { default as Code } from '$lib/comps/ui/form/controls/code.svelte';
 export { default as Error } from '$lib/comps/ui/form/controls/Error.svelte';
 export { default as DateTime } from '$lib/comps/ui/form/datetime/datetime.svelte';
+export { default as Date } from '$lib/comps/ui/form/datetime/date.svelte';
 export { default as SelectList } from '$lib/comps/ui/form/controls/listselect.svelte';
 export { superForm, type Infer } from 'sveltekit-superforms';
 export { valibotClient } from 'sveltekit-superforms/adapters';

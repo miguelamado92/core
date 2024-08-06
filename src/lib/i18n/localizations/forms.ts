@@ -1,5 +1,4 @@
 import { returnLocalizationString as t, type SL } from '$lib/i18n/index';
-import type AndOrNot from '../../../routes/(app)/people/filter/AndOrNot.svelte';
 
 export default function (locale: SL) {
 	return {
@@ -15,6 +14,20 @@ export default function (locale: SL) {
 						sw: 'Chagua chaguo',
 						th: 'เลือกตัวเลือก',
 						zh: '选择一个选项'
+					});
+				}
+			},
+			date: {
+				placeholder: () => {
+					return t(locale, {
+						en: 'Select a date',
+						ja: '日付を選択',
+						pt: 'Selecione uma data',
+						es: 'Selecciona una fecha',
+						fr: 'Sélectionnez une date',
+						sw: 'Chagua tarehe',
+						th: 'เลือกวันที่',
+						zh: '选择日期'
 					});
 				}
 			}
@@ -214,6 +227,84 @@ export default function (locale: SL) {
 							sw: 'Jina la Kwanza',
 							th: 'ชื่อ',
 							zh: '名'
+						});
+					}
+				},
+				dob: {
+					label: () => {
+						return t(locale, {
+							en: 'Date of Birth',
+							ja: '生年月日',
+							pt: 'Data de Nascimento',
+							es: 'Fecha de Nacimiento',
+							fr: 'Date de Naissance',
+							sw: 'Tarehe ya Kuzaliwa',
+							th: 'วันเกิด',
+							zh: '出生日期'
+						});
+					},
+					description: () => {
+						return t(locale, {
+							en: 'Please use the format YYYY-MM-DD',
+							ja: 'フォーマットはYYYY-MM-DDを使用してください',
+							pt: 'Por favor, use o formato AAAA-MM-DD',
+							es: 'Por favor, use el formato AAAA-MM-DD',
+							fr: 'Veuillez utiliser le format AAAA-MM-DD',
+							sw: 'Tafadhali tumia muundo wa YYYY-MM-DD',
+							th: 'โปรดใช้รูปแบบ YYYY-MM-DD',
+							zh: '请使用格式YYYY-MM-DD'
+						});
+					}
+				},
+				organization: {
+					label: () => {
+						return t(locale, {
+							en: 'Organization',
+							ja: '組織',
+							pt: 'Organização',
+							es: 'Organización',
+							fr: 'Organisation',
+							sw: 'Shirika',
+							th: 'องค์กร',
+							zh: '组织'
+						});
+					},
+					description: () => {
+						return t(locale, {
+							en: 'The organization the person is associated with',
+							ja: '人物が関連付けられている組織',
+							pt: 'A organização com a qual a pessoa está associada',
+							es: 'La organización con la que la persona está asociada',
+							fr: "L'organisation à laquelle la personne est associée",
+							sw: 'Shirika ambalo mtu anahusishwa nalo',
+							th: 'องค์กรที่บุคคลเกี่ยวข้อง',
+							zh: '人员所属的组织'
+						});
+					}
+				},
+				position: {
+					label: () => {
+						return t(locale, {
+							en: 'Position',
+							ja: 'ポジション',
+							pt: 'Posição',
+							es: 'Posición',
+							fr: 'Position',
+							sw: 'Nafasi',
+							th: 'ตำแหน่ง',
+							zh: '位置'
+						});
+					},
+					description: () => {
+						return t(locale, {
+							en: 'The position the person holds in the organization',
+							ja: '組織内での人物の地位',
+							pt: 'A posição que a pessoa ocupa na organização',
+							es: 'La posición que la persona ocupa en la organización',
+							fr: "La position que la personne occupe dans l'organisation",
+							sw: 'Nafasi ambayo mtu anashikilia katika shirika',
+							th: 'ตำแหน่งที่บุคคลครองในองค์กร',
+							zh: '人员在组织中的职位'
 						});
 					}
 				},
@@ -1923,6 +2014,24 @@ export default function (locale: SL) {
 							th: 'ข้อความของการยื่นคำร้อง',
 							zh: '请愿文本'
 						});
+					}
+				}
+			},
+			communications: {
+				whatsapp: {
+					send_message: {
+						placeholder: () => {
+							return t(locale, {
+								en: '[On tap send messagee]',
+								ja: '[タップしてメッセージを送信]',
+								pt: '[Toque para enviar mensagem]',
+								es: '[Toque para enviar mensaje]',
+								fr: '[Appuyez pour envoyer un message]',
+								sw: '[Gusa kutuma ujumbe]',
+								th: '[แตะเพื่อส่งข้อความ]',
+								zh: '[点击发送消息]'
+							});
+						}
 					}
 				}
 			}
