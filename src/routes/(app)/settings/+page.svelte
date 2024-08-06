@@ -40,6 +40,22 @@
 
 	<Card.Root class="mt-4">
 		<Card.Header>
+			<Card.Title>{$page.data.t.pages.config.settings.tags.index()}</Card.Title>
+		</Card.Header>
+		<Card.Content>
+			<Grid>
+				<Button variant="outline" href="/settings/tags"
+					>{$page.data.t.pages.config.settings.tags.index()}</Button
+				>
+				<Button variant="outline" href="/settings/tags/new"
+					>{$page.data.t.pages.config.settings.tags.new()}</Button
+				>
+			</Grid>
+		</Card.Content>
+	</Card.Root>
+
+	<Card.Root class="mt-4">
+		<Card.Header>
 			<Card.Title>{$page.data.t.pages.config.settings.communications.index()}</Card.Title>
 		</Card.Header>
 		<Card.Content>
