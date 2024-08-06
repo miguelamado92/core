@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type SuperValidated } from 'sveltekit-superforms';
+	import { type DateValue } from '@internationalized/date';
 	import {
 		DEFAULT_EMAIL,
 		generateDefaultPhoneNumber,
@@ -11,6 +12,7 @@
 	import {
 		Input,
 		Button,
+		Date as DateElement,
 		DateTime,
 		Error,
 		HTML,
@@ -144,6 +146,25 @@
 
 		<Separator class="my-6" />
 
+		<Grid cols={2} class="items-center">
+			<Input
+				type="text"
+				{form}
+				name="organization"
+				bind:value={$formData.organization as string}
+				label={$page.data.t.forms.fields.people.organization.label()}
+			/>
+			<Input
+				type="text"
+				{form}
+				name="position"
+				bind:value={$formData.position as string}
+				label={$page.data.t.forms.fields.people.position.label()}
+			/>
+		</Grid>
+
+		<Separator class="my-6" />
+
 		<Address
 			{form}
 			address_line_1={'address_line_1'}
@@ -155,6 +176,16 @@
 			postcode={'postcode'}
 			country={'country'}
 		/>
+
+		<Separator class="my-6" />
+		<Grid cols={2}>
+			<DateElement
+				{form}
+				name="dob"
+				bind:value={$formData.dob as Date}
+				label={$page.data.t.forms.fields.people.dob.label()}
+			/>
+		</Grid>
 
 		<Button type="submit"></Button>
 		<Debug data={$formData} />

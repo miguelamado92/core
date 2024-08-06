@@ -15,6 +15,7 @@
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import Mail from 'lucide-svelte/icons/mail';
 	import Phone from 'lucide-svelte/icons/phone';
+	import Building from 'lucide-svelte/icons/building-2';
 	import Interaction from '$lib/comps/widgets/interactions/Interaction.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { parse } from '$lib/schema/valibot';
@@ -99,6 +100,14 @@
 					><Check size={12} />{data.t.common.status.subscribed()}</Badge
 				>
 			{/if}
+		</div>
+	{/if}
+
+	{#if data.person.organization}
+		<div class="flex items-center gap-1.5">
+			<Building size={18} />
+			{#if data.person.position}<div>{`${data.person.position}, `}</div>{/if}
+			<div>{data.person.organization}</div>
 		</div>
 	{/if}
 

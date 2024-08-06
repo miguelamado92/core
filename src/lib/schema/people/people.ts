@@ -1,14 +1,12 @@
 import {
 	v,
 	id,
-	slug,
 	language,
-	country,
 	count,
 	address,
 	timestamp,
-	uuid,
 	shortString,
+	uuid,
 	mediumString,
 	longString,
 	mediumStringNotEmpty
@@ -29,6 +27,10 @@ export const base = v.object({
 	given_name_alt: v.nullable(mediumString),
 	family_name: v.nullable(mediumString),
 	family_name_alt: v.nullable(mediumString),
+
+	dob: v.nullable(timestamp),
+	organization: v.nullable(shortString),
+	position: v.nullable(shortString),
 
 	details: v.nullable(longString),
 	do_not_contact: v.boolean(),
