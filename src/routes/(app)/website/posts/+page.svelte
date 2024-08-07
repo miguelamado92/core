@@ -1,15 +1,16 @@
 <script lang="ts">
 	export let data;
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
 </script>
 
-<Datatable
-	header={data.t.pages.website.posts.index()}
+<DataGrid
+	title={data.t.pages.website.posts.index()}
 	items={data.posts.items}
 	count={data.posts.count}
+	newItemHref="/website/posts/new"
 >
-	{#snippet button()}
+	{#snippet headerButton()}
 		<Button href="/website/posts/new">{data.t.pages.website.posts.new()}</Button>
 	{/snippet}
 	{#snippet content(content: typeof data.posts.items[0])}
@@ -23,4 +24,4 @@
 			</div>
 		</div>
 	{/snippet}
-</Datatable>
+</DataGrid>

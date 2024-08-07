@@ -1,16 +1,17 @@
 <script lang="ts">
 	export let data;
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import Badge from '$lib/comps/ui/badge/badge.svelte';
 </script>
 
-<Datatable
+<DataGrid
+	title={data.t.pages.config.settings.tags.index()}
 	items={data.tags.items}
 	count={data.tags.count}
-	header={data.t.pages.config.settings.tags.index()}
+	newItemHref="/settings/tags/new"
 >
-	{#snippet button()}
+	{#snippet headerButton()}
 		<Button href="/settings/tags/new">{data.t.pages.config.settings.tags.new()}</Button>
 	{/snippet}
 	{#snippet content(item: typeof data.tags.items[0])}
@@ -24,9 +25,11 @@
 			</div>
 			<div>
 				<div class="flex gap-4 items-center justify-end">
-					<Button href="/settings/tags/{item.id}">{data.t.forms.buttons.edit()}</Button>
+					<Button href="/settings/tags/{item.id}" variant="outline"
+						>{data.t.forms.buttons.edit()}</Button
+					>
 				</div>
 			</div>
 		</div>
 	{/snippet}
-</Datatable>
+</DataGrid>

@@ -1,16 +1,10 @@
 <script lang="ts">
 	const { data } = $props();
-	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
-	import H1 from '$lib/comps/typography/H3.svelte';
-	import Button from '$lib/comps/ui/button/button.svelte';
-	import CirclePlus from 'lucide-svelte/icons/circle-plus';
-	let newSendOpen = $state(false);
 	import { create } from '$lib/schema/communications/whatsapp/sends';
 	import {
 		superForm,
 		valibotClient,
-		Input,
 		Grid,
 		Debug,
 		Error,

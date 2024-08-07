@@ -55,85 +55,79 @@
 	}
 </script>
 
-<DataGrid items={data.tasks.items} count={data.tasks.count}>
-	{#snippet header(filter)}
-		<div class="w-full">
-			<div class="flex items-center justify-between gap-4">
-				<div class="flex items-center gap-2">
-					<H1>{data.t.pages.tasks.index()}</H1>
-				</div>
-				<div class="flex items-center gap-2">
-					{@render filter()}
-					<Button
-						onclick={() => (newTask = !newTask)}
-						variant="default"
-						size="sm"
-						class="flex items-center gap-1"
-					>
-						{#if newTask}
-							<MinusCircle size={16} />
-						{:else}
-							<Plus size={16} />
-						{/if}
-						<div>{data.t.pages.tasks.new()}</div>
-					</Button>
-				</div>
-			</div>
-			<div>
-				{#if newTask}
-					<NewTaskForm bind:open={newTask} superform={data.form} />
-				{/if}
-			</div>
-		</div>
+<DataGrid items={data.tasks.items} count={data.tasks.count} title={data.t.pages.tasks.index()}>
+	{#snippet headerButton()}
+		<Button
+			onclick={() => (newTask = !newTask)}
+			variant="default"
+			size="sm"
+			class="flex items-center gap-1"
+		>
+			{#if newTask}
+				<MinusCircle size={16} />
+			{:else}
+				<Plus size={16} />
+			{/if}
+			<div>{data.t.pages.tasks.new()}</div>
+		</Button>
 	{/snippet}
 
-	{#snippet content(task: typeof data.tasks.items[0], i)}
-		<div class="flex items-center divide-x flex-wrap md:flex-nowrap">
-			<button
-				onclick={() => {
-					viewTask(i, task);
-				}}
-				class="flex items-center gap-4 flex-grow py-2 px-4"
-				class:font-medium={task.viewed_at === null}
-			>
-				<div class="flex items-center gap-2 py-2" class:font-medium={task.viewed_at === null}>
-					{task.name}
-					{#if task.viewed_at === null}<span class="bg-orange-400 h-2 w-2 rounded-full"></span>{/if}
-				</div>
+	<div>
+		{#if newTask}
+			<NewTaskForm bind:open={newTask} superform={data.form} />
+		{/if}
+	</div>
 
-				<div class="truncate text-light text-muted-foreground text-sm">
-					{task.description}
+	{#snippet content(task: typeof data.tasks.items[0], i)}
+		{#if typeof i === 'number'}
+			<div class="flex items-center divide-x flex-wrap md:flex-nowrap">
+				<button
+					onclick={() => {
+						viewTask(i, task);
+					}}
+					class="flex items-center gap-4 flex-grow"
+					class:font-medium={task.viewed_at === null}
+				>
+					<div class="flex items-center gap-2" class:font-medium={task.viewed_at === null}>
+						{task.name}
+						{#if task.viewed_at === null}<span class="bg-orange-400 h-2 w-2 rounded-full"
+							></span>{/if}
+					</div>
+
+					<div class="truncate text-light text-muted-foreground text-sm">
+						{task.description}
+					</div>
+				</button>
+				<div class="px-2">
+					{@render calendar(task, i)}
 				</div>
-			</button>
-			<div class="px-2 py-2">
-				{@render calendar(task, i)}
+				<div class="px-2">
+					<PointPerson type="task" admin={task.admin} objectId={task.id}>
+						{#snippet header()}{/snippet}
+					</PointPerson>
+				</div>
+				<div class="px-2">
+					{@render doneButton(task, i)}
+				</div>
 			</div>
-			<div class="px-2 py-2">
-				<PointPerson type="task" admin={task.admin} objectId={task.id}>
-					{#snippet header()}{/snippet}
-				</PointPerson>
-			</div>
-			<div class="px-2 py-2">
-				{@render doneButton(task, i)}
-			</div>
-		</div>
-		{#if openTaskIndex === i}
-			{@render openTask(task, i)}
+			{#if openTaskIndex === i}
+				{@render openTask(task, i)}
+			{/if}
 		{/if}
 	{/snippet}
 </DataGrid>
 
-{#snippet doneButton(task: typeof data.tasks.items[0], i)}
+{#snippet doneButton(task: typeof data.tasks.items[0], i: number)}
 	<Button class="my-0 py-0" variant="secondary" size="sm" onclick={() => doneTask(i, task)}>
 		{data.t.forms.buttons.done()}
 	</Button>
 {/snippet}
 
-{#snippet openTask(task: typeof data.tasks.items[0], i)}
-	<div class="border-t px-4 py-4 text-sm text-muted-foreground">{task.description}</div>
+{#snippet openTask(task: typeof data.tasks.items[0], i: number)}
+	<div class="mt-2 py-4 text-sm text-muted-foreground">{task.description}</div>
 {/snippet}
 
-{#snippet calendar(task: typeof data.tasks.items[0], i)}
+{#snippet calendar(task: typeof data.tasks.items[0], i: number)}
 	<TaskDatePicker
 		bind:value={task.due_at}
 		onchange={async (date) => {

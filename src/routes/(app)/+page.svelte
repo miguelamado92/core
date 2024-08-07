@@ -1,7 +1,7 @@
 <script lang="ts">
 	const { data } = $props();
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
-	import H3 from '$lib/comps/typography/H3.svelte';
+	import H2 from '$lib/comps/typography/H2.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import * as Tabs from '$lib/comps/ui/tabs/index.js';
 
@@ -14,26 +14,29 @@
 	import { renderAddress } from '$lib/utils/text/address';
 	import { formatDateTimeRange } from '$lib/utils/text/date';
 	let contentType: 'posts' | 'pages' = $state('posts');
+
+	const dataGridOptions = {
+		showHeader: false,
+		fullWidthFilter: true
+	};
 </script>
 
 {#snippet head(headline: string, buttonText: string, buttonHref: string)}
-	<div class="flex justify-between items-center w-full">
-		<div><H3>{headline}</H3></div>
+	<div class="flex justify-between items-center w-full mb-4">
+		<div><H2>{headline}</H2></div>
 		<div><Button href={buttonHref}>{buttonText}</Button></div>
 	</div>
 {/snippet}
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-	<div class="bg-white rounded-lg p-4 md:p-6 border shadow">
-		<DataGrid items={data.people.items} count={data.people.count}>
-			{#snippet header()}
-				{@render head(data.t.pages.people.index(), data.t.forms.buttons.see_all(), '/people')}
-			{/snippet}
+	<div>
+		{@render head(data.t.pages.people.index(), data.t.forms.buttons.see_all(), '/people')}
+		<DataGrid items={data.people.items} count={data.people.count} options={dataGridOptions}>
 			{#snippet content(person: typeof data.people.items[0])}
-				<div class="flex justify-between items-center w-full py-2 pl-2">
+				<div class="flex justify-between items-center w-full">
 					<div><PersonBadge {person} /></div>
 					<div>
-						<Button variant="secondary" href="/people/{person.id}"
+						<Button variant="outline" href="/people/{person.id}"
 							>{data.t.forms.buttons.view()}</Button
 						>
 					</div>
@@ -42,17 +45,15 @@
 		</DataGrid>
 	</div>
 
-	<div class="bg-white rounded-lg p-4 md:p-6 border shadow">
-		<DataGrid items={data.groups.items} count={data.groups.count}>
-			{#snippet header()}
-				{@render head(
-					data.t.pages.people.groups.index(),
-					data.t.forms.buttons.see_all(),
-					'/people/groups'
-				)}
-			{/snippet}
+	<div>
+		{@render head(
+			data.t.pages.people.groups.index(),
+			data.t.forms.buttons.see_all(),
+			'/people/groups'
+		)}
+		<DataGrid items={data.groups.items} count={data.groups.count} options={dataGridOptions}>
 			{#snippet content(group: typeof data.groups.items[0])}
-				<div class="flex justify-between items-center w-full py-2 pl-2">
+				<div class="flex justify-between items-center w-full">
 					<div>
 						<div class="font-medium">{group.name}</div>
 						<div class="flex items-center gap-1 text-muted-foreground text-sm">
@@ -62,7 +63,7 @@
 					</div>
 
 					<div>
-						<Button variant="secondary" href="/people/groups/{group.id}"
+						<Button variant="outline" href="/people/groups/{group.id}"
 							>{data.t.forms.buttons.view()}</Button
 						>
 					</div>
@@ -71,21 +72,19 @@
 		</DataGrid>
 	</div>
 
-	<div class="bg-white rounded-lg p-4 md:p-6 border shadow">
-		<DataGrid items={data.events.items} count={data.events.count}>
-			{#snippet header()}
-				{@render head(data.t.pages.events.index(), data.t.forms.buttons.see_all(), '/people')}
-			{/snippet}
+	<div>
+		{@render head(data.t.pages.events.index(), data.t.forms.buttons.see_all(), '/people')}
+		<DataGrid items={data.events.items} count={data.events.count} options={dataGridOptions}>
 			{#snippet content(event: typeof data.events.items[0])}
 				{@render eventLine(event)}
 			{/snippet}
 		</DataGrid>
 	</div>
 
-	<div class="bg-white rounded-lg p-4 md:p-6 border shadow">
+	<div>
 		<Tabs.Root class="w-full" bind:value={contentType}>
 			<div class="flex justify-between items-center w-full">
-				<div><H3>{data.t.pages.website[contentType].index()}</H3></div>
+				<div><H2>{data.t.pages.website[contentType].index()}</H2></div>
 				<div class="flex items-center gap-2">
 					<Tabs.List class="">
 						<Tabs.Trigger value="posts">{data.t.pages.website.posts.index()}</Tabs.Trigger>
@@ -95,13 +94,13 @@
 				</div>
 			</div>
 			<Tabs.Content value="posts">
-				<DataGrid items={data.posts.items} count={data.posts.count}>
+				<DataGrid items={data.posts.items} count={data.posts.count} options={dataGridOptions}>
 					{#snippet content(post: typeof data.posts.items[0])}
-						<div class="flex justify-between items-center w-full py-2 pl-2">
+						<div class="flex justify-between items-center w-full">
 							<div class="font-medium">{post.name}</div>
 
 							<div>
-								<Button variant="secondary" href="/website/posts/{post.id}"
+								<Button variant="outline" href="/website/posts/{post.id}"
 									>{data.t.forms.buttons.view()}</Button
 								>
 							</div>
@@ -110,13 +109,13 @@
 				</DataGrid>
 			</Tabs.Content>
 			<Tabs.Content value="pages">
-				<DataGrid items={data.pages.items} count={data.pages.count}>
+				<DataGrid items={data.pages.items} count={data.pages.count} options={dataGridOptions}>
 					{#snippet content(page: typeof data.pages.items[0])}
-						<div class="flex justify-between items-center w-full py-2 pl-2">
+						<div class="flex justify-between items-center w-full">
 							<div class="font-medium">{page.name}</div>
 
 							<div>
-								<Button variant="secondary" href="/website/pages/{page.id}"
+								<Button variant="outline" href="/website/pages/{page.id}"
 									>{data.t.forms.buttons.view()}</Button
 								>
 							</div>
@@ -129,7 +128,7 @@
 </div>
 
 {#snippet eventLine(item: typeof data.events.items[0])}
-	<div class="items-center flex justify-between gap-4 my-2 pl-2">
+	<div class="items-center flex justify-between gap-4">
 		<div>
 			<a href="/events/{item.id}">
 				<div class="font-medium text-md">{item.name}</div>
@@ -154,7 +153,7 @@
 		</div>
 		<div>
 			<div class="flex gap-4 items-center justify-end">
-				<Button variant="secondary" href="/events/{item.id}">{data.t.forms.buttons.view()}</Button>
+				<Button variant="outline" href="/events/{item.id}">{data.t.forms.buttons.view()}</Button>
 			</div>
 		</div>
 	</div>

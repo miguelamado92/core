@@ -4,15 +4,16 @@
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
 	import { Badge } from '$lib/comps/ui/badge';
-	import DataTable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 </script>
 
-<DataTable
+<DataGrid
+	title={$page.data.t.pages.config.settings.admins.index()}
 	items={data.admins.items}
 	count={data.admins.count}
-	header={$page.data.t.pages.config.settings.admins.index()}
+	newItemHref="/settings/admins/new"
 >
-	{#snippet button()}
+	{#snippet headerButton()}
 		<Button href="/settings/admins/new">{$page.data.t.pages.config.settings.admins.new()}</Button>
 	{/snippet}
 
@@ -45,4 +46,4 @@
 			</div>
 		</div>
 	{/snippet}
-</DataTable>
+</DataGrid>

@@ -15,7 +15,7 @@
 
 	import { getFlash } from 'sveltekit-flash-message';
 	import { parse } from '$lib/schema/valibot';
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import Separator from '$lib/comps/ui/separator/separator.svelte';
 	const flash = getFlash(page);
 
@@ -88,10 +88,9 @@
 <span id="results"></span>
 {#if hasSearched}
 	<Separator class="my-6" />
-	<Datatable
-		seperator={false}
-		hasFilter={false}
-		header={'Results'}
+	<DataGrid
+		options={{ showFilter: false }}
+		title={$page.data.t.people.filter.results.title()}
 		items={people.items}
 		count={people.count}
 	>
@@ -99,15 +98,15 @@
 			<div class="flex justify-between items-center w-full py-2 pl-2">
 				<div><PersonBadge {person} /></div>
 				<div>
-					<Button variant="secondary" href="/people/{person.id}"
+					<Button variant="outline" href="/people/{person.id}"
 						>{$page.data.t.forms.buttons.view()}</Button
 					>
 				</div>
 			</div>
 		{/snippet}
 
-		{#snippet button()}
+		{#snippet headerButton()}
 			<Button onclick={createList}>{$page.data.t.forms.fields.filters.create_list_action()}</Button>
 		{/snippet}
-	</Datatable>
+	</DataGrid>
 {/if}

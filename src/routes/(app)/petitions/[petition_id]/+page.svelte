@@ -2,7 +2,7 @@
 	const { data } = $props();
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
 
 	import Tags from '$lib/comps/widgets/tags/Tags.svelte';
@@ -59,13 +59,13 @@
 	</div>
 </div>
 <div class="mt-12">
-	<Datatable
-		header={data.t.pages.actions.petitions.signatures()}
+	<DataGrid
+		title={data.t.pages.actions.petitions.signatures()}
 		items={data.signatures.items}
 		count={data.signatures.count}
-		hasFilter={false}
+		options={{ showFilter: false }}
 	>
-		{#snippet button()}
+		{#snippet headerButton()}
 			<PersonDropdown selectedPersonIds={signatureIds} onAddPerson={addPerson} />
 		{/snippet}
 		{#snippet content(signature: typeof data.signatures.items[0])}
@@ -73,5 +73,5 @@
 				<PersonBadge person={signature} />
 			</div>
 		{/snippet}
-	</Datatable>
+	</DataGrid>
 </div>

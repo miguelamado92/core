@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let data;
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import type { List } from '$lib/schema/events/events';
 	import { renderAddress } from '$lib/utils/text/address';
@@ -11,8 +11,13 @@
 	import Link from 'lucide-svelte/icons/link';
 </script>
 
-<Datatable items={data.events.items} count={data.events.count} header={data.t.pages.events.index()}>
-	{#snippet button()}
+<DataGrid
+	items={data.events.items}
+	count={data.events.count}
+	title={data.t.pages.events.index()}
+	newItemHref="/events/new"
+>
+	{#snippet headerButton()}
 		<Button href="/events/new">{data.t.pages.events.new_event()}</Button>
 	{/snippet}
 	{#snippet content(item: List['items'][0])}
@@ -42,9 +47,9 @@
 			<div>
 				<div class="flex gap-4 items-center justify-end">
 					<AdminBadge admin={item.point_person} />
-					<Button href="/events/{item.id}">{data.t.forms.buttons.view()}</Button>
+					<Button href="/events/{item.id}" variant="outline">{data.t.forms.buttons.view()}</Button>
 				</div>
 			</div>
 		</div>
 	{/snippet}
-</Datatable>
+</DataGrid>

@@ -50,6 +50,6 @@
 			</Select.Content>
 			<Select.Input name="status" />
 		</Select.Root>
-		<Button type="submit">Register</Button>
+		<Button variant="outline" type="submit">Register</Button>
 	</div>
 </form>

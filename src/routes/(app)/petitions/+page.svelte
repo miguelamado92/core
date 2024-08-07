@@ -1,17 +1,18 @@
 <script lang="ts">
 	export let data;
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import type { List } from '$lib/schema/petitions/petitions';
 	import AdminBadge from '$lib/comps/widgets/AdminBadge.svelte';
 </script>
 
-<Datatable
+<DataGrid
+	title={data.t.pages.actions.petitions.index()}
 	items={data.petitions.items}
 	count={data.petitions.count}
-	header={data.t.pages.actions.petitions.index()}
+	newItemHref="/petitions/new"
 >
-	{#snippet button()}
+	{#snippet headerButton()}
 		<Button href="/petitions/new">{data.t.pages.actions.petitions.new()}</Button>
 	{/snippet}
 	{#snippet content(item: List['items'][0])}
@@ -24,9 +25,11 @@
 			<div>
 				<div class="flex gap-4 items-center justify-end">
 					<AdminBadge admin={item.point_person} />
-					<Button href="/petitions/{item.id}">{data.t.forms.buttons.view()}</Button>
+					<Button href="/petitions/{item.id}" variant="outline"
+						>{data.t.forms.buttons.view()}</Button
+					>
 				</div>
 			</div>
 		</div>
 	{/snippet}
-</Datatable>
+</DataGrid>

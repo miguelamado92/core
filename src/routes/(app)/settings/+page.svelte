@@ -64,7 +64,7 @@
 					>{$page.data.t.pages.config.settings.communications.email.templates.index()}</Button
 				>
 				<Button variant="outline" href="/settings/communications/email/templates/new"
-					>{$page.data.t.pages.config.settings.communications.email.templates.index()}</Button
+					>{$page.data.t.pages.config.settings.communications.email.templates.new()}</Button
 				>
 			</Grid>
 		</Card.Content>

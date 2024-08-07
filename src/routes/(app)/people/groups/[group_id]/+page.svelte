@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let data;
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
 	import PersonDropdown from '$lib/comps/widgets/person/PersonDropdown.svelte';
 	import * as Select from '$lib/comps/ui/select';
@@ -19,36 +19,38 @@
 	];
 </script>
 
-<Datatable
-	hasFilter={false}
+<DataGrid
+	options={{ showFilter: false }}
 	items={data.group.members}
 	count={data.group.count}
-	header={`${data.group.name} (${data.group.count})`}
+	title={`${data.group.name} (${data.group.count})`}
 >
 	{#snippet content(person: typeof data.group.members[0], i)}
-		<div class="flex items-center justify-between gap-4">
-			{#if $loadingIds.includes(person.id)}
-				<div class="saturate-0 animated animate-pulse text-muted-foreground">
+		{#if typeof i === 'number'}
+			<div class="flex items-center justify-between gap-4">
+				{#if $loadingIds.includes(person.id)}
+					<div class="saturate-0 animated animate-pulse text-muted-foreground">
+						<PersonBadge {person} />
+					</div>
+				{:else}
 					<PersonBadge {person} />
-				</div>
-			{:else}
-				<PersonBadge {person} />
-			{/if}
+				{/if}
 
-			<div class="flex items-center gap-2">
-				{@render changeStatus(person)}
-				{@render removePersonButton(person, i)}
+				<div class="flex items-center gap-2">
+					{@render changeStatus(person)}
+					{@render removePersonButton(person, i)}
+				</div>
 			</div>
-		</div>
+		{/if}
 	{/snippet}
 
-	{#snippet button()}
+	{#snippet headerButton()}
 		<div class="flex items-center justify-end w-full lg:w-auto gap-4">
 			{@render addPersonButton()}
 			<Button href="/people/groups/{data.group.id}/edit">{data.t.forms.buttons.edit()}</Button>
 		</div>
 	{/snippet}
-</Datatable>
+</DataGrid>
 
 {#snippet addPersonButton()}
 	<PersonDropdown
@@ -71,7 +73,7 @@
 	/>
 {/snippet}
 
-{#snippet removePersonButton(person: typeof data.group.members[0], i)}
+{#snippet removePersonButton(person: typeof data.group.members[0], i: number)}
 	<Button
 		variant="destructive"
 		onclick={async () => {

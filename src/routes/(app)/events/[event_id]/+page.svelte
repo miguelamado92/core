@@ -2,7 +2,7 @@
 	export let data;
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
 	import { renderAddress } from '$lib/utils/text/address';
 	import { formatDateTimeRange, formatDate } from '$lib/utils/text/date';
@@ -79,8 +79,8 @@
 	</div>
 </div>
 <div class="mt-12">
-	<Datatable
-		header={data.t.pages.events.attendees()}
+	<DataGrid
+		title={data.t.pages.events.attendees()}
 		items={data.attendees.items}
 		count={data.attendees.count}
 	>
@@ -117,15 +117,15 @@
 						</Select.Root>
 						<input name="status" value={attendee.status} hidden />
 						<input name="person_id" value={attendee.person_id} hidden />
-						<Button type="submit">{data.t.forms.buttons.update()}</Button>
+						<Button type="submit" variant="outline">{data.t.forms.buttons.update()}</Button>
 					</form>
 				</div>
 			</div>
 		{/snippet}
-		{#snippet button()}
+		{#snippet headerButton()}
 			<Button href="/events/{data.event.id}/register"
 				>{data.t.events.attendees.register.title()}</Button
 			>
 		{/snippet}
-	</Datatable>
+	</DataGrid>
 </div>

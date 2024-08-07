@@ -9,21 +9,21 @@
 	import CheckCheck from 'lucide-svelte/icons/check-check';
 </script>
 
-<DataGrid items={data.sends.items} count={data.sends.count}>
-	{#snippet header(filter, filterKey)}
-		<div class="w-full">
-			<div class="flex justify-between items-center w-full">
-				<div><H1>Sends</H1></div>
-				<div class="flex items-center gap-2">
-					{@render filter(filterKey)}
-					<Button href="/communications/whatsapp/{data.thread.id}/sends/new">New</Button>
-				</div>
-			</div>
-		</div>
+<DataGrid
+	items={data.sends.items}
+	count={data.sends.count}
+	title={'sdsdsdsdsdsd'}
+	newItemHref={`/communications/whatsapp/${data.thread.id}/sends/new`}
+	options={{ showFilter: true, showTopSeparator: true }}
+>
+	{#snippet headerButton()}
+		<Button href="/communications/whatsapp/{data.thread.id}/sends/new"
+			>{data.t.forms.buttons.new()}</Button
+		>
 	{/snippet}
 
 	{#snippet content(send: typeof data.sends.items[0], i: number | undefined)}
-		<div class="flex items-center justify-between p-4 gap-2">
+		<div class="flex items-center justify-between gap-2">
 			<div class="flex items-center justify-start gap-2">
 				<div>
 					<div class="font-medium">{send.list.name}</div>

@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let data;
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import Datatable from '$lib/comps/ui/custom/table/datatable.svelte';
+	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
 	import PersonDropdown from '$lib/comps/widgets/person/PersonDropdown.svelte';
 	import { invalidateAll } from '$app/navigation';
@@ -12,11 +12,11 @@
 	const loadingIds: Writable<number[]> = writable([]);
 </script>
 
-<Datatable
-	hasFilter={false}
+<DataGrid
+	options={{ showFilter: false }}
 	items={data.list.people.items}
 	count={data.list.people.count}
-	header={`${data.list.name} (${data.list.count})`}
+	title={`${data.list.name} (${data.list.count})`}
 >
 	{#snippet content(person: typeof data.list.people.items[0])}
 		<div class="flex items-center justify-between gap-4">
@@ -51,7 +51,7 @@
 		</div>
 	{/snippet}
 
-	{#snippet button()}
+	{#snippet headerButton()}
 		<div class="flex items-center justify-end w-full lg:w-auto gap-4">
 			<PersonDropdown
 				selectedPersonIds={data.list.people.items.map((p) => p.id)}
@@ -73,4 +73,4 @@
 			<Button href="/people/lists/{data.list.id}/edit">{data.t.forms.buttons.edit()}</Button>
 		</div>
 	{/snippet}
-</Datatable>
+</DataGrid>
