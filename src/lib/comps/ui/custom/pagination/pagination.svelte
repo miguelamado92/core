@@ -24,34 +24,36 @@
 	}
 </script>
 
-<Pagination.Root
-	{count}
-	{perPage}
-	let:pages
-	page={initialPage}
-	let:currentPage
-	class="mt-4"
-	onPageChange={handlePageChange}
->
-	<Pagination.Content>
-		<Pagination.Item>
-			<Pagination.PrevButton />
-		</Pagination.Item>
-		{#each pages as page (page.key)}
-			{#if page.type === 'ellipsis'}
-				<Pagination.Item class="hidden lg:block">
-					<Pagination.Ellipsis />
-				</Pagination.Item>
-			{:else}
-				<Pagination.Item class={currentPage === page.value ? '' : 'hidden lg:block'}>
-					<Pagination.Link {page} isActive={currentPage == page.value}>
-						{page.value}
-					</Pagination.Link>
-				</Pagination.Item>
-			{/if}
-		{/each}
-		<Pagination.Item>
-			<Pagination.NextButton />
-		</Pagination.Item>
-	</Pagination.Content>
-</Pagination.Root>
+{#if count > 0}
+	<Pagination.Root
+		{count}
+		{perPage}
+		let:pages
+		page={initialPage}
+		let:currentPage
+		class="mt-4"
+		onPageChange={handlePageChange}
+	>
+		<Pagination.Content>
+			<Pagination.Item>
+				<Pagination.PrevButton />
+			</Pagination.Item>
+			{#each pages as page (page.key)}
+				{#if page.type === 'ellipsis'}
+					<Pagination.Item class="hidden lg:block">
+						<Pagination.Ellipsis />
+					</Pagination.Item>
+				{:else}
+					<Pagination.Item class={currentPage === page.value ? '' : 'hidden lg:block'}>
+						<Pagination.Link {page} isActive={currentPage == page.value}>
+							{page.value}
+						</Pagination.Link>
+					</Pagination.Item>
+				{/if}
+			{/each}
+			<Pagination.Item>
+				<Pagination.NextButton />
+			</Pagination.Item>
+		</Pagination.Content>
+	</Pagination.Root>
+{/if}
