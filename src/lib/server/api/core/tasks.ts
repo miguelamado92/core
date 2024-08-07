@@ -128,7 +128,12 @@ export async function list({
 		)
 		.run(pool);
 	const count = await db
-		.count('tasks', { instance_id: instanceId, assigned_to: adminId, ...where })
+		.count('tasks', {
+			instance_id: instanceId,
+			assigned_to: adminId,
+			completed_at: completedCondition,
+			...where
+		})
 		.run(pool);
 	const parsedTasks = parse(schema.list, { items: selected, count });
 	await redis.set(redisString(instanceId, adminId, showCompleted), parsedTasks);
