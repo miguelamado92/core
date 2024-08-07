@@ -1,4 +1,6 @@
 import { json, error, BelcodaError } from '$lib/server';
+import { parsePhoneNumber } from 'awesome-phonenumber';
+
 import {
 	successfulResponse,
 	sendMessage,
@@ -36,8 +38,18 @@ export async function POST(event) {
 				event.locals.t.errors.generic()
 			);
 		}
+		const parsedPhoneNumber = parsePhoneNumber(person.phone_number.phone_number, {
+			regionCode: person.phone_number.country
+		});
+		if (!parsedPhoneNumber.valid) {
+			throw new BelcodaError(
+				400,
+				'DATA:/whatsapp/send_message/+server.ts:01',
+				event.locals.t.errors.generic()
+			);
+		}
 		const messageBody: MessageWithBase = {
-			to: person.phone_number?.phone_number,
+			to: parsedPhoneNumber.number.e164.replace('+', ''), //whatsapp only accepts without the +
 			biz_opaque_callback_data: parsedMessage.message_id,
 			messaging_product: 'whatsapp',
 			recipient_type: 'individual',
