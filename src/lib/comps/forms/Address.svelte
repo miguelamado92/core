@@ -12,7 +12,6 @@
 	} from 'sveltekit-superforms';
 
 	import type { SupportedCountry } from '$lib/i18n';
-
 	type Props = {
 		form: SuperForm<T>;
 		address_line_1: FormPathLeaves<T>;
@@ -45,7 +44,7 @@
 	let { value: postcodeValue } = formFieldProxy(form, postcode);
 	let { value: countryValue } = formFieldProxy(form, country);
 
-	import { Input, Grid } from '$lib/comps/ui/forms';
+	import { Input, Grid, Country } from '$lib/comps/ui/forms';
 </script>
 
 <Grid cols={1}>
@@ -65,7 +64,7 @@
 			label={$page.data.t.forms.fields.address.address_line_2.label()}
 		/>
 	</Grid>
-	<Grid cols={3}>
+	<Grid cols={4}>
 		<Input
 			type="text"
 			{form}
@@ -86,6 +85,12 @@
 			name={postcode}
 			bind:value={$postcodeValue as string}
 			label={$page.data.t.forms.fields.address.postcode.label()}
+		/>
+		<Country
+			label={$page.data.t.forms.fields.address.country.label()}
+			{form}
+			name={country}
+			bind:value={$countryValue as SupportedCountry}
 		/>
 	</Grid>
 </Grid>
