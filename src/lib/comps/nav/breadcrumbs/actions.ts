@@ -47,7 +47,7 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.actions.petitions.view(),
-				href: (params: Record<string, unknown>) => `/petitions/${params.petition_id}`
+				href: (params?: Record<string, unknown>) => `/petitions/${params?.petition_id}`
 			}
 		],
 		'/(app)/petitions/[petition_id]/edit': [
@@ -62,11 +62,11 @@ export default function (t: Localization) {
 			},
 			{
 				title: () => t.pages.actions.petitions.view(),
-				href: (params: Record<string, unknown>) => `/petitions/${params.petition_id}`
+				href: (params?: Record<string, unknown>) => `/petitions/${params?.petition_id}`
 			},
 			{
 				title: () => t.pages.actions.petitions.edit(),
-				href: (params: Record<string, unknown>) => `/petitions/${params.petition_id}/edit`
+				href: (params?: Record<string, unknown>) => `/petitions/${params?.petition_id}/edit`
 			}
 		],
 		'/(app)/actions/surveys': [
