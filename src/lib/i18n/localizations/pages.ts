@@ -220,6 +220,32 @@ export default function (l: SL) {
 						th: `{THREADNAME|แก้ไขเธรด}`,
 						zh: `{THREADNAME|编辑线程}`
 					});
+				},
+				sends: {
+					index: () => {
+						return t(l, {
+							en: `Sends`,
+							ja: '送信',
+							pt: 'Envios',
+							es: 'Envíos',
+							fr: 'Envois',
+							sw: 'Tuma',
+							th: 'ส่ง',
+							zh: '发送'
+						});
+					},
+					new: () => {
+						return t(l, {
+							en: 'New send',
+							ja: '新しい送信',
+							pt: 'Novo envio',
+							es: 'Nuevo envío',
+							fr: 'Nouvel envoi',
+							sw: 'Tuma mpya',
+							th: 'ส่งใหม่',
+							zh: '新发送'
+						});
+					}
 				}
 			},
 			email: {

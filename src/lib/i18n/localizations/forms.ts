@@ -2101,6 +2101,18 @@ export default function (locale: SL) {
 					zh: '提交'
 				});
 			},
+			new: () => {
+				return t(locale, {
+					en: 'New',
+					ja: '新規',
+					pt: 'Novo',
+					es: 'Nuevo',
+					fr: 'Nouveau',
+					sw: 'Mpya',
+					th: 'ใหม่',
+					zh: '新'
+				});
+			},
 			done: () => {
 				return t(locale, {
 					en: 'Done',

@@ -54,6 +54,22 @@ export default function (locale: SL) {
 				}
 			}
 		},
+		filter: {
+			results: {
+				title: () => {
+					return t(locale, {
+						en: 'Filter results',
+						ja: '結果をフィルター',
+						pt: 'Filtrar resultados',
+						es: 'Filtrar resultados',
+						fr: 'Filtrer les résultats',
+						sw: 'Chuja matokeo',
+						th: 'กรองผลลัพธ์',
+						zh: '筛选结果'
+					});
+				}
+			}
+		},
 		interactions: {
 			create_types: {
 				whatsapp_msg_input_placeholder: () => {
