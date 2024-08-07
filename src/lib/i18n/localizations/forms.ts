@@ -17,6 +17,20 @@ export default function (locale: SL) {
 					});
 				}
 			},
+			country: {
+				placeholder: () => {
+					return t(locale, {
+						en: 'Select a country',
+						ja: '国を選択',
+						pt: 'Selecione um país',
+						es: 'Selecciona un país',
+						fr: 'Sélectionnez un pays',
+						sw: 'Chagua nchi',
+						th: 'เลือกประเทศ',
+						zh: '选择国家'
+					});
+				}
+			},
 			date: {
 				placeholder: () => {
 					return t(locale, {
