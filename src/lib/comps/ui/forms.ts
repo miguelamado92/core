@@ -6,6 +6,7 @@ export { default as Switch } from '$lib/comps/ui/form/controls/switch.svelte';
 export { default as Debug } from '$lib/comps/ui/form/controls/debug.svelte';
 export { default as Grid } from '$lib/comps/ui/custom/grid.svelte';
 export { default as Button } from '$lib/comps/ui/form/controls/button.svelte';
+export { default as Country } from '$lib/comps/ui/form/controls/country.svelte';
 export { default as HTML } from '$lib/comps/ui/form/controls/html.svelte';
 export { default as Code } from '$lib/comps/ui/form/controls/code.svelte';
 export { default as Error } from '$lib/comps/ui/form/controls/Error.svelte';
