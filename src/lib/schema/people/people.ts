@@ -9,7 +9,8 @@ import {
 	uuid,
 	mediumString,
 	longString,
-	mediumStringNotEmpty
+	mediumStringNotEmpty,
+	DEFAULT_COUNTRY
 } from '$lib/schema/valibot';
 
 import { email, phoneNumber } from '$lib/schema/people/channels/channels';
@@ -50,7 +51,8 @@ export const create = v.object({
 	...v.partial(
 		v.omit(base, ['id', 'full_name', 'created_at', 'updated_at', 'instance_id', 'unique_id'])
 	).entries,
-	full_name: base.entries.full_name //full_name is required
+	full_name: base.entries.full_name,
+	country: v.optional(base.entries.country, DEFAULT_COUNTRY) //full_name is required
 });
 
 export type Create = v.InferOutput<typeof create>;

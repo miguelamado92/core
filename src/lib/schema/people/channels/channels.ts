@@ -80,7 +80,7 @@ export function generateDefaultPhoneNumber(country: SupportedCountry) {
 		subscribed: true,
 		textable: true,
 		whatsapp: false,
-		strict: false,
+		strict: true,
 		validated: false,
 		whatsapp_id: null,
 		country: country

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type SuperValidated } from 'sveltekit-superforms';
-	import { type DateValue } from '@internationalized/date';
 	import {
 		DEFAULT_EMAIL,
 		generateDefaultPhoneNumber,
@@ -41,6 +40,7 @@
 	import X from 'lucide-svelte/icons/x';
 	import PersonName from '$lib/comps/forms/PersonName.svelte';
 	import Address from '$lib/comps/forms/Address.svelte';
+	import { DEFAULT_COUNTRY } from '$lib/i18n';
 	let storedPhoneNumber: PhoneNumber | null | undefined = null;
 	let storedEmail: Email | null | undefined = null;
 </script>
@@ -137,7 +137,7 @@
 						onclick={() =>
 							($formData.phone_number = storedPhoneNumber
 								? storedPhoneNumber
-								: generateDefaultPhoneNumber($page.data.instance.country))}
+								: generateDefaultPhoneNumber($formData.country || DEFAULT_COUNTRY))}
 						>{$page.data.t.forms.fields.people.phone_number.add_phone_number_button()}</Button
 					>
 				{/if}
