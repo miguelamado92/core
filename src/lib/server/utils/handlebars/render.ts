@@ -7,15 +7,17 @@ import { PUBLIC_HOST } from '$env/static/public';
 export default async function ({
 	template,
 	context,
-	instanceId
+	instanceId,
+	t
 }: {
 	template: string;
 	context: { [key: string]: unknown };
 	instanceId: number;
+	t: App.Localization;
 }): Promise<string> {
 	const blocks = await listAllForInstance({ instanceId: instanceId });
 	//load helpers
-	const hb = register_helpers(Handlebars, blocks);
+	const hb = register_helpers(Handlebars, blocks, t);
 	//load partials
 	hb.registerHelper('input', function (value: unknown) {
 		return new Handlebars.SafeString(input(value, Handlebars.escapeExpression));

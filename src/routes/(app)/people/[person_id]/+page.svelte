@@ -74,10 +74,12 @@
 </PageHeader>
 
 <div class="text-muted-foreground space-y-2 mt-3">
-	{#if renderAddress(data.person).text.length > 0}
+	{#if renderAddress(data.person, data.t).text.length > 0}
 		<div class="flex items-center gap-1.5">
 			<MapPin size={18} />
-			<a href={renderAddress(data.person).url} target="_blank">{renderAddress(data.person).text}</a>
+			<a href={renderAddress(data.person, data.t).url} target="_blank"
+				>{renderAddress(data.person, data.t).text}</a
+			>
 		</div>
 	{/if}
 

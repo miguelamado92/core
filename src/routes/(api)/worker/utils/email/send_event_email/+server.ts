@@ -29,7 +29,8 @@ export async function POST(event) {
 			messageTemplate: parsed.email.html,
 			templateTemplate: template.html,
 			instanceId: event.locals.instance.id,
-			context: { event: parsed.event, person: parsed.person, instance: parsed.instance }
+			context: { event: parsed.event, person: parsed.person, instance: parsed.instance },
+			t: event.locals.t
 		});
 		const renderedText = parsed.email.use_html_for_plaintext
 			? renderedHtml
@@ -38,7 +39,8 @@ export async function POST(event) {
 					messageTemplate: parsed.email.text,
 					templateTemplate: template.text,
 					instanceId: event.locals.instance.id,
-					context: { event: parsed.event, person: parsed.person, instance: parsed.instance }
+					context: { event: parsed.event, person: parsed.person, instance: parsed.instance },
+					t: event.locals.t
 				});
 		const sendToQueue: SendEmailMessage = {
 			person_id: parsed.person.id,

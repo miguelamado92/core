@@ -50,7 +50,8 @@ export async function POST(event) {
 		messageTemplate: parsed.message.html,
 		templateTemplate: template.html,
 		instanceId: event.locals.instance.id,
-		context
+		context,
+		t: event.locals.t
 	});
 	const renderedText = parsed.message.use_html_for_plaintext
 		? renderedHtml
@@ -59,7 +60,8 @@ export async function POST(event) {
 				messageTemplate: parsed.message.text,
 				templateTemplate: template.text,
 				instanceId: event.locals.instance.id,
-				context
+				context,
+				t: event.locals.t
 			});
 
 	const emailReturn = await sendEmail({

@@ -138,10 +138,10 @@
 						<Link size={16} />
 						{item.online_url}
 					</div>
-				{:else if renderAddress(item).text !== ''}
+				{:else if renderAddress(item, data.t).text !== ''}
 					<div class="text-muted-foreground text-sm flex items-center gap-1">
 						<MapPin size={16} />
-						{renderAddress(item).text}
+						{renderAddress(item, data.t).text}
 					</div>
 				{/if}
 				<div class="text-muted-foreground flex items-center gap-1 text-sm">

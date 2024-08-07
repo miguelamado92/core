@@ -88,7 +88,8 @@ export default async function ({
 	const output = await renderHandlebarsTemplate({
 		template: petitionTemplate.html,
 		instanceId: instance.id,
-		context: { petition: petitionObject, status }
+		context: { petition: petitionObject, status },
+		t
 	});
 
 	const custom_code = compile_custom_code(petitionObject, petitionTemplate);

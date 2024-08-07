@@ -60,7 +60,8 @@ export async function POST(event) {
 				messageTemplate: message.html,
 				templateTemplate: template.html,
 				instanceId: event.locals.instance.id,
-				context: { person: person, instance: event.locals.instance }
+				context: { person: person, instance: event.locals.instance },
+				t: event.locals.t
 			});
 			const renderedText = message.use_html_for_plaintext
 				? renderedHtml
@@ -69,7 +70,8 @@ export async function POST(event) {
 						messageTemplate: message.text,
 						templateTemplate: template.text,
 						instanceId: event.locals.instance.id,
-						context: { person: person, instance: event.locals.instance }
+						context: { person: person, instance: event.locals.instance },
+						t: event.locals.t
 					});
 			//if it's the last message to send, we want to mark the send as finished...
 			const sendToQueue: SendEmailMessage =

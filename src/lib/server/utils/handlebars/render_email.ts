@@ -5,13 +5,15 @@ export default async function ({
 	templateTemplate,
 	context,
 	emailUnsubscribeToken,
-	instanceId
+	instanceId,
+	t
 }: {
 	messageTemplate: string;
 	templateTemplate: string;
 	context: { [key: string]: unknown };
 	emailUnsubscribeToken?: `${string}-${string}-${string}-${string}`;
 	instanceId: number;
+	t: App.Localization;
 }): Promise<string> {
 	const combinedString = templateTemplate.replace('{{{body}}}', messageTemplate);
 	const renderContext = emailUnsubscribeToken
@@ -23,7 +25,8 @@ export default async function ({
 	const renderedString = await render({
 		template: combinedString,
 		context: renderContext,
-		instanceId: instanceId
+		instanceId: instanceId,
+		t
 	});
 	return renderedString;
 }

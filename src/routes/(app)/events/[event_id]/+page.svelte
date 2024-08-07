@@ -50,9 +50,9 @@
 	{/snippet}
 </PageHeader>
 <div class="text-muted-foreground space-y-2 mt-3">
-	{#if renderAddress(data.event).text.length > 0}<div class="flex items-center gap-1.5">
+	{#if renderAddress(data.event, data.t).text.length > 0}<div class="flex items-center gap-1.5">
 			<MapPin size={16} />
-			<a href={renderAddress(data.event).url} target="_blank">{renderAddress(data.event).text}</a>
+			<a href={renderAddress(data.event, data.t).url} target="_blank">{renderAddress(data.event, data.t).text}</a>
 		</div>{/if}
 	<div class="flex items-center gap-1.5">
 		<CalendarClock size={16} />

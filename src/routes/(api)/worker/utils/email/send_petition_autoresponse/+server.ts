@@ -56,7 +56,8 @@ export async function POST(event) {
 			messageTemplate: message.html,
 			templateTemplate: template.html,
 			instanceId: event.locals.instance.id,
-			context: { petition, person, instance: event.locals.instance }
+			context: { petition, person, instance: event.locals.instance },
+			t: event.locals.t
 		});
 		const renderedText = message.use_html_for_plaintext
 			? renderedHtml
@@ -65,7 +66,8 @@ export async function POST(event) {
 					messageTemplate: message.text,
 					templateTemplate: template.text,
 					instanceId: event.locals.instance.id,
-					context: { petition, person, instance: event.locals.instance }
+					context: { petition, person, instance: event.locals.instance },
+					t: event.locals.t
 				});
 		const sendToQueue: SendEmailMessage = {
 			person_id: person.id,

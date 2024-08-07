@@ -14,10 +14,14 @@ type AddressIncludingObject = {
 	state: Address['state'];
 	postcode: Address['postcode'];
 	latlng: Address['latlng'];
+	country: SupportedCountry;
 	[key: string]: any;
 };
 
-export function renderAddress(object: AddressIncludingObject): { url: string; text: string } {
+export function renderAddress(
+	object: AddressIncludingObject,
+	t: App.Localization
+): { url: string; text: string } {
 	const text = [
 		object.address_line_1,
 		object.address_line_2,
@@ -25,7 +29,8 @@ export function renderAddress(object: AddressIncludingObject): { url: string; te
 		object.address_line_4,
 		object.locality,
 		object.state,
-		object.postcode
+		object.postcode,
+		t.countries[object.country]()
 	]
 		.filter(Boolean)
 		.join(', ');

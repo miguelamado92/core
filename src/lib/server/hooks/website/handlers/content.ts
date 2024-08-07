@@ -5,8 +5,6 @@ import { readBySlug as readContentTypeBySlug } from '$lib/server/api/website/con
 import { readBySlug as readContentBySlug } from '$lib/server/api/website/content';
 import { read as readTemplate } from '$lib/server/api/website/templates';
 
-import register_helpers from '$lib/server/hooks/website/register_helpers';
-import { form, input } from '$lib/server/hooks/website/partials';
 import {
 	render,
 	compile_custom_code,
@@ -15,7 +13,6 @@ import {
 } from '$lib/server/hooks/website/render';
 
 import { pino } from '$lib/server';
-import { listAllForInstance } from '$lib/server/api/website/blocks';
 
 const log = pino('/lib/server/hooks/website/handlers/content');
 const error404 = {
@@ -81,7 +78,8 @@ export default async function ({
 	const output = await renderTemplate({
 		instanceId: instance.id,
 		template: template.html,
-		context: { content: content }
+		context: { content: content },
+		t
 	});
 	const custom_code = compile_custom_code(content, template);
 	const final = render({

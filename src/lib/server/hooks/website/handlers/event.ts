@@ -86,7 +86,8 @@ export default async function ({
 	const output = await renderHandlebarsTemplate({
 		template: event_template.html,
 		instanceId: instance.id,
-		context: { event: eventObject, status }
+		context: { event: eventObject, status },
+		t
 	});
 
 	const custom_code = compile_custom_code(eventObject, event_template);
