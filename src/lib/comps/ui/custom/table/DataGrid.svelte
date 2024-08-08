@@ -62,6 +62,7 @@
 		separator = true,
 		newItemHref = null,
 		class: className,
+		filterKey,
 		headerSnippet,
 		headerButton,
 
@@ -73,7 +74,7 @@
 </script>
 
 {#snippet filter()}
-	<Filter filterKey={options.filterKey} bind:loading />
+	<Filter filterKey={filterKey || options.filterKey} bind:loading />
 {/snippet}
 
 {#snippet header()}
