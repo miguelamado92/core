@@ -39,6 +39,7 @@
 		items: T[];
 		headerSnippet?: Snippet;
 		headerButton?: Snippet;
+		filterSnippet?: Snippet<[Snippet]>;
 		class?: string;
 		count: number;
 		subtitle?: string | null;
@@ -65,6 +66,7 @@
 		filterKey,
 		headerSnippet,
 		headerButton,
+		filterSnippet,
 
 		pagination = true,
 		options: propOptions
@@ -106,7 +108,11 @@
 	{#if options.showFilter && count > 0}<div
 			class={options.fullWidthFilter ? '' : 'flex justify-end'}
 		>
-			{@render filter()}
+			{#if filterSnippet}
+				{@render filterSnippet(filter)}
+			{:else}
+				{@render filter()}
+			{/if}
 		</div>{/if}
 	{#if options.showTopSeparator && count > 0}
 		<Separator class="mt-4" />
