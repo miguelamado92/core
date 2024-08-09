@@ -42,8 +42,8 @@ export const phoneNumber = v.pipe(
 						kind: 'validation',
 						type: 'custom',
 						input: `phone_number: ${value.phone_number}, country: ${value.country}`,
-						expected: 'Valid phone number for this country',
-						received: 'Invalid phone number for this country',
+						expected: `A valid phone number ${value.country.toUpperCase()}`,
+						received: `${value.phone_number}, an invalid phone number for this country`,
 						message: 'Please enter a valid phone number for this country'
 					}
 				]);
