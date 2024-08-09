@@ -32,7 +32,9 @@
 		{/key}
 	</div>
 	<div>
-		<a class="pl-6 pr-4" href="/"><img src="/icon.png" alt="Belcoda logo" class="h-6" /></a>
+		<a class="pl-6 pr-4" href="/"
+			><img src="/logos/white_logomark.svg" alt="Belcoda logo" class="h-6" /></a
+		>
 	</div>
 
 	<div>
@@ -61,7 +63,9 @@
 <Menubar.Root
 	class="bg-blue-700 rounded-none border-none text-white py-4 mb-12 h-12 shadow hidden lg:flex"
 >
-	<a class="pl-6 pr-4" href="/"><img src="/icon.png" alt="Belcoda logo" class="h-6" /></a>
+	<a class="pl-6 pr-4" href="/"
+		><img src="/logos/white_logomark.svg" alt="Belcoda logo" class="h-6" /></a
+	>
 	<div class="hidden lg:flex">
 		<MainNav />
 	</div>
