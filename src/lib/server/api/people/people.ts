@@ -2,7 +2,7 @@ import { db, pool, redis, pino, BelcodaError, error, filterQuery, type s } from 
 import { format } from 'node-pg-format';
 import * as schema from '$lib/schema/people/people';
 import { read as instanceApi } from '$lib/server/api/core/instances';
-
+import { filterPersonTags } from '$lib/server/utils/filters/filter';
 import { DEFAULT_COUNTRY, DEFAULT_LANGUAGE } from '$lib/i18n';
 
 import { getUniqueKeys } from '$lib/utils/objects/get_unique_keys';
@@ -74,9 +74,9 @@ export async function create({
 	const toInsert = {
 		instance_id,
 		point_person_id: point_person_id,
-		country: parsed.country || DEFAULT_COUNTRY,
 		preferred_language: parsed.preferred_language || DEFAULT_LANGUAGE,
-		...parsed
+		...parsed,
+		country: parsed.country || DEFAULT_COUNTRY
 	};
 	const inserted = await db.insert('people.people', toInsert).run(pool);
 
@@ -242,10 +242,27 @@ export async function list({
 			return v.parse(schema.list, cached);
 		}
 	}
+	const tagIds = filterPersonTags(url);
+	let personIds: number[] = [];
+	for (const tagId of tagIds) {
+		const people = await db
+			.select('people.taggings', { tag_id: tagId }, { columns: ['person_id'] })
+			.run(pool);
+		if (personIds.length === 0) {
+			personIds.push(...people.map((f) => f.person_id));
+		} else {
+			personIds = personIds.filter((id) => people.some((item) => item.person_id === id));
+		}
+		// Early exit if no matching personIds remain. Why waste our time?
+		if (personIds.length === 0) {
+			break;
+		}
+	}
+	const checkTags = tagIds.length > 0 ? { id: db.conditions.isIn(personIds) } : {}; //can't be personIds length, because then it won't apply the condition when there are zero results
 	const selected = await db
 		.select(
 			'people.people_search',
-			{ instance_id: instance_id, ...query.where },
+			{ instance_id: instance_id, ...checkTags, ...query.where },
 			{
 				...query.options,
 				lateral: {

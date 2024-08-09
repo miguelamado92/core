@@ -18,6 +18,12 @@ type FilterQueryOptions = {
 	andOr?: 'AND' | 'OR';
 };
 
+export function filterPersonTags(url: URL): number[] {
+	const tags = url.searchParams.getAll('tag');
+	const tagIds = tags.map((tag) => parseInt(tag));
+	return tagIds;
+}
+
 export function filterQuery(
 	url: URL,
 	options?: FilterQueryOptions
