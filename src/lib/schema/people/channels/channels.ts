@@ -28,7 +28,7 @@ export const phoneNumber = v.pipe(
 		subscribed: v.optional(v.boolean(), false),
 		textable: v.optional(v.boolean(), false),
 		whatsapp: v.optional(v.boolean(), false),
-		strict: v.optional(v.boolean(), false),
+		strict: v.optional(v.boolean(), true),
 		validated: v.optional(v.boolean(), false),
 		whatsapp_id: v.optional(v.nullable(v.string())),
 		country: country
@@ -44,7 +44,7 @@ export const phoneNumber = v.pipe(
 						input: `phone_number: ${value.phone_number}, country: ${value.country}`,
 						expected: 'Valid phone number for this country',
 						received: 'Invalid phone number for this country',
-						message: 'Invalid phone number'
+						message: 'Please enter a valid phone number for this country'
 					}
 				]);
 			} else {
@@ -88,3 +88,17 @@ export function generateDefaultPhoneNumber(country: SupportedCountry) {
 }
 
 export type PhoneNumber = v.InferOutput<typeof phoneNumber>;
+
+export const formattedPhoneNumber = v.pipe(
+	phoneNumber,
+	v.transform((value) => {
+		const parsed = parsePhoneNumber(value.phone_number, {
+			regionCode: value.country.toUpperCase()
+		});
+		if (!parsed.valid) return value;
+		return {
+			...value,
+			phone_number: parsed.number.national
+		};
+	})
+);

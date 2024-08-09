@@ -121,6 +121,7 @@
 							bind:value={$formData.phone_number.phone_number as string}
 							label={$page.data.t.forms.fields.people.phone_number.label()}
 						/>
+						<input type="text" name="phone_number.country" value={$formData.phone_number.country} />
 						<div class="flex justify-end">
 							<Checkbox
 								{form}
@@ -175,6 +176,11 @@
 			state={'state'}
 			postcode={'postcode'}
 			country={'country'}
+			onCountryChange={(country) => {
+				if ($formData.phone_number) {
+					$formData.phone_number.country = country;
+				}
+			}}
 		/>
 
 		<Separator class="my-6" />

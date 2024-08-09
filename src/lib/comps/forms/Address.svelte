@@ -10,7 +10,6 @@
 		type FormPathLeaves,
 		type FormFieldProxy
 	} from 'sveltekit-superforms';
-
 	import type { SupportedCountry } from '$lib/i18n';
 	type Props = {
 		form: SuperForm<T>;
@@ -22,6 +21,7 @@
 		state: FormPathLeaves<T>;
 		postcode: FormPathLeaves<T>;
 		country: FormPathLeaves<T>;
+		onCountryChange?: (country: SupportedCountry) => void;
 	};
 	let {
 		form,
@@ -32,7 +32,8 @@
 		locality,
 		state,
 		postcode,
-		country
+		country,
+		onCountryChange
 	}: Props = $props();
 
 	let { value: addressLine1Value } = formFieldProxy(form, address_line_1);
@@ -87,6 +88,7 @@
 			label={$page.data.t.forms.fields.address.postcode.label()}
 		/>
 		<Country
+			onchange={onCountryChange}
 			label={$page.data.t.forms.fields.address.country.label()}
 			{form}
 			name={country}

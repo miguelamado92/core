@@ -18,8 +18,8 @@
 	import * as Select from '$lib/comps/ui/select';
 	export let value: string;
 	export let placeholder: string = $page.data.t.forms.generic.country.placeholder();
-
-	import { SUPPORTED_COUNTRIES } from '$lib/i18n';
+	export let onchange: (country: SupportedCountry) => void = () => {};
+	import { SUPPORTED_COUNTRIES, type SupportedCountry } from '$lib/i18n';
 
 	const options = SUPPORTED_COUNTRIES.map((country) => ({
 		value: country,
@@ -43,6 +43,7 @@
 				selected={selectedItem}
 				onSelectedChange={(v) => {
 					v && (value = v.value);
+					v && onchange(v.value as SupportedCountry);
 				}}
 			>
 				<Select.Trigger {...attrs} class={cn('focus-visible:border-2 ', className)}>
