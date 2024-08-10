@@ -3,11 +3,14 @@ import * as api from '$lib/server/api/people/groups';
 
 export async function GET(event) {
 	try {
+		const bannedParamSet = event.url.searchParams.get('showBanned');
+		const banned = bannedParamSet === 'true';
 		const list = await api.read({
 			instanceId: event.locals.instance.id,
 			groupId: Number(event.params.group_id),
 			url: event.url,
-			t: event.locals.t
+			t: event.locals.t,
+			banned
 		});
 		return json(list);
 	} catch (err) {

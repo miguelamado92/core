@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let data;
+	const { data } = $props();
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
@@ -8,6 +8,8 @@
 	import { invalidateAll } from '$app/navigation';
 	import { writable, type Writable } from 'svelte/store';
 	import { getFlash } from 'sveltekit-flash-message';
+	import { Switch } from '$lib/comps/ui/switch';
+	import { Label } from '$lib/comps/ui/label';
 	import { page } from '$app/stores';
 	const flash = getFlash(page);
 	const loadingIds: Writable<number[]> = writable([]);
@@ -17,6 +19,27 @@
 		{ value: 'admin', label: 'Admin' },
 		{ value: 'banned', label: 'Banned' }
 	];
+
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	let showBanned = $state(false);
+	let loading = $state(false);
+	async function handleBannedChange() {
+		//set the params... invalidate;
+		showBanned = !showBanned;
+		if (browser) {
+			loading = true;
+			const params = new URLSearchParams(window.location.search);
+			if (showBanned) {
+				params.set('showBanned', 'true');
+				await goto(`${window.location.pathname}?${params.toString()}`, { keepFocus: true });
+			} else {
+				params.delete('showBanned');
+				await goto(`${window.location.pathname}?${params.toString()}`, { keepFocus: true });
+			}
+			loading = false;
+		}
+	}
 </script>
 
 <DataGrid
@@ -24,6 +47,7 @@
 	items={data.group.members}
 	count={data.group.count}
 	title={`${data.group.name} (${data.group.count})`}
+	bind:loading
 >
 	{#snippet content(person: typeof data.group.members[0], i)}
 		{#if typeof i === 'number'}
@@ -51,6 +75,7 @@
 		</div>
 	{/snippet}
 </DataGrid>
+{@render toggleBanned()}
 
 {#snippet addPersonButton()}
 	<PersonDropdown
@@ -124,4 +149,11 @@
 			{/each}
 		</Select.Content>
 	</Select.Root>
+{/snippet}
+
+{#snippet toggleBanned()}
+	<div class="flex items-center justify-end space-x-2 mt-4">
+		<Switch id="show-banned" onCheckedChange={handleBannedChange} />
+		<Label for="show-banned">{$page.data.t.people.groups.show_banned()}</Label>
+	</div>
 {/snippet}

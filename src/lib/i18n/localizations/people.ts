@@ -533,6 +533,13 @@ export default function (locale: SL) {
 					});
 				}
 			}
+		},
+		groups: {
+			show_banned: () => {
+				return t(locale, {
+					en: 'Show banned'
+				});
+			}
 		}
 	};
 }

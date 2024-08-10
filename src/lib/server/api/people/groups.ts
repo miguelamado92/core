@@ -4,8 +4,9 @@ import * as membersSchema from '$lib/schema/people/group_members';
 import { list as listInGroup } from '$lib/server/api/people/filters/in_group';
 import { parse } from '$lib/schema/valibot';
 
-function redisString(instanceId: number, groupId: number | 'all') {
-	return `i:${instanceId}:groups:${groupId}`;
+function redisString(instanceId: number, groupId: number | 'all', banned?: boolean) {
+	const bannedSuffix = banned ? ':banned' : '';
+	return `i:${instanceId}:groups:${groupId}${bannedSuffix}`;
 }
 
 export async function exists({
@@ -55,17 +56,22 @@ export async function read({
 	instanceId,
 	groupId,
 	t,
-	url
+	url,
+	banned = false
 }: {
 	instanceId: number;
 	groupId: number;
 	t: App.Localization;
 	url: URL;
+	banned?: boolean;
 }): Promise<schema.Read> {
-	const cached = await redis.get(redisString(instanceId, groupId));
+	const cached = await redis.get(redisString(instanceId, groupId, banned));
 	if (cached) {
 		return parse(schema.read, cached);
 	}
+	const statusCondition = banned
+		? db.conditions.isIn(['banned'])
+		: db.conditions.isNotIn(['banned']);
 	const read = await db
 		.selectExactlyOne(
 			'people.groups',
@@ -74,15 +80,15 @@ export async function read({
 				lateral: {
 					count: db.count('people.group_members', {
 						group_id: db.parent('id'),
-						status: db.conditions.isNotIn(['banned'])
+						status: statusCondition
 					})
 				}
 			}
 		)
 		.run(pool);
-	const members = await listInGroup({ instance_id: instanceId, groupId, t, url });
+	const members = await listInGroup({ instance_id: instanceId, groupId, t, url, banned });
 	const parsed = parse(schema.read, { members: members.items, ...read });
-	await redis.set(redisString(instanceId, groupId), parsed);
+	await redis.set(redisString(instanceId, groupId, banned), parsed);
 	return parsed;
 }
 

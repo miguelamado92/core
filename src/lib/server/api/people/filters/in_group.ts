@@ -8,20 +8,25 @@ export async function list({
 	url,
 	groupId,
 	t,
-	notPaged
+	notPaged,
+	banned = false
 }: {
 	instance_id: number;
 	url: URL;
 	groupId: number;
 	t: App.Localization;
 	notPaged?: boolean;
+	banned?: boolean;
 }): Promise<schema.List> {
 	await exists({ instanceId: instance_id, groupId, t });
 	const query = filterQuery(url, { search_key: 'full_name', notPaged });
+	const statusCondition = banned
+		? db.conditions.isIn(['banned'])
+		: db.conditions.isNotIn(['banned']);
 	const selected = await db
 		.select(
 			'people.group_members',
-			{ group_id: groupId, status: db.conditions.isNotIn(['banned']) },
+			{ group_id: groupId, status: statusCondition },
 			{
 				lateral: {
 					person: db.selectExactlyOne(
@@ -63,7 +68,7 @@ export async function list({
 	const count = await db
 		.count(
 			'people.group_members',
-			{ group_id: groupId },
+			{ group_id: groupId, status: statusCondition },
 			{
 				lateral: {
 					person: db.selectExactlyOne('people.people', {
