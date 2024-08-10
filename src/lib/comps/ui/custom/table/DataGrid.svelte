@@ -6,7 +6,6 @@
 	import H1 from '$lib/comps/typography/H1.svelte';
 
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
-	let loading = $state(false);
 	import Pagination from '$lib/comps/ui/custom/pagination/pagination.svelte';
 	import { page } from '$app/stores';
 	import { cn } from '$lib/utils';
@@ -50,17 +49,18 @@
 		separator?: boolean;
 		filterKey?: string;
 		pagination?: boolean;
+		loading?: boolean;
 		options?: DataGridOptions;
 	};
 
-	const {
+	let {
 		items,
 		count,
+		loading = $bindable(false),
 		children,
 		content,
 		title = 'Title',
 		subtitle = null,
-		separator = true,
 		newItemHref = null,
 		class: className,
 		filterKey,
