@@ -58,7 +58,24 @@ export const COMMUNICATION_INTERACTION_TYPES = [
 	'email_outbound',
 	'email_inbound'
 ] as const;
-export const ACTIVITY_INTERACTION_TYPES = [] as const;
+export const ACTIVITY_INTERACTION_TYPES = [
+	'person_added',
+	'person_joined',
+	'user_details_updated',
+	'notes',
+	'signed_petition',
+	'registered_for_event',
+	'cancelled_event_registration',
+	'attended_event',
+	'noshow_event',
+	'whatsapp_verified',
+	'added_to_list',
+	'removed_from_list',
+	'added_to_group',
+	'removed_from_group',
+	'added_tag',
+	'removed_tag'
+] as const;
 
 export const interactionTypes = {
 	added: v.object({
