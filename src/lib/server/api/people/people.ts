@@ -1,4 +1,5 @@
 import { db, pool, redis, pino, BelcodaError, error, filterQuery, type s } from '$lib/server';
+import { filterInteractions } from '$lib/server/utils/filters/filter';
 import { format } from 'node-pg-format';
 import * as schema from '$lib/schema/people/people';
 import { read as instanceApi } from '$lib/server/api/core/instances';
@@ -141,16 +142,19 @@ export async function update({
 export async function read({
 	instance_id,
 	person_id,
-	t
+	t,
+	url
 }: {
 	instance_id: number;
 	person_id: number;
 	t: App.Localization;
+	url?: URL;
 }): Promise<schema.Read> {
 	const cached = await redis.get(redisString(instance_id, person_id));
 	if (cached) {
 		return v.parse(schema.read, cached);
 	}
+	const interactionsCondition = filterInteractions(url);
 	const person = await db
 		.selectExactlyOne(
 			'people.people',
@@ -171,8 +175,8 @@ export async function read({
 						}
 					),
 					interactions: db.select(
-						'people.interactions',
-						{ person_id: person_id },
+						'people.list_interactions',
+						{ person_id: person_id, type: interactionsCondition },
 						{
 							order: { by: 'created_at', direction: 'DESC' },
 							lateral: {

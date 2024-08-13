@@ -3,8 +3,12 @@ import {
 	create as createSchema,
 	type Create,
 	type List,
-	list as listSchema
+	COMMUNICATION_INTERACTION_TYPES,
+	list as listSchema,
+	ACTIVITY_INTERACTION_TYPES
 } from '$lib/schema/people/interactions';
+
+import { filterInteractions } from '$lib/server/utils/filters/filter';
 import { parse } from '$lib/schema/valibot';
 import {
 	exists as personExists,
@@ -12,30 +16,38 @@ import {
 } from '$lib/server/api/people/people';
 import { exists as adminExists } from '$lib/server/api/core/admins';
 
-function redisString(instance_id: number, person_id: number) {
-	return `i:${instance_id}:interactions:${person_id}`;
+function redisString(
+	instance_id: number,
+	person_id: number,
+	type?: 'communications' | 'activity' | null
+) {
+	return `i:${instance_id}:interactions:${person_id}${type ? `:${type}` : ''}`;
 }
 
 export async function list({
 	instanceId,
 	personId,
-	url
+	url,
+	type = null
 }: {
 	instanceId: number;
 	personId: number;
 	url: URL;
+	type?: 'communications' | 'activity' | null;
 }): Promise<List> {
 	const { filtered, where, options } = filterQuery(url);
 	if (!filtered) {
-		const cached = await redis.get(redisString(instanceId, personId));
+		const cached = await redis.get(redisString(instanceId, personId, type));
 		if (cached) {
 			return parse(listSchema, cached);
 		}
 	}
+	//either it's activity, or conditions or simply just not null...
+	const typeConditions = filterInteractions(url);
 	const interactions = await db
 		.select(
-			'people.interactions',
-			{ instance_id: instanceId, person_id: personId, ...where },
+			'people.list_interactions',
+			{ instance_id: instanceId, type: typeConditions, person_id: personId, ...where },
 			{
 				order: { by: 'created_at', direction: 'DESC' },
 				offset: options.offset,
@@ -46,6 +58,31 @@ export async function list({
 			}
 		)
 		.run(pool);
+	const parsed = parse(listSchema, interactions);
+	await redis.set(redisString(instanceId, personId, type), parsed);
+	return parsed;
+}
+
+export async function listCommunications({
+	instanceId,
+	personId,
+	url
+}: {
+	instanceId: number;
+	personId: number;
+	url: URL;
+}): Promise<List> {
+	const { filtered, where, options } = filterQuery(url);
+	/* if (!filtered) {
+		const cached = await redis.get(redisString(instanceId, personId));
+		if (cached) {
+			return parse(listSchema, cached);
+		}
+	} */
+	const interactionsSql =
+		await db.sql`SELECT coalesce(jsonb_agg(result), '[]') AS result FROM (SELECT to_jsonb("people"."interactions".*) || jsonb_build_object(${db.param('admin')}::text, "lateral_admin".result) AS result FROM "people"."interactions" LEFT JOIN LATERAL (SELECT to_jsonb("admins".*) AS result FROM "admins" WHERE ("id" = "people"."interactions"."admin_id") LIMIT ${db.param(options.limit)}) AS "lateral_admin" ON true WHERE ("instance_id" = ${db.param(instanceId)} AND details->>'type' IN (${db.param(COMMUNICATION_INTERACTION_TYPES.join(', '))}) ) ORDER BY "created_at" DESC LIMIT ${db.param(options.limit)} OFFSET ${db.param(options.offset)}) AS "sq_people.interactions"`;
+	console.log(interactionsSql.compile());
+	const interactions = await interactionsSql.run(pool);
 	const parsed = parse(listSchema, interactions);
 	await redis.set(redisString(instanceId, personId), parsed);
 	return parsed;

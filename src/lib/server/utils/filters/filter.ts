@@ -23,6 +23,24 @@ export function filterPersonTags(url: URL): number[] {
 	const tagIds = tags.map((tag) => parseInt(tag));
 	return tagIds;
 }
+import {
+	COMMUNICATION_INTERACTION_TYPES,
+	ACTIVITY_INTERACTION_TYPES
+} from '$lib/schema/people/interactions';
+export function filterInteractions(url?: URL) {
+	let type: 'communications' | 'activity' | null = null;
+	if (url?.searchParams.get('display') === 'communications') type = 'communications';
+	if (url?.searchParams.get('display') === 'activity') type = 'activity';
+	//either it's activity, or conditions or simply just not null...
+	console.log(type);
+	const typeConditions =
+		type === 'activity'
+			? db.conditions.isIn(ACTIVITY_INTERACTION_TYPES)
+			: type === 'communications'
+				? db.conditions.isIn(COMMUNICATION_INTERACTION_TYPES)
+				: db.conditions.isNotNull;
+	return typeConditions;
+}
 
 export function filterQuery(
 	url: URL,

@@ -50,6 +50,16 @@ export const personAddedType = v.variant('method', [
 	addedAndJoinedTypes.other
 ]);
 
+export const COMMUNICATION_INTERACTION_TYPES = [
+	'phone_call_outbound',
+	'phone_call_inbound',
+	'outbound_whatsapp',
+	'inbound_whatsapp',
+	'email_outbound',
+	'email_inbound'
+] as const;
+export const ACTIVITY_INTERACTION_TYPES = [] as const;
+
 export const interactionTypes = {
 	added: v.object({
 		type: v.literal('person_added'),

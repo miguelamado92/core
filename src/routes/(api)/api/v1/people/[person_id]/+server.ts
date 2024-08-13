@@ -6,7 +6,8 @@ export async function GET(event) {
 		const person = await api.read({
 			instance_id: event.locals.instance.id,
 			person_id: Number(event.params.person_id),
-			t: event.locals.t
+			t: event.locals.t,
+			url: event.url
 		});
 		return json(person);
 	} catch (err) {
