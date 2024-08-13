@@ -4,18 +4,10 @@
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import H1 from '$lib/comps/typography/H1.svelte';
 	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
-	import Tags from '$lib/comps/widgets/tags/Tags.svelte';
-	import PointPerson from '$lib/comps/widgets/point_person/PointPerson.svelte';
-	import { renderAddress } from '$lib/utils/text/address';
-	import Badge from '$lib/comps/ui/badge/badge.svelte';
 	import Separator from '$lib/comps/ui/separator/separator.svelte';
 
-	//icons
-	import Check from 'lucide-svelte/icons/check';
-	import MapPin from 'lucide-svelte/icons/map-pin';
-	import Mail from 'lucide-svelte/icons/mail';
-	import Phone from 'lucide-svelte/icons/phone';
-	import Building from 'lucide-svelte/icons/building-2';
+	import PersonInfo from './PersonInfo.svelte';
+
 	import Interaction from '$lib/comps/widgets/interactions/Interaction.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { parse } from '$lib/schema/valibot';
@@ -23,7 +15,9 @@
 	import LogInteraction from '$lib/comps/widgets/interactions/LogInteraction.svelte';
 	let timer: null | ReturnType<typeof setInterval> = $state(null);
 	async function fetchLatestInteractions() {
-		const result = await fetch(`/api/v1/people/${data.person.id}/interactions`);
+		const result = await fetch(
+			`/api/v1/people/${data.person.id}/interactions?display=communications`
+		);
 		if (result.ok) {
 			const body = await result.json();
 			const parsed = parse(listParseSchema, body);
@@ -73,53 +67,7 @@
 	{/snippet}
 </PageHeader>
 
-<div class="text-muted-foreground space-y-2 mt-3">
-	{#if renderAddress(data.person, data.t).text.length > 0}
-		<div class="flex items-center gap-1.5">
-			<MapPin size={18} />
-			<a href={renderAddress(data.person, data.t).url} target="_blank"
-				>{renderAddress(data.person, data.t).text}</a
-			>
-		</div>
-	{/if}
-
-	{#if data.person.email}
-		<div class="flex items-center gap-1.5">
-			<Mail size={18} />
-			<div>{data.person.email.email}</div>
-			{#if data.person.email.subscribed}<Badge class="gap-1 bg-success-600 hover:bg-success-600"
-					><Check size={12} />{data.t.common.status.subscribed()}</Badge
-				>{/if}
-		</div>
-	{/if}
-
-	{#if data.person.phone_number}
-		<div class="flex items-center gap-1.5">
-			<Phone size={18} />
-			<div>{data.person.phone_number.phone_number}</div>
-			{#if data.person.phone_number.subscribed}
-				<Badge class="gap-1 bg-success-600 hover:bg-success-600"
-					><Check size={12} />{data.t.common.status.subscribed()}</Badge
-				>
-			{/if}
-		</div>
-	{/if}
-
-	{#if data.person.organization}
-		<div class="flex items-center gap-1.5">
-			<Building size={18} />
-			{#if data.person.position}<div>{`${data.person.position}, `}</div>{/if}
-			<div>{data.person.organization}</div>
-		</div>
-	{/if}
-
-	<div class="flex justify-between items-baseline flex-wrap gap-4">
-		<Tags type="people" personOrEventId={data.person.id} />
-		<PointPerson type="person" objectId={data.person.id} admin={data.person.point_person}
-			>{#snippet header()}{/snippet}</PointPerson
-		>
-	</div>
-</div>
+<PersonInfo person={data.person} />
 
 <Separator class="mt-6" />
 <div class="relative">
