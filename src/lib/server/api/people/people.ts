@@ -174,16 +174,6 @@ export async function read({
 							}
 						}
 					),
-					interactions: db.select(
-						'people.list_interactions',
-						{ person_id: person_id, type: interactionsCondition },
-						{
-							order: { by: 'created_at', direction: 'DESC' },
-							lateral: {
-								admin: db.selectExactlyOne('admins', { id: db.parent('admin_id') })
-							}
-						}
-					),
 					tags: db.select(
 						'people.taggings',
 						{ person_id: person_id },

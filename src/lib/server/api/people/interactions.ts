@@ -58,33 +58,11 @@ export async function list({
 			}
 		)
 		.run(pool);
-	const parsed = parse(listSchema, interactions);
+	const count = await db
+		.count('people.list_interactions', { type: typeConditions, person_id: personId, ...where })
+		.run(pool);
+	const parsed = parse(listSchema, { items: interactions, count: count });
 	await redis.set(redisString(instanceId, personId, type), parsed);
-	return parsed;
-}
-
-export async function listCommunications({
-	instanceId,
-	personId,
-	url
-}: {
-	instanceId: number;
-	personId: number;
-	url: URL;
-}): Promise<List> {
-	const { filtered, where, options } = filterQuery(url);
-	/* if (!filtered) {
-		const cached = await redis.get(redisString(instanceId, personId));
-		if (cached) {
-			return parse(listSchema, cached);
-		}
-	} */
-	const interactionsSql =
-		await db.sql`SELECT coalesce(jsonb_agg(result), '[]') AS result FROM (SELECT to_jsonb("people"."interactions".*) || jsonb_build_object(${db.param('admin')}::text, "lateral_admin".result) AS result FROM "people"."interactions" LEFT JOIN LATERAL (SELECT to_jsonb("admins".*) AS result FROM "admins" WHERE ("id" = "people"."interactions"."admin_id") LIMIT ${db.param(options.limit)}) AS "lateral_admin" ON true WHERE ("instance_id" = ${db.param(instanceId)} AND details->>'type' IN (${db.param(COMMUNICATION_INTERACTION_TYPES.join(', '))}) ) ORDER BY "created_at" DESC LIMIT ${db.param(options.limit)} OFFSET ${db.param(options.offset)}) AS "sq_people.interactions"`;
-	console.log(interactionsSql.compile());
-	const interactions = await interactionsSql.run(pool);
-	const parsed = parse(listSchema, interactions);
-	await redis.set(redisString(instanceId, personId), parsed);
 	return parsed;
 }
 
@@ -114,7 +92,7 @@ export async function create({
 			}
 		)
 		.run(pool);
-	const parsedOut = parse(listSchema.item, output);
+	const parsedOut = parse(listSchema.entries.items.item, output);
 	await redis.del(personRedisString(instanceId, parsed.person_id));
 	await redis.del(redisString(instanceId, parsed.person_id));
 	return parsedOut;

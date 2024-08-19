@@ -1,0 +1,168 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import * as Select from '$lib/comps/ui/select';
+	import Input from '$lib/comps/ui/input/input.svelte';
+	type InteractionType =
+		| 'notes'
+		| 'phone_call_outbound'
+		| 'phone_call_inbound'
+		| 'outbound_whatsapp';
+	import Button from '$lib/comps/ui/button/button.svelte';
+	import H3 from '$lib/comps/typography/H3.svelte';
+	import sendWhatsappMessage from '$lib/comps/widgets/interactions/sendWhatsappMessage.js';
+
+	const types: { value: InteractionType; label: string }[] = [
+		{ value: 'notes', label: $page.data.t.people.interactions.create_types.notes() },
+		{
+			value: 'outbound_whatsapp',
+			label: $page.data.t.people.interactions.create_types.whatsapp()
+		}
+	];
+	let selected = $state(types[0]);
+	import { type List } from '$lib/schema/people/interactions';
+	const {
+		onLogged,
+		personId
+	}: { personId: number; onLogged: (interaction?: List['items'][number]) => void } = $props();
+	import { getFlash } from 'sveltekit-flash-message';
+	let flash = getFlash(page);
+	let notes: string | undefined = $state(undefined);
+
+	let activeConversation: boolean = $state(false);
+	let activeConversationLoading: boolean = $state(false);
+
+	async function getConversationStatus() {
+		try {
+			activeConversationLoading = true;
+			activeConversation = false;
+			const response = await fetch(
+				`/api/v1/people/${personId}/communication/whatsapp/conversations`
+			);
+			if (response.ok) {
+				const body = await response.json();
+				if (body.active) activeConversation = body.active;
+			} else {
+				throw new Error();
+			}
+		} catch (err) {
+			if (err instanceof Error) {
+				$flash = { type: 'error', message: err?.message || $page.data.t.errors.generic() };
+			} else {
+				$flash = { type: 'error', message: $page.data.t.errors.generic() };
+			}
+		} finally {
+			activeConversationLoading = false;
+		}
+	}
+
+	async function logInteraction(e: SubmitEvent) {
+		try {
+			e.preventDefault();
+			if (selected.value === 'outbound_whatsapp' && notes) {
+				await sendWhatsappMessage(notes, personId, $page.data.admin.id);
+				onLogged();
+			}
+			const body = {
+				details: { type: selected.value, notes: notes },
+				admin_id: $page.data.admin.id,
+				person_id: personId
+			};
+			const response = await fetch(`/api/v1/people/${$page.data.person.id}/interactions`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(body)
+			});
+			if (response.ok) {
+				const output: List['items'][number] = await response.json();
+				onLogged(output);
+			} else {
+				throw new Error();
+			}
+			$flash = { type: 'success', message: $page.data.t.forms.actions.created() };
+		} catch (err) {
+			if (err instanceof Error) {
+				$flash = { type: 'error', message: err?.message || $page.data.t.errors.generic() };
+			} else {
+				$flash = { type: 'error', message: $page.data.t.errors.generic() };
+			}
+		} finally {
+			notes = undefined;
+		}
+	}
+</script>
+
+<div class="bg-white border rounded-sm shadow-sm p-3">
+	<form onsubmit={logInteraction}>
+		<div class="grid items-baseline gap-3 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
+			{@render selectType()}
+			<div class="col-span-1 md:col-span-2 lg:col-span-3">
+				{#if selected.value === 'outbound_whatsapp'}
+					{#if activeConversationLoading}
+						{$page.data.t.common.status.loading()}
+					{:else if activeConversation}
+						<Input
+							bind:value={notes}
+							name="message"
+							class="flex items-center h-10 w-full rounded px-3 text-sm"
+							type="text"
+							placeholder={$page.data.t.people.interactions.create_types.whatsapp_msg_input_placeholder()}
+						/>
+					{:else}
+						{@render noWhatsappConversation()}
+					{/if}
+				{:else}
+					<Input
+						bind:value={notes}
+						name="message"
+						class="flex items-center h-10 w-full rounded px-3 text-sm"
+						type="text"
+						placeholder={$page.data.t.people.interactions.create_types.notes_input_placeholder()}
+					/>
+				{/if}
+			</div>
+		</div>
+
+		<div class="sm:flex sm:justify-end mt-3">
+			{#if selected.value !== 'outbound_whatsapp' || activeConversation}
+				<Button class="w-full sm:w-auto" type="submit" variant="default" size="sm">
+					{$page.data.t.forms.buttons.post()}
+				</Button>
+			{/if}
+		</div>
+	</form>
+</div>
+
+{#snippet selectType()}
+	<Select.Root
+		items={types}
+		bind:selected
+		onSelectedChange={async (val) => {
+			if (val && val.value === 'outbound_whatsapp') {
+				await getConversationStatus();
+			}
+		}}
+	>
+		<Select.Trigger class="w-full">
+			<Select.Value placeholder="[Interaction]" />
+		</Select.Trigger>
+		<Select.Content>
+			{#each types as type}
+				<Select.Item value={type.value} label={type.label} class="flex items-center gap-2">
+					{type.label}
+				</Select.Item>
+			{/each}
+		</Select.Content>
+		<Select.Input name="type" />
+	</Select.Root>
+{/snippet}
+
+{#snippet noWhatsappConversation()}
+	<div class="text-muted-foreground text-sm flex justify-center text-center">
+		{$page.data.t.people.interactions.create_types.whatsapp_no_conversation_active()}
+	</div>
+	<div class="flex justify-center mt-2">
+		<Button variant="secondary" href="/communications/whatsapp/new"
+			>{$page.data.t.pages.communications.whatsapp.new()}</Button
+		>
+	</div>
+{/snippet}
