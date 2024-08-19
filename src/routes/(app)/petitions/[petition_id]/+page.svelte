@@ -38,6 +38,7 @@
 			}
 		}
 	}
+	import Plus from 'lucide-svelte/icons/plus';
 </script>
 
 <PageHeader title={data.petition.name} separator={false}>
@@ -66,7 +67,10 @@
 		options={{ showFilter: false }}
 	>
 		{#snippet headerButton()}
-			<PersonDropdown selectedPersonIds={signatureIds} onAddPerson={addPerson} />
+			<PersonDropdown selectedPersonIds={signatureIds} onAddPerson={addPerson}>
+				<Plus size={14} />
+				{$page.data.t.people.actions.search_and_add()}
+			</PersonDropdown>
 		{/snippet}
 		{#snippet content(signature: typeof data.signatures.items[0])}
 			<div class="flex items-center justify-between gap-4">

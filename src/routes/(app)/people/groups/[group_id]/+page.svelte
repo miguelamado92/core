@@ -40,6 +40,7 @@
 			loading = false;
 		}
 	}
+	import Plus from 'lucide-svelte/icons/plus';
 </script>
 
 <DataGrid
@@ -95,26 +96,31 @@
 			const loadingIdIndex = $loadingIds.findIndex((id) => id === person.id);
 			$loadingIds = $loadingIds.toSpliced(loadingIdIndex, 1);
 		}}
-	/>
+	>
+		<Plus size={14} />
+		{$page.data.t.people.actions.search_and_add()}
+	</PersonDropdown>
 {/snippet}
 
 {#snippet removePersonButton(person: typeof data.group.members[0], i: number)}
 	<Button
 		variant="destructive"
 		onclick={async () => {
-			$loadingIds = [...$loadingIds, person.id];
-			const result = await fetch(`/api/v1/people/groups/${data.group.id}/members/${person.id}`, {
-				method: 'DELETE'
-			});
-			if (!result.ok) {
-				$flash = { type: 'error', message: data.t.errors.updating_data() };
+			if (window.confirm($page.data.t.common.alerts.confirmation())) {
+				$loadingIds = [...$loadingIds, person.id];
+				const result = await fetch(`/api/v1/people/groups/${data.group.id}/members/${person.id}`, {
+					method: 'DELETE'
+				});
+				if (!result.ok) {
+					$flash = { type: 'error', message: data.t.errors.updating_data() };
+				}
+				$flash = { type: 'success', message: data.t.forms.actions.removed() };
+				const personIndex = data.group.members.findIndex((p) => p.id === person.id);
+				data.group.members = data.group.members.toSpliced(personIndex, 1);
+				await invalidateAll();
+				const loadingIdIndex = $loadingIds.findIndex((id) => id === person.id);
+				$loadingIds = $loadingIds.toSpliced(loadingIdIndex, 1);
 			}
-			$flash = { type: 'success', message: data.t.forms.actions.removed() };
-			const personIndex = data.group.members.findIndex((p) => p.id === person.id);
-			data.group.members = data.group.members.toSpliced(personIndex, 1);
-			await invalidateAll();
-			const loadingIdIndex = $loadingIds.findIndex((id) => id === person.id);
-			$loadingIds = $loadingIds.toSpliced(loadingIdIndex, 1);
 		}}>{data.t.forms.buttons.remove()}</Button
 	>
 {/snippet}
@@ -124,20 +130,22 @@
 		items={statuses}
 		selected={statuses.find((val) => val.value === person.status)}
 		onSelectedChange={async (val) => {
-			if (!val) return;
-			const status = val.value;
-			$loadingIds = [...$loadingIds, person.id];
-			const result = await fetch(`/api/v1/people/groups/${data.group.id}/members/${person.id}`, {
-				method: 'PUT',
-				body: JSON.stringify({ status })
-			});
-			if (!result.ok) {
-				$flash = { type: 'error', message: data.t.errors.updating_data() };
+			if (window.confirm($page.data.t.common.alerts.confirmation())) {
+				if (!val) return;
+				const status = val.value;
+				$loadingIds = [...$loadingIds, person.id];
+				const result = await fetch(`/api/v1/people/groups/${data.group.id}/members/${person.id}`, {
+					method: 'PUT',
+					body: JSON.stringify({ status })
+				});
+				if (!result.ok) {
+					$flash = { type: 'error', message: data.t.errors.updating_data() };
+				}
+				$flash = { type: 'success', message: data.t.forms.actions.updated() };
+				await invalidateAll();
+				const loadingIdIndex = $loadingIds.findIndex((id) => id === person.id);
+				$loadingIds = $loadingIds.toSpliced(loadingIdIndex, 1);
 			}
-			$flash = { type: 'success', message: data.t.forms.actions.updated() };
-			await invalidateAll();
-			const loadingIdIndex = $loadingIds.findIndex((id) => id === person.id);
-			$loadingIds = $loadingIds.toSpliced(loadingIdIndex, 1);
 		}}
 	>
 		<Select.Trigger class="w-[180px]">

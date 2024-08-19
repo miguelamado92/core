@@ -10,6 +10,7 @@
 	import { page } from '$app/stores';
 	const flash = getFlash(page);
 	const loadingIds: Writable<number[]> = writable([]);
+	import Plus from 'lucide-svelte/icons/plus';
 </script>
 
 <DataGrid
@@ -69,7 +70,10 @@
 					const loadingIdIndex = $loadingIds.findIndex((id) => id === person.id);
 					$loadingIds = $loadingIds.toSpliced(loadingIdIndex, 1);
 				}}
-			/>
+			>
+				<Plus size={14} />
+				{$page.data.t.people.actions.search_and_add()}
+			</PersonDropdown>
 			<Button href="/people/lists/{data.list.id}/edit">{data.t.forms.buttons.edit()}</Button>
 		</div>
 	{/snippet}
