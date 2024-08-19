@@ -4,8 +4,14 @@
 	let {
 		onPageChange,
 		count,
+		showOnSinglePage = false,
 		loading = $bindable(false)
-	}: { onPageChange?: (newPage: number) => {}; count: number; loading: boolean } = $props();
+	}: {
+		onPageChange?: (newPage: number) => {};
+		count: number;
+		showOnSinglePage?: boolean;
+		loading: boolean;
+	} = $props();
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
@@ -22,9 +28,10 @@
 			loading = false;
 		}
 	}
+	const show = $derived((showOnSinglePage && count > 0) || count > perPage);
 </script>
 
-{#if count > 0}
+{#if show}
 	<Pagination.Root
 		{count}
 		{perPage}

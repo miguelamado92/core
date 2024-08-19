@@ -65,16 +65,15 @@ export const read = v.object({
 	...v.omit(base, ['instance_id', 'point_person_id']).entries,
 	tags: v.array(v.omit(tag, ['instance_id', 'created_at', 'updated_at'])),
 	custom_fields: v.array(readFromPerson),
-	point_person: readAdmin,
-	interactions: listInteractions
+	point_person: readAdmin
 });
 export type Read = v.InferOutput<typeof read>;
 
-export const list = v.object({ items: v.array(v.omit(read, ['interactions'])), count: count });
+export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
 export const _listWithSearch = v.object({
-	items: v.array(v.object({ ...v.omit(read, ['interactions']).entries, search: longString })),
+	items: v.array(v.object({ ...read.entries, search: longString })),
 	count: count
 });
 export type _ListWithSearch = v.InferOutput<typeof _listWithSearch>;
