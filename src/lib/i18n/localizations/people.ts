@@ -54,6 +54,20 @@ export default function (locale: SL) {
 				}
 			}
 		},
+		actions: {
+			search_and_add: () => {
+				return t(locale, {
+					en: 'Search and add people',
+					ja: '人を検索して追加',
+					pt: 'Pesquisar e adicionar pessoas',
+					es: 'Buscar y agregar personas',
+					fr: 'Rechercher et ajouter des personnes',
+					sw: 'Tafuta na ongeza watu',
+					th: 'ค้นหาและเพิ่มคน',
+					zh: '搜索并添加人员'
+				});
+			}
+		},
 		filter: {
 			results: {
 				title: () => {
@@ -531,6 +545,81 @@ export default function (locale: SL) {
 						th: `ลบออกจาก <a href="/people/groups/${groupId}">${groupName}</a>`,
 						zh: `从<a href="/people/groups/${groupId}">${groupName}</a>中删除`
 					});
+				}
+			},
+			interactionMessage: {
+				notes: (adminName: string) => {
+					return t(locale, {
+						en: `${adminName} added notes`
+					});
+				},
+				phone_call_inbound: (adminName: string) => {
+					return t(locale, {
+						en: `${adminName} received a phone call`
+					});
+				},
+				phone_call_outbound: (adminName: string) => {
+					return t(locale, {
+						en: `${adminName} made a phone call`
+					});
+				},
+				email_outbound: (adminName: string) => {
+					return t(locale, {
+						en: `${adminName} via email`
+					});
+				},
+				email_inbound: (personName: string) => {
+					return t(locale, {
+						en: `${personName} via email`
+					});
+				},
+				signed_petition: {
+					manual: (adminName: string, petitionName: string, petitionUrl: string) => {
+						return t(locale, {
+							en: `Signature <a href="${petitionUrl}">${petitionName}</a> to added by ${adminName}`
+						});
+					},
+					self: (personName: string, petitionName: string, petitionUrl: string) => {
+						return t(locale, {
+							en: `${personName} signed <a href="${petitionUrl}">${petitionName}</a>`
+						});
+					}
+				},
+				events: {
+					registered: {
+						manual: (adminName: string, eventName: string, eventUrl: string) => {
+							return t(locale, {
+								en: `Registered for <a href=${eventUrl}>${eventName}</a> by ${adminName}`
+							});
+						},
+						self: (personName: string, eventName: string, eventUrl: string) => {
+							return t(locale, {
+								en: `${personName} registered for <a href=${eventUrl}>${eventName}</a>`
+							});
+						}
+					},
+					cancelled: {
+						manual: (adminName: string, eventName: string, eventUrl: string) => {
+							return t(locale, {
+								en: `Registration for <a href=${eventUrl}>${eventName}</a> cancelled by ${adminName}`
+							});
+						},
+						self: (personName: string, eventName: string, eventUrl: string) => {
+							return t(locale, {
+								en: `${personName} cancelled their registration for <a href=${eventUrl}>${eventName}</a>`
+							});
+						}
+					},
+					attended: (personName: string, eventName: string, eventUrl: string) => {
+						return t(locale, {
+							en: `${personName} attended <a href=${eventUrl}>${eventName}</a>`
+						});
+					},
+					noshow: (adminName: string, eventName: string, eventUrl: string) => {
+						return t(locale, {
+							en: `Marked as noshow for <a href=${eventUrl}>${eventName}</a> by ${adminName}`
+						});
+					}
 				}
 			}
 		},

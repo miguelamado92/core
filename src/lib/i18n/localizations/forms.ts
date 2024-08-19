@@ -2071,6 +2071,18 @@ export default function (locale: SL) {
 								th: '[แตะเพื่อส่งข้อความ]',
 								zh: '[点击发送消息]'
 							});
+						},
+						choose_list_to_send: () => {
+							return t(locale, {
+								en: 'Choose a list to send to',
+								ja: 'このメッセージを送信するリストを選択',
+								pt: 'Escolha uma lista para enviar esta mensagem',
+								es: 'Elija una lista para enviar este mensaje',
+								fr: 'Choisissez une liste pour envoyer ce message',
+								sw: 'Chagua orodha kutuma ujumbe huu',
+								th: 'เลือกรายการเพื่อส่งข้อความนี้',
+								zh: '选择要发送此消息的列表'
+							});
 						}
 					},
 					message_edit_form: {
@@ -2103,6 +2115,18 @@ export default function (locale: SL) {
 			}
 		},
 		buttons: {
+			post: () => {
+				return t(locale, {
+					en: 'Post',
+					ja: '投稿',
+					pt: 'Postar',
+					es: 'Publicar',
+					fr: 'Publier',
+					sw: 'Chapisha',
+					th: 'โพสต์',
+					zh: '发布'
+				});
+			},
 			submit: () => {
 				return t(locale, {
 					en: 'Submit',
@@ -2226,6 +2250,18 @@ export default function (locale: SL) {
 					sw: 'Hariri',
 					th: 'แก้ไข',
 					zh: '编辑'
+				});
+			},
+			edit_name: () => {
+				return t(locale, {
+					en: 'Edit name',
+					ja: '名前を編集',
+					pt: 'Editar nome',
+					es: 'Editar nombre',
+					fr: 'Modifier le nom',
+					sw: 'Hariri jina',
+					th: 'แก้ไขชื่อ',
+					zh: '编辑名称'
 				});
 			},
 			view: () => {
