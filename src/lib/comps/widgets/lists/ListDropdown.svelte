@@ -2,17 +2,21 @@
 	import { page } from '$app/stores';
 	import { type List } from '$lib/schema/people/lists';
 	import { debounce } from '$lib/utils';
+	import type { Snippet } from 'svelte';
+
 	type Props = {
 		list?: List['items'][number];
 		lists?: List['items'];
 		value?: number;
 		onSelectList?: (list: List['items'][number]) => void;
+		children?: Snippet;
 	};
 	let {
 		list = $bindable(),
 		value = $bindable(),
 		lists = $bindable([]),
-		onSelectList
+		onSelectList,
+		children
 	}: Props = $props();
 	let loading = $state(false);
 	let open = $state(false);
@@ -66,6 +70,8 @@
 			>
 				{#if list}
 					{list.name} <ChevronDown size={14} />
+				{:else if children}
+					{@render children()}
 				{:else}
 					<Plus size={14} />
 					<div class="text-sm">{$page.data.t.forms.buttons.search()}</div>

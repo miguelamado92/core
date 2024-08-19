@@ -2,17 +2,21 @@
 	import { page } from '$app/stores';
 	import { type List } from '$lib/schema/events/events';
 	import { debounce } from '$lib/utils';
+	import type { Snippet } from 'svelte';
+
 	type Props = {
 		item?: List['items'][number];
 		items?: List['items'];
 		value?: number;
 		onselect: (item: List['items'][number]) => void;
+		children?: Snippet;
 	};
 	let {
 		item = $bindable(),
 		value = $bindable(),
 		items = $bindable([]),
-		onselect
+		onselect,
+		children
 	}: Props = $props();
 	let loading = $state(false);
 	let open = $state(false);
@@ -65,6 +69,8 @@
 			>
 				{#if item}
 					{item.name}
+				{:else if children}
+					{@render children()}
 				{:else}
 					<Plus size={14} />
 					<div class="text-sm">{$page.data.t.forms.buttons.search()}</div>

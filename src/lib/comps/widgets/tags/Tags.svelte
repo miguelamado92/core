@@ -6,8 +6,15 @@
 		taggings?: ListOfTags;
 		tags?: ListOfTags;
 		personOrEventId: number;
+		addTagButtonFirst?: boolean;
 	};
-	let { type, taggings = $bindable([]), tags = $bindable([]), personOrEventId }: Props = $props();
+	let {
+		type,
+		taggings = $bindable([]),
+		tags = $bindable([]),
+		personOrEventId,
+		addTagButtonFirst = false
+	}: Props = $props();
 	let loading = $state(false);
 	let open = $state(false);
 	let selectableTags = $derived.by(() => {
@@ -64,6 +71,7 @@
 </script>
 
 <div class="flex items-center justify-start gap-2 flex-wrap">
+	{#if addTagButtonFirst}{@render popover()}{/if}
 	{#each taggings as tag}
 		<Badge class="justify-start gap-x-1 py-0 rounded-md"
 			>{tag.name}
@@ -84,7 +92,7 @@
 			<LoaderCircle class="animated animate-spin" size={12} />
 		</Badge>
 	{/if}
-	{@render popover()}
+	{#if !addTagButtonFirst}{@render popover()}{/if}
 </div>
 {#snippet popover()}
 	<Popover.Root bind:open let:ids>
@@ -109,6 +117,7 @@
 							<Command.Item
 								value={tag.id.toString()}
 								onSelect={(v) => {
+									open = false;
 									handleAddTag(Number(v));
 								}}
 							>

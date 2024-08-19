@@ -2,17 +2,20 @@
 	import { page } from '$app/stores';
 	import { type _ListWithSearch } from '$lib/schema/people/people';
 	import { debounce } from '$lib/utils';
+	import type { Snippet } from 'svelte';
 	type Props = {
 		people?: _ListWithSearch['items'];
 		person?: _ListWithSearch['items'][number];
 		selectedPersonIds: number[];
 		onAddPerson: (person: _ListWithSearch['items'][number]) => void;
+		children?: Snippet;
 	};
 	let {
 		people = $bindable([]),
 		person = $bindable(),
 		selectedPersonIds,
-		onAddPerson
+		onAddPerson,
+		children
 	}: Props = $props();
 	let loading = $state(false);
 	let open = $state(false);
@@ -64,8 +67,12 @@
 				variant="outline"
 				class="justify-start gap-x-1 rounded-lg px-2 py-3"
 			>
-				<Plus size={14} />
-				<div class="text-sm">{$page.data.t.forms.buttons.search_people()}</div>
+				{#if children}
+					{@render children()}
+				{:else}
+					<Plus size={14} />
+					<div class="text-sm">{$page.data.t.forms.buttons.search_people()}</div>
+				{/if}
 			</Button>
 		</Popover.Trigger>
 		<Popover.Content class="p-0" align="start" side="right">

@@ -92,33 +92,7 @@
 </script>
 
 <div class="bg-slate-200 p-4">
-	<form
-		onsubmit={logInteraction}
-		class="flex items-center gap-2"
-		method="post"
-		action="?/sendWhatsappMessage"
-	>
-		<Select.Root
-			items={types}
-			bind:selected
-			onSelectedChange={async (val) => {
-				if (val && val.value === 'outbound_whatsapp') {
-					await getConversationStatus();
-				}
-			}}
-		>
-			<Select.Trigger class="w-[160px]">
-				<Select.Value placeholder="[Interaction]" />
-			</Select.Trigger>
-			<Select.Content>
-				{#each types as type}
-					<Select.Item value={type.value} label={type.label} class="flex items-center gap-2">
-						{type.label}
-					</Select.Item>
-				{/each}
-			</Select.Content>
-			<Select.Input name="type" />
-		</Select.Root>
+	<form onsubmit={logInteraction} class="flex items-center gap-2" method="post">
 		<div class="flex-grow">
 			{#if selected.value === 'outbound_whatsapp'}
 				{#if activeConversationLoading}
