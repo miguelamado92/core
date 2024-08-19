@@ -2,6 +2,7 @@ import {
 	v,
 	shortString,
 	longString,
+	count,
 	timestamp,
 	uuid,
 	id,
@@ -242,7 +243,7 @@ export const read = v.object({
 });
 export type Read = v.InferOutput<typeof read>;
 
-export const list = v.array(read);
+export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.omit(base, ['id', 'instance_id', 'created_at']);
