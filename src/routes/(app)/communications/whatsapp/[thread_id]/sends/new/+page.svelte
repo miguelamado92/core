@@ -16,15 +16,18 @@
 		dataType: 'json'
 	});
 	const { form: formData, enhance, message } = form;
+	import Plus from 'lucide-svelte/icons/plus';
 </script>
 
-<PageHeader title="tite" />
+<PageHeader title={data.t.pages.communications.whatsapp.sends.new()} />
 <form use:enhance method="post">
 	<Grid cols={1} class="mt-4">
 		<Error error={$message} />
 		<div class="flex items-center gap-4">
-			<div>Choose list:</div>
-			<ListDropdown bind:value={$formData.list_id} />
+			<ListDropdown bind:value={$formData.list_id}>
+				<Plus size={14} />
+				{data.t.forms.fields.communications.whatsapp.send_message.choose_list_to_send()}
+			</ListDropdown>
 		</div>
 		<FormButton>{data.t.forms.buttons.send()}</FormButton>
 		<Debug data={$formData} />

@@ -12,7 +12,7 @@
 <DataGrid
 	items={data.sends.items}
 	count={data.sends.count}
-	title={'sdsdsdsdsdsd'}
+	title={data.t.pages.communications.whatsapp.sends.index()}
 	newItemHref={`/communications/whatsapp/${data.thread.id}/sends/new`}
 	options={{ showFilter: true, showTopSeparator: true }}
 >

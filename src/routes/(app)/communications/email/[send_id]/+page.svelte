@@ -22,31 +22,36 @@
 	}
 </script>
 
-<PageHeader title={data.t.pages.communications.email.view()}>
+<PageHeader title={data.send.name}>
 	{#snippet headerSnippet()}
 		<div class="flex items-center gap-4">
-			<H1>{data.t.pages.communications.email.view()}</H1>
+			<H1>{data.send.name}</H1>
 			{#if data.send.started_at && data.send.completed_at}
 				<Badge class="flex items-center gap-2" variant="success" size="lg">
 					<Check size={16} />
-					Completed
+					{data.t.common.status.completed()}
 				</Badge>
 			{:else if data.send.started_at}
 				<Badge variant="warning" class="flex items-center gap-2" size="lg">
 					<LoaderCircle class="animated animate-spin" size={16} />
-					Sending
+					{data.t.common.status.sending()}
 				</Badge>
 			{/if}
 		</div>
 		{#if data.send.completed_at}<div class="mt-2 text-muted-foreground text-lg">
-				Completed {data.timeAgo.format(data.send.completed_at)}
+				{data.t.common.status.completed_at(data.timeAgo.format(data.send.completed_at))}
 			</div>{/if}
 	{/snippet}
 	{#snippet button()}
 		<div class="flex items-center gap-2">
+			{#if !data.send.started_at}
+				<Button href="/communications/email/{data.send.id}/send" variant="outline" size="sm">
+					{data.t.forms.buttons.send()}
+				</Button>
+			{/if}
 			{#if !disabled}
 				<Button href="/communications/email/{data.send.id}/edit" variant="default" size="sm">
-					{data.t.forms.buttons.edit()}
+					{data.t.forms.buttons.edit_name()}
 				</Button>
 			{/if}
 		</div>
