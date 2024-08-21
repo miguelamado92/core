@@ -1,6 +1,8 @@
 import { WHAPI_API_URL, WHAPI_API_TOKEN } from '$env/static/private';
 import { BelcodaError } from '$lib/server';
 import type { NumericRange } from '@sveltejs/kit';
+import { pino } from '$lib/server';
+const log = pino('/server/utils/whapi/apiClient');
 export async function apiClient({
 	method,
 	endpoint,
@@ -8,7 +10,7 @@ export async function apiClient({
 }: {
 	method: 'POST' | 'PUT' | 'PATCH' | 'GET' | 'DELETE';
 	endpoint: `/${string}`;
-	data: unknown;
+	data?: unknown;
 }) {
 	try {
 		const response = await fetch(WHAPI_API_URL + endpoint, {
@@ -17,11 +19,13 @@ export async function apiClient({
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${WHAPI_API_TOKEN}`
 			},
-			body: JSON.stringify(data)
+			body: data ? JSON.stringify(data) : undefined
 		});
 		if (response.ok) {
 			return await response.json();
 		}
+		log.error('WHATPI RESPONSE');
+		log.error(await response.json());
 		throw new BelcodaError(
 			response.status as NumericRange<400, 599>,
 			`WA:APICLIENT:ERROR:01`,

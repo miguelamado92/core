@@ -30,6 +30,10 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 		return await whatsappHandler(event, resolve);
 	}
 
+	if (event.url.pathname.startsWith('/webhooks/whapi')) {
+		return await whatsappHandler(event, resolve);
+	}
+
 	const workerResponse = await worker(event, resolve);
 	if (!workerResponse.continue) return { continue: false, response: workerResponse.response };
 
