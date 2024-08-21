@@ -2,21 +2,15 @@
 	import { page } from '$app/stores';
 	import type { Read } from '$lib/schema/people/people';
 	import type { Snippet } from 'svelte';
-	const { person, children }: { person: Read; children: Snippet } = $props();
+	const { person }: { person: Read; children: Snippet } = $props();
 	import H3 from '$lib/comps/typography/H3.svelte';
 	import Separator from '$lib/comps/ui/separator/separator.svelte';
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
 	import { renderAddress } from '$lib/utils/text/address';
-	import { Badge } from '$lib/comps/ui/badge';
 
 	import Tags from '$lib/comps/widgets/tags/Tags.svelte';
 	import PointPerson from '$lib/comps/widgets/point_person/PointPerson.svelte';
-
-	import Check from 'lucide-svelte/icons/check';
-	import MapPin from 'lucide-svelte/icons/map-pin';
-	import Mail from 'lucide-svelte/icons/mail';
-	import Phone from 'lucide-svelte/icons/phone';
 	import Building from 'lucide-svelte/icons/building-2';
 	import Briefcase from 'lucide-svelte/icons/briefcase';
 	import CheckCircle from 'lucide-svelte/icons/circle-check';
