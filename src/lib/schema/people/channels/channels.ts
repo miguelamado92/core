@@ -3,7 +3,11 @@ import {
 	v,
 	phoneNumber as basePhoneNumber,
 	email as emailAddress,
-	country
+	country,
+	id,
+	longStringNotEmpty,
+	mediumString,
+	longString
 } from '$lib/schema/valibot';
 import type { SupportedCountry } from '$lib/i18n';
 
@@ -31,6 +35,7 @@ export const phoneNumber = v.pipe(
 		strict: v.optional(v.boolean(), true),
 		validated: v.optional(v.boolean(), false),
 		whatsapp_id: v.optional(v.nullable(v.string())),
+		whapi_id: v.optional(v.nullable(v.string())),
 		country: country
 	}),
 	v.transform((value) => {
@@ -56,6 +61,8 @@ export const phoneNumber = v.pipe(
 					whatsapp: value.whatsapp,
 					strict: value.strict,
 					validated: false,
+					whatsapp_id: value.whatsapp_id,
+					whapi_id: value.whapi_id,
 					country: value.country
 				};
 			}
@@ -65,9 +72,11 @@ export const phoneNumber = v.pipe(
 				contactable: value.contactable,
 				subscribed: value.subscribed,
 				textable: value.textable,
+				whatsapp: value.whatsapp,
 				strict: value.strict,
 				validated: true,
-				whatsapp: value.whatsapp,
+				whatsapp_id: value.whatsapp_id,
+				whapi_id: value.whapi_id,
 				country: value.country
 			};
 		}
@@ -83,6 +92,7 @@ export function generateDefaultPhoneNumber(country: SupportedCountry) {
 		strict: true,
 		validated: false,
 		whatsapp_id: null,
+		whapi_id: null,
 		country: country
 	};
 }
@@ -100,5 +110,21 @@ export const formattedPhoneNumber = v.pipe(
 			...value,
 			phone_number: parsed.number.national
 		};
+	})
+);
+
+export const whatsappNumberForVerification = v.object({
+	person_id: id
+});
+
+export const whatsapp = v.partial(
+	v.object({
+		id: longStringNotEmpty,
+		name: mediumString,
+		pushname: mediumString,
+		is_business: v.boolean(),
+		profile_pic: mediumString,
+		profile_pic_full: mediumString,
+		status: longString
 	})
 );

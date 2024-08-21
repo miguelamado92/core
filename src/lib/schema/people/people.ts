@@ -13,7 +13,7 @@ import {
 	DEFAULT_COUNTRY
 } from '$lib/schema/valibot';
 
-import { email, phoneNumber } from '$lib/schema/people/channels/channels';
+import { email, phoneNumber, whatsapp } from '$lib/schema/people/channels/channels';
 import { base as tag } from '$lib/schema/core/tags';
 import { readFromPerson } from '$lib/schema/people/custom_fields';
 import { read as readAdmin } from '$lib/schema/core/admin';
@@ -41,6 +41,7 @@ export const base = v.object({
 
 	email: v.nullable(email),
 	phone_number: v.nullable(phoneNumber),
+	whatsapp: v.nullable(whatsapp),
 
 	point_person_id: id,
 	created_at: timestamp,
@@ -60,7 +61,6 @@ export type Create = v.InferOutput<typeof create>;
 export const update = v.partial(create);
 export type Update = v.InferOutput<typeof update>;
 
-import { list as listInteractions } from '$lib/schema/people/interactions';
 export const read = v.object({
 	...v.omit(base, ['instance_id', 'point_person_id']).entries,
 	tags: v.array(v.omit(tag, ['instance_id', 'created_at', 'updated_at'])),
