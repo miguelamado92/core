@@ -8,7 +8,7 @@ import { DEFAULT_COUNTRY, DEFAULT_LANGUAGE } from '$lib/i18n';
 
 import { getUniqueKeys } from '$lib/utils/objects/get_unique_keys';
 import { parse, v, mediumString, longString } from '$lib/schema/valibot';
-import event from '$lib/server/hooks/website/handlers/event';
+import { whatsappNumberForVerification } from '$lib/schema/people/channels/channels';
 
 export const redisString = (instance_id: number, person_id: number | 'all') =>
 	`i:${instance_id}:people:${person_id}`;
@@ -90,10 +90,19 @@ export async function create({
 		person_id: inserted.id,
 		queue: queue
 	});
+	if (inserted.phone_number?.phone_number) {
+		const personToUpdate = parse(whatsappNumberForVerification, { person_id: inserted.id });
+		await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
+	}
 	await redis.del(redisString(instance_id, 'all'));
 	const person = await read({ instance_id, person_id: inserted.id, t });
 	return person;
 }
+
+type UpdateOptions = {
+	skipCustomFieldsQueue?: boolean;
+	skipWhatsappCheck?: boolean;
+};
 
 export async function update({
 	instance_id,
@@ -101,7 +110,8 @@ export async function update({
 	body,
 	admin_id,
 	t,
-	queue
+	queue,
+	options
 }: {
 	instance_id: number;
 	person_id: number;
@@ -109,6 +119,7 @@ export async function update({
 	body: schema.Update;
 	t: App.Localization;
 	queue: App.Queue;
+	options?: UpdateOptions;
 }) {
 	const parsed = parse(schema.update, body);
 	const updated = await db
@@ -125,14 +136,25 @@ export async function update({
 		});
 	if (updated.length !== 1)
 		throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:UPDATE:01', t.errors.http[404]());
-	await queueCustomFieldSet({
-		objectSchema: schema.update,
-		body,
-		instance_id,
-		admin_id,
-		person_id: updated[0].id,
-		queue: queue
-	});
+	if (options?.skipCustomFieldsQueue !== true) {
+		await queueCustomFieldSet({
+			objectSchema: schema.update,
+			body,
+			instance_id,
+			admin_id,
+			person_id: updated[0].id,
+			queue: queue
+		});
+	}
+	if (options?.skipWhatsappCheck !== true) {
+		const cachedPerson = await redis.get(redisString(instance_id, updated[0].id));
+		const cachedPersonParsed = parse(schema.read, cachedPerson);
+		if (cachedPersonParsed.phone_number?.phone_number !== updated[0].phone_number?.phone_number) {
+			const personToUpdate = parse(whatsappNumberForVerification, { person_id: updated[0].id });
+			await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
+		}
+	}
+
 	await redis.del(redisString(instance_id, person_id));
 	await redis.del(redisString(instance_id, 'all'));
 	const person = await read({ instance_id, person_id: updated[0].id, t });
