@@ -1,0 +1,6 @@
+{
+	"extends": ["eslint:recommended", "plugin:svelte/recommended"],
+	"rules": {
+		"svelte/global_reference_invalid": ["error", { "allow": ["$page"] }]
+	}
+}
