@@ -157,12 +157,12 @@ function menus(t: Localization): { [key: string]: MenuItem } {
 					title: () => t.pages.website.posts.index(),
 					href: () => '/website/posts',
 					icon: StickyNote
-				}
-				/* {
-					title: () => t.pages.website.uploads(),
+				},
+				{
+					title: () => t.pages.website.uploads.index(),
 					href: () => '/website/uploads',
 					icon: FileUp
-				} */
+				}
 			]
 		},
 		events: {

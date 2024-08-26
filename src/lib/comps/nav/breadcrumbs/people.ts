@@ -122,6 +122,52 @@ export default function (t: Localization) {
 				href: (pageParams?: Record<string, unknown>) => `/people/groups/${pageParams?.group_id}`
 			}
 		],
+		'/(app)/people/groups/[group_id]/edit': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.people.index(),
+				href: () => '/people'
+			},
+			{
+				title: () => t.pages.people.groups.index(),
+				href: () => '/people/groups'
+			},
+			{
+				title: () => t.pages.people.groups.view(),
+				href: (pageParams?: Record<string, unknown>) => `/people/groups/${pageParams?.group_id}`
+			},
+			{
+				title: () => t.pages.people.groups.edit(),
+				href: (pageParams?: Record<string, unknown>) =>
+					`/people/groups/${pageParams?.group_id}/edit`
+			}
+		],
+		'/(app)/people/groups/[group_id]/members': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.people.index(),
+				href: () => '/people'
+			},
+			{
+				title: () => t.pages.people.groups.index(),
+				href: () => '/people/groups'
+			},
+			{
+				title: () => t.pages.people.groups.view(),
+				href: (pageParams?: Record<string, unknown>) => `/people/groups/${pageParams?.group_id}`
+			},
+			{
+				title: () => t.pages.people.groups.members(),
+				href: (pageParams?: Record<string, unknown>) =>
+					`/people/groups/${pageParams?.group_id}/members`
+			}
+		],
 		'/(app)/people/lists': [
 			{
 				title: () => t.pages.home.index(),

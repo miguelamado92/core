@@ -168,8 +168,26 @@ export default function (t: Localization) {
 				href: () => '/website'
 			},
 			{
-				title: () => t.pages.website.uploads(),
+				title: () => t.pages.website.uploads.index(),
 				href: () => '/website/uploads'
+			}
+		],
+		'/(app)/website/uploads/new': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.website.index(),
+				href: () => '/website'
+			},
+			{
+				title: () => t.pages.website.uploads.index(),
+				href: () => '/website/uploads'
+			},
+			{
+				title: () => t.pages.website.uploads.new(),
+				href: () => '/website/uploads/new'
 			}
 		]
 	};
