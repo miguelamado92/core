@@ -48,6 +48,20 @@ export default function (locale: SL) {
 		},
 		fields: {
 			generic: {
+				filter: {
+					placeholder: () => {
+						return t(locale, {
+							en: 'Filter',
+							ja: 'フィルタ',
+							pt: 'Filtro',
+							es: 'Filtro',
+							fr: 'Filtre',
+							sw: 'Chuja',
+							th: 'กรอง',
+							zh: '过滤'
+						});
+					}
+				},
 				full_name: {
 					label: () => {
 						return t(locale, {
@@ -2312,6 +2326,18 @@ export default function (locale: SL) {
 					zh: '搜索人员'
 				});
 			},
+			copy_url_to_clipboard: () => {
+				return t(locale, {
+					en: 'Copy URL to clipboard',
+					ja: 'URLをクリップボードにコピー',
+					pt: 'Copiar URL para a área de transferência',
+					es: 'Copiar URL al portapapeles',
+					fr: 'Copier l’URL dans le presse-papiers',
+					sw: 'Nakili URL kwenye ubao',
+					th: 'คัดลอก URL ไปยังคลิปบอร์ด',
+					zh: '复制 URL 到剪贴板'
+				});
+			},
 			search: () => {
 				return t(locale, {
 					en: 'Search',
@@ -2458,6 +2484,18 @@ export default function (locale: SL) {
 					sw: 'Imeondolewa kwa mafanikio',
 					th: 'ลบสำเร็จ',
 					zh: '删除成功'
+				});
+			},
+			copied_to_clipboard: () => {
+				return t(locale, {
+					en: 'Copied to clipboard',
+					ja: 'クリップボードにコピーしました',
+					pt: 'Copiado para a área de transferência',
+					es: 'Copiado al portapapeles',
+					fr: 'Copié dans le presse-papiers',
+					sw: 'Imenakiliwa kwenye ubao',
+					th: 'คัดลอกไปยังคลิปบอร์ด',
+					zh: '已复制到剪贴板'
 				});
 			}
 		}

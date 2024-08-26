@@ -125,6 +125,18 @@ export default function (l: SL) {
 						th: 'แก้ไขกลุ่ม',
 						zh: '编辑组'
 					});
+				},
+				members: () => {
+					return t(l, {
+						en: `Members`,
+						ja: 'メンバー',
+						pt: 'Membros',
+						es: 'Miembros',
+						fr: 'Membres',
+						sw: 'Wanachama',
+						th: 'สมาชิก',
+						zh: '成员'
+					});
 				}
 			},
 			lists: {
@@ -460,17 +472,31 @@ export default function (l: SL) {
 					});
 				}
 			},
-			uploads: () => {
-				return t(l, {
-					en: `Uploads`,
-					ja: 'アップロード',
-					pt: 'Carregamentos',
-					es: 'Cargas',
-					fr: 'Téléchargements',
-					sw: 'Upakiaji',
-					th: 'อัปโหลด',
-					zh: '上传'
-				});
+			uploads: {
+				index: () => {
+					return t(l, {
+						en: `Uploads`,
+						ja: 'アップロード',
+						pt: 'Carregamentos',
+						es: 'Cargas',
+						fr: 'Téléchargements',
+						sw: 'Upakiaji',
+						th: 'อัปโหลด',
+						zh: '上传'
+					});
+				},
+				new: () => {
+					return t(l, {
+						en: `New Upload`,
+						ja: '新しいアップロード',
+						pt: 'Novo Carregamento',
+						es: 'Nueva Carga',
+						fr: 'Nouveau Téléchargement',
+						sw: 'Upakiaji Mpya',
+						th: 'อัปโหลดใหม่',
+						zh: '新上传'
+					});
+				}
 			}
 		},
 		events: {
