@@ -37,4 +37,19 @@
 			</Grid>
 		</Card.Content>
 	</Card.Root>
+	<Card.Root class="mt-4">
+		<Card.Header>
+			<Card.Title>{data.t.pages.website.uploads.index()}</Card.Title>
+		</Card.Header>
+		<Card.Content>
+			<Grid>
+				<Button variant="outline" href="/website/uploads"
+					>{data.t.pages.website.uploads.index()}</Button
+				>
+				<Button variant="outline" href="/website/uploads/new"
+					>{data.t.pages.website.uploads.new()}</Button
+				>
+			</Grid>
+		</Card.Content>
+	</Card.Root>
 </Grid>
