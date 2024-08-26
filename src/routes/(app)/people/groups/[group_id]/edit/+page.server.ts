@@ -7,7 +7,7 @@ export async function load(event) {
 	const body = await response.json();
 	const parsed = parse(read, body);
 	const form = await superValidate(parsed, valibot(update));
-	return { form, pageTitle: [{ key: 'GROUPNAME', title: parsed.name }] };
+	return { form, pageTitle: [{ key: 'GROUPNAME', title: parsed.name }], group: parsed };
 }
 
 export const actions = {
