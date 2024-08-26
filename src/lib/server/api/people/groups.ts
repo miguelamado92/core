@@ -3,7 +3,7 @@ import * as schema from '$lib/schema/people/groups';
 import * as membersSchema from '$lib/schema/people/group_members';
 import { list as listInGroup } from '$lib/server/api/people/filters/in_group';
 import { parse } from '$lib/schema/valibot';
-
+import { linkWhatsappGroup as linkWhatsappGroupWhapi } from '$lib/server/utils/whapi/groups';
 function redisString(instanceId: number, groupId: number | 'all', banned?: boolean) {
 	const bannedSuffix = banned ? ':banned' : '';
 	return `i:${instanceId}:groups:${groupId}${bannedSuffix}`;
@@ -27,6 +27,32 @@ export async function exists({
 			throw new BelcodaError(404, 'DATA:PEOPLE:GROUPS:EXISTS:01', t.errors.not_found(), err);
 		});
 	return true;
+}
+
+export async function personExists({
+	personId,
+	groupId,
+	t
+}: {
+	personId: number;
+	groupId: number;
+	t: App.Localization;
+}) {
+	const exists = await db
+		.selectExactlyOne('people.group_members', {
+			person_id: personId,
+			group_id: groupId,
+			status: db.conditions.isNotIn(['banned'])
+		})
+		.run(pool)
+		.catch((err) => {
+			throw new BelcodaError(
+				404,
+				'DATA:PEOPLE:GROUPS:MEMBERS:EXISTS:01',
+				t.errors.not_found(),
+				err
+			);
+		});
 }
 
 export async function create({
@@ -224,4 +250,74 @@ export async function removeMember({
 		throw new BelcodaError(404, 'DATA:PEOPLE:GROUPS:MEMBERS:DELETE:01', t.errors.not_found());
 	}
 	await redis.del(redisString(instanceId, groupId));
+}
+
+export async function linkWhatsappGroup({
+	instanceId,
+	groupId,
+	t,
+	body,
+	url
+}: {
+	instanceId: number;
+	groupId: number;
+	t: App.Localization;
+	body: schema.LinkWhatsappGroup;
+	url: URL;
+}): Promise<schema.Read> {
+	const parsed = parse(schema.linkWhatsappGroup, body);
+	await exists({ instanceId, groupId, t });
+	const groupWhatsappId = await linkWhatsappGroupWhapi(parsed.invitation_code);
+	const updated = await update({
+		instanceId,
+		t,
+		groupId,
+		body: { whatsapp_id: groupWhatsappId },
+		url
+	});
+	return updated;
+}
+
+export async function _getGroupByWhatsappId({
+	instanceId,
+	whatsappId,
+	t
+}: {
+	instanceId: number;
+	whatsappId: string;
+	t: App.Localization;
+}): Promise<schema.Read> {
+	const group = await db
+		.selectExactlyOne('people.groups', { instance_id: instanceId, whatsapp_id: whatsappId })
+		.run(pool)
+		.catch((err) => {
+			throw new BelcodaError(
+				404,
+				'DATA:PEOPLE:GROUPS:GET_BY_WHATSAPP_ID:01',
+				t.errors.not_found(),
+				err
+			);
+		});
+
+	return await read({ instanceId, groupId: group.id, t, url: new URL('http://example.com') });
+}
+export async function _getInstanceIdByWhatsappGroupChatId({
+	whatsappId,
+	t
+}: {
+	whatsappId: string;
+	t: App.Localization;
+}): Promise<number> {
+	const group = await db
+		.selectExactlyOne('people.groups', { whatsapp_id: whatsappId })
+		.run(pool)
+		.catch((err) => {
+			throw new BelcodaError(
+				404,
+				'DATA:PEOPLE:GROUPS:GET_BY_WHATSAPP_ID:01',
+				t.errors.not_found(),
+				err
+			);
+		});
+	return group.instance_id;
 }

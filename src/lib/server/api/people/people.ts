@@ -384,10 +384,13 @@ export async function _getPersonByWhatsappId({
 }): Promise<schema.Read> {
 	const phoneNumber = parsePhoneNumber(whatsappId);
 	const parsedPhoneNumber = phoneNumber.valid ? phoneNumber.number.e164 : whatsappId;
+	const whapiId = `${whatsappId}@s.whatsapp.net`;
 	log.debug('_getPersonByWhatsappId');
 	log.debug(whatsappId);
+	log.debug('phoneNumber.number.e164');
+	log.debug(parsedPhoneNumber);
 	const person =
-		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(whatsappId)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)}) AND instance_id = ${db.param(instanceId)}`.run(
+		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(whatsappId)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)} OR phone_number ->>'whapi_id' = ${db.param(whapiId)}) AND instance_id = ${db.param(instanceId)}`.run(
 			pool
 		);
 	log.info(whatsappId);

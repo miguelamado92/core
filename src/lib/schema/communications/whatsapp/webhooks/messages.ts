@@ -148,6 +148,7 @@ export const messageBase = v.object({
 	timestamp: mediumString,
 	type: messages_type
 });
+export type MessageBase = v.InferOutput<typeof messageBase>;
 
 export const messagesTypes = {
 	audio: v.object({

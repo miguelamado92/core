@@ -3,6 +3,7 @@ import type { MaybePromise, RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { pino } from '$lib/server';
 const log = pino('$lib/server/hooks/handlers');
 import whatsappHandler from '$lib/server/hooks/whatsapp';
+import whapiHandler from '$lib/server/hooks/whapi';
 const SUBDOMAIN_LIST = ['admin', 'app', 'dashboard', 'localhost', 'www', 'localhost:5173']; //list of subdomains that are not site subdomains
 
 import worker from '$lib/server/hooks/worker';
@@ -31,7 +32,7 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 	}
 
 	if (event.url.pathname.startsWith('/webhooks/whapi')) {
-		return await whatsappHandler(event, resolve);
+		return await whapiHandler(event, resolve);
 	}
 
 	const workerResponse = await worker(event, resolve);

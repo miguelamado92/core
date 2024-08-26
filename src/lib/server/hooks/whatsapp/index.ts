@@ -7,7 +7,6 @@ import { createHmac } from 'crypto';
 
 import { parse } from '$lib/schema/valibot';
 import { webhook } from '$lib/schema/communications/whatsapp/webhooks/webhook';
-import addJob from '$lib/server/utils/queue/init';
 import { _getInstanceByWhatsappPhoneNumberId } from '$lib/server/api/core/instances';
 
 const log = pino('$lib/server/hooks/whatsapp');

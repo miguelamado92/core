@@ -3,13 +3,13 @@
 	import Frame from '$lib/comps/forms/whatsapp/Frame.svelte';
 	import type { Message as WebhookMessage } from '$lib/schema/communications/whatsapp/webhooks/messages';
 	import type { Message } from '$lib/schema/communications/whatsapp/elements/message';
-	import type { Read as ReadPerson } from '$lib/schema/people/people';
+	import type { Read as ReadPerson, SimplePersonRecord } from '$lib/schema/people/people';
 	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
 	import Whatsapp from '$lib/comps/icons/whatsapp.svelte';
 	type Props = {
 		messageId: string;
 		message: WebhookMessage;
-		person: ReadPerson;
+		person: ReadPerson | SimplePersonRecord;
 		timeAgo: Date;
 	};
 	const { messageId, person, timeAgo, message }: Props = $props();

@@ -20,6 +20,7 @@
 		showBottomSeparator?: boolean;
 		contentHighlightHover?: boolean;
 		contentPadding?: boolean;
+		showDivider?: boolean;
 		contentGridClass?: string;
 	};
 
@@ -32,8 +33,9 @@
 		showTopSeparator: true,
 		showBottomSeparator: true,
 		contentHighlightHover: true,
+		showDivider: true,
 		contentPadding: true,
-		contentGridClass: 'grid grid-cols-1 relative divide-y'
+		contentGridClass: 'grid grid-cols-1 relative'
 	} as const;
 
 	type Props = {
@@ -120,7 +122,7 @@
 		<Separator class="mt-4" />
 	{/if}
 
-	<div class={cn(options.contentGridClass)}>
+	<div class={cn(options.contentGridClass, options.showDivider ? ' divide-y' : '')}>
 		{#each items as item, i}
 			<div
 				class={cn(
