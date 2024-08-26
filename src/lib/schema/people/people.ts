@@ -72,6 +72,9 @@ export type Read = v.InferOutput<typeof read>;
 export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
+export const simplePersonRecord = v.omit(base, ['instance_id']);
+export type SimplePersonRecord = v.InferOutput<typeof simplePersonRecord>;
+
 export const _listWithSearch = v.object({
 	items: v.array(v.object({ ...read.entries, search: longString })),
 	count: count
