@@ -3,18 +3,18 @@ import {
 	id,
 	count,
 	timestamp,
-	htmlMetatags,
-	customCode,
-	shortString,
 	longString,
 	url,
-	mediumString
+	shortStringNotEmpty,
+	mediumStringNotEmpty
 } from '$lib/schema/valibot';
 
 export const base = v.object({
 	id: id,
 	instance_id: id,
-	name: mediumString,
+	file_name: mediumStringNotEmpty,
+	mime_type: shortStringNotEmpty,
+	size: count,
 	url: url,
 	created_at: timestamp
 });
@@ -29,8 +29,10 @@ export const list = v.object({
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
-	name: base.entries.name,
-	url: base.entries.url
+	url: base.entries.url,
+	file_name: base.entries.file_name,
+	mime_type: base.entries.mime_type,
+	size: base.entries.size
 });
 export type Create = v.InferOutput<typeof create>;
 
