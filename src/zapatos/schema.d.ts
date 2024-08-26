@@ -4329,6 +4329,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         updated_at: Date;
+        /**
+        * **people.people.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp: c.PgWhatsapp | null;
       }
       export interface JSONSelectable {
         /**
@@ -4505,6 +4511,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         updated_at: db.TimestampTzString;
+        /**
+        * **people.people.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp: c.PgWhatsapp | null;
       }
       export interface Whereable {
         /**
@@ -4681,6 +4693,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.people.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp?: c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | db.SQLFragment | db.ParentColumn>;
       }
       export interface Insertable {
         /**
@@ -4857,6 +4875,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.people.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp?: c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment;
       }
       export interface Updatable {
         /**
@@ -5033,6 +5057,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.people.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp?: c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment>;
       }
       export type UniqueIndex = 'people_pkey';
       export type Column = keyof Selectable;
@@ -5228,6 +5258,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         updated_at: Date | null;
+        /**
+        * **people.people_search.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp: c.PgWhatsapp | null;
       }
       export interface JSONSelectable {
         /**
@@ -5410,6 +5446,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         updated_at: db.TimestampTzString | null;
+        /**
+        * **people.people_search.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp: c.PgWhatsapp | null;
       }
       export interface Whereable {
         /**
@@ -5592,6 +5634,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.people_search.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp?: c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | db.SQLFragment | db.ParentColumn>;
       }
       export interface Insertable {
         /**
@@ -5774,6 +5822,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.people_search.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp?: c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment;
       }
       export interface Updatable {
         /**
@@ -5956,6 +6010,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         updated_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.people_search.whatsapp**
+        * - `whatsapp` (base type: `jsonb`) in database
+        * - Nullable, no default
+        */
+        whatsapp?: c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment>;
       }
       export type UniqueIndex = never;
       export type Column = keyof Selectable;
@@ -7847,6 +7907,12 @@ declare module 'zapatos/schema' {
         */
         created_at: Date;
         /**
+        * **website.uploads.file_name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        file_name: string;
+        /**
         * **website.uploads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('website.uploads_id_seq'::regclass)`
@@ -7859,11 +7925,17 @@ declare module 'zapatos/schema' {
         */
         instance_id: number;
         /**
-        * **website.uploads.name**
+        * **website.uploads.mime_type**
         * - `text` in database
         * - `NOT NULL`, no default
         */
-        name: string;
+        mime_type: string;
+        /**
+        * **website.uploads.size**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        size: number;
         /**
         * **website.uploads.url**
         * - `text` in database
@@ -7879,6 +7951,12 @@ declare module 'zapatos/schema' {
         */
         created_at: db.TimestampTzString;
         /**
+        * **website.uploads.file_name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        file_name: string;
+        /**
         * **website.uploads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('website.uploads_id_seq'::regclass)`
@@ -7891,11 +7969,17 @@ declare module 'zapatos/schema' {
         */
         instance_id: number;
         /**
-        * **website.uploads.name**
+        * **website.uploads.mime_type**
         * - `text` in database
         * - `NOT NULL`, no default
         */
-        name: string;
+        mime_type: string;
+        /**
+        * **website.uploads.size**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        size: number;
         /**
         * **website.uploads.url**
         * - `text` in database
@@ -7911,6 +7995,12 @@ declare module 'zapatos/schema' {
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **website.uploads.file_name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        file_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **website.uploads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('website.uploads_id_seq'::regclass)`
@@ -7923,11 +8013,17 @@ declare module 'zapatos/schema' {
         */
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
         /**
-        * **website.uploads.name**
+        * **website.uploads.mime_type**
         * - `text` in database
         * - `NOT NULL`, no default
         */
-        name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        mime_type?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **website.uploads.size**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        size?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
         /**
         * **website.uploads.url**
         * - `text` in database
@@ -7943,6 +8039,12 @@ declare module 'zapatos/schema' {
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
         /**
+        * **website.uploads.file_name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        file_name: string | db.Parameter<string> | db.SQLFragment;
+        /**
         * **website.uploads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('website.uploads_id_seq'::regclass)`
@@ -7955,11 +8057,17 @@ declare module 'zapatos/schema' {
         */
         instance_id: number | db.Parameter<number> | db.SQLFragment;
         /**
-        * **website.uploads.name**
+        * **website.uploads.mime_type**
         * - `text` in database
         * - `NOT NULL`, no default
         */
-        name: string | db.Parameter<string> | db.SQLFragment;
+        mime_type: string | db.Parameter<string> | db.SQLFragment;
+        /**
+        * **website.uploads.size**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        size: number | db.Parameter<number> | db.SQLFragment;
         /**
         * **website.uploads.url**
         * - `text` in database
@@ -7975,6 +8083,12 @@ declare module 'zapatos/schema' {
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
         /**
+        * **website.uploads.file_name**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        file_name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
         * **website.uploads.id**
         * - `int4` in database
         * - `NOT NULL`, default: `nextval('website.uploads_id_seq'::regclass)`
@@ -7987,11 +8101,17 @@ declare module 'zapatos/schema' {
         */
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
         /**
-        * **website.uploads.name**
+        * **website.uploads.mime_type**
         * - `text` in database
         * - `NOT NULL`, no default
         */
-        name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        mime_type?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
+        * **website.uploads.size**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        size?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
         /**
         * **website.uploads.url**
         * - `text` in database
@@ -9523,6 +9643,239 @@ declare module 'zapatos/schema' {
         received_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
       }
       export type UniqueIndex = 'received_sms_pkey';
+      export type Column = keyof Selectable;
+      export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+      export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+      export type SQL = SQLExpression | SQLExpression[];
+    }
+  
+    /**
+     * **communications.received_whatsapp_group_messages**
+     * - Table in database
+     */
+    export namespace received_whatsapp_group_messages {
+      export type Table = 'communications.received_whatsapp_group_messages';
+      export interface Selectable {
+        /**
+        * **communications.received_whatsapp_group_messages.group_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        group_id: number;
+        /**
+        * **communications.received_whatsapp_group_messages.id**
+        * - `uuid` in database
+        * - `NOT NULL`, default: `uuid_generate_v4()`
+        */
+        id: string;
+        /**
+        * **communications.received_whatsapp_group_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number;
+        /**
+        * **communications.received_whatsapp_group_messages.message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        message: c.PgWhatsapp_message;
+        /**
+        * **communications.received_whatsapp_group_messages.person_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        person_id: number;
+        /**
+        * **communications.received_whatsapp_group_messages.platform**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        platform: string;
+        /**
+        * **communications.received_whatsapp_group_messages.received_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        received_at: Date;
+      }
+      export interface JSONSelectable {
+        /**
+        * **communications.received_whatsapp_group_messages.group_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        group_id: number;
+        /**
+        * **communications.received_whatsapp_group_messages.id**
+        * - `uuid` in database
+        * - `NOT NULL`, default: `uuid_generate_v4()`
+        */
+        id: string;
+        /**
+        * **communications.received_whatsapp_group_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number;
+        /**
+        * **communications.received_whatsapp_group_messages.message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        message: c.PgWhatsapp_message;
+        /**
+        * **communications.received_whatsapp_group_messages.person_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        person_id: number;
+        /**
+        * **communications.received_whatsapp_group_messages.platform**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        platform: string;
+        /**
+        * **communications.received_whatsapp_group_messages.received_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        received_at: db.TimestampTzString;
+      }
+      export interface Whereable {
+        /**
+        * **communications.received_whatsapp_group_messages.group_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        group_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.received_whatsapp_group_messages.id**
+        * - `uuid` in database
+        * - `NOT NULL`, default: `uuid_generate_v4()`
+        */
+        id?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.received_whatsapp_group_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.received_whatsapp_group_messages.message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.received_whatsapp_group_messages.person_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        person_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.received_whatsapp_group_messages.platform**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        platform?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **communications.received_whatsapp_group_messages.received_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        received_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+      }
+      export interface Insertable {
+        /**
+        * **communications.received_whatsapp_group_messages.group_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        group_id: number | db.Parameter<number> | db.SQLFragment;
+        /**
+        * **communications.received_whatsapp_group_messages.id**
+        * - `uuid` in database
+        * - `NOT NULL`, default: `uuid_generate_v4()`
+        */
+        id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+        /**
+        * **communications.received_whatsapp_group_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number | db.Parameter<number> | db.SQLFragment;
+        /**
+        * **communications.received_whatsapp_group_messages.message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        message: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment;
+        /**
+        * **communications.received_whatsapp_group_messages.person_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        person_id: number | db.Parameter<number> | db.SQLFragment;
+        /**
+        * **communications.received_whatsapp_group_messages.platform**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        platform: string | db.Parameter<string> | db.SQLFragment;
+        /**
+        * **communications.received_whatsapp_group_messages.received_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        received_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+      }
+      export interface Updatable {
+        /**
+        * **communications.received_whatsapp_group_messages.group_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        group_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+        /**
+        * **communications.received_whatsapp_group_messages.id**
+        * - `uuid` in database
+        * - `NOT NULL`, default: `uuid_generate_v4()`
+        */
+        id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **communications.received_whatsapp_group_messages.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+        /**
+        * **communications.received_whatsapp_group_messages.message**
+        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `NOT NULL`, no default
+        */
+        message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment>;
+        /**
+        * **communications.received_whatsapp_group_messages.person_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        person_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+        /**
+        * **communications.received_whatsapp_group_messages.platform**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        platform?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
+        * **communications.received_whatsapp_group_messages.received_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        received_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+      }
+      export type UniqueIndex = 'received_whatsapp_group_messages_pkey';
       export type Column = keyof Selectable;
       export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
       export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
@@ -13176,20 +13529,20 @@ declare module 'zapatos/schema' {
   
     /* --- aggregate types --- */
   
-    export type Table = email_messages.Table | email_sends.Table | email_templates.Table | received_emails.Table | received_sms.Table | received_whatsapp_messages.Table | sent_emails.Table | sent_sms.Table | sent_whatsapp_messages.Table | sms_messages.Table | sms_numbers.Table | sms_sends.Table | sms_threads.Table | whatsapp_conversations.Table | whatsapp_messages.Table | whatsapp_numbers.Table | whatsapp_quick_replies.Table | whatsapp_sends.Table | whatsapp_templates.Table | whatsapp_threads.Table;
-    export type Selectable = email_messages.Selectable | email_sends.Selectable | email_templates.Selectable | received_emails.Selectable | received_sms.Selectable | received_whatsapp_messages.Selectable | sent_emails.Selectable | sent_sms.Selectable | sent_whatsapp_messages.Selectable | sms_messages.Selectable | sms_numbers.Selectable | sms_sends.Selectable | sms_threads.Selectable | whatsapp_conversations.Selectable | whatsapp_messages.Selectable | whatsapp_numbers.Selectable | whatsapp_quick_replies.Selectable | whatsapp_sends.Selectable | whatsapp_templates.Selectable | whatsapp_threads.Selectable;
-    export type JSONSelectable = email_messages.JSONSelectable | email_sends.JSONSelectable | email_templates.JSONSelectable | received_emails.JSONSelectable | received_sms.JSONSelectable | received_whatsapp_messages.JSONSelectable | sent_emails.JSONSelectable | sent_sms.JSONSelectable | sent_whatsapp_messages.JSONSelectable | sms_messages.JSONSelectable | sms_numbers.JSONSelectable | sms_sends.JSONSelectable | sms_threads.JSONSelectable | whatsapp_conversations.JSONSelectable | whatsapp_messages.JSONSelectable | whatsapp_numbers.JSONSelectable | whatsapp_quick_replies.JSONSelectable | whatsapp_sends.JSONSelectable | whatsapp_templates.JSONSelectable | whatsapp_threads.JSONSelectable;
-    export type Whereable = email_messages.Whereable | email_sends.Whereable | email_templates.Whereable | received_emails.Whereable | received_sms.Whereable | received_whatsapp_messages.Whereable | sent_emails.Whereable | sent_sms.Whereable | sent_whatsapp_messages.Whereable | sms_messages.Whereable | sms_numbers.Whereable | sms_sends.Whereable | sms_threads.Whereable | whatsapp_conversations.Whereable | whatsapp_messages.Whereable | whatsapp_numbers.Whereable | whatsapp_quick_replies.Whereable | whatsapp_sends.Whereable | whatsapp_templates.Whereable | whatsapp_threads.Whereable;
-    export type Insertable = email_messages.Insertable | email_sends.Insertable | email_templates.Insertable | received_emails.Insertable | received_sms.Insertable | received_whatsapp_messages.Insertable | sent_emails.Insertable | sent_sms.Insertable | sent_whatsapp_messages.Insertable | sms_messages.Insertable | sms_numbers.Insertable | sms_sends.Insertable | sms_threads.Insertable | whatsapp_conversations.Insertable | whatsapp_messages.Insertable | whatsapp_numbers.Insertable | whatsapp_quick_replies.Insertable | whatsapp_sends.Insertable | whatsapp_templates.Insertable | whatsapp_threads.Insertable;
-    export type Updatable = email_messages.Updatable | email_sends.Updatable | email_templates.Updatable | received_emails.Updatable | received_sms.Updatable | received_whatsapp_messages.Updatable | sent_emails.Updatable | sent_sms.Updatable | sent_whatsapp_messages.Updatable | sms_messages.Updatable | sms_numbers.Updatable | sms_sends.Updatable | sms_threads.Updatable | whatsapp_conversations.Updatable | whatsapp_messages.Updatable | whatsapp_numbers.Updatable | whatsapp_quick_replies.Updatable | whatsapp_sends.Updatable | whatsapp_templates.Updatable | whatsapp_threads.Updatable;
-    export type UniqueIndex = email_messages.UniqueIndex | email_sends.UniqueIndex | email_templates.UniqueIndex | received_emails.UniqueIndex | received_sms.UniqueIndex | received_whatsapp_messages.UniqueIndex | sent_emails.UniqueIndex | sent_sms.UniqueIndex | sent_whatsapp_messages.UniqueIndex | sms_messages.UniqueIndex | sms_numbers.UniqueIndex | sms_sends.UniqueIndex | sms_threads.UniqueIndex | whatsapp_conversations.UniqueIndex | whatsapp_messages.UniqueIndex | whatsapp_numbers.UniqueIndex | whatsapp_quick_replies.UniqueIndex | whatsapp_sends.UniqueIndex | whatsapp_templates.UniqueIndex | whatsapp_threads.UniqueIndex;
-    export type Column = email_messages.Column | email_sends.Column | email_templates.Column | received_emails.Column | received_sms.Column | received_whatsapp_messages.Column | sent_emails.Column | sent_sms.Column | sent_whatsapp_messages.Column | sms_messages.Column | sms_numbers.Column | sms_sends.Column | sms_threads.Column | whatsapp_conversations.Column | whatsapp_messages.Column | whatsapp_numbers.Column | whatsapp_quick_replies.Column | whatsapp_sends.Column | whatsapp_templates.Column | whatsapp_threads.Column;
+    export type Table = email_messages.Table | email_sends.Table | email_templates.Table | received_emails.Table | received_sms.Table | received_whatsapp_group_messages.Table | received_whatsapp_messages.Table | sent_emails.Table | sent_sms.Table | sent_whatsapp_messages.Table | sms_messages.Table | sms_numbers.Table | sms_sends.Table | sms_threads.Table | whatsapp_conversations.Table | whatsapp_messages.Table | whatsapp_numbers.Table | whatsapp_quick_replies.Table | whatsapp_sends.Table | whatsapp_templates.Table | whatsapp_threads.Table;
+    export type Selectable = email_messages.Selectable | email_sends.Selectable | email_templates.Selectable | received_emails.Selectable | received_sms.Selectable | received_whatsapp_group_messages.Selectable | received_whatsapp_messages.Selectable | sent_emails.Selectable | sent_sms.Selectable | sent_whatsapp_messages.Selectable | sms_messages.Selectable | sms_numbers.Selectable | sms_sends.Selectable | sms_threads.Selectable | whatsapp_conversations.Selectable | whatsapp_messages.Selectable | whatsapp_numbers.Selectable | whatsapp_quick_replies.Selectable | whatsapp_sends.Selectable | whatsapp_templates.Selectable | whatsapp_threads.Selectable;
+    export type JSONSelectable = email_messages.JSONSelectable | email_sends.JSONSelectable | email_templates.JSONSelectable | received_emails.JSONSelectable | received_sms.JSONSelectable | received_whatsapp_group_messages.JSONSelectable | received_whatsapp_messages.JSONSelectable | sent_emails.JSONSelectable | sent_sms.JSONSelectable | sent_whatsapp_messages.JSONSelectable | sms_messages.JSONSelectable | sms_numbers.JSONSelectable | sms_sends.JSONSelectable | sms_threads.JSONSelectable | whatsapp_conversations.JSONSelectable | whatsapp_messages.JSONSelectable | whatsapp_numbers.JSONSelectable | whatsapp_quick_replies.JSONSelectable | whatsapp_sends.JSONSelectable | whatsapp_templates.JSONSelectable | whatsapp_threads.JSONSelectable;
+    export type Whereable = email_messages.Whereable | email_sends.Whereable | email_templates.Whereable | received_emails.Whereable | received_sms.Whereable | received_whatsapp_group_messages.Whereable | received_whatsapp_messages.Whereable | sent_emails.Whereable | sent_sms.Whereable | sent_whatsapp_messages.Whereable | sms_messages.Whereable | sms_numbers.Whereable | sms_sends.Whereable | sms_threads.Whereable | whatsapp_conversations.Whereable | whatsapp_messages.Whereable | whatsapp_numbers.Whereable | whatsapp_quick_replies.Whereable | whatsapp_sends.Whereable | whatsapp_templates.Whereable | whatsapp_threads.Whereable;
+    export type Insertable = email_messages.Insertable | email_sends.Insertable | email_templates.Insertable | received_emails.Insertable | received_sms.Insertable | received_whatsapp_group_messages.Insertable | received_whatsapp_messages.Insertable | sent_emails.Insertable | sent_sms.Insertable | sent_whatsapp_messages.Insertable | sms_messages.Insertable | sms_numbers.Insertable | sms_sends.Insertable | sms_threads.Insertable | whatsapp_conversations.Insertable | whatsapp_messages.Insertable | whatsapp_numbers.Insertable | whatsapp_quick_replies.Insertable | whatsapp_sends.Insertable | whatsapp_templates.Insertable | whatsapp_threads.Insertable;
+    export type Updatable = email_messages.Updatable | email_sends.Updatable | email_templates.Updatable | received_emails.Updatable | received_sms.Updatable | received_whatsapp_group_messages.Updatable | received_whatsapp_messages.Updatable | sent_emails.Updatable | sent_sms.Updatable | sent_whatsapp_messages.Updatable | sms_messages.Updatable | sms_numbers.Updatable | sms_sends.Updatable | sms_threads.Updatable | whatsapp_conversations.Updatable | whatsapp_messages.Updatable | whatsapp_numbers.Updatable | whatsapp_quick_replies.Updatable | whatsapp_sends.Updatable | whatsapp_templates.Updatable | whatsapp_threads.Updatable;
+    export type UniqueIndex = email_messages.UniqueIndex | email_sends.UniqueIndex | email_templates.UniqueIndex | received_emails.UniqueIndex | received_sms.UniqueIndex | received_whatsapp_group_messages.UniqueIndex | received_whatsapp_messages.UniqueIndex | sent_emails.UniqueIndex | sent_sms.UniqueIndex | sent_whatsapp_messages.UniqueIndex | sms_messages.UniqueIndex | sms_numbers.UniqueIndex | sms_sends.UniqueIndex | sms_threads.UniqueIndex | whatsapp_conversations.UniqueIndex | whatsapp_messages.UniqueIndex | whatsapp_numbers.UniqueIndex | whatsapp_quick_replies.UniqueIndex | whatsapp_sends.UniqueIndex | whatsapp_templates.UniqueIndex | whatsapp_threads.UniqueIndex;
+    export type Column = email_messages.Column | email_sends.Column | email_templates.Column | received_emails.Column | received_sms.Column | received_whatsapp_group_messages.Column | received_whatsapp_messages.Column | sent_emails.Column | sent_sms.Column | sent_whatsapp_messages.Column | sms_messages.Column | sms_numbers.Column | sms_sends.Column | sms_threads.Column | whatsapp_conversations.Column | whatsapp_messages.Column | whatsapp_numbers.Column | whatsapp_quick_replies.Column | whatsapp_sends.Column | whatsapp_templates.Column | whatsapp_threads.Column;
   
-    export type AllBaseTables = [email_messages.Table, email_sends.Table, email_templates.Table, received_emails.Table, received_sms.Table, received_whatsapp_messages.Table, sent_emails.Table, sent_sms.Table, sent_whatsapp_messages.Table, sms_messages.Table, sms_numbers.Table, sms_sends.Table, sms_threads.Table, whatsapp_conversations.Table, whatsapp_messages.Table, whatsapp_numbers.Table, whatsapp_quick_replies.Table, whatsapp_sends.Table, whatsapp_templates.Table, whatsapp_threads.Table];
+    export type AllBaseTables = [email_messages.Table, email_sends.Table, email_templates.Table, received_emails.Table, received_sms.Table, received_whatsapp_group_messages.Table, received_whatsapp_messages.Table, sent_emails.Table, sent_sms.Table, sent_whatsapp_messages.Table, sms_messages.Table, sms_numbers.Table, sms_sends.Table, sms_threads.Table, whatsapp_conversations.Table, whatsapp_messages.Table, whatsapp_numbers.Table, whatsapp_quick_replies.Table, whatsapp_sends.Table, whatsapp_templates.Table, whatsapp_threads.Table];
     export type AllForeignTables = [];
     export type AllViews = [];
     export type AllMaterializedViews = [];
-    export type AllTablesAndViews = [email_messages.Table, email_sends.Table, email_templates.Table, received_emails.Table, received_sms.Table, received_whatsapp_messages.Table, sent_emails.Table, sent_sms.Table, sent_whatsapp_messages.Table, sms_messages.Table, sms_numbers.Table, sms_sends.Table, sms_threads.Table, whatsapp_conversations.Table, whatsapp_messages.Table, whatsapp_numbers.Table, whatsapp_quick_replies.Table, whatsapp_sends.Table, whatsapp_templates.Table, whatsapp_threads.Table];
+    export type AllTablesAndViews = [email_messages.Table, email_sends.Table, email_templates.Table, received_emails.Table, received_sms.Table, received_whatsapp_group_messages.Table, received_whatsapp_messages.Table, sent_emails.Table, sent_sms.Table, sent_whatsapp_messages.Table, sms_messages.Table, sms_numbers.Table, sms_sends.Table, sms_threads.Table, whatsapp_conversations.Table, whatsapp_messages.Table, whatsapp_numbers.Table, whatsapp_quick_replies.Table, whatsapp_sends.Table, whatsapp_templates.Table, whatsapp_threads.Table];
   }
 
 
@@ -16846,6 +17199,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.Selectable;
     "communications.received_emails": communications.received_emails.Selectable;
     "communications.received_sms": communications.received_sms.Selectable;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.Selectable;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.Selectable;
     "communications.sent_emails": communications.sent_emails.Selectable;
     "communications.sent_sms": communications.sent_sms.Selectable;
@@ -16904,6 +17258,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.JSONSelectable;
     "communications.received_emails": communications.received_emails.JSONSelectable;
     "communications.received_sms": communications.received_sms.JSONSelectable;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.JSONSelectable;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.JSONSelectable;
     "communications.sent_emails": communications.sent_emails.JSONSelectable;
     "communications.sent_sms": communications.sent_sms.JSONSelectable;
@@ -16962,6 +17317,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.Whereable;
     "communications.received_emails": communications.received_emails.Whereable;
     "communications.received_sms": communications.received_sms.Whereable;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.Whereable;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.Whereable;
     "communications.sent_emails": communications.sent_emails.Whereable;
     "communications.sent_sms": communications.sent_sms.Whereable;
@@ -17020,6 +17376,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.Insertable;
     "communications.received_emails": communications.received_emails.Insertable;
     "communications.received_sms": communications.received_sms.Insertable;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.Insertable;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.Insertable;
     "communications.sent_emails": communications.sent_emails.Insertable;
     "communications.sent_sms": communications.sent_sms.Insertable;
@@ -17078,6 +17435,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.Updatable;
     "communications.received_emails": communications.received_emails.Updatable;
     "communications.received_sms": communications.received_sms.Updatable;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.Updatable;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.Updatable;
     "communications.sent_emails": communications.sent_emails.Updatable;
     "communications.sent_sms": communications.sent_sms.Updatable;
@@ -17136,6 +17494,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.UniqueIndex;
     "communications.received_emails": communications.received_emails.UniqueIndex;
     "communications.received_sms": communications.received_sms.UniqueIndex;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.UniqueIndex;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.UniqueIndex;
     "communications.sent_emails": communications.sent_emails.UniqueIndex;
     "communications.sent_sms": communications.sent_sms.UniqueIndex;
@@ -17194,6 +17553,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.Column;
     "communications.received_emails": communications.received_emails.Column;
     "communications.received_sms": communications.received_sms.Column;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.Column;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.Column;
     "communications.sent_emails": communications.sent_emails.Column;
     "communications.sent_sms": communications.sent_sms.Column;
@@ -17252,6 +17612,7 @@ declare module 'zapatos/schema' {
     "communications.email_templates": communications.email_templates.SQL;
     "communications.received_emails": communications.received_emails.SQL;
     "communications.received_sms": communications.received_sms.SQL;
+    "communications.received_whatsapp_group_messages": communications.received_whatsapp_group_messages.SQL;
     "communications.received_whatsapp_messages": communications.received_whatsapp_messages.SQL;
     "communications.sent_emails": communications.sent_emails.SQL;
     "communications.sent_sms": communications.sent_sms.SQL;
