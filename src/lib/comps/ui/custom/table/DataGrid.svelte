@@ -20,6 +20,7 @@
 		showBottomSeparator?: boolean;
 		contentHighlightHover?: boolean;
 		contentPadding?: boolean;
+		contentGridClass?: string;
 	};
 
 	const DEFAULT_OPTIONS = {
@@ -31,7 +32,8 @@
 		showTopSeparator: true,
 		showBottomSeparator: true,
 		contentHighlightHover: true,
-		contentPadding: true
+		contentPadding: true,
+		contentGridClass: 'grid grid-cols-1 relative divide-y'
 	} as const;
 
 	type Props = {
@@ -118,7 +120,7 @@
 		<Separator class="mt-4" />
 	{/if}
 
-	<div class="grid grid-cols-1 relative divide-y">
+	<div class={cn(options.contentGridClass)}>
 		{#each items as item, i}
 			<div
 				class={cn(
@@ -129,7 +131,7 @@
 				{@render content(item, i)}
 			</div>
 		{:else}
-			<div class="flex items-center justify-center h-48">
+			<div class="flex items-center justify-center h-48 col-span-full">
 				<div>
 					<p class="text-muted-foreground text-center text-lg lg:text-xl">
 						{$page.data.t.common.data.no_items()}

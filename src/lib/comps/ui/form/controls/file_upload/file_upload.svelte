@@ -109,7 +109,12 @@
 			uploaded_file_name = file_name;
 			loading = false;
 			success = true;
-			dispatch('uploaded', { url, file_name: uploaded_file_name });
+			dispatch('uploaded', {
+				url,
+				file_name: uploaded_file_name,
+				mimeType: latest_file.type,
+				size: latest_file.size
+			});
 		} catch (err) {
 			if (err instanceof Error) {
 				error = err.message;
