@@ -38,6 +38,11 @@ export const create = v.object({
 });
 export type Create = v.InferOutput<typeof create>;
 
+export const linkWhatsappGroup = v.object({
+	invitation_code: shortStringNotEmpty
+});
+export type LinkWhatsappGroup = v.InferOutput<typeof linkWhatsappGroup>;
+
 export const update = v.partial(
 	v.object({
 		...create.entries,
