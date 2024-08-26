@@ -9676,10 +9676,10 @@ declare module 'zapatos/schema' {
         instance_id: number;
         /**
         * **communications.received_whatsapp_group_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message: c.PgWhatsapp_message;
+        message: c.PgIncoming_whatsapp_message;
         /**
         * **communications.received_whatsapp_group_messages.person_id**
         * - `int4` in database
@@ -9720,10 +9720,10 @@ declare module 'zapatos/schema' {
         instance_id: number;
         /**
         * **communications.received_whatsapp_group_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message: c.PgWhatsapp_message;
+        message: c.PgIncoming_whatsapp_message;
         /**
         * **communications.received_whatsapp_group_messages.person_id**
         * - `int4` in database
@@ -9764,10 +9764,10 @@ declare module 'zapatos/schema' {
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.received_whatsapp_group_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.ParentColumn>;
+        message?: c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment | db.ParentColumn>;
         /**
         * **communications.received_whatsapp_group_messages.person_id**
         * - `int4` in database
@@ -9808,10 +9808,10 @@ declare module 'zapatos/schema' {
         instance_id: number | db.Parameter<number> | db.SQLFragment;
         /**
         * **communications.received_whatsapp_group_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment;
+        message: c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment;
         /**
         * **communications.received_whatsapp_group_messages.person_id**
         * - `int4` in database
@@ -9852,10 +9852,10 @@ declare module 'zapatos/schema' {
         instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
         /**
         * **communications.received_whatsapp_group_messages.message**
-        * - `whatsapp_message` (base type: `jsonb`) in database
+        * - `incoming_whatsapp_message` (base type: `jsonb`) in database
         * - `NOT NULL`, no default
         */
-        message?: c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgWhatsapp_message | db.Parameter<c.PgWhatsapp_message> | db.SQLFragment>;
+        message?: c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment | db.SQLFragment<any, c.PgIncoming_whatsapp_message | db.Parameter<c.PgIncoming_whatsapp_message> | db.SQLFragment>;
         /**
         * **communications.received_whatsapp_group_messages.person_id**
         * - `int4` in database
