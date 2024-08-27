@@ -19,7 +19,6 @@
 	}
 
 	onMount(() => {
-		document.querySelector('#bottom')?.scrollIntoView({ behavior: 'smooth' });
 		timer = setInterval(async () => await fetchLatestInteractions(), 30000);
 	});
 	onDestroy(() => {
