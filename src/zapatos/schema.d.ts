@@ -6520,6 +6520,12 @@ declare module 'zapatos/schema' {
         */
         custom_code: c.PgCustom_code;
         /**
+        * **website.content.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id: number | null;
+        /**
         * **website.content.heading**
         * - `text` in database
         * - `NOT NULL`, no default
@@ -6599,6 +6605,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `'{}'::jsonb`
         */
         custom_code: c.PgCustom_code;
+        /**
+        * **website.content.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id: number | null;
         /**
         * **website.content.heading**
         * - `text` in database
@@ -6680,6 +6692,12 @@ declare module 'zapatos/schema' {
         */
         custom_code?: c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **website.content.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **website.content.heading**
         * - `text` in database
         * - `NOT NULL`, no default
@@ -6760,6 +6778,12 @@ declare module 'zapatos/schema' {
         */
         custom_code?: c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.DefaultType | db.SQLFragment;
         /**
+        * **website.content.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+        /**
         * **website.content.heading**
         * - `text` in database
         * - `NOT NULL`, no default
@@ -6839,6 +6863,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `'{}'::jsonb`
         */
         custom_code?: c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **website.content.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **website.content.heading**
         * - `text` in database
@@ -14229,6 +14259,12 @@ declare module 'zapatos/schema' {
         */
         ends_at: Date;
         /**
+        * **events.events.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id: number | null;
+        /**
         * **events.events.followup_email**
         * - `int4` in database
         * - `NOT NULL`, no default
@@ -14524,6 +14560,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         ends_at: db.TimestampTzString;
+        /**
+        * **events.events.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id: number | null;
         /**
         * **events.events.followup_email**
         * - `int4` in database
@@ -14821,6 +14863,12 @@ declare module 'zapatos/schema' {
         */
         ends_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **events.events.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **events.events.followup_email**
         * - `int4` in database
         * - `NOT NULL`, no default
@@ -15117,6 +15165,12 @@ declare module 'zapatos/schema' {
         */
         ends_at: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment;
         /**
+        * **events.events.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+        /**
         * **events.events.followup_email**
         * - `int4` in database
         * - `NOT NULL`, no default
@@ -15412,6 +15466,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         ends_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment>;
+        /**
+        * **events.events.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **events.events.followup_email**
         * - `int4` in database
@@ -16122,6 +16182,12 @@ declare module 'zapatos/schema' {
         */
         custom_code: c.PgCustom_code;
         /**
+        * **petitions.petitions.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id: number | null;
+        /**
         * **petitions.petitions.heading**
         * - `text` in database
         * - `NOT NULL`, no default
@@ -16279,6 +16345,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `'{"custom_js": null, "custom_css": null, "custom_html_body": null, "custom_html_head": null}'::jsonb`
         */
         custom_code: c.PgCustom_code;
+        /**
+        * **petitions.petitions.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id: number | null;
         /**
         * **petitions.petitions.heading**
         * - `text` in database
@@ -16438,6 +16510,12 @@ declare module 'zapatos/schema' {
         */
         custom_code?: c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **petitions.petitions.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **petitions.petitions.heading**
         * - `text` in database
         * - `NOT NULL`, no default
@@ -16596,6 +16674,12 @@ declare module 'zapatos/schema' {
         */
         custom_code?: c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.DefaultType | db.SQLFragment;
         /**
+        * **petitions.petitions.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+        /**
         * **petitions.petitions.heading**
         * - `text` in database
         * - `NOT NULL`, no default
@@ -16753,6 +16837,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, default: `'{"custom_js": null, "custom_css": null, "custom_html_body": null, "custom_html_head": null}'::jsonb`
         */
         custom_code?: c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, c.PgCustom_code | db.Parameter<c.PgCustom_code> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **petitions.petitions.feature_image_upload_id**
+        * - `int4` in database
+        * - Nullable, no default
+        */
+        feature_image_upload_id?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **petitions.petitions.heading**
         * - `text` in database
