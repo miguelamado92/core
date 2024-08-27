@@ -21,6 +21,7 @@
 		superForm,
 		valibotClient
 	} from '$lib/comps/ui/forms';
+	import UploadWidget from '$lib/comps/widgets/uploads/UploadWidget.svelte';
 	export let isUpdate: boolean = false;
 
 	import { create, update } from '$lib/schema/petitions/petitions';
@@ -75,6 +76,18 @@
 			label={$page.data.t.forms.fields.generic.content.label()}
 			bind:value={$formData.html}
 		/>
+		<Collapsible class="mb-4">
+			{#snippet trigger()}
+				{$page.data.t.forms.fields.generic.feature_image.label()}
+			{/snippet}
+			<UploadWidget
+				upload_id={$formData.feature_image_upload_id}
+				onselected={(upload) => {
+					if (upload?.id) $formData.feature_image_upload_id = upload.id;
+					if (upload === null) $formData.feature_image_upload_id = null;
+				}}
+			/>
+		</Collapsible>
 		<Collapsible class="mb-4">
 			{#snippet trigger()}
 				{$page.data.t.forms.fields.metatags.header()}

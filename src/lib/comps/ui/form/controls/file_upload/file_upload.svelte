@@ -6,6 +6,7 @@
 	import Loader from 'lucide-svelte/icons/loader';
 	import CheckCircle from 'lucide-svelte/icons/circle-check';
 	import Input from '$lib/comps/ui/input/input.svelte';
+	import { cn } from '$lib/utils';
 	import AlertTriangle from 'lucide-svelte/icons/triangle-alert';
 	const file_upload_widget_id = crypto.randomUUID();
 	import { createEventDispatcher } from 'svelte';
@@ -33,6 +34,8 @@
 	const file_name_prefix: string = crypto.randomUUID();
 
 	let loading = false;
+	let className = '';
+	export { className as class };
 	let error: string | null = null;
 	let disabled = false;
 	let success = false;
@@ -85,25 +88,7 @@
 				method: 'put',
 				body: file_to_upload
 			});
-			//const aws_response_body = await aws_response.text();
 			if (!aws_response.ok) throw { message: $page.data.t.errors.file_upload.upload_error() };
-
-			/* //create the upload in the database
-			const create_upload_response = await fetch(`/api/v1/sites/${site_id}/uploads`, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					name: file_name,
-					url: `${bucket_url}${new URL(aws_response.url).pathname}`
-				})
-			}); */
-
-			/* if (!create_upload_response.ok)
-				throw { message: $page.data.t.errors.file_upload.upload_error() };
-			const create_upload_body = await create_upload_response.json();
-			upload_id = create_upload_body.id; */
 
 			url = `${bucket_url}${new URL(aws_response.url).pathname}`;
 			uploaded_file_name = file_name;
@@ -137,7 +122,10 @@
 		on:change={handleUpload}
 		{disabled}
 		accept={acceptable_file_types}
-		class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+		class={cn(
+			'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400',
+			className
+		)}
 		aria-describedby="file_input_help"
 		id="file_input"
 		type="file"

@@ -45,6 +45,7 @@ export const base = v.object({
 	petition_text: mediumStringNotEmpty,
 
 	...petitionUserInfoSettings.entries,
+	feature_image_upload_id: v.nullable(id),
 
 	autoresponse_email: id,
 	send_autoresponse_email: v.boolean(),
@@ -58,17 +59,20 @@ export const base = v.object({
 	updated_at: timestamp,
 	published_at: v.nullable(timestamp)
 });
-
+import { read as readUpload } from '$lib/schema/website/uploads';
 export const read = v.object({
 	...v.omit(base, ['instance_id', 'point_person_id', 'autoresponse_email']).entries,
 	point_person: readAdmin,
 	autoresponse_email: readEmailMessage,
-	signatures: count
+	signatures: count,
+	feature_image: v.nullable(readUpload)
 });
 export type Read = v.InferOutput<typeof read>;
 
 export const list = v.object({
-	items: v.array(v.omit(read, ['html', 'custom_code', 'html_metatags', 'autoresponse_email'])),
+	items: v.array(
+		v.omit(read, ['html', 'custom_code', 'html_metatags', 'autoresponse_email', 'feature_image'])
+	),
 	count: count
 });
 export type List = v.InferOutput<typeof list>;
@@ -86,6 +90,7 @@ export const create = v.object({
 
 	autoresponse_email: v.optional(base.entries.autoresponse_email),
 	send_autoresponse_email: v.optional(base.entries.send_autoresponse_email),
+	feature_image_upload_id: v.optional(base.entries.feature_image_upload_id),
 
 	point_person_id: v.optional(base.entries.point_person_id),
 

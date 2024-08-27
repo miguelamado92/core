@@ -12,6 +12,7 @@
 		Grid,
 		HTML
 	} from '$lib/comps/ui/forms';
+	import UploadWidget from '$lib/comps/widgets/uploads/UploadWidget.svelte';
 	import { create, update } from '$lib/schema/website/content';
 	import Collapsible from '$lib/comps/ui/custom/collapsible/collapsible.svelte';
 	const { isCreate }: { isCreate: boolean } = $props();
@@ -54,6 +55,18 @@
 			label={$page.data.t.forms.fields.generic.html.label()}
 			bind:value={$formData.html}
 		/>
+		<Collapsible class="mb-4">
+			{#snippet trigger()}
+				{$page.data.t.forms.fields.generic.feature_image.label()}
+			{/snippet}
+			<UploadWidget
+				upload_id={$formData.feature_image_upload_id}
+				onselected={(upload) => {
+					if (upload?.id) $formData.feature_image_upload_id = upload.id;
+					if (upload === null) $formData.feature_image_upload_id = null;
+				}}
+			/>
+		</Collapsible>
 		<Collapsible class="mb-4">
 			{#snippet trigger()}
 				{$page.data.t.forms.fields.metatags.header()}

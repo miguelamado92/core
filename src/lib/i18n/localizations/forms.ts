@@ -253,6 +253,34 @@ export default function (locale: SL) {
 							zh: `请上传文件。接受的格式：${fileFormats}。最大尺寸：${maxSize}`
 						});
 					}
+				},
+				feature_image: {
+					label: () => {
+						return t(locale, {
+							en: 'Feature Image',
+							ja: '特集画像',
+							pt: 'Imagem de Destaque',
+							es: 'Imagen Destacada',
+							fr: 'Image de Fonctionnalité',
+							sw: 'Picha ya Kipekee',
+							th: 'ภาพประกอบ',
+							zh: '特色图片'
+						});
+					}
+				},
+				file_select_or_upload: {
+					label: () => {
+						return t(locale, {
+							en: 'Select or upload a file',
+							ja: 'ファイルを選択またはアップロード',
+							pt: 'Selecionar ou carregar um arquivo',
+							es: 'Seleccionar o subir un archivo',
+							fr: 'Sélectionner ou télécharger un fichier',
+							sw: 'Chagua au pakia faili',
+							th: 'เลือกหรืออัปโหลดไฟล์',
+							zh: '选择或上传文件'
+						});
+					}
 				}
 			},
 			people: {
@@ -2129,6 +2157,18 @@ export default function (locale: SL) {
 			}
 		},
 		buttons: {
+			select: () => {
+				return t(locale, {
+					en: 'Select',
+					ja: '選択',
+					pt: 'Selecionar',
+					es: 'Seleccionar',
+					fr: 'Sélectionner',
+					sw: 'Chagua',
+					th: 'เลือก',
+					zh: '选择'
+				});
+			},
 			post: () => {
 				return t(locale, {
 					en: 'Post',
@@ -2386,6 +2426,42 @@ export default function (locale: SL) {
 					sw: 'Ona yote',
 					th: 'ดูทั้งหมด',
 					zh: '查看全部'
+				});
+			},
+			open: () => {
+				return t(locale, {
+					en: 'Open',
+					ja: '開く',
+					pt: 'Abrir',
+					es: 'Abrir',
+					fr: 'Ouvrir',
+					sw: 'Fungua',
+					th: 'เปิด',
+					zh: '打开'
+				});
+			},
+			close: () => {
+				return t(locale, {
+					en: 'Close',
+					ja: '閉じる',
+					pt: 'Fechar',
+					es: 'Cerrar',
+					fr: 'Fermer',
+					sw: 'Funga',
+					th: 'ปิด',
+					zh: '关闭'
+				});
+			},
+			upload: () => {
+				return t(locale, {
+					en: 'Upload',
+					ja: 'アップロード',
+					pt: 'Carregar',
+					es: 'Subir',
+					fr: 'Télécharger',
+					sw: 'Pakia',
+					th: 'อัปโหลด',
+					zh: '上传'
 				});
 			}
 		},

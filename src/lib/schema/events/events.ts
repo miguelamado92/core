@@ -1,6 +1,5 @@
 import {
 	v,
-	shortString,
 	longString,
 	timestamp,
 	id,
@@ -13,7 +12,6 @@ import {
 	phoneNumber,
 	country,
 	url,
-	emailMessage,
 	slug,
 	customCode,
 	htmlMetatags
@@ -68,6 +66,8 @@ export const base = v.object({
 	send_reminder_hours_before_start: v.pipe(v.number(), v.integer(), v.minValue(0)),
 	send_followup_hours_after_end: v.pipe(v.number(), v.integer(), v.minValue(0)),
 
+	feature_image_upload_id: v.nullable(id),
+
 	point_person_id: id,
 	custom_code: customCode,
 	html_metatags: htmlMetatags,
@@ -77,6 +77,7 @@ export const base = v.object({
 	updated_at: timestamp,
 	published_at: v.nullable(timestamp)
 });
+import { read as readUpload } from '$lib/schema/website/uploads';
 
 export const read = v.object({
 	...v.omit(base, [
@@ -95,6 +96,7 @@ export const read = v.object({
 	registered: count,
 	attended: count,
 	cancelled: count,
+	feature_image: v.nullable(readUpload),
 	noshow: count
 });
 export type Read = v.InferOutput<typeof read>;
@@ -108,7 +110,8 @@ export const list = v.object({
 			'reminder_email',
 			'cancellation_email',
 			'registration_email',
-			'followup_email'
+			'followup_email',
+			'feature_image'
 		])
 	),
 	count: count
@@ -141,6 +144,8 @@ export const create = v.object({
 	send_followup_email: v.optional(base.entries.send_registration_email, false),
 	send_reminder_hours_before_start: v.optional(base.entries.send_reminder_hours_before_start, 24),
 	send_followup_hours_after_end: v.optional(base.entries.send_followup_hours_after_end, 24),
+
+	feature_image_upload_id: v.optional(base.entries.feature_image_upload_id),
 
 	max_attendees: v.optional(base.entries.max_attendees),
 

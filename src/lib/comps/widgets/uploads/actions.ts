@@ -12,6 +12,16 @@ export async function load(search: string | null | undefined): Promise<List> {
 	return parsed;
 }
 
+export async function loadSingle(id: number): Promise<Read> {
+	const response = await fetch(`/api/v1/website/uploads/${id}`);
+	if (!response.ok) {
+		throw new Error(`Failed to load: ${response.statusText}`);
+	}
+	const body = await response.json();
+	const parsed = parse(read, body);
+	return parsed;
+}
+
 function parseUnknownData(data: unknown, t: App.Localization): Create {
 	try {
 		const parsed = parse(create, {

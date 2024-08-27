@@ -31,10 +31,8 @@ export async function create({
 			...parsed
 		})
 		.run(pool);
-	const parsedResult = parse(schema.read, result);
 	await redis.del(redisString(instanceId, contentTypeId, 'all'));
-	await redis.set(redisString(instanceId, contentTypeId, parsedResult.id), parsedResult);
-	return parsedResult;
+	return await read({ instanceId, contentTypeId, contentId: result.id, t });
 }
 
 export async function read({
@@ -54,7 +52,17 @@ export async function read({
 	}
 	await exists({ instanceId, contentTypeId, t });
 	const result = await db
-		.selectExactlyOne('website.content', { id: contentId, content_type_id: contentTypeId })
+		.selectExactlyOne(
+			'website.content',
+			{ id: contentId, content_type_id: contentTypeId },
+			{
+				lateral: {
+					feature_image: db.selectOne('website.uploads', {
+						id: db.parent('feature_image_upload_id')
+					})
+				}
+			}
+		)
 		.run(pool)
 		.catch((err) => {
 			throw new BelcodaError(404, 'DATA:WEBSITE:CONTENT:READ:01', t.errors.not_found(), err);
@@ -146,8 +154,7 @@ export async function update({
 	if (result.length !== 1) {
 		throw new BelcodaError(404, 'DATA:WEBSITE:CONTENT:UPDATE:01', t.errors.not_found());
 	}
-	const parsedResult = parse(schema.read, result[0]);
 	await redis.del(redisString(instanceId, contentTypeId, contentId));
 	await redis.del(redisString(instanceId, contentTypeId, 'all'));
-	return parsedResult;
+	return await read({ instanceId, contentTypeId, contentId, t });
 }
