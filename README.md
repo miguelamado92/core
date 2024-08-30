@@ -19,6 +19,10 @@ The all-in-one social change platform built for frontline communities.
 
 ## Infrastructure
 
+Belcoda is a Sveltekit-based app that runs on a Node.js server, but could be deployed to be serverless (eg: AWS Lambda) without too much additional configuration. Postgres is used as both the primary database and the job queue (using Graphile Worker). Redis is used for caching.
+
+Belcoda requires the use of Amazon SES for email, S3 for storage, Meta's Whatsapp Cloud API as well as the Whapi.cloud third party Whatsapp API. Google is used for authentication (a properly configured Google Cloud project will be required), and Axiom can optionally be used for logging.
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- GETTING STARTED --><a name="getting-started"></a>
@@ -36,14 +40,16 @@ npm run install
 You will need to configure environment variables. Start by renaming the sample environment variables file to `.env`.
 
 ```bash
-mv sample.env .env
+mv .env.example .env
 ```
 
 Make changes as required to your environment variables, including adding API keys for the required services above.
 
+Clone the <a href="https://github.com/belcoda/migrations" target="_blank">migrations repo</a>, configure the environment variables, and run the migrations and seeds.
+
 `npm run dev`
 
-Navigate to the port provided on localhost, you should see the Belcoda installation screen. Follow the instructions to create the initial instance.
+Navigate to the port provided on localhost, you should see the login screen. Sign in using the details from the init seed in the migrations repo.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -115,6 +121,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Acknowledgements
 
-Belcoda depends on some excellent open source software, including SvelteKit, Zapatos, Graphile Worker, Zod, and more.
+Belcoda depends on some excellent open source software, including SvelteKit, Zapatos, Graphile Worker, Valibot, and more.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
