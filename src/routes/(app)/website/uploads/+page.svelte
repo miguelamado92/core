@@ -11,11 +11,12 @@
 	title={data.t.pages.website.uploads.index()}
 	options={{
 		contentGridClass:
-			'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6',
+			'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 lg:gap-6 mt-4',
 		showBottomSeparator: false,
 		showTopSeparator: false,
 		contentHighlightHover: false,
-		filterKey: 'file_name'
+		filterKey: 'file_name',
+		nothingFoundMessage: data.t.common.data.not_found_types.content()
 	}}
 >
 	{#snippet headerButton()}

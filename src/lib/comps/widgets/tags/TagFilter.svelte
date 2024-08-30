@@ -1,17 +1,23 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type ListOfTags } from '$lib/schema/core/tags';
+	import Plus from 'lucide-svelte/icons/plus';
+
 	type Props = {
 		selectedTags?: ListOfTags;
 		tags?: ListOfTags;
 		onAddTag: (tagId: number) => void;
 		onRemoveTag: (tagId: number) => void;
+		buttonText?: string;
+		buttonIcon?: Component | ComponentType;
 	};
 	let {
 		selectedTags = $bindable([]),
 		tags = $bindable([]),
 		onAddTag,
-		onRemoveTag
+		onRemoveTag,
+		buttonText = $page.data.t.forms.fields.tags.add_a_tag.label(),
+		buttonIcon = Plus
 	}: Props = $props();
 	let loading = $state(false);
 	let open = $state(false);
@@ -24,12 +30,11 @@
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import Plus from 'lucide-svelte/icons/plus';
 	import X from 'lucide-svelte/icons/x';
 	import Badge from '$lib/comps/ui/badge/badge.svelte';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
-	import { onMount } from 'svelte';
+	import { onMount, type ComponentType, type Component } from 'svelte';
 	onMount(async () => {
 		loading = true;
 		tags = await loadTags();
@@ -85,8 +90,8 @@
 				variant="outline"
 				class="justify-start gap-x-1 rounded-lg px-2 py-3"
 			>
-				<Plus size={14} />
-				<div class="text-sm">{$page.data.t.forms.fields.tags.add_a_tag.label()}</div>
+				<svelte:component this={buttonIcon} size={14} />
+				<div class="text-sm">{buttonText}</div>
 			</Button>
 		</Popover.Trigger>
 		<Popover.Content class="p-0" align="start" side="right">

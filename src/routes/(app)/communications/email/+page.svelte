@@ -10,6 +10,7 @@
 	count={data.sends.count}
 	title={data.t.pages.communications.email.index()}
 	newItemHref="/communications/email/new"
+	options={{ nothingFoundMessage: data.t.common.data.not_found_types.sends() }}
 >
 	{#snippet content(send: typeof data.sends.items[0])}
 		<div class="flex items-center gap-2 justify-between">

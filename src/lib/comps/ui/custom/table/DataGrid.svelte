@@ -22,6 +22,9 @@
 		contentPadding?: boolean;
 		showDivider?: boolean;
 		contentGridClass?: string;
+		filterPlaceholder?: string;
+		nothingFoundMessage?: string;
+		createNewButtonText?: string;
 	};
 
 	const DEFAULT_OPTIONS = {
@@ -35,7 +38,10 @@
 		contentHighlightHover: true,
 		showDivider: true,
 		contentPadding: true,
-		contentGridClass: 'grid grid-cols-1 relative'
+		contentGridClass: 'grid grid-cols-1 relative',
+		filterPlaceholder: $page.data.t.forms.fields.generic.filter.placeholder(),
+		nothingFoundMessage: $page.data.t.common.data.no_items(),
+		createNewButtonText: $page.data.t.forms.buttons.create()
 	} as const;
 
 	type Props = {
@@ -80,7 +86,11 @@
 </script>
 
 {#snippet filter()}
-	<Filter filterKey={filterKey || options.filterKey} bind:loading />
+	<Filter
+		placeholder={options.filterPlaceholder}
+		filterKey={filterKey || options.filterKey}
+		bind:loading
+	/>
 {/snippet}
 
 {#snippet header()}
@@ -136,12 +146,12 @@
 			<div class="flex items-center justify-center h-48 col-span-full">
 				<div>
 					<p class="text-muted-foreground text-center text-lg lg:text-xl">
-						{$page.data.t.common.data.no_items()}
+						{options.nothingFoundMessage}
 					</p>
 					{#if newItemHref}
 						<div class="mt-4 flex justify-center">
 							<Button href={newItemHref} variant="outline">
-								{$page.data.t.forms.buttons.create()}
+								{options.createNewButtonText}
 							</Button>
 						</div>
 					{/if}

@@ -17,14 +17,17 @@
 
 	const dataGridOptions = {
 		showHeader: false,
-		fullWidthFilter: true
+		fullWidthFilter: true,
+		showFilter: false,
+		showTopSeparator: false,
+		showBottomSeparator: false
 	};
 </script>
 
 {#snippet head(headline: string, buttonText: string, buttonHref: string)}
 	<div class="flex justify-between items-center w-full mb-4">
 		<div><H2>{headline}</H2></div>
-		<div><Button href={buttonHref}>{buttonText}</Button></div>
+		<div><Button variant="outline" href={buttonHref}>{buttonText}</Button></div>
 	</div>
 {/snippet}
 

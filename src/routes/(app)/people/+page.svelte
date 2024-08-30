@@ -4,6 +4,7 @@
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PersonBadge from '$lib/comps/widgets/PersonBadge.svelte';
 	import TagFilter from '$lib/comps/widgets/tags/TagFilter.svelte';
+	import Filter from 'lucide-svelte/icons/filter';
 	import { goto } from '$app/navigation';
 
 	async function onAddTag(tagId: number) {
@@ -29,10 +30,19 @@
 	count={data.people.count}
 	filterKey="search"
 	newItemHref="/people/new"
+	options={{
+		filterPlaceholder: data.t.forms.fields.generic.filter.types.people.placeholder(),
+		nothingFoundMessage: data.t.common.data.not_found_types.people()
+	}}
 >
 	{#snippet filterSnippet(filter)}
 		<div class="flex items-center gap-2">
-			<TagFilter {onAddTag} {onRemoveTag} />
+			<TagFilter
+				{onAddTag}
+				{onRemoveTag}
+				buttonText={data.t.forms.fields.tags.filter_by_tag.placeholder()}
+				buttonIcon={Filter}
+			/>
 			{@render filter()}
 		</div>
 	{/snippet}

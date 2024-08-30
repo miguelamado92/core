@@ -14,7 +14,7 @@
 </script>
 
 <DataGrid
-	options={{ showFilter: false }}
+	options={{ showFilter: false, nothingFoundMessage: data.t.common.data.not_found_types.lists() }}
 	items={data.list.people.items}
 	count={data.list.people.count}
 	title={`${data.list.name} (${data.list.count})`}

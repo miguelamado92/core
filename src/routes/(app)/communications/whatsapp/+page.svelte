@@ -10,6 +10,7 @@
 	items={data.threads.items}
 	count={data.threads.count}
 	newItemHref="/communications/whatsapp/new"
+	options={{ nothingFoundMessage: data.t.common.data.not_found_types.threads() }}
 >
 	{#snippet headerButton()}
 		<Button href="/communications/whatsapp/new" variant="default" size="sm">

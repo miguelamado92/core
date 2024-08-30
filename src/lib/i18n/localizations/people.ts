@@ -576,7 +576,7 @@ export default function (locale: SL) {
 				signed_petition: {
 					manual: (adminName: string, petitionName: string, petitionUrl: string) => {
 						return t(locale, {
-							en: `Signature <a href="${petitionUrl}">${petitionName}</a> to added by ${adminName}`
+							en: `Signature added to <a href="${petitionUrl}">${petitionName}</a> by ${adminName}`
 						});
 					},
 					self: (personName: string, petitionName: string, petitionUrl: string) => {

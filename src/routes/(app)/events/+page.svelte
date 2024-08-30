@@ -16,6 +16,7 @@
 	count={data.events.count}
 	title={data.t.pages.events.index()}
 	newItemHref="/events/new"
+	options={{ nothingFoundMessage: data.t.common.data.not_found_types.events() }}
 >
 	{#snippet headerButton()}
 		<Button href="/events/new">{data.t.pages.events.new_event()}</Button>

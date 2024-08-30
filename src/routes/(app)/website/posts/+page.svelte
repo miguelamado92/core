@@ -9,6 +9,7 @@
 	items={data.posts.items}
 	count={data.posts.count}
 	newItemHref="/website/posts/new"
+	options={{ nothingFoundMessage: data.t.common.data.not_found_types.content() }}
 >
 	{#snippet headerButton()}
 		<Button href="/website/posts/new">{data.t.pages.website.posts.new()}</Button>

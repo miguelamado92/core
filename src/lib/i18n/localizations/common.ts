@@ -15,6 +15,116 @@ export default function (locale: SL) {
 					zh: '找不到任何项目'
 				});
 			},
+			not_found_types: {
+				people: () => {
+					return t(locale, {
+						en: 'No people found',
+						ja: '人物が見つかりません',
+						pt: 'Nenhuma pessoa encontrada',
+						es: 'No se encontraron personas',
+						fr: 'Aucune personne trouvée',
+						sw: 'Hakuna watu walioonekana',
+						th: 'ไม่พบคน',
+						zh: '找不到人'
+					});
+				},
+				threads: () => {
+					return t(locale, {
+						en: 'No threads found',
+						ja: 'スレッドが見つかりません',
+						pt: 'Nenhuma thread encontrada',
+						es: 'No se encontraron hilos',
+						fr: 'Aucun fil trouvé',
+						sw: 'Hakuna mada iliyopatikana',
+						th: 'ไม่พบเธรด',
+						zh: '找不到线程'
+					});
+				},
+				sends: () => {
+					return t(locale, {
+						en: 'No sends found',
+						ja: '送信が見つかりません',
+						pt: 'Nenhum envio encontrado',
+						es: 'No se encontraron envíos',
+						fr: 'Aucun envoi trouvé',
+						sw: 'Hakuna tuma iliyopatikana',
+						th: 'ไม่พบการส่ง',
+						zh: '找不到发送'
+					});
+				},
+				events: () => {
+					return t(locale, {
+						en: 'No events found',
+						ja: 'イベントが見つかりません',
+						pt: 'Nenhum evento encontrado',
+						es: 'No se encontraron eventos',
+						fr: 'Aucun événement trouvé',
+						sw: 'Hakuna matukio yaliyopatikana',
+						th: 'ไม่พบกิจกรรม',
+						zh: '找不到任何事件'
+					});
+				},
+				petitions: () => {
+					return t(locale, {
+						en: 'No petitions found',
+						ja: '請願が見つかりません',
+						pt: 'Nenhuma petição encontrada',
+						es: 'No se encontraron peticiones',
+						fr: 'Aucune pétition trouvée',
+						sw: 'Hakuna ombi lililopatikana',
+						th: 'ไม่พบคำร้อง',
+						zh: '找不到请愿书'
+					});
+				},
+				groups: () => {
+					return t(locale, {
+						en: 'No groups found',
+						ja: 'グループが見つかりません',
+						pt: 'Nenhum grupo encontrado',
+						es: 'No se encontraron grupos',
+						fr: 'Aucun groupe trouvé',
+						sw: 'Hakuna vikundi vilivyopatikana',
+						th: 'ไม่พบกลุ่ม',
+						zh: '找不到群组'
+					});
+				},
+				lists: () => {
+					return t(locale, {
+						en: 'No lists found',
+						ja: 'リストが見つかりません',
+						pt: 'Nenhuma lista encontrada',
+						es: 'No se encontraron listas',
+						fr: 'Aucune liste trouvée',
+						sw: 'Hakuna orodha iliyopatikana',
+						th: 'ไม่พบรายการ',
+						zh: '找不到列表'
+					});
+				},
+				content: () => {
+					return t(locale, {
+						en: 'No content found',
+						ja: 'コンテンツが見つかりません',
+						pt: 'Nenhum conteúdo encontrado',
+						es: 'No se encontró contenido',
+						fr: 'Aucun contenu trouvé',
+						sw: 'Hakuna yaliyomo yaliyopatikana',
+						th: 'ไม่พบเนื้อหา',
+						zh: '找不到内容'
+					});
+				},
+				pages: () => {
+					return t(locale, {
+						en: 'No pages found',
+						ja: 'ページが見つかりません',
+						pt: 'Nenhuma página encontrada',
+						es: 'No se encontraron páginas',
+						fr: 'Aucune page trouvée',
+						sw: 'Hakuna kurasa zilizopatikana',
+						th: 'ไม่พบหน้า',
+						zh: '找不到页面'
+					});
+				}
+			},
 			no_activity: () => {
 				return t(locale, {
 					en: 'No activity found',

@@ -10,6 +10,7 @@
 	items={data.groups.items}
 	count={data.groups.count}
 	newItemHref="/people/groups/new"
+	options={{ nothingFoundMessage: data.t.common.data.not_found_types.groups() }}
 >
 	{#snippet content(group: typeof data.groups.items[0])}
 		<div class="flex items-center gap-2 justify-between">

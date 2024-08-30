@@ -1,11 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import Input from '$lib/comps/ui/input/input.svelte';
 	let {
 		filterKey,
-		placeholder = 'Filter...',
+		placeholder = $page.data.t.forms.fields.generic.filter.placeholder(),
 		loading = $bindable(false)
 	}: { filterKey: string; placeholder?: string; loading: boolean } = $props();
-	import { page } from '$app/stores';
 	let filterValue = $state($page.url.searchParams.get(filterKey));
 	import { debounce } from '$lib/utils';
 	import { browser } from '$app/environment';

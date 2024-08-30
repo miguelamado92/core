@@ -11,6 +11,7 @@
 	items={data.petitions.items}
 	count={data.petitions.count}
 	newItemHref="/petitions/new"
+	options={{ nothingFoundMessage: data.t.common.data.not_found_types.petitions() }}
 >
 	{#snippet headerButton()}
 		<Button href="/petitions/new">{data.t.pages.actions.petitions.new()}</Button>

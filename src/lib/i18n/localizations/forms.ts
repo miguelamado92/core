@@ -60,6 +60,22 @@ export default function (locale: SL) {
 							th: 'กรอง',
 							zh: '过滤'
 						});
+					},
+					types: {
+						people: {
+							placeholder: () => {
+								return t(locale, {
+									en: 'Search by name, email or phone number',
+									ja: '名前、メールアドレス、電話番号で検索',
+									pt: 'Pesquisar por nome, email ou número de telefone',
+									es: 'Buscar por nombre, correo electrónico o número de teléfono',
+									fr: 'Rechercher par nom, email ou numéro de téléphone',
+									sw: 'Tafuta kwa jina, barua pepe au namba ya simu',
+									th: 'ค้นหาตามชื่อ อีเมลหรือหมายเลขโทรศัพท์',
+									zh: '按姓名、电子邮件或电话号码搜索'
+								});
+							}
+						}
 					}
 				},
 				full_name: {
@@ -1907,6 +1923,20 @@ export default function (locale: SL) {
 							sw: 'Ongeza lebo',
 							th: 'เพิ่มแท็ก',
 							zh: '添加标签'
+						});
+					}
+				},
+				filter_by_tag: {
+					placeholder: () => {
+						return t(locale, {
+							en: 'Filter by tag',
+							ja: 'タグでフィルター',
+							pt: 'Filtrar por tag',
+							es: 'Filtrar por etiqueta',
+							fr: 'Filtrer par étiquette',
+							sw: 'Chuja kwa lebo',
+							th: 'ตัวกรองตามแท็ก',
+							zh: '按标签筛选'
 						});
 					}
 				},
