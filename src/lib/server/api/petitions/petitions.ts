@@ -163,6 +163,9 @@ export async function readBySlug({
 					autoresponse_email: db.selectExactlyOne('communications.email_messages', {
 						id: db.parent('autoresponse_email')
 					}),
+					feature_image: db.selectOne('website.uploads', {
+						id: db.parent('feature_image_upload_id')
+					}),
 					point_person: db.selectExactlyOne('admins', { id: db.parent('point_person_id') })
 				}
 			}

@@ -92,7 +92,14 @@ export async function readBySlug({
 		.selectExactlyOne(
 			'website.content',
 			{ slug, content_type_id: contentTypeId },
-			{ columns: ['id'] }
+			{
+				columns: ['id'],
+				lateral: {
+					feature_image: db.selectOne('website.uploads', {
+						id: db.parent('feature_image_upload_id')
+					})
+				}
+			}
 		)
 		.run(pool)
 		.catch((err) => {

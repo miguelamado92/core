@@ -209,6 +209,9 @@ export async function readBySlug({
 			{
 				lateral: {
 					point_person: db.selectExactlyOne('admins', { id: db.parent('point_person_id') }),
+					feature_image: db.selectOne('website.uploads', {
+						id: db.parent('feature_image_upload_id')
+					}),
 					reminder_email: db.selectExactlyOne('communications.email_messages', {
 						id: db.parent('reminder_email')
 					}),
