@@ -5,28 +5,17 @@ import { v } from '$lib/schema/valibot';
 
 import { list as listAllRegisteredForEvent } from '$lib/server/api/people/filters/registered_for_event';
 import { list as listAllNotRegisteredForEvent } from '$lib/server/api/people/filters/not_registered_for_event';
-import { queue, queue as queueInteraction } from '$lib/server/api/people/interactions';
 export async function POST(event) {
 	try {
+		const method = event.url.searchParams.get('method') === 'import' ? 'import' : 'manual';
 		const body = await event.request.json();
 		const parsed = v.parse(v.looseObject({ ...schema.create.entries }), body); //because we want to allow custom fields to be passed through to the function
 		const created = await api.create({
 			instance_id: event.locals.instance.id,
 			body: parsed,
 			t: event.locals.t,
-			queue: event.locals.queue
-		});
-		await queueInteraction({
-			personId: created.id,
-			adminId: event.locals.admin.id,
-			instanceId: event.locals.instance.id,
-			details: {
-				type: 'person_added',
-				details: {
-					method: 'manual'
-				}
-			},
-			queue: event.locals.queue
+			queue: event.locals.queue,
+			method: method
 		});
 		return json(created);
 	} catch (err) {

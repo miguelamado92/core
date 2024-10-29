@@ -5,7 +5,7 @@ import * as schema from '$lib/schema/people/people';
 import { read as instanceApi } from '$lib/server/api/core/instances';
 import { filterPersonTags } from '$lib/server/utils/filters/filter';
 import { DEFAULT_COUNTRY, DEFAULT_LANGUAGE } from '$lib/i18n';
-
+import { queue as queueInteraction } from '$lib/server/api/people/interactions';
 import { getUniqueKeys } from '$lib/utils/objects/get_unique_keys';
 import { parse, v, mediumString, longString } from '$lib/schema/valibot';
 import { whatsappNumberForVerification } from '$lib/schema/people/channels/channels';
@@ -59,15 +59,18 @@ export async function create({
 	admin_id,
 	body,
 	t,
-	queue
+	queue,
+	method
 }: {
 	instance_id: number;
 	admin_id?: number;
 	body: schema.Create;
 	t: App.Localization;
 	queue: App.Queue;
+	method: 'manual' | 'import';
 }) {
-	const parsed = parse(schema.create, body);
+	const parsed = v.parse(v.looseObject({ ...schema.create.entries }), body); //because we want to allow custom fields to be passed through to the function
+	//const parsed = parse(schema.create, body);
 	const point_person_id =
 		parsed.point_person_id ||
 		admin_id ||
@@ -96,6 +99,18 @@ export async function create({
 	}
 	await redis.del(redisString(instance_id, 'all'));
 	const person = await read({ instance_id, person_id: inserted.id, t });
+	await queueInteraction({
+		personId: person.id,
+		adminId: point_person_id,
+		instanceId: instance_id,
+		details: {
+			type: 'person_added',
+			details: {
+				method: method
+			}
+		},
+		queue: queue
+	});
 	return person;
 }
 

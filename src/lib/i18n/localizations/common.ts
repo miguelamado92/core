@@ -276,6 +276,54 @@ export default function (locale: SL) {
 					th: 'สมัครสมาชิกแล้ว',
 					zh: '已订阅'
 				});
+			},
+			pending: () => {
+				return t(locale, {
+					en: 'Pending',
+					ja: '保留中',
+					pt: 'Pendente',
+					es: 'Pendiente',
+					fr: 'En attente',
+					sw: 'Inasubiri',
+					th: 'รอดำเนินการ',
+					zh: '待定'
+				});
+			},
+			processing: () => {
+				return t(locale, {
+					en: 'Processing',
+					ja: '処理中',
+					pt: 'Processando',
+					es: 'Procesando',
+					fr: 'En cours de traitement',
+					sw: 'Inaprocess',
+					th: 'กำลังประมวลผล',
+					zh: '处理中'
+				});
+			},
+			complete: () => {
+				return t(locale, {
+					en: 'Complete',
+					ja: '完了',
+					pt: 'Completo',
+					es: 'Completo',
+					fr: 'Terminé',
+					sw: 'Imekamilika',
+					th: 'เสร็จสิ้น',
+					zh: '完成'
+				});
+			},
+			failed: () => {
+				return t(locale, {
+					en: 'Failed',
+					ja: '失敗',
+					pt: 'Falhou',
+					es: 'Fallido',
+					fr: 'Échoué',
+					sw: 'Imeshindwa',
+					th: 'ล้มเหลว',
+					zh: '失败'
+				});
 			}
 		},
 		actions: {

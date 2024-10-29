@@ -16,7 +16,14 @@ export function nameToInitials(name: string): string {
 	}
 }
 
-export function renderName(person: Read | List[number] | EventAttendee, country: Country): string {
+export function renderName(
+	person:
+		| Read
+		| List['items'][number]
+		| EventAttendee
+		| { family_name: string | null; given_name: string | null; [key: string]: any },
+	country: Country
+): string {
 	if (person.full_name) return person.full_name;
 	if (country === 'jp') return `${person?.family_name} ${person?.given_name}`.trim();
 	return `${person?.given_name} ${person?.family_name}`.trim();

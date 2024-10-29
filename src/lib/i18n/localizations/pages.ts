@@ -1052,6 +1052,46 @@ export default function (l: SL) {
 							zh: '新标签'
 						});
 					}
+				},
+				people: {
+					index: () => {
+						return t(l, {
+							en: 'People',
+							ja: '人',
+							pt: 'Pessoas',
+							es: 'Personas',
+							fr: 'Personnes',
+							sw: 'Watu',
+							th: 'คน',
+							zh: '人'
+						});
+					},
+					imports: {
+						index: () => {
+							return t(l, {
+								en: 'Imports',
+								ja: 'インポート',
+								pt: 'Importações',
+								es: 'Importaciones',
+								fr: 'Importations',
+								sw: 'Kuingiza',
+								th: 'นำเข้า',
+								zh: '进口'
+							});
+						},
+						new: () => {
+							return t(l, {
+								en: 'New Import',
+								ja: '新しいインポート',
+								pt: 'Nova Importação',
+								es: 'Nueva Importación',
+								fr: 'Nouvelle Importation',
+								sw: 'Kuingiza Mpya',
+								th: 'นำเข้าใหม่',
+								zh: '新进口'
+							});
+						}
+					}
 				}
 			},
 			preferences: () => {

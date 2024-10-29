@@ -85,4 +85,20 @@
 			</Grid>
 		</Card.Content>
 	</Card.Root>
+
+	<Card.Root class="mt-4">
+		<Card.Header>
+			<Card.Title>{$page.data.t.pages.config.settings.people.index()}</Card.Title>
+		</Card.Header>
+		<Card.Content>
+			<Grid>
+				<Button variant="outline" href="/settings/people/imports"
+					>{$page.data.t.pages.config.settings.people.imports.index()}</Button
+				>
+				<Button variant="outline" href="/settings/people/imports/new"
+					>{$page.data.t.pages.config.settings.people.imports.new()}</Button
+				>
+			</Grid>
+		</Card.Content>
+	</Card.Root>
 </Grid>

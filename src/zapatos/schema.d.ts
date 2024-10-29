@@ -3150,6 +3150,299 @@ declare module 'zapatos/schema' {
     }
   
     /**
+     * **people.imports**
+     * - Table in database
+     */
+    export namespace imports {
+      export type Table = 'people.imports';
+      export interface Selectable {
+        /**
+        * **people.imports.completed_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        completed_at: Date;
+        /**
+        * **people.imports.created_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        created_at: Date;
+        /**
+        * **people.imports.csv_url**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        csv_url: string;
+        /**
+        * **people.imports.failed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        failed_rows: number;
+        /**
+        * **people.imports.id**
+        * - `int4` in database
+        * - `NOT NULL`, default: `nextval('people.imports_id_seq'::regclass)`
+        */
+        id: number;
+        /**
+        * **people.imports.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number;
+        /**
+        * **people.imports.processed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        processed_rows: number;
+        /**
+        * **people.imports.status**
+        * - `text` in database
+        * - `NOT NULL`, default: `'pending'::text`
+        */
+        status: string;
+        /**
+        * **people.imports.total_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        total_rows: number;
+      }
+      export interface JSONSelectable {
+        /**
+        * **people.imports.completed_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        completed_at: db.TimestampTzString;
+        /**
+        * **people.imports.created_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        created_at: db.TimestampTzString;
+        /**
+        * **people.imports.csv_url**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        csv_url: string;
+        /**
+        * **people.imports.failed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        failed_rows: number;
+        /**
+        * **people.imports.id**
+        * - `int4` in database
+        * - `NOT NULL`, default: `nextval('people.imports_id_seq'::regclass)`
+        */
+        id: number;
+        /**
+        * **people.imports.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number;
+        /**
+        * **people.imports.processed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        processed_rows: number;
+        /**
+        * **people.imports.status**
+        * - `text` in database
+        * - `NOT NULL`, default: `'pending'::text`
+        */
+        status: string;
+        /**
+        * **people.imports.total_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        total_rows: number;
+      }
+      export interface Whereable {
+        /**
+        * **people.imports.completed_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.created_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.csv_url**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        csv_url?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.failed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        failed_rows?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.id**
+        * - `int4` in database
+        * - `NOT NULL`, default: `nextval('people.imports_id_seq'::regclass)`
+        */
+        id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.processed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        processed_rows?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.status**
+        * - `text` in database
+        * - `NOT NULL`, default: `'pending'::text`
+        */
+        status?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.imports.total_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        total_rows?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      }
+      export interface Insertable {
+        /**
+        * **people.imports.completed_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.imports.created_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.imports.csv_url**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        csv_url: string | db.Parameter<string> | db.SQLFragment;
+        /**
+        * **people.imports.failed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        failed_rows?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.imports.id**
+        * - `int4` in database
+        * - `NOT NULL`, default: `nextval('people.imports_id_seq'::regclass)`
+        */
+        id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.imports.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id: number | db.Parameter<number> | db.SQLFragment;
+        /**
+        * **people.imports.processed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        processed_rows?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.imports.status**
+        * - `text` in database
+        * - `NOT NULL`, default: `'pending'::text`
+        */
+        status?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.imports.total_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        total_rows?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      }
+      export interface Updatable {
+        /**
+        * **people.imports.completed_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        completed_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.imports.created_at**
+        * - `timestamptz` in database
+        * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+        */
+        created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.imports.csv_url**
+        * - `text` in database
+        * - `NOT NULL`, no default
+        */
+        csv_url?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
+        * **people.imports.failed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        failed_rows?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.imports.id**
+        * - `int4` in database
+        * - `NOT NULL`, default: `nextval('people.imports_id_seq'::regclass)`
+        */
+        id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.imports.instance_id**
+        * - `int4` in database
+        * - `NOT NULL`, no default
+        */
+        instance_id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+        /**
+        * **people.imports.processed_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        processed_rows?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.imports.status**
+        * - `text` in database
+        * - `NOT NULL`, default: `'pending'::text`
+        */
+        status?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.imports.total_rows**
+        * - `int4` in database
+        * - `NOT NULL`, default: `0`
+        */
+        total_rows?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      }
+      export type UniqueIndex = 'imports_pkey';
+      export type Column = keyof Selectable;
+      export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+      export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
+      export type SQL = SQLExpression | SQLExpression[];
+    }
+  
+    /**
      * **people.interactions**
      * - Table in database
      */
@@ -6139,20 +6432,20 @@ declare module 'zapatos/schema' {
   
     /* --- aggregate types --- */
   
-    export type Table = custom_field_values.Table | custom_fields.Table | group_members.Table | groups.Table | interactions.Table | list_interactions.Table | list_people.Table | list_view.Table | lists.Table | people.Table | people_search.Table | taggings.Table;
-    export type Selectable = custom_field_values.Selectable | custom_fields.Selectable | group_members.Selectable | groups.Selectable | interactions.Selectable | list_interactions.Selectable | list_people.Selectable | list_view.Selectable | lists.Selectable | people.Selectable | people_search.Selectable | taggings.Selectable;
-    export type JSONSelectable = custom_field_values.JSONSelectable | custom_fields.JSONSelectable | group_members.JSONSelectable | groups.JSONSelectable | interactions.JSONSelectable | list_interactions.JSONSelectable | list_people.JSONSelectable | list_view.JSONSelectable | lists.JSONSelectable | people.JSONSelectable | people_search.JSONSelectable | taggings.JSONSelectable;
-    export type Whereable = custom_field_values.Whereable | custom_fields.Whereable | group_members.Whereable | groups.Whereable | interactions.Whereable | list_interactions.Whereable | list_people.Whereable | list_view.Whereable | lists.Whereable | people.Whereable | people_search.Whereable | taggings.Whereable;
-    export type Insertable = custom_field_values.Insertable | custom_fields.Insertable | group_members.Insertable | groups.Insertable | interactions.Insertable | list_interactions.Insertable | list_people.Insertable | list_view.Insertable | lists.Insertable | people.Insertable | people_search.Insertable | taggings.Insertable;
-    export type Updatable = custom_field_values.Updatable | custom_fields.Updatable | group_members.Updatable | groups.Updatable | interactions.Updatable | list_interactions.Updatable | list_people.Updatable | list_view.Updatable | lists.Updatable | people.Updatable | people_search.Updatable | taggings.Updatable;
-    export type UniqueIndex = custom_field_values.UniqueIndex | custom_fields.UniqueIndex | group_members.UniqueIndex | groups.UniqueIndex | interactions.UniqueIndex | list_interactions.UniqueIndex | list_people.UniqueIndex | list_view.UniqueIndex | lists.UniqueIndex | people.UniqueIndex | people_search.UniqueIndex | taggings.UniqueIndex;
-    export type Column = custom_field_values.Column | custom_fields.Column | group_members.Column | groups.Column | interactions.Column | list_interactions.Column | list_people.Column | list_view.Column | lists.Column | people.Column | people_search.Column | taggings.Column;
+    export type Table = custom_field_values.Table | custom_fields.Table | group_members.Table | groups.Table | imports.Table | interactions.Table | list_interactions.Table | list_people.Table | list_view.Table | lists.Table | people.Table | people_search.Table | taggings.Table;
+    export type Selectable = custom_field_values.Selectable | custom_fields.Selectable | group_members.Selectable | groups.Selectable | imports.Selectable | interactions.Selectable | list_interactions.Selectable | list_people.Selectable | list_view.Selectable | lists.Selectable | people.Selectable | people_search.Selectable | taggings.Selectable;
+    export type JSONSelectable = custom_field_values.JSONSelectable | custom_fields.JSONSelectable | group_members.JSONSelectable | groups.JSONSelectable | imports.JSONSelectable | interactions.JSONSelectable | list_interactions.JSONSelectable | list_people.JSONSelectable | list_view.JSONSelectable | lists.JSONSelectable | people.JSONSelectable | people_search.JSONSelectable | taggings.JSONSelectable;
+    export type Whereable = custom_field_values.Whereable | custom_fields.Whereable | group_members.Whereable | groups.Whereable | imports.Whereable | interactions.Whereable | list_interactions.Whereable | list_people.Whereable | list_view.Whereable | lists.Whereable | people.Whereable | people_search.Whereable | taggings.Whereable;
+    export type Insertable = custom_field_values.Insertable | custom_fields.Insertable | group_members.Insertable | groups.Insertable | imports.Insertable | interactions.Insertable | list_interactions.Insertable | list_people.Insertable | list_view.Insertable | lists.Insertable | people.Insertable | people_search.Insertable | taggings.Insertable;
+    export type Updatable = custom_field_values.Updatable | custom_fields.Updatable | group_members.Updatable | groups.Updatable | imports.Updatable | interactions.Updatable | list_interactions.Updatable | list_people.Updatable | list_view.Updatable | lists.Updatable | people.Updatable | people_search.Updatable | taggings.Updatable;
+    export type UniqueIndex = custom_field_values.UniqueIndex | custom_fields.UniqueIndex | group_members.UniqueIndex | groups.UniqueIndex | imports.UniqueIndex | interactions.UniqueIndex | list_interactions.UniqueIndex | list_people.UniqueIndex | list_view.UniqueIndex | lists.UniqueIndex | people.UniqueIndex | people_search.UniqueIndex | taggings.UniqueIndex;
+    export type Column = custom_field_values.Column | custom_fields.Column | group_members.Column | groups.Column | imports.Column | interactions.Column | list_interactions.Column | list_people.Column | list_view.Column | lists.Column | people.Column | people_search.Column | taggings.Column;
   
-    export type AllBaseTables = [custom_field_values.Table, custom_fields.Table, group_members.Table, groups.Table, interactions.Table, list_people.Table, lists.Table, people.Table, taggings.Table];
+    export type AllBaseTables = [custom_field_values.Table, custom_fields.Table, group_members.Table, groups.Table, imports.Table, interactions.Table, list_people.Table, lists.Table, people.Table, taggings.Table];
     export type AllForeignTables = [];
     export type AllViews = [list_interactions.Table, list_view.Table, people_search.Table];
     export type AllMaterializedViews = [];
-    export type AllTablesAndViews = [custom_field_values.Table, custom_fields.Table, group_members.Table, groups.Table, interactions.Table, list_interactions.Table, list_people.Table, list_view.Table, lists.Table, people.Table, people_search.Table, taggings.Table];
+    export type AllTablesAndViews = [custom_field_values.Table, custom_fields.Table, group_members.Table, groups.Table, imports.Table, interactions.Table, list_interactions.Table, list_people.Table, list_view.Table, lists.Table, people.Table, people_search.Table, taggings.Table];
   }
 
 
@@ -17269,6 +17562,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.Selectable;
     "people.group_members": people.group_members.Selectable;
     "people.groups": people.groups.Selectable;
+    "people.imports": people.imports.Selectable;
     "people.interactions": people.interactions.Selectable;
     "people.list_interactions": people.list_interactions.Selectable;
     "people.list_people": people.list_people.Selectable;
@@ -17328,6 +17622,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.JSONSelectable;
     "people.group_members": people.group_members.JSONSelectable;
     "people.groups": people.groups.JSONSelectable;
+    "people.imports": people.imports.JSONSelectable;
     "people.interactions": people.interactions.JSONSelectable;
     "people.list_interactions": people.list_interactions.JSONSelectable;
     "people.list_people": people.list_people.JSONSelectable;
@@ -17387,6 +17682,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.Whereable;
     "people.group_members": people.group_members.Whereable;
     "people.groups": people.groups.Whereable;
+    "people.imports": people.imports.Whereable;
     "people.interactions": people.interactions.Whereable;
     "people.list_interactions": people.list_interactions.Whereable;
     "people.list_people": people.list_people.Whereable;
@@ -17446,6 +17742,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.Insertable;
     "people.group_members": people.group_members.Insertable;
     "people.groups": people.groups.Insertable;
+    "people.imports": people.imports.Insertable;
     "people.interactions": people.interactions.Insertable;
     "people.list_interactions": people.list_interactions.Insertable;
     "people.list_people": people.list_people.Insertable;
@@ -17505,6 +17802,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.Updatable;
     "people.group_members": people.group_members.Updatable;
     "people.groups": people.groups.Updatable;
+    "people.imports": people.imports.Updatable;
     "people.interactions": people.interactions.Updatable;
     "people.list_interactions": people.list_interactions.Updatable;
     "people.list_people": people.list_people.Updatable;
@@ -17564,6 +17862,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.UniqueIndex;
     "people.group_members": people.group_members.UniqueIndex;
     "people.groups": people.groups.UniqueIndex;
+    "people.imports": people.imports.UniqueIndex;
     "people.interactions": people.interactions.UniqueIndex;
     "people.list_interactions": people.list_interactions.UniqueIndex;
     "people.list_people": people.list_people.UniqueIndex;
@@ -17623,6 +17922,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.Column;
     "people.group_members": people.group_members.Column;
     "people.groups": people.groups.Column;
+    "people.imports": people.imports.Column;
     "people.interactions": people.interactions.Column;
     "people.list_interactions": people.list_interactions.Column;
     "people.list_people": people.list_people.Column;
@@ -17682,6 +17982,7 @@ declare module 'zapatos/schema' {
     "people.custom_fields": people.custom_fields.SQL;
     "people.group_members": people.group_members.SQL;
     "people.groups": people.groups.SQL;
+    "people.imports": people.imports.SQL;
     "people.interactions": people.interactions.SQL;
     "people.list_interactions": people.list_interactions.SQL;
     "people.list_people": people.list_people.SQL;

@@ -312,6 +312,61 @@ export default function (t: Localization) {
 					`/settings/website/blocks/${pageParams?.block_id}`
 			}
 		],
+		//PEOPLE
+		'/(app)/settings/people': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.config.settings.index(),
+				href: () => '/settings'
+			},
+			{
+				title: () => t.pages.config.settings.people.index(),
+				href: () => '/settings/people'
+			}
+		],
+		'/(app)/settings/people/imports': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.config.settings.index(),
+				href: () => '/settings'
+			},
+			{
+				title: () => t.pages.config.settings.people.index(),
+				href: () => '/settings/people'
+			},
+			{
+				title: () => t.pages.config.settings.people.imports.index(),
+				href: () => '/settings/people/imports'
+			}
+		],
+		'/(app)/settings/people/imports/new': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.config.settings.index(),
+				href: () => '/settings'
+			},
+			{
+				title: () => t.pages.config.settings.people.index(),
+				href: () => '/settings/people'
+			},
+			{
+				title: () => t.pages.config.settings.people.imports.index(),
+				href: () => '/settings/people/imports'
+			},
+			{
+				title: () => t.pages.config.settings.people.imports.new(),
+				href: () => '/settings/people/imports/new'
+			}
+		],
 		//PREFERENCES
 		'/(app)/preferences': [
 			{

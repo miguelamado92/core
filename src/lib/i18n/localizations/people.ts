@@ -629,6 +629,34 @@ export default function (locale: SL) {
 					en: 'Show banned'
 				});
 			}
+		},
+		imports: {
+			status: {
+				failed: (count: number) => {
+					return t(locale, {
+						en: `${count.toFixed(0)} failed`,
+						ja: `${count.toFixed(0)} 失敗`,
+						pt: `${count.toFixed(0)} falharam`,
+						es: `${count.toFixed(0)} fallaron`,
+						fr: `${count.toFixed(0)} échoué`,
+						sw: `${count.toFixed(0)} zimefeli`,
+						th: `${count.toFixed(0)} ล้มเหลว`,
+						zh: `${count.toFixed(0)} 失败`
+					});
+				},
+				imported: (count: number) => {
+					return t(locale, {
+						en: `${count.toFixed(0)} imported`,
+						ja: `${count.toFixed(0)} インポート`,
+						pt: `${count.toFixed(0)} importados`,
+						es: `${count.toFixed(0)} importados`,
+						fr: `${count.toFixed(0)} importés`,
+						sw: `${count.toFixed(0)} zimeingizwa`,
+						th: `${count.toFixed(0)} นำเข้าแล้ว`,
+						zh: `${count.toFixed(0)} 已导入`
+					});
+				}
+			}
 		}
 	};
 }

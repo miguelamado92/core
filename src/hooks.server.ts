@@ -24,7 +24,7 @@ export async function handle<Handle>({ event, resolve }) {
 	event.locals.t = new Localization(event.locals.language);
 	event.locals.queue = queue;
 
-	let mainHandlerOutput = await mainHandler(event, resolve);
+	const mainHandlerOutput = await mainHandler(event, resolve);
 	if (mainHandlerOutput.continue === false) return mainHandlerOutput.response;
 
 	if (event.url.pathname.startsWith('/logout')) {
@@ -49,7 +49,7 @@ export async function handle<Handle>({ event, resolve }) {
 		return response;
 	}
 
-	let {
+	const {
 		authenticated,
 		event: returnEvent,
 		jsonResponse,

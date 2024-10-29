@@ -24,13 +24,14 @@
 		'image/webp',
 		'image/svg+xml'
 	];
-
+	export let site_uploads_url: string = '/api/v1/website/uploads/link';
+	export let bucket_name = PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME;
 	export let url: string | null | undefined = undefined;
 	//export let upload_id: string | null | undefined = undefined;
 	export let uploaded_file_name: string | null | undefined = undefined;
 
 	const acceptable_file_types = file_types.join(', ');
-	const bucket_url = `https://${PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com`;
+	const bucket_url = `https://${bucket_name}.s3.amazonaws.com`;
 	const file_name_prefix: string = crypto.randomUUID();
 
 	let loading = false;
@@ -69,7 +70,7 @@
 			});
 
 			//get a signed url from the server
-			const push_file_request_response = await fetch(`/api/v1/website/uploads/link`, {
+			const push_file_request_response = await fetch(site_uploads_url, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -88,7 +89,15 @@
 				method: 'put',
 				body: file_to_upload
 			});
-			if (!aws_response.ok) throw { message: $page.data.t.errors.file_upload.upload_error() };
+			if (!aws_response.ok) {
+				console.log('file upload failed');
+				console.log(await aws_response.text());
+				throw { message: $page.data.t.errors.file_upload.upload_error() };
+			} else {
+				console.log('file uploaded');
+				console.log(file_to_upload.size);
+				console.log(await aws_response.text());
+			}
 
 			url = `${bucket_url}${new URL(aws_response.url).pathname}`;
 			uploaded_file_name = file_name;
