@@ -97,6 +97,8 @@ export async function POST(event) {
 				event.locals.admin.id
 			);
 		}
+
+		return json({ success: true });
 	} catch (err) {
 		return error(500, 'WORKER:/utils/email/send_to_list:01', event.locals.t.errors.generic(), err);
 	}

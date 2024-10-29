@@ -3,7 +3,7 @@ import { read } from '$lib/server/api/communications/email/templates';
 import { list as listPeople, read as readPerson } from '$lib/server/api/people/people';
 import { read as readEvent } from '$lib/server/api/events/events';
 import renderEmail from '$lib/server/utils/handlebars/render_email';
-import sendEmail from '$lib/server/utils/email/send_email';
+import sendEmail from '$lib/server/utils/email/send_email_postmark';
 import { parse } from '$lib/schema/valibot';
 import { randomUUID } from 'crypto';
 import { json } from '@sveltejs/kit';
@@ -64,13 +64,14 @@ export async function POST(event) {
 				t: event.locals.t
 			});
 
-	const emailReturn = await sendEmail({
+	await sendEmail({
 		from: parsed.message.from,
 		to: parsed.email,
 		subject: parsed.message.subject,
 		text: parsed.message.use_html_for_plaintext ? undefined : renderedText,
 		html: renderedHtml,
-		replyTo: parsed.message.reply_to || `${event.locals.instance.slug}@belcoda.org`
+		replyTo: parsed.message.reply_to || `${event.locals.instance.slug}@belcoda.org`,
+		stream: 'outbound'
 	});
 
 	return json({ success: true });

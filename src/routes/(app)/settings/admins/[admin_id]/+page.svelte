@@ -8,7 +8,7 @@
 		validators: valibotClient(update),
 		dataType: 'json'
 	});
-	const { form: formData, errors: formErrors, enhance } = form;
+	const { form: formData, enhance } = form;
 </script>
 
 <PageHeader title={$page.data.t.pages.config.settings.admins.edit()} />

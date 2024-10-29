@@ -30,12 +30,12 @@
 				<div class="hidden lg:block">
 					{#if admin.has_signed_in}
 						{#if admin.active}
-							<Badge class="ml-3" variant="success">Active</Badge>
+							<Badge class="ml-3" variant="success">{data.t.common.status.active()}</Badge>
 						{:else}
-							<Badge class="ml-3" variant="danger">Inactive</Badge>
+							<Badge class="ml-3" variant="danger">{data.t.common.status.inactive()}</Badge>
 						{/if}
 					{:else}
-						<Badge class="ml-3" variant="warning">Pending</Badge>
+						<Badge class="ml-3" variant="warning">{data.t.common.status.pending()}</Badge>
 					{/if}
 				</div>
 			</div>

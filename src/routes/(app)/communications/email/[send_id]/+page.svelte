@@ -15,7 +15,8 @@
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	import { invalidateAll } from '$app/navigation';
-	if (data.send.started_at && !data.send.completed_at) {
+	import { browser } from '$app/environment';
+	if (data.send.started_at && !data.send.completed_at && browser) {
 		setTimeout(() => {
 			invalidateAll();
 		}, 10000);

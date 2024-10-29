@@ -1,6 +1,6 @@
 import { json, error, pino, BelcodaError } from '$lib/server';
 import { sendEmailMessage as sendEmailSchema } from '$lib/schema/utils/email';
-import sendEmail from '$lib/server/utils/email/send_email';
+import sendEmail from '$lib/server/utils/email/send_email_postmark';
 import { markAsComplete } from '$lib/server/api/communications/email/sends.js';
 const log = pino('/worker/utils/email/send_email');
 import { read } from '$lib/server/api/people/people';
@@ -51,7 +51,8 @@ export async function POST(event) {
 			subject: parsed.email.subject,
 			text: parsed.email.use_html_for_plaintext ? undefined : parsed.email.text,
 			html: parsed.email.html,
-			replyTo: parsed.email.reply_to || `${event.locals.instance.slug}@belcoda.org`
+			replyTo: parsed.email.reply_to || `${event.locals.instance.slug}@belcoda.com`,
+			stream: 'broadcast'
 		});
 
 		log.debug('SENT EMAIL');

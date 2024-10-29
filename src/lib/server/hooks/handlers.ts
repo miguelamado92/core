@@ -4,8 +4,8 @@ import { pino } from '$lib/server';
 const log = pino('$lib/server/hooks/handlers');
 import whatsappHandler from '$lib/server/hooks/whatsapp';
 import whapiHandler from '$lib/server/hooks/whapi';
+import emailHandler from '$lib/server/hooks/email/postmark';
 const SUBDOMAIN_LIST = ['admin', 'app', 'dashboard', 'localhost', 'www', 'localhost:5173']; //list of subdomains that are not site subdomains
-
 import worker from '$lib/server/hooks/worker';
 import { default as handlePageRender } from '$lib/server/hooks/website/handler';
 
@@ -26,6 +26,9 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 		log.info(`✨ ${event.request.method} ${event.url.href}`);
 	} else {
 		log.info(`🌎 ${event.request.method} ${event.url.href}`);
+	}
+	if (event.url.pathname.startsWith('/webhooks/email')) {
+		return await emailHandler(event, resolve);
 	}
 	if (event.url.pathname.startsWith('/webhooks/whatsapp')) {
 		return await whatsappHandler(event, resolve);
