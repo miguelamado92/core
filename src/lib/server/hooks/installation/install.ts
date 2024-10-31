@@ -23,6 +23,7 @@ import {
 } from '$lib/schema/communications/email/sends';
 
 export default async function (event: RequestEvent): Promise<RequestEvent> {
+	console.log('Installing instance');
 	const onlineEventBody: CreateEvent = parse(createEventSchema, {
 		name: 'Test online event',
 		slug: 'test_online_event',
@@ -158,7 +159,7 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 			queue: event.locals.queue
 		});
 	}
-
+	console.log('Installed instance');
 	return event;
 }
 
