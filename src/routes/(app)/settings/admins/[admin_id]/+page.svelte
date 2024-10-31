@@ -24,9 +24,8 @@
 		{form}
 		type="url"
 		name="profile_picture_url"
-		label={$page.data.t.forms.fields.generic.email.label()}
+		label={$page.data.t.forms.fields.admins.profile_picture_url()}
 		bind:value={$formData.profile_picture_url as string}
-		description={$page.data.t.config.settings.admins.forms.fields.email.description()}
 	/>
 	<Checkbox {form} name="active" label="Active" bind:checked={$formData.active as boolean} />
 

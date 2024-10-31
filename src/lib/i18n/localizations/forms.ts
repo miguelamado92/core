@@ -1898,6 +1898,18 @@ export default function (locale: SL) {
 						zh: '联系人'
 					});
 				},
+				profile_picture_url: () => {
+					return t(locale, {
+						en: 'Profile Picture URL',
+						ja: 'プロフィール写真のURL',
+						pt: 'URL da Foto de Perfil',
+						es: 'URL de la Foto de Perfil',
+						fr: 'URL de la Photo de Profil',
+						sw: 'URL ya Picha ya Wasifu',
+						th: 'URL รูปภาพโปรไฟล์',
+						zh: '个人资料图片 URL'
+					});
+				},
 				filter_admins: () => {
 					return t(locale, {
 						en: 'Filter Admins',
