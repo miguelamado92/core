@@ -1,4 +1,4 @@
-import { json, error, BelcodaError } from '$lib/server';
+import { json, error, BelcodaError, pino } from '$lib/server';
 import { parsePhoneNumber } from 'awesome-phonenumber';
 
 import {
@@ -12,6 +12,7 @@ import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { _updateWhatsappId, read } from '$lib/server/api/people/people';
 
 import type { AfterSend } from '$lib/schema/communications/whatsapp/worker/sending.js';
+const log = pino('/worker/whatsapp/send_message');
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
@@ -55,16 +56,31 @@ export async function POST(event) {
 			recipient_type: 'individual',
 			...message.message
 		};
-		const response = await fetch(`https://graph.facebook.com/v20.0/${PHONE_NUMBER_ID}/messages`, {
+		//using the ycloud api
+		const response = await fetch(`https://api.ycloud.com/v2/whatsapp/messages`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				accept: 'application/json',
+				'X-API-Key': WHATSAPP_ACCESS_KEY
+			},
+			body: JSON.stringify({
+				from: event.locals.instance.settings.communications.whatsapp.phone_number_id,
+				...messageBody
+			})
+		});
+		//using the graph api directly...
+		/* const response = await fetch(`https://graph.facebook.com/v20.0/${PHONE_NUMBER_ID}/messages`, {
 			body: JSON.stringify(messageBody),
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${WHATSAPP_ACCESS_KEY}`
 			},
 			method: 'POST'
-		});
+		}); */
 		if (response.ok) {
 			const body = await response.json();
+			log.debug(body);
 			const parsed = parse(successfulResponse, body);
 
 			const afterSendBody: AfterSend = {

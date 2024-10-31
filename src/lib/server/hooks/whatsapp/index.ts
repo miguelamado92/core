@@ -29,6 +29,7 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 	} else {
 		//it's an event notification
 		const body = await event.request.json();
+		log.debug(body);
 		const headerSignature = event.request.headers.get('X-Hub-Signature-256'); //We sign all Event Notification payloads with a SHA256 signature and include the signature in the request's X-Hub-Signature-256 header, preceded with sha256=.
 		const hmac = createHmac('sha256', FACEBOOK_API_APP_SECRET)
 			.update(JSON.stringify(body))
