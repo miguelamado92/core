@@ -13,12 +13,26 @@ import mainHandler from '$lib/server/hooks/handlers';
 
 import { default as queue } from '$lib/server/utils/queue/add_job';
 
+import * as Sentry from '@sentry/sveltekit';
+import { type HandleServerError, type Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
+
+Sentry.init({
+	dsn: 'https://8b4cdb05d7907fe3f9b43aec4a060811@o4508220361342976.ingest.de.sentry.io/4508220380282960',
+
+	// We recommend adjusting this value in production, or using tracesSampler
+	// for finer control
+	tracesSampleRate: 1.0
+});
+
+export const handleError: HandleServerError = Sentry.handleErrorWithSentry();
+
 export async function handleFetch({ event, request, fetch }) {
 	log.info(`🍔 FETCH ${event.request.method} ${event.url.href}`);
 	return await fetch(request);
 }
 
-export async function handle<Handle>({ event, resolve }) {
+const belcodaHandler: Handle = async ({ event, resolve }) => {
 	// Set up the language and translation functions (THIS MUST BE FIRST)
 	event.locals.language = buildLocalLanguage(event);
 	event.locals.t = new Localization(event.locals.language);
@@ -82,4 +96,6 @@ export async function handle<Handle>({ event, resolve }) {
 
 	const response = await resolve(returnEvent);
 	return response;
-}
+};
+
+export const handle = sequence(Sentry.sentryHandle(), belcodaHandler);

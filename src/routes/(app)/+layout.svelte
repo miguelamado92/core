@@ -10,6 +10,20 @@
 		breadcrumbs as breadcrumbsConstructor,
 		renderBreadcrumb
 	} from '$lib/comps/nav/breadcrumbs/breadcrumbs';
+
+	import * as Sentry from '@sentry/sveltekit';
+
+	Sentry.init({
+		dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0',
+
+		integrations: [
+			Sentry.feedbackIntegration({
+				// Additional SDK configuration goes in here, for example:
+				colorScheme: 'system'
+			})
+		]
+	});
+
 	const breadcrumbs = $state(breadcrumbsConstructor($page.data.t));
 	const pageTitle = $derived.by(() => {
 		try {
