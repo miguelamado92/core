@@ -21,6 +21,56 @@ export const metadata = v.object({
 	phone_number_id: mediumString
 });
 
+export const whatsappApiConversation = v.object({
+	id: mediumString,
+	origin: v.object({
+		type: conversation_category
+	}),
+	expiration_timestamp: v.optional(
+		v.pipe(
+			v.union([v.string(), v.number()]),
+			v.transform((input) => Number(input)),
+			v.number(),
+			v.integer()
+		)
+	)
+});
+
+export const yCloudConversation = v.pipe(
+	v.object({
+		id: v.string(),
+		type: v.string(),
+		originType: conversation_category,
+		expireTime: v.optional(
+			v.pipe(
+				v.union([v.string(), v.number()]),
+				v.transform((input) => {
+					if (typeof input === 'string') {
+						return new Date(input).getTime();
+					} else {
+						return Number(input);
+					}
+				}),
+				v.number(),
+				v.integer()
+			)
+		)
+	}),
+	v.transform((input) => {
+		return {
+			id: input.id,
+			origin: {
+				type: input.originType
+			},
+			expiration_timestamp: input.expireTime
+		};
+	})
+);
+
+export const conversation = v.union([whatsappApiConversation, yCloudConversation]);
+export type ConversationInput = v.InferInput<typeof conversation>;
+export type Conversation = v.InferOutput<typeof conversation>;
+
 export const status = v.object({
 	id: mediumString,
 	status: v.picklist(['sent', 'delivered', 'read']),
@@ -32,22 +82,7 @@ export const status = v.object({
 	),
 	recipient_id: mediumString,
 	biz_opaque_callback_data: v.optional(uuid),
-	conversation: v.optional(
-		v.object({
-			id: mediumString,
-			origin: v.object({
-				type: conversation_category
-			}),
-			expiration_timestamp: v.optional(
-				v.pipe(
-					v.union([v.string(), v.number()]),
-					v.transform((input) => Number(input)),
-					v.number(),
-					v.integer()
-				)
-			)
-		})
-	),
+	conversation: v.optional(conversation),
 	errors: v.optional(v.array(error)),
 	pricing: v.optional(
 		v.object({

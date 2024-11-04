@@ -70,3 +70,21 @@ export async function _getInstanceByWhatsappPhoneNumberId({
 		);
 	return await read({ instance_id: response[0].id });
 }
+
+export async function _getInstanceByWhatsappBAId({
+	whatsappBAId
+}: {
+	whatsappBAId: string;
+}): Promise<schema.Read> {
+	const response =
+		await db.sql`SELECT id FROM instances WHERE settings->'communications'->'whatsapp'->>'business_account_id' = ${db.param(whatsappBAId)} limit 1`.run(
+			pool
+		);
+	if (response.length !== 1)
+		throw new BelcodaError(
+			400,
+			'DATA:INSTANCES:GET_BY_WHATSAPP_BUSINESS_ID:01',
+			'No instance found with that business ID'
+		);
+	return await read({ instance_id: response[0].id });
+}

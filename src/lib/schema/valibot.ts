@@ -45,6 +45,7 @@ export const timestamp = v.union([
 		v.transform((input) => new Date(input))
 	)
 ]);
+export const isoTimestamp = v.pipe(v.string(), v.isoTimestamp());
 export const language = v.picklist(SUPPORTED_LANGUAGES);
 export const country = v.picklist(SUPPORTED_COUNTRIES);
 export type Country = v.InferOutput<typeof country>;

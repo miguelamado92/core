@@ -12,6 +12,7 @@ import {
 import { message as whatsappMessage } from '$lib/schema/communications/whatsapp/elements/message';
 import { template as templateMessage } from '$lib/schema/communications/whatsapp/elements/template';
 import { message as whatsappWebhookMessage } from '$lib/schema/communications/whatsapp/webhooks/messages';
+import { whatsappInboundMessageReceived } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
 
 export const addedAndJoinedTypes = {
 	manual: v.object({ method: v.literal('manual') }),
@@ -112,7 +113,10 @@ export const interactionTypes = {
 	inbound_whatsapp: v.object({
 		type: v.literal('inbound_whatsapp'),
 		message_id: uuid,
-		message: whatsappWebhookMessage
+		message: v.union([
+			whatsappWebhookMessage,
+			whatsappInboundMessageReceived.entries.whatsappInboundMessage
+		])
 	}),
 	email_outbound: v.object({
 		type: v.literal('email_outbound'),

@@ -1,8 +1,8 @@
 import { json, error, BelcodaError, pino } from '$lib/server';
 import { parsePhoneNumber } from 'awesome-phonenumber';
-
+import { randomUUID } from 'crypto';
 import {
-	successfulResponse,
+	successfulYCloudResponse,
 	sendMessage,
 	type MessageWithBase
 } from '$lib/schema/communications/whatsapp/elements/message';
@@ -57,6 +57,7 @@ export async function POST(event) {
 			...message.message
 		};
 		//using the ycloud api
+		const externalId = randomUUID();
 		const response = await fetch(`https://api.ycloud.com/v2/whatsapp/messages`, {
 			method: 'POST',
 			headers: {
@@ -66,6 +67,7 @@ export async function POST(event) {
 			},
 			body: JSON.stringify({
 				from: event.locals.instance.settings.communications.whatsapp.phone_number_id,
+				externalId,
 				...messageBody
 			})
 		});
@@ -81,17 +83,18 @@ export async function POST(event) {
 		if (response.ok) {
 			const body = await response.json();
 			log.debug(body);
-			const parsed = parse(successfulResponse, body);
+			const parsed = parse(successfulYCloudResponse, body);
 
 			const afterSendBody: AfterSend = {
 				message_id: parsedMessage.message_id,
 				sent_by_id: parsedMessage.from_admin_id,
 				person_id: parsedMessage.person_id,
 				message: message.message,
+				uniqueId: externalId,
 				whatsapp_response: parsed
 			};
 			await event.locals.queue(
-				'/whatsapp/after_sent',
+				'/whatsapp/after_sent_ycloud',
 				event.locals.instance.id,
 				afterSendBody,
 				event.locals.admin.id

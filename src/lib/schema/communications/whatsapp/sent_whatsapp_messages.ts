@@ -23,6 +23,7 @@ export const list = v.object({ items: v.array(read), count: count });
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
+	id: v.optional(base.entries.id),
 	person_id: base.entries.person_id,
 	message_id: base.entries.message_id,
 	conversation_id: v.optional(base.entries.conversation_id),

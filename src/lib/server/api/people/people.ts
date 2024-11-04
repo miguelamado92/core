@@ -419,3 +419,14 @@ export async function _getPersonByWhatsappId({
 	log.debug('_getPersonByWhatsappId done');
 	return await read({ instance_id: instanceId, person_id: person[0].id, t });
 }
+
+export async function _getInstanceIdByPersonId({
+	personId
+}: {
+	personId: number;
+}): Promise<number> {
+	const response = await db
+		.selectExactlyOne('people.people', { id: personId }, { columns: ['instance_id'] })
+		.run(pool);
+	return response.instance_id;
+}

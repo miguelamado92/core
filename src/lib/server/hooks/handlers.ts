@@ -2,7 +2,7 @@ import { handleApiFaviconRequest } from '$lib/server/hooks/simple_handlers';
 import type { MaybePromise, RequestEvent, ResolveOptions } from '@sveltejs/kit';
 import { pino } from '$lib/server';
 const log = pino('$lib/server/hooks/handlers');
-import whatsappHandler from '$lib/server/hooks/whatsapp';
+import whatsappHandler from '$lib/server/hooks/whatsapp/ycloud';
 import whapiHandler from '$lib/server/hooks/whapi';
 import emailHandler from '$lib/server/hooks/email/postmark';
 const SUBDOMAIN_LIST = ['admin', 'app', 'dashboard', 'localhost', 'www', 'localhost:5173']; //list of subdomains that are not site subdomains

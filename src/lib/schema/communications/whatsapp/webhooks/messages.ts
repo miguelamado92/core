@@ -145,7 +145,7 @@ export const messageBase = v.object({
 	from: mediumString,
 	id: mediumString,
 	referral: v.optional(referral),
-	timestamp: mediumString,
+	timestamp: v.optional(mediumString),
 	type: messages_type
 });
 export type MessageBase = v.InferOutput<typeof messageBase>;

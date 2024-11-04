@@ -112,7 +112,7 @@ export async function update({
 	if (result.length !== 1) {
 		throw new BelcodaError(
 			404,
-			'DATA:COMMUNICATIONS:WHATSAPP:MESSAGES:READ:01',
+			'DATA:COMMUNICATIONS:WHATSAPP:MESSAGES:UPDATE:01',
 			t.errors.not_found()
 		);
 	}

@@ -122,3 +122,17 @@ export async function update({
 	await redis.del(redisString(instanceId, personId));
 	return parsedResult;
 }
+
+export async function _getSentWhatsappMessageById({
+	sentMessageId
+}: {
+	sentMessageId: string;
+}): Promise<schema.Read> {
+	const result = await db
+		.selectExactlyOne('communications.sent_whatsapp_messages', {
+			id: sentMessageId
+		})
+		.run(pool);
+	const parsedResult = parse(schema.read, result);
+	return parsedResult;
+}

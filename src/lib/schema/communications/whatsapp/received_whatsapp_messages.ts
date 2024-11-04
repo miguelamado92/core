@@ -1,10 +1,12 @@
 import { v, id, timestamp, uuid, count } from '$lib/schema/valibot';
 import { message } from '$lib/schema/communications/whatsapp/webhooks/messages';
+import { whatsappInboundMessageReceived } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
+
 export const base = v.object({
 	id: uuid,
 	person_id: id,
 	conversation_id: v.nullable(id),
-	message: message,
+	message: v.union([message, whatsappInboundMessageReceived.entries.whatsappInboundMessage]),
 	reacted: v.boolean(),
 	reacted_emoji: v.nullable(v.pipe(v.string(), v.length(1), v.emoji())),
 	created_at: timestamp,

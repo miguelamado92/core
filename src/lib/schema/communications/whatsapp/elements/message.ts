@@ -1,4 +1,4 @@
-import { v, uuid, id } from '$lib/schema/valibot';
+import { v, uuid, id, mediumStringNotEmpty } from '$lib/schema/valibot';
 import {
 	audio,
 	document,
@@ -12,6 +12,11 @@ import {
 } from '$lib/schema/communications/whatsapp/elements/media';
 import { interactive } from '$lib/schema/communications/whatsapp/elements/interactive';
 import { context } from '$lib/schema/communications/whatsapp/elements/reactions';
+import { template as templateMessage } from '$lib/schema/communications/whatsapp/elements/template_message';
+import {
+	conversation,
+	yCloudConversation
+} from '$lib/schema/communications/whatsapp/webhooks/webhook';
 
 export const allowableTypes = v.picklist(['text', 'image', 'interactive']);
 export type AllowableTypes = v.InferOutput<typeof allowableTypes>;
@@ -168,4 +173,56 @@ export const successfulResponse = v.object({
 			message_status: v.optional(v.picklist(['held_for_quality_assessment', 'accepted']))
 		})
 	)
+});
+
+//taken from documentation here: https://docs.ycloud.com/reference/whatsapp_message-send
+export const allowableYCloudResponseTypes = v.picklist([...allowableTypes.options, 'template']); //this can also be a template message
+export const successfulYCloudResponse = v.object({
+	id: mediumStringNotEmpty,
+	wamid: v.optional(mediumStringNotEmpty),
+	wabaId: mediumStringNotEmpty,
+	from: mediumStringNotEmpty,
+	to: mediumStringNotEmpty,
+	type: allowableYCloudResponseTypes,
+	conversation: v.optional(conversation),
+	text: v.optional(text),
+	image: v.optional(image),
+	audio: v.optional(audio),
+	interactive: v.optional(interactive),
+	template: v.optional(templateMessage),
+	context: v.optional(context),
+	externalId: v.optional(mediumStringNotEmpty),
+	status: v.picklist(['accepted', 'failed', 'sent', 'delivered', 'read']),
+	errorCode: v.optional(v.string()),
+	errorMessage: v.optional(v.string()),
+	createTime: v.optional(v.pipe(v.string(), v.isoTimestamp())),
+	updateTime: v.optional(v.pipe(v.string(), v.isoTimestamp())),
+	sendTime: v.optional(v.pipe(v.string(), v.isoTimestamp())),
+	deliverTime: v.optional(v.pipe(v.string(), v.isoTimestamp())),
+	readTime: v.optional(v.pipe(v.string(), v.isoTimestamp())),
+	totalPrice: v.optional(v.number()),
+	regionCode: v.optional(mediumStringNotEmpty),
+	currency: v.optional(mediumStringNotEmpty),
+	pricingCategory: v.optional(
+		v.picklist([
+			'referral_conversion',
+			'authentication',
+			'authentication_international',
+			'marketing',
+			'utility',
+			'service'
+		])
+	),
+	whatsappApiError: v.optional(
+		v.object({
+			message: v.string(),
+			code: v.string(),
+			type: v.optional(v.string()),
+			error_subcode: v.optional(v.string()),
+			error_user_msg: v.optional(v.string()),
+			fbtrace_id: v.optional(v.string()),
+			error_data: v.optional(v.any())
+		})
+	),
+	bizType: v.optional(v.literal('whatsapp'))
 });
