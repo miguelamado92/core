@@ -12,18 +12,18 @@
 	} from '$lib/comps/nav/breadcrumbs/breadcrumbs';
 
 	import * as Sentry from '@sentry/sveltekit';
-
-	Sentry.init({
-		dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0',
-
-		integrations: [
-			Sentry.feedbackIntegration({
-				// Additional SDK configuration goes in here, for example:
-				colorScheme: 'system'
-			})
-		]
-	});
-
+	import { browser } from '$app/environment';
+	if (browser) {
+		Sentry.init({
+			dsn: 'https://8b4cdb05d7907fe3f9b43aec4a060811@o4508220361342976.ingest.de.sentry.io/4508220380282960',
+			integrations: [
+				Sentry.feedbackIntegration({
+					// Additional SDK configuration goes in here, for example:
+					colorScheme: 'auto'
+				})
+			]
+		});
+	}
 	const breadcrumbs = $state(breadcrumbsConstructor($page.data.t));
 	const pageTitle = $derived.by(() => {
 		try {
