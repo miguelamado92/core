@@ -24,7 +24,7 @@ import {
 
 export default async function (event: RequestEvent): Promise<RequestEvent> {
 	console.log('Installing instance');
-	const onlineEventBody: CreateEvent = parse(createEventSchema, {
+	/* const onlineEventBody: CreateEvent = parse(createEventSchema, {
 		name: 'Test online event',
 		slug: 'test_online_event',
 		heading: 'Online Training: How to use Belcoda',
@@ -44,9 +44,9 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 		t: event.locals.t,
 		defaultEmailTemplateId: event.locals.instance.settings.events.default_email_template_id,
 		defaultTemplateId: event.locals.instance.settings.events.default_template_id
-	});
+	}); */
 
-	const inPersonEventBody: CreateEvent = parse(createEventSchema, {
+	/* const inPersonEventBody: CreateEvent = parse(createEventSchema, {
 		name: 'Test event',
 		slug: 'test_event',
 		heading: 'Discussion: The Future of Work',
@@ -70,9 +70,9 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 		t: event.locals.t,
 		defaultEmailTemplateId: event.locals.instance.settings.events.default_email_template_id,
 		defaultTemplateId: event.locals.instance.settings.events.default_template_id
-	});
+	}); */
 
-	const petitionBody: CreatePetition = parse(createPetitionSchema, {
+	/* const petitionBody: CreatePetition = parse(createPetitionSchema, {
 		name: 'Test Petition',
 		slug: 'test_petition',
 		heading: 'Sign the People’s Pledge for Renters!',
@@ -90,9 +90,9 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 		body: petitionBody,
 		adminId: event.locals.admin.id,
 		t: event.locals.t
-	});
+	}); */
 
-	const emailSendBody = parse(createSendSchema, {
+	/* const emailSendBody = parse(createSendSchema, {
 		name: 'Test email send'
 	});
 	await createSend({
@@ -101,9 +101,9 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 		adminId: event.locals.admin.id,
 		defaultTemplateId: event.locals.instance.settings.communications.email.default_template_id,
 		t: event.locals.t
-	});
+	}); */
 
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:energy' } });
+	/* await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:energy' } });
 	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:agriculture' } });
 	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:fisheries' } });
 	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:women' } });
@@ -116,20 +116,20 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 	await createTag({
 		instanceId: event.locals.instance.id,
 		body: { name: 'attended:231011climatecamp' }
-	});
+	}); */
 
-	await createList({
+	/* await createList({
 		instanceId: event.locals.instance.id,
 		body: { name: 'Test list' },
 		t: event.locals.t
-	});
-	await createGroup({
+	}); */
+	/* await createGroup({
 		instanceId: event.locals.instance.id,
 		body: { name: 'Test group' },
 		t: event.locals.t,
 		adminId: event.locals.admin.id,
 		url: event.url
-	});
+	}); */
 
 	await updateInstance({
 		instanceId: event.locals.instance.id,
