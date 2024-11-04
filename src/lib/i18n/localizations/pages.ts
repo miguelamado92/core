@@ -308,6 +308,18 @@ export default function (l: SL) {
 						th: 'แก้ไขอีเมล',
 						zh: '编辑电子邮件'
 					});
+				},
+				send: () => {
+					return t(l, {
+						en: `Send Email`,
+						ja: 'Eメールを送信',
+						pt: 'Enviar E-mail',
+						es: 'Enviar Correo Electrónico',
+						fr: 'Envoyer un Email',
+						sw: 'Tuma Barua Pepe',
+						th: 'ส่งอีเมล',
+						zh: '发送电子邮件'
+					});
 				}
 			},
 			sms: () => {

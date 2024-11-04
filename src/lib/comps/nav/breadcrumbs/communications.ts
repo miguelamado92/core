@@ -188,6 +188,28 @@ export default function (t: Localization) {
 				href: (params?: Record<string, unknown>) => `/communications/email/${params?.send_id}/edit`
 			}
 		],
+		'/(app)/communications/email/[send_id]/send': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.communications.index(),
+				href: () => '/communications'
+			},
+			{
+				title: () => t.pages.communications.email.index(),
+				href: () => '/communications/email'
+			},
+			{
+				title: () => t.pages.communications.email.view(),
+				href: (params?: Record<string, unknown>) => `/communications/email/${params?.send_id}`
+			},
+			{
+				title: () => t.pages.communications.email.send(),
+				href: (params?: Record<string, unknown>) => `/communications/email/${params?.send_id}/send`
+			}
+		],
 		'/(app)/communications/sms': [
 			{
 				title: () => t.pages.home.index(),

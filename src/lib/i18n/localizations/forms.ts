@@ -2195,6 +2195,48 @@ export default function (locale: SL) {
 							});
 						}
 					}
+				},
+				generic: {
+					select_list: {
+						label: () => {
+							return t(locale, {
+								en: 'Select list to send to',
+								ja: '送信するリストを選択',
+								pt: 'Selecione a lista para enviar',
+								es: 'Seleccione la lista para enviar',
+								fr: 'Sélectionnez la liste à envoyer',
+								sw: 'Chagua orodha ya kutuma',
+								th: 'เลือกรายการที่จะส่งไป',
+								zh: '选择要发送的列表'
+							});
+						}
+					},
+					select_recipients_and_send: () => {
+						return t(locale, {
+							en: 'Select recipients and send',
+							ja: '受信者を選択して送信',
+							pt: 'Selecione os destinatários e envie',
+							es: 'Seleccione destinatarios y envíe',
+							fr: 'Sélectionner les destinataires et envoyer',
+							sw: 'Chagua wapokeaji na tuma',
+							th: 'เลือกผู้รับและส่ง',
+							zh: '选择收件人并发送'
+						});
+					},
+					send_to_a_list: {
+						label: () => {
+							return t(locale, {
+								en: 'Send to a list',
+								ja: 'リストに送信',
+								pt: 'Enviar para uma lista',
+								es: 'Enviar a una lista',
+								fr: 'Envoyer à une liste',
+								sw: 'Tuma kwa orodha',
+								th: 'ส่งไปยังรายการ',
+								zh: '发送到列表'
+							});
+						}
+					}
 				}
 			}
 		},

@@ -8,6 +8,7 @@
 		list?: List['items'][number];
 		lists?: List['items'];
 		value?: number;
+		label?: string;
 		onSelectList?: (list: List['items'][number]) => void;
 		children?: Snippet;
 	};
@@ -15,6 +16,7 @@
 		list = $bindable(),
 		value = $bindable(),
 		lists = $bindable([]),
+		label = $page.data.t.forms.buttons.search(),
 		onSelectList,
 		children
 	}: Props = $props();
@@ -74,7 +76,7 @@
 					{@render children()}
 				{:else}
 					<Plus size={14} />
-					<div class="text-sm">{$page.data.t.forms.buttons.search()}</div>
+					<div class="text-sm">{label}</div>
 				{/if}
 			</Button>
 		</Popover.Trigger>

@@ -17,7 +17,7 @@
 	const { form: formData, enhance, message } = form;
 </script>
 
-<PageHeader title={data.t.pages.communications.email.edit()}>
+<PageHeader title={data.t.pages.communications.email.send()}>
 	{#snippet button()}
 		<Button variant="default" size="sm">
 			{data.t.forms.buttons.send()}
@@ -28,7 +28,13 @@
 <form use:enhance method="post">
 	<Grid cols={1} class="mt-6">
 		<Error error={$message} />
-		<SelectList label={null} {form} name="list_id" bind:value={$formData.list_id as number} />
+		<SelectList
+			buttonLabel={data.t.forms.fields.communications.generic.select_list.label()}
+			label={null}
+			{form}
+			name="list_id"
+			bind:value={$formData.list_id as number}
+		/>
 		<Button type="submit">{data.t.forms.buttons.send()}</Button>
 		<Debug data={formData} />
 	</Grid>

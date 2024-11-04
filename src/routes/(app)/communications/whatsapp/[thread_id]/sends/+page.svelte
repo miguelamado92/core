@@ -18,7 +18,7 @@
 >
 	{#snippet headerButton()}
 		<Button href="/communications/whatsapp/{data.thread.id}/sends/new"
-			>{data.t.forms.buttons.new()}</Button
+			>{data.t.forms.fields.communications.generic.select_recipients_and_send()}</Button
 		>
 	{/snippet}
 

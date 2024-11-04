@@ -18,10 +18,8 @@
 	const { form: formData, enhance, message } = form;
 
 	import { page } from '$app/stores';
-	import { getFlash } from 'sveltekit-flash-message';
-	let flash = getFlash(page);
-	import { goto } from '$app/navigation';
-	async function send() {
+	//superseeded by the send function at /communications/email/[send_id]/send/+page.svelte
+	/* async function send() {
 		try {
 			if (confirm($page.data.t.common.alerts.send_email()) === false) return;
 			const response = await fetch(
@@ -41,18 +39,18 @@
 			await goto(`/communications/email/${$page.params.send_id}`);
 		} catch (err) {
 			if (err instanceof Error) {
-				$flash = { type: 'error', message: err.message };
+				$flash = { type: 'error', message: err };
 			} else {
 				$flash = { type: 'error', message: data.t.errors.generic() };
 			}
 		}
-	}
+	} */
 </script>
 
 <PageHeader title={data.t.pages.communications.email.edit()}>
 	{#snippet button()}
-		<Button onclick={send} variant="default" size="sm">
-			{data.t.forms.buttons.send()}
+		<Button href={`/communications/email/${$page.params.send_id}`} variant="default" size="sm">
+			{data.t.forms.buttons.back()}
 		</Button>
 	{/snippet}
 </PageHeader>
@@ -66,7 +64,6 @@
 			name="name"
 			bind:value={$formData.name as string}
 		/>
-		<SelectList label="List" {form} name="list_id" bind:value={$formData.list_id as number} />
 		<Button type="submit">{data.t.forms.buttons.save()}</Button>
 		<Debug data={formData} />
 	</Grid>

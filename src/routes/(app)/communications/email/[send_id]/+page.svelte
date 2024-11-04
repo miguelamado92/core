@@ -47,7 +47,7 @@
 		<div class="flex items-center gap-2">
 			{#if !data.send.started_at}
 				<Button href="/communications/email/{data.send.id}/send" variant="outline" size="sm">
-					{data.t.forms.buttons.send()}
+					{data.t.forms.fields.communications.generic.select_recipients_and_send()}
 				</Button>
 			{/if}
 			{#if !disabled}

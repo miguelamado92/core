@@ -6,6 +6,7 @@
 	import { type SuperForm, type FormPath } from 'sveltekit-superforms';
 	export let form: SuperForm<T>;
 	export let name: FormPath<T>;
+	export let buttonLabel: string | null = null;
 	import * as Form from '$lib/comps/ui/form';
 	export let label: string | null;
 	export let description: string | null = null;
@@ -30,7 +31,11 @@
 			{#if label}<Form.Label>{label}</Form.Label>{/if}
 			{#if description}<Form.Description>{description}</Form.Description>{/if}
 			<div class={cn(className)}>
-				<ListDropdown bind:value {onSelectList} />
+				{#if buttonLabel}
+					<ListDropdown label={buttonLabel} bind:value {onSelectList} />
+				{:else}
+					<ListDropdown bind:value {onSelectList} />
+				{/if}
 			</div>
 			<input type="text" name={attrs.name} {value} hidden />
 		</div>
