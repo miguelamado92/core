@@ -61,6 +61,66 @@ export default function (locale: SL): { [key in SupportedCountry]: () => string 
 				th: 'ออสเตรเลีย',
 				zh: '澳大利亚'
 			});
+		},
+		ke: () => {
+			return t(locale, {
+				en: 'Kenya',
+				ja: 'ケニア',
+				pt: 'Quênia',
+				es: 'Kenia',
+				fr: 'Kenya',
+				sw: 'Kenya',
+				th: 'เคนยา',
+				zh: '肯尼亚'
+			});
+		},
+		lr: () => {
+			return t(locale, {
+				en: 'Liberia',
+				ja: 'リベリア',
+				pt: 'Libéria',
+				es: 'Liberia',
+				fr: 'Libéria',
+				sw: 'Liberia',
+				th: 'ลิเบอเรีย',
+				zh: '利比里亚'
+			});
+		},
+		ng: () => {
+			return t(locale, {
+				en: 'Nigeria',
+				ja: 'ナイジェリア',
+				pt: 'Nigéria',
+				es: 'Nigeria',
+				fr: 'Nigéria',
+				sw: 'Nigeria',
+				th: 'ไนจีเรีย',
+				zh: '尼日利亚'
+			});
+		},
+		tz: () => {
+			return t(locale, {
+				en: 'Tanzania',
+				ja: 'タンザニア',
+				pt: 'Tanzânia',
+				es: 'Tanzania',
+				fr: 'Tanzanie',
+				sw: 'Tanzania',
+				th: 'แทนซาเนีย',
+				zh: '坦桑尼亚'
+			});
+		},
+		sc: () => {
+			return t(locale, {
+				en: 'Seychelles',
+				ja: 'セーシェル',
+				pt: 'Seicheles',
+				es: 'Seychelles',
+				fr: 'Seychelles',
+				sw: 'Shelisheli',
+				th: 'เซเชลส์',
+				zh: '塞舌尔'
+			});
 		}
 	};
 }

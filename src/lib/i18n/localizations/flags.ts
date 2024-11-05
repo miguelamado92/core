@@ -6,6 +6,11 @@ export default function (locale: SL): { [key in SupportedCountry]: () => string 
 		jp: () => `🇯🇵`,
 		gb: () => `🇬🇧`,
 		eg: () => `🇪🇬`,
-		au: () => `🇦🇺`
+		au: () => `🇦🇺`,
+		ke: () => `🇰🇪`,
+		lr: () => `🇱🇷`,
+		ng: () => `🇳🇬`,
+		tz: () => `🇹🇿`,
+		sc: () => `🇸🇨`
 	};
 }

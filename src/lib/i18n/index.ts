@@ -2,7 +2,18 @@ import { PUBLIC_LOCALIZATION_COOKIE_NAME } from '$env/static/public';
 import type { RequestEvent } from '@sveltejs/kit';
 export const SUPPORTED_LANGUAGES = ['en', 'ja', 'pt', 'es', 'sw', 'fr', 'th', 'zh'] as const;
 export const DEFAULT_LANGUAGE = 'en' as const;
-export const SUPPORTED_COUNTRIES = ['us', 'jp', 'gb', 'eg', 'au'] as const;
+export const SUPPORTED_COUNTRIES = [
+	'us',
+	'jp',
+	'gb',
+	'eg',
+	'au',
+	'ke',
+	'lr',
+	'ng',
+	'tz',
+	'sc'
+] as const;
 export const DEFAULT_COUNTRY = 'us' as const;
 
 export type SupportedLanguage = (typeof SUPPORTED_LANGUAGES)[number];
