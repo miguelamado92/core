@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_HOST } from '$env/static/public';
+	import { PUBLIC_HOST, PUBLIC_GOOGLE_AUTH_CLIENT_ID } from '$env/static/public';
 	import H2 from '$lib/comps/typography/H2.svelte';
 </script>
 
@@ -21,7 +21,7 @@
 			<div class="flex justify-center">
 				<div
 					id="g_id_onload"
-					data-client_id="271895357601-h1p67c2ji180lm3qgjkvd3f4s1mcp2hd.apps.googleusercontent.com"
+					data-client_id={PUBLIC_GOOGLE_AUTH_CLIENT_ID}
 					data-context="signin"
 					data-ux_mode="popup"
 					data-login_uri={`${PUBLIC_HOST}/auth/google`}

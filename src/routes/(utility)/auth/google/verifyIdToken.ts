@@ -1,12 +1,17 @@
 import { OAuth2Client } from 'google-auth-library';
-import { GOOGLE_AUTH_CLIENT_ID } from '$env/static/private';
+import { PUBLIC_GOOGLE_AUTH_CLIENT_ID } from '$env/static/public';
 export async function verify(token: string) {
 	const client = new OAuth2Client();
 	console.log('starting');
-	const ticket = await client.verifyIdToken({
-		idToken: token,
-		audience: GOOGLE_AUTH_CLIENT_ID
-	});
+	const ticket = await client
+		.verifyIdToken({
+			idToken: token,
+			audience: PUBLIC_GOOGLE_AUTH_CLIENT_ID
+		})
+		.catch((err) => {
+			console.error(err);
+			throw new Error('Invalid token');
+		});
 	console.log('ending');
 	const payload = ticket.getPayload();
 	if (!payload) throw new Error('Invalid token');
