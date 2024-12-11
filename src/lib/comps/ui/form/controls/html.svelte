@@ -24,31 +24,33 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs>
-		<!-- Start form control block -->
-		<div class="flex flex-col gap-2">
-			{#if label}<Form.Label>{label}</Form.Label>{/if}
-			{#if description}<Form.Description>{description}</Form.Description>{/if}
-			<Editor
-				bind:value
-				{...attrs}
-				scriptSrc="/vendor/tinymce/tinymce.min.js"
-				apiKey="no-api"
-				conf={{
-					className: cn('focus-visible:ring-blue-600', className),
-					menubar: false,
-					promotion: false,
-					plugins: ['code', 'importcss'],
-					content_css: 'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.4/utilities.css',
-					license_key: 'gpl',
-					toolbar:
-						'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code'
-				}}
-			/>
-			<input type="text" name={attrs.name} {value} hidden />
-		</div>
+	<Form.Control>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<div class="flex flex-col gap-2">
+				{#if label}<Form.Label>{label}</Form.Label>{/if}
+				{#if description}<Form.Description>{description}</Form.Description>{/if}
+				<Editor
+					bind:value
+					{...props}
+					scriptSrc="/vendor/tinymce/tinymce.min.js"
+					apiKey="no-api"
+					conf={{
+						className: cn('focus-visible:ring-blue-600', className),
+						menubar: false,
+						promotion: false,
+						plugins: ['code', 'importcss'],
+						content_css: 'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.4/utilities.css',
+						license_key: 'gpl',
+						toolbar:
+							'undo redo | formatselect | bold italic backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | code'
+					}}
+				/>
+				<input type="text" name={props.name} {value} hidden />
+			</div>
 
-		<!-- End control block -->
-		<Form.FieldErrors />
+			<!-- End control block -->
+			<Form.FieldErrors />
+		{/snippet}
 	</Form.Control>
 </Form.Field>

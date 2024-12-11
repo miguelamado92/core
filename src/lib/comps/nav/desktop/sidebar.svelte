@@ -38,7 +38,7 @@
 			'justify-start lg:w-full flex gap-4 items-center'
 		)}
 	>
-		<svelte:component this={item.icon} class="inline-block mb-1" size={20} />
+		<item.icon class="inline-block mb-1" size={20} />
 		{item.title()}
 	</a>
 {/each}

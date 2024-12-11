@@ -1,4 +1,5 @@
-import { type RequestEvent } from '@sveltejs/kit';
+import { pino } from '$lib/server';
+const log = pino('utils:install:testData');
 import { parse } from '$lib/schema/valibot';
 import { create as createEvent } from '$lib/server/api/events/events';
 import { create as createPetition } from '$lib/server/api/petitions/petitions';
@@ -12,19 +13,48 @@ import { update as updateInstance } from '$lib/server/api/core/instances';
 import { list as listPeople } from '$lib/server/api/people/people';
 import { queue as queueInteraction } from '$lib/server/api/people/interactions';
 
+import createTestPeople from '$lib/server/utils/install/data/test/users/index';
+import { create as createPerson } from '$lib/server/api/people/people';
+
 import { type Create as CreateEvent, create as createEventSchema } from '$lib/schema/events/events';
 import {
 	type Create as CreatePetition,
 	create as createPetitionSchema
 } from '$lib/schema/petitions/petitions';
-import {
-	type Create as CreateSend,
-	create as createSendSchema
-} from '$lib/schema/communications/email/sends';
+import { create as createSendSchema } from '$lib/schema/communications/email/sends';
+import { type Read as ReadInstance } from '$lib/schema/core/instance';
+import { type Read as ReadAdmin } from '$lib/schema/core/admin';
+import { PUBLIC_HOST } from '$env/static/public';
+export default async function ({
+	instance,
+	admin,
+	t,
+	queue
+}: {
+	t: App.Localization;
+	instance: ReadInstance;
+	admin: ReadAdmin;
+	queue: App.Queue;
+}): Promise<void> {
+	log.debug('Installing test data');
 
-export default async function (event: RequestEvent): Promise<RequestEvent> {
-	console.log('Installing instance');
-	/* const onlineEventBody: CreateEvent = parse(createEventSchema, {
+	const createdPeople = createTestPeople({
+		instanceId: instance.id,
+		adminPointPersonId: admin.id,
+		type: 'us'
+	});
+	for (const person of createdPeople) {
+		await createPerson({
+			instance_id: instance.id,
+			admin_id: admin.id,
+			body: person,
+			t,
+			queue,
+			method: 'manual'
+		});
+	}
+
+	const onlineEventBody: CreateEvent = parse(createEventSchema, {
 		name: 'Test online event',
 		slug: 'test_online_event',
 		heading: 'Online Training: How to use Belcoda',
@@ -38,15 +68,15 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 		online_url: 'https://zoom.us/j/123456789'
 	});
 	const onlineEvent = await createEvent({
-		instanceId: event.locals.instance.id,
+		instanceId: instance.id,
 		body: onlineEventBody,
-		adminId: event.locals.admin.id,
-		t: event.locals.t,
-		defaultEmailTemplateId: event.locals.instance.settings.events.default_email_template_id,
-		defaultTemplateId: event.locals.instance.settings.events.default_template_id
-	}); */
+		adminId: admin.id,
+		t: t,
+		defaultEmailTemplateId: instance.settings.events.default_email_template_id,
+		defaultTemplateId: instance.settings.events.default_template_id
+	});
 
-	/* const inPersonEventBody: CreateEvent = parse(createEventSchema, {
+	const inPersonEventBody: CreateEvent = parse(createEventSchema, {
 		name: 'Test event',
 		slug: 'test_event',
 		heading: 'Discussion: The Future of Work',
@@ -64,15 +94,15 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 	});
 
 	const inPersonEvent = await createEvent({
-		instanceId: event.locals.instance.id,
+		instanceId: instance.id,
 		body: inPersonEventBody,
-		adminId: event.locals.admin.id,
-		t: event.locals.t,
-		defaultEmailTemplateId: event.locals.instance.settings.events.default_email_template_id,
-		defaultTemplateId: event.locals.instance.settings.events.default_template_id
-	}); */
+		adminId: admin.id,
+		t: t,
+		defaultEmailTemplateId: instance.settings.events.default_email_template_id,
+		defaultTemplateId: instance.settings.events.default_template_id
+	});
 
-	/* const petitionBody: CreatePetition = parse(createPetitionSchema, {
+	const petitionBody: CreatePetition = parse(createPetitionSchema, {
 		name: 'Test Petition',
 		slug: 'test_petition',
 		heading: 'Sign the People’s Pledge for Renters!',
@@ -86,81 +116,80 @@ export default async function (event: RequestEvent): Promise<RequestEvent> {
 	});
 
 	const petition = await createPetition({
-		instanceId: event.locals.instance.id,
+		instanceId: instance.id,
 		body: petitionBody,
-		adminId: event.locals.admin.id,
-		t: event.locals.t
-	}); */
+		adminId: admin.id,
+		t: t
+	});
 
-	/* const emailSendBody = parse(createSendSchema, {
+	const emailSendBody = parse(createSendSchema, {
 		name: 'Test email send'
 	});
 	await createSend({
-		instanceId: event.locals.instance.id,
+		instanceId: instance.id,
 		body: emailSendBody,
-		adminId: event.locals.admin.id,
-		defaultTemplateId: event.locals.instance.settings.communications.email.default_template_id,
-		t: event.locals.t
-	}); */
+		adminId: admin.id,
+		defaultTemplateId: instance.settings.communications.email.default_template_id,
+		t: t
+	});
 
-	/* await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:energy' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:agriculture' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:fisheries' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:women' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'topic:forestry' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'circle:core' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'circle:active' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'circle:inactive' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'volunteer' } });
-	await createTag({ instanceId: event.locals.instance.id, body: { name: 'donor' } });
+	await createTag({ instanceId: instance.id, body: { name: 'topic:energy' } });
+	await createTag({ instanceId: instance.id, body: { name: 'topic:agriculture' } });
+	await createTag({ instanceId: instance.id, body: { name: 'topic:fisheries' } });
+	await createTag({ instanceId: instance.id, body: { name: 'topic:women' } });
+	await createTag({ instanceId: instance.id, body: { name: 'topic:forestry' } });
+	await createTag({ instanceId: instance.id, body: { name: 'circle:core' } });
+	await createTag({ instanceId: instance.id, body: { name: 'circle:active' } });
+	await createTag({ instanceId: instance.id, body: { name: 'circle:inactive' } });
+	await createTag({ instanceId: instance.id, body: { name: 'volunteer' } });
+	await createTag({ instanceId: instance.id, body: { name: 'donor' } });
 	await createTag({
-		instanceId: event.locals.instance.id,
+		instanceId: instance.id,
 		body: { name: 'attended:231011climatecamp' }
-	}); */
+	});
 
-	/* await createList({
-		instanceId: event.locals.instance.id,
+	await createList({
+		instanceId: instance.id,
 		body: { name: 'Test list' },
-		t: event.locals.t
-	}); */
-	/* await createGroup({
-		instanceId: event.locals.instance.id,
+		t: t
+	});
+	await createGroup({
+		instanceId: instance.id,
 		body: { name: 'Test group' },
-		t: event.locals.t,
-		adminId: event.locals.admin.id,
-		url: event.url
-	}); */
+		t: t,
+		adminId: admin.id,
+		url: new URL(PUBLIC_HOST)
+	});
 
 	await updateInstance({
-		instanceId: event.locals.instance.id,
+		instanceId: instance.id,
 		body: { installed: true },
-		t: event.locals.t
+		t: t
 	});
-	event.locals.instance.installed = true;
+	instance.installed = true;
 
 	const people = await listPeople({
-		instance_id: event.locals.instance.id,
-		url: event.url,
-		t: event.locals.t,
+		instance_id: instance.id,
+		url: new URL(PUBLIC_HOST),
+		t: t,
 		notPaged: true
 	});
 	for (let index = 0; index < people.items.length; index++) {
 		const element = people.items[index];
 		await queueInteraction({
-			instanceId: event.locals.instance.id,
+			instanceId: instance.id,
 			personId: element.id,
-			adminId: event.locals.admin.id,
+			adminId: admin.id,
 			details: {
 				type: 'person_added',
 				details: {
 					method: 'manual'
 				}
 			},
-			queue: event.locals.queue
+			queue: queue
 		});
 	}
-	console.log('Installed instance');
-	return event;
+	log.debug('Installed test data');
 }
 
 function getTimeTwoWeeksFromNow(hours: number, minutes: number): Date {

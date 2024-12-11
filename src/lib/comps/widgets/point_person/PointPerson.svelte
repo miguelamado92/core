@@ -23,9 +23,9 @@
 
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
-	import Button from '$lib/comps/ui/button/button.svelte';
+	import Button, { buttonVariants } from '$lib/comps/ui/button/button.svelte';
 	import RefreshCW from 'lucide-svelte/icons/refresh-cw';
-
+	import { cn } from '$lib/utils';
 	onMount(async () => {
 		loading = true;
 		admins = await loadAdmins();
@@ -54,14 +54,14 @@
 </div>
 {#snippet popover()}
 	<div class="absolute z-40 right-0 opacity-0 group-hover:opacity-100">
-		<Popover.Root bind:open let:ids>
-			<Popover.Trigger asChild let:builder>
-				<Button
-					size="xs"
-					builders={[builder]}
-					variant="outline"
-					class="justify-start gap-x-1 rounded-lg bg-white"><RefreshCW size={16} /></Button
-				>
+		<Popover.Root bind:open>
+			<Popover.Trigger
+				class={cn(
+					buttonVariants({ variant: 'outline', size: 'xs' }),
+					'justify-start gap-x-1 rounded-lg bg-white'
+				)}
+			>
+				<RefreshCW size={16} />
 			</Popover.Trigger>
 			<Popover.Content class="p-0" align="start" side="right">
 				<Command.Root>
@@ -72,8 +72,8 @@
 							{#each selectableAdmins as adminItem}
 								<Command.Item
 									value={adminItem.id.toString()}
-									onSelect={(v) => {
-										handleSwitchAdmin(Number(v));
+									onSelect={() => {
+										handleSwitchAdmin(Number(adminItem.id));
 										open = false;
 									}}
 								>

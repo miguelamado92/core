@@ -10,15 +10,13 @@
 	export let open: boolean;
 </script>
 
-{#snippet link(item)}
+{#snippet link(item: (typeof menuItems)['my_tasks'])}
 	<a
-		href={item.href({ ...$page.params })}
+		href={item.href()}
 		onclick={() => (open = false)}
 		class={cn(
 			buttonVariants({ variant: 'ghost', size: 'sm' }),
-			$page.url.pathname === item.href({ ...$page.params })
-				? 'bg-muted hover:bg-muted'
-				: 'hover:bg-muted hover:bg-muted',
+			$page.url.pathname === item.href() ? 'bg-muted hover:bg-muted' : 'hover:bg-muted',
 			'justify-start w-full flex gap-2 items-center'
 		)}
 	>

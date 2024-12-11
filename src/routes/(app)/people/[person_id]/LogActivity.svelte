@@ -18,7 +18,7 @@
 			label: $page.data.t.people.interactions.create_types.whatsapp()
 		}
 	];
-	let selected = $state(types[0]);
+	let selected = $state(types[0].value);
 	import { type List } from '$lib/schema/people/interactions';
 	const {
 		onLogged,
@@ -58,12 +58,12 @@
 	async function logInteraction(e: SubmitEvent) {
 		try {
 			e.preventDefault();
-			if (selected.value === 'outbound_whatsapp' && notes) {
+			if (selected === 'outbound_whatsapp' && notes) {
 				await sendWhatsappMessage(notes, personId, $page.data.admin.id);
 				onLogged();
 			}
 			const body = {
-				details: { type: selected.value, notes: notes },
+				details: { type: selected, notes: notes },
 				admin_id: $page.data.admin.id,
 				person_id: personId
 			};
@@ -96,7 +96,7 @@
 		<div class="grid items-baseline gap-3 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
 			{@render selectType()}
 			<div class="col-span-1 md:col-span-2 lg:col-span-3">
-				{#if selected.value === 'outbound_whatsapp'}
+				{#if selected === 'outbound_whatsapp'}
 					{#if activeConversationLoading}
 						{$page.data.t.common.status.loading()}
 					{:else if activeConversation}
@@ -123,7 +123,7 @@
 		</div>
 
 		<div class="sm:flex sm:justify-end mt-3">
-			{#if selected.value !== 'outbound_whatsapp' || activeConversation}
+			{#if selected !== 'outbound_whatsapp' || activeConversation}
 				<Button class="w-full sm:w-auto" type="submit" variant="default" size="sm">
 					{$page.data.t.forms.buttons.post()}
 				</Button>
@@ -135,15 +135,16 @@
 {#snippet selectType()}
 	<Select.Root
 		items={types}
-		bind:selected
-		onSelectedChange={async (val) => {
-			if (val && val.value === 'outbound_whatsapp') {
+		type="single"
+		bind:value={selected}
+		onValueChange={async (val) => {
+			if (val && val === 'outbound_whatsapp') {
 				await getConversationStatus();
 			}
 		}}
 	>
 		<Select.Trigger class="w-full">
-			<Select.Value placeholder="[Interaction]" />
+			{types.find((t) => t.value === selected)?.label || '[Interaction]'}
 		</Select.Trigger>
 		<Select.Content>
 			{#each types as type}
@@ -152,7 +153,6 @@
 				</Select.Item>
 			{/each}
 		</Select.Content>
-		<Select.Input name="type" />
 	</Select.Root>
 {/snippet}
 

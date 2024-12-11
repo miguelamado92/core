@@ -9,7 +9,7 @@
 		onAddTag: (tagId: number) => void;
 		onRemoveTag: (tagId: number) => void;
 		buttonText?: string;
-		buttonIcon?: Component | ComponentType;
+		ButtonIcon?: Component | ComponentType;
 	};
 	let {
 		selectedTags = $bindable([]),
@@ -17,7 +17,7 @@
 		onAddTag,
 		onRemoveTag,
 		buttonText = $page.data.t.forms.fields.tags.add_a_tag.label(),
-		buttonIcon = Plus
+		ButtonIcon = Plus
 	}: Props = $props();
 	let loading = $state(false);
 	let open = $state(false);
@@ -29,12 +29,13 @@
 
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
-	import Button from '$lib/comps/ui/button/button.svelte';
-	import X from 'lucide-svelte/icons/x';
+	import Button, { buttonVariants } from '$lib/comps/ui/button/button.svelte';
+	import { default as XIcon } from 'lucide-svelte/icons/x';
 	import Badge from '$lib/comps/ui/badge/badge.svelte';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
 	import { onMount, type ComponentType, type Component } from 'svelte';
+	import { cn } from '$lib/utils';
 	onMount(async () => {
 		loading = true;
 		tags = await loadTags();
@@ -52,7 +53,9 @@
 	async function handleRemoveTag(tagId: number) {
 		loading = true;
 		const index = selectedTags.findIndex((tag) => tag.id === tagId);
+		console.log(selectedTags);
 		selectedTags = selectedTags.toSpliced(index, 1);
+		console.log(selectedTags);
 		onRemoveTag(tagId);
 		loading = false;
 	}
@@ -66,8 +69,13 @@
 				variant="ghost"
 				size="xs"
 				class="px-0 hover:bg-transparant hover:text-white"
-				onclick={() => handleRemoveTag(tag.id)}><X size={12} /></Button
-			></Badge
+				onclick={() => {
+					console.log(tag);
+					handleRemoveTag(tag.id);
+				}}
+			>
+				<XIcon size={12} />
+			</Button></Badge
 		>
 	{/each}
 	{#if loading}
@@ -82,17 +90,15 @@
 	{@render popover()}
 </div>
 {#snippet popover()}
-	<Popover.Root bind:open let:ids>
-		<Popover.Trigger asChild let:builder>
-			<Button
-				size="xs"
-				builders={[builder]}
-				variant="outline"
-				class="justify-start gap-x-1 rounded-lg px-2 py-3"
-			>
-				<svelte:component this={buttonIcon} size={14} />
-				<div class="text-sm">{buttonText}</div>
-			</Button>
+	<Popover.Root bind:open>
+		<Popover.Trigger
+			class={cn(
+				buttonVariants({ variant: 'outline', size: 'xs' }),
+				'justify-start gap-x-1 rounded-lg px-2 py-3'
+			)}
+		>
+			<ButtonIcon size={14} />
+			<div class="text-sm">{buttonText}</div>
 		</Popover.Trigger>
 		<Popover.Content class="p-0" align="start" side="right">
 			<Command.Root>
@@ -103,8 +109,8 @@
 						{#each selectableTags as tag}
 							<Command.Item
 								value={tag.id.toString()}
-								onSelect={(v) => {
-									handleAddTag(Number(v));
+								onSelect={() => {
+									handleAddTag(Number(tag.id));
 								}}
 							>
 								{tag.name}

@@ -50,7 +50,7 @@
 	title={`${data.group.name} (${data.group.count})`}
 	bind:loading
 >
-	{#snippet content(person: typeof data.group.members[0], i)}
+	{#snippet content(person: (typeof data.group.members)[0], i)}
 		{#if typeof i === 'number'}
 			<div class="flex items-center justify-between gap-4">
 				{#if $loadingIds.includes(person.id)}
@@ -102,7 +102,7 @@
 	</PersonDropdown>
 {/snippet}
 
-{#snippet removePersonButton(person: typeof data.group.members[0], i: number)}
+{#snippet removePersonButton(person: (typeof data.group.members)[0], i: number)}
 	<Button
 		variant="destructive"
 		onclick={async () => {
@@ -125,14 +125,15 @@
 	>
 {/snippet}
 
-{#snippet changeStatus(person: typeof data.group.members[0])}
+{#snippet changeStatus(person: (typeof data.group.members)[0])}
 	<Select.Root
 		items={statuses}
-		selected={statuses.find((val) => val.value === person.status)}
-		onSelectedChange={async (val) => {
+		type="single"
+		value={person.status}
+		onValueChange={async (val) => {
 			if (window.confirm($page.data.t.common.alerts.confirmation())) {
 				if (!val) return;
-				const status = val.value;
+				const status = val;
 				$loadingIds = [...$loadingIds, person.id];
 				const result = await fetch(`/api/v1/people/groups/${data.group.id}/members/${person.id}`, {
 					method: 'PUT',
@@ -149,7 +150,7 @@
 		}}
 	>
 		<Select.Trigger class="w-[180px]">
-			<Select.Value placeholder="Member status" />
+			{statuses.find((val) => val.value === person.status)?.label || 'Select'}
 		</Select.Trigger>
 		<Select.Content>
 			{#each statuses as status}

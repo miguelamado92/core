@@ -27,7 +27,7 @@ export default function (
 		return renderAddress(itemBody, t).text;
 	});
 	hb.registerHelper('google_maps_url', function (itemBody: EventRead) {
-		return renderAddress(itemBody, t).text;
+		return renderAddress(itemBody, t).url;
 	});
 	hb.registerHelper('icon', function (icon: 'calendar' | 'mappin' | 'globe') {
 		if (icon === 'calendar') {

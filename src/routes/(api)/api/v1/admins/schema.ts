@@ -1,6 +1,7 @@
-import { read } from '$lib/schema/core/admin';
-/* export function GET(): RouteSpecification {
-	return generateRoute({
+import { json } from '$lib/server';
+import { read as readAdmin } from '$lib/schema/core/admin';
+export function GET() {
+	return json({
 		path: '/api/v1/admins',
 		filter: {
 			searchKey: 'full_name',
@@ -10,8 +11,7 @@ import { read } from '$lib/schema/core/admin';
 		success: {
 			type: '200',
 			description: 'Success',
-			schema: read
+			schema: {}
 		}
 	});
 }
- */

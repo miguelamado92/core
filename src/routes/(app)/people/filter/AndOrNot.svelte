@@ -15,15 +15,16 @@
 </script>
 
 <Select.Root
+	type="single"
 	items={selectOptions}
-	{selected}
-	onSelectedChange={(val) => {
+	value={selected?.value}
+	onValueChange={(val) => {
 		if (!val) return;
-		if (logicTypeGuard(val.value)) logic = val.value;
+		if (logicTypeGuard(val)) logic = val;
 	}}
 >
 	<Select.Trigger class="w-[180px]">
-		<Select.Value placeholder="Options" />
+		{selected?.label || '[Options]'}
 	</Select.Trigger>
 	<Select.Content>
 		<Select.Group>

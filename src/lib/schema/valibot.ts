@@ -171,8 +171,6 @@ export function renderValiError(err: unknown):
 		let issuesMap: string[] = [];
 		let messageArr: string[] = [];
 		err.issues.forEach((issue) => {
-			//@ts-expect-error (there doesn't seem to be a key on the path object, but it's used in the original code)
-
 			const dotPath = issue.path?.map((item) => item.key).join('.');
 			const paths =
 				issue.path?.map((p) => {
@@ -196,5 +194,11 @@ export function renderValiError(err: unknown):
 		return { isValiError: false };
 	}
 }
+
+export const templateGlobals = v.object({
+	url: url,
+	encoded_url: mediumString
+});
+export type TemplateGlobals = v.InferOutput<typeof templateGlobals>;
 
 export { v };

@@ -10,7 +10,12 @@ export async function POST(event) {
 	try {
 		const body = await event.request.json();
 		const parsed = parse(schema.create, body);
-		const created = await api.create({ instance_id: event.locals.instance.id, body: parsed });
+		const created = await api.create({
+			instance_id: event.locals.instance.id,
+			body: parsed,
+			adminId: event.locals.admin.id,
+			queue: event.locals.queue
+		});
 		return json(created, { status: 201 });
 	} catch (err) {
 		return error(500, 'API01:/ADMINS:POST:01', event.locals.t.errors.http[500](), err);

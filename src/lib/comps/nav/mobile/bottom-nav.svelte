@@ -32,7 +32,7 @@
 				class="w-full focus:text-slate-600 hover:bg-muted justify-center inline-block text-center pt-2 pb-1"
 				class:bg-muted={url === item.href({ ...$page.params })}
 			>
-				<svelte:component this={item.icon} class="inline-block mb-1" />
+				<item.icon class="inline-block mb-1" />
 
 				<span class="block text-xs">{item.title()}</span>
 			</a>

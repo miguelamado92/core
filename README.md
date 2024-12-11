@@ -43,9 +43,9 @@ You will need to configure environment variables. Start by renaming the sample e
 mv .env.example .env
 ```
 
-Make changes as required to your environment variables, including adding API keys for the required services above.
+Make changes as required to your environment variables, including adding API keys for the required services. There are also some configuration options related to the preloading test data that can be useful for running in development.
 
-Clone the <a href="https://github.com/belcoda/migrations" target="_blank">migrations repo</a>, configure the environment variables, and run the migrations and seeds.
+Once you've got your env vars sorted, run `npm run db:migrate:latest` to run your migration up in the database.
 
 `npm run dev`
 

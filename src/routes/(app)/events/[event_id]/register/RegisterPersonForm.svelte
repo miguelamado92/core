@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	export let person_id: number;
-	export let eventIsPast: boolean = false;
+	const { person_id, eventIsPast }: { person_id: number; eventIsPast: boolean } = $props();
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import Label from '$lib/comps/ui/label/label.svelte';
 	import * as Select from '$lib/comps/ui/select';
@@ -13,42 +12,31 @@
 		'cancelled',
 		'noshow'
 	];
-	const statusOptions = attendanceStatus.map((status) => ({
-		value: status,
-		label: $page.data.t.events.status[status].title()
-	}));
-
-	const defaultSelected = eventIsPast ? statusOptions[1] : statusOptions[0];
-	let sendNotifications: boolean = true;
-	let selectedStatus = defaultSelected.value;
+	let status = $state(eventIsPast ? attendanceStatus[1] : attendanceStatus[0]);
+	const label = $derived($page.data.t.events.status[status]?.title() || 'Select status');
+	let sendNotifications: boolean = $state(true);
 </script>
 
 <form method="post">
 	<div class="flex items-center gap-2">
 		<input type="hidden" name="person_id" value={person_id} />
 		<input type="hidden" name="send_notifications" value={sendNotifications} />
-		<input type="hidden" name="status" value={selectedStatus} />
-		<Select.Root
-			portal={null}
-			items={statusOptions}
-			selected={defaultSelected}
-			onSelectedChange={(v) => {
-				v && (selectedStatus = v.value);
-			}}
-		>
+		<input type="hidden" name="status" value={status} />
+		<Select.Root type="single" bind:value={status}>
 			<Label>{$page.data.t.forms.fields.events.attendees.send_notifications.label()}</Label>
 			<Checkbox bind:checked={sendNotifications} />
 			<Select.Trigger class="w-[180px]">
-				<Select.Value placeholder="Status" />
+				{label}
 			</Select.Trigger>
 			<Select.Content>
 				<Select.Group>
-					{#each statusOptions as status}
-						<Select.Item value={status.value} label={status.label}>{status.label}</Select.Item>
+					{#each attendanceStatus as singleStatus}
+						<Select.Item value={singleStatus}
+							>{$page.data.t.events.status[singleStatus]?.title()}</Select.Item
+						>
 					{/each}
 				</Select.Group>
 			</Select.Content>
-			<Select.Input name="status" />
 		</Select.Root>
 		<Button variant="outline" type="submit">Register</Button>
 	</div>

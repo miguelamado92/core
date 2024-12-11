@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { type FilterTypePhoneNumber } from '$lib/schema/people/filters/filters';
+	import {
+		type FilterTypePhoneNumber,
+		DEFAULT_PHONE_NUMBER_FILTER_TYPE
+	} from '$lib/schema/people/filters/filters';
 	let { item = $bindable() }: { item: FilterTypePhoneNumber } = $props();
+	item = { ...DEFAULT_PHONE_NUMBER_FILTER_TYPE, ...item }; // to ensure none of the values are undefined
 	import Input from '$lib/comps/ui/input/input.svelte';
 	import Label from '$lib/comps/ui/label/label.svelte';
 	import Checkbox from '$lib/comps/ui/checkbox/checkbox.svelte';

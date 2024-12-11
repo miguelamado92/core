@@ -29,6 +29,8 @@ export const base = v.object({
 	created_at: timestamp,
 	updated_at: timestamp
 });
+export const initialInsert = v.omit(base, ['id', 'created_at', 'updated_at']);
+export type InitialInsert = v.InferOutput<typeof initialInsert>;
 
 export const read = v.omit(base, ['instance_id']);
 export type Read = v.InferOutput<typeof read>;
@@ -42,6 +44,7 @@ export type List = v.InferOutput<typeof list>;
 export const create = v.object({
 	name: base.entries.name,
 	message: base.entries.message,
+	interactive: base.entries.interactive,
 	status: v.optional(base.entries.status, 'CREATED')
 });
 export type Create = v.InferOutput<typeof create>;

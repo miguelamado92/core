@@ -11,20 +11,22 @@
 		{ value: 'cancelled', label: 'Cancelled' },
 		{ value: 'noshow', label: 'No show' }
 	];
+	const label = $derived(statuses.find((s) => s.value === item.status)?.label || 'Event status');
 </script>
 
 <div class="flex gap-4 items-center">
 	<EventDropdown bind:value={item.event_id} onselect={(e) => (item.event_id = e.id)} />
 	<Select.Root
 		items={statuses}
-		selected={statuses[0]}
-		onSelectedChange={(val) => {
+		type="single"
+		value={statuses[0].value}
+		onValueChange={(val) => {
 			if (!val) return;
-			item.status = val.value;
+			item.status = val as FilterTypeNotRegisteredEvent['status'];
 		}}
 	>
 		<Select.Trigger class="w-[180px]">
-			<Select.Value placeholder="Event status" />
+			{label}
 		</Select.Trigger>
 		<Select.Content>
 			{#each statuses as status}

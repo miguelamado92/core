@@ -10,6 +10,7 @@
 	import AlertTriangle from 'lucide-svelte/icons/triangle-alert';
 	const file_upload_widget_id = crypto.randomUUID();
 	import { createEventDispatcher } from 'svelte';
+	import { file } from 'valibot';
 	const dispatch = createEventDispatcher();
 
 	export let label: string | null = null;
@@ -50,18 +51,21 @@
 
 			//process
 			const files = (<HTMLInputElement>ev.target).files;
-			if (!files) throw { message: $page.data.t.errors.file_upload.no_file_selected() }; //doesn't need to be an error;
+			if (!files) throw new Error($page.data.t.errors.file_upload.no_file_selected());
 
 			const latest_file = files[files.length - 1];
-			if (latest_file.size > maximum_file_size)
-				throw {
-					message: $page.data.t.errors.file_upload.too_large(readable_file_size(maximum_file_size))
-				};
+			function isBigger(a: number, b: number) {
+				return Math.sign(a - b) === 1; // Returns true if a is bigger than b
+			}
+			const fileSizeBigger = isBigger(latest_file.size, maximum_file_size);
+			if (fileSizeBigger) {
+				throw new Error(
+					$page.data.t.errors.file_upload.too_large(readable_file_size(maximum_file_size))
+				);
+			}
 
 			if (file_types.includes(latest_file.type) !== true) {
-				throw {
-					message: $page.data.t.errors.file_upload.unsupported_type(acceptable_file_types)
-				};
+				new Error($page.data.t.errors.file_upload.unsupported_type(acceptable_file_types));
 			}
 			const file_name = latest_file.name;
 			const uploadFileName = file_name_prefix + '-' + file_name;
@@ -80,7 +84,7 @@
 				})
 			});
 			if (!push_file_request_response.ok)
-				throw { message: $page.data.t.errors.file_upload.upload_error() };
+				throw new Error($page.data.t.errors.file_upload.upload_error());
 			const push_file_request_body = await push_file_request_response.json();
 			const put_url = push_file_request_body.put_url;
 
@@ -92,7 +96,7 @@
 			if (!aws_response.ok) {
 				console.log('file upload failed');
 				console.log(await aws_response.text());
-				throw { message: $page.data.t.errors.file_upload.upload_error() };
+				throw new Error($page.data.t.errors.file_upload.upload_error());
 			} else {
 				console.log('file uploaded');
 				console.log(file_to_upload.size);
@@ -128,7 +132,7 @@
 	>{/if}
 <div class="flex items-center gap-2">
 	<Input
-		on:change={handleUpload}
+		onchange={handleUpload}
 		{disabled}
 		accept={acceptable_file_types}
 		class={cn(

@@ -7,10 +7,12 @@
 	const menu = menuConstructor($page.data.t);
 </script>
 
-{#snippet link(item)}
-	<Menubar.Item href={item.href({ ...$page.params })} class="flex items-center gap-2">
-		<svelte:component this={item.icon} class="w-4 h-4" strokeWidth={2} />
-		{item.title()}
+{#snippet link(item: (typeof menu)['my_tasks'])}
+	<Menubar.Item>
+		<a href={item.href()} class="flex items-center gap-2">
+			<svelte:component this={item.icon} class="w-4 h-4" strokeWidth={2} />
+			{item.title()}
+		</a>
 	</Menubar.Item>
 {/snippet}
 

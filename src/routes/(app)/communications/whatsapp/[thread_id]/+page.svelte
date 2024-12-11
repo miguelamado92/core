@@ -1,7 +1,6 @@
 <script lang="ts">
 	const { data } = $props();
 	let actions = $state({ ...data.templateMessage.actions });
-	import { page } from '$app/stores';
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import Template from '$lib/comps/forms/whatsapp/templates/Template.svelte';
 	import { type Template as TemplateType } from '$lib/schema/communications/whatsapp/elements/template_message';

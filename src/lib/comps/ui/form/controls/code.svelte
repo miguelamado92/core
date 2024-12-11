@@ -13,7 +13,6 @@
 	let className = '';
 	export { className as class };
 	// Everything above this can be copied
-	//@ts-expect-error //codeflask types don't seem to be imported
 	import CodeFlask from 'codeflask';
 	import { onMount, onDestroy } from 'svelte';
 	import { browser } from '$app/environment';
@@ -63,15 +62,17 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs>
-		<!-- Start form control block -->
-		<div class="flex flex-col gap-2">
-			{#if label}<Form.Label>{label}</Form.Label>{/if}
-			{#if description}<Form.Description>{description}</Form.Description>{/if}
-			<div {id} class={cn('w-full h-60 relative block border rounded', className)}></div>
-			<input type="text" name={attrs.name} {value} hidden />
-			<!-- End control block -->
-			<Form.FieldErrors />
-		</div>
+	<Form.Control>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<div class="flex flex-col gap-2">
+				{#if label}<Form.Label>{label}</Form.Label>{/if}
+				{#if description}<Form.Description>{description}</Form.Description>{/if}
+				<div {id} class={cn('w-full h-60 relative block border rounded', className)}></div>
+				<input type="text" name={props.name} {value} hidden />
+				<!-- End control block -->
+				<Form.FieldErrors />
+			</div>
+		{/snippet}
 	</Form.Control>
 </Form.Field>

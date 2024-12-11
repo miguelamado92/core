@@ -79,7 +79,7 @@
 					await reload();
 				} catch (err) {
 					if (err instanceof Error) {
-						$flash = { type: 'error', message: err.message };
+						$flash = { type: 'error', message: err };
 					} else {
 						$flash = { type: 'error', message: $page.data.t.errors.generic() };
 					}

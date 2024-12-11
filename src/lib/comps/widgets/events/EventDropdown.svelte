@@ -59,14 +59,9 @@
 	{@render popover()}
 </div>
 {#snippet popover()}
-	<Popover.Root bind:open let:ids>
-		<Popover.Trigger asChild let:builder>
-			<Button
-				size="sm"
-				builders={[builder]}
-				variant="outline"
-				class="justify-start gap-x-1 rounded-lg px-2 py-3"
-			>
+	<Popover.Root bind:open>
+		<Popover.Trigger>
+			<Button size="sm" variant="outline" class="justify-start gap-x-1 rounded-lg px-2 py-3">
 				{#if item}
 					{item.name}
 				{:else if children}
@@ -92,9 +87,8 @@
 						{#each items as object, i}
 							<Command.Item
 								value={`${object.id}:::${object.name}`}
-								onSelect={(v) => {
-									const id = v.split(':::')[0];
-									handleAdd(Number(id));
+								onSelect={() => {
+									handleAdd(object.id);
 									open = false;
 								}}
 							>

@@ -103,6 +103,19 @@ export const DEFAULT_FILTER_TYPE: FilterType = {
 	name: '',
 	partial: true
 };
+export const DEFAULT_EMAIL_FILTER_TYPE: FilterType = {
+	type: 'email',
+	email: '',
+	partial: true,
+	mustBeSubscribed: false
+};
+export const DEFAULT_PHONE_NUMBER_FILTER_TYPE: FilterType = {
+	type: 'phone_number',
+	phone_number: '',
+	partial: true,
+	mustBeSubscribed: false,
+	mustBeWhatsapp: false
+};
 
 export type FilterGroup = {
 	type: 'group';

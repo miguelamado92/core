@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type _ListWithSearch } from '$lib/schema/people/people';
-	import { debounce } from '$lib/utils';
+	import { cn, debounce } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 	type Props = {
 		people?: _ListWithSearch['items'];
@@ -26,7 +26,7 @@
 
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
-	import Button from '$lib/comps/ui/button/button.svelte';
+	import Button, { buttonVariants } from '$lib/comps/ui/button/button.svelte';
 	import Plus from 'lucide-svelte/icons/plus';
 
 	import { onMount } from 'svelte';
@@ -43,15 +43,17 @@
 		selectedPersonIds = [...selectedPersonIds, personId];
 	}
 
-	let value: string | undefined = $state();
+	let value: string | undefined = $state('');
 
 	async function search() {
 		loading = true;
-		await load(value).then((returnedPeople) => {
-			people = returnedPeople;
-			console.log(people.length);
-			loading = false;
-		});
+		await load(value)
+			.then((returnedPeople) => {
+				people = returnedPeople;
+			})
+			.finally(() => {
+				loading = false;
+			});
 	}
 </script>
 
@@ -59,21 +61,19 @@
 	{@render popover()}
 </div>
 {#snippet popover()}
-	<Popover.Root bind:open let:ids>
-		<Popover.Trigger asChild let:builder>
-			<Button
-				size="sm"
-				builders={[builder]}
-				variant="outline"
-				class="justify-start gap-x-1 rounded-lg px-2 py-3"
-			>
-				{#if children}
-					{@render children()}
-				{:else}
-					<Plus size={14} />
-					<div class="text-sm">{$page.data.t.forms.buttons.search_people()}</div>
-				{/if}
-			</Button>
+	<Popover.Root bind:open>
+		<Popover.Trigger
+			class={cn(
+				buttonVariants({ variant: 'outline', size: 'sm' }),
+				'justify-start gap-x-1 rounded-lg px-2 py-3'
+			)}
+		>
+			{#if children}
+				{@render children()}
+			{:else}
+				<Plus size={14} />
+				<div class="text-sm">{$page.data.t.forms.buttons.search_people()}</div>
+			{/if}
 		</Popover.Trigger>
 		<Popover.Content class="p-0" align="start" side="right">
 			<Command.Root>
@@ -91,10 +91,10 @@
 						<Command.Empty>{$page.data.t.common.data.no_items()}</Command.Empty>
 						{#each selectablePeople as person, i}
 							<Command.Item
-								value={`${person.id}:::${person.search}`}
-								onSelect={(v) => {
-									const id = v.split(':::')[0];
-									handleAddPerson(Number(id));
+								forceMount={true}
+								value={`${person.search}`}
+								onSelect={() => {
+									handleAddPerson(person.id);
 									if (selectablePeople.length === 0) open = false;
 								}}
 							>

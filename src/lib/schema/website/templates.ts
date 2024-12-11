@@ -42,6 +42,7 @@ export const create = v.object({
 	html_metatags: base.entries.html_metatags
 });
 export type Create = v.InferOutput<typeof create>;
+export type CreateInput = v.InferInput<typeof create>;
 
 export const update = v.partial(
 	v.object({

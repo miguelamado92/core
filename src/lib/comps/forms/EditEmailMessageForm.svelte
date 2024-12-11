@@ -125,7 +125,7 @@
 		name={previewText}
 		label={$page.data.t.forms.fields.email.preview_text.label()}
 		description={$page.data.t.forms.fields.email.preview_text.description()}
-		bind:value={$previewTextValue  as string}
+		bind:value={$previewTextValue as string}
 	/>
 
 	<!-- Right now, we don't need this, and it will be confusing for users
@@ -189,19 +189,19 @@
 	{#if templates.length > 0}
 		<div class="flex justify-end">
 			<Select.Root
-				items={templatesForSelect}
-				onSelectedChange={(val) => {
-					if (!val) return;
-					const id = Number(val?.value);
+				type="single"
+				onValueChange={(val) => {
+					const id = Number(val);
 					$templateIdValue = id;
 				}}
 			>
 				<Select.Trigger class="w-[480px]">
-					<Select.Value placeholder={$page.data.t.forms.fields.email.template.label()} />
+					{templates.find((t) => t.id === $templateIdValue)?.name ||
+						$page.data.t.forms.fields.email.template.label()}
 				</Select.Trigger>
 				<Select.Content>
 					{#each templates as template}
-						<Select.Item value={template.id}>{template.name}</Select.Item>
+						<Select.Item value={template.id.toString()}>{template.name}</Select.Item>
 					{/each}
 				</Select.Content>
 			</Select.Root>

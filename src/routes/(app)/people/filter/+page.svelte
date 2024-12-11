@@ -94,7 +94,7 @@
 		items={people.items}
 		count={people.count}
 	>
-		{#snippet content(person: typeof people.items[0])}
+		{#snippet content(person: (typeof people.items)[0])}
 			<div class="flex justify-between items-center w-full py-2 pl-2">
 				<div><PersonBadge {person} /></div>
 				<div>

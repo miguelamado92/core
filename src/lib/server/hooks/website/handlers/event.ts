@@ -20,7 +20,7 @@ const error404 = {
 import { readBySlug as readEventBySlug } from '$lib/server/api/events/events';
 
 import { eventSignup, signUpQueueMessage } from '$lib/schema/events/events';
-import { parse } from '$lib/schema/valibot';
+import { parse, type TemplateGlobals } from '$lib/schema/valibot';
 
 export default async function ({
 	instance,
@@ -83,10 +83,17 @@ export default async function ({
 		}
 	}
 
+	const globals: TemplateGlobals = {
+		url: `https://${instance.slug}.belcoda.com/events/${eventObject.slug}`,
+		encoded_url: encodeURIComponent(
+			`https://${instance.slug}.belcoda.com/events/${eventObject.slug}`
+		)
+	};
+
 	const output = await renderHandlebarsTemplate({
 		template: event_template.html,
 		instanceId: instance.id,
-		context: { event: eventObject, status },
+		context: { event: eventObject, status, instance, globals },
 		t
 	});
 

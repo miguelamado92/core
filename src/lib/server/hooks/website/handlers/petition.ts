@@ -19,7 +19,7 @@ const error404 = {
 import { readBySlug as readPetitionBySlug } from '$lib/server/api/petitions/petitions';
 
 import { petitionSignature, signatureQueueMessage } from '$lib/schema/petitions/petitions';
-import { parse } from '$lib/schema/valibot';
+import { parse, type TemplateGlobals } from '$lib/schema/valibot';
 
 export default async function ({
 	instance,
@@ -85,10 +85,22 @@ export default async function ({
 		}
 	}
 
+	const globals: TemplateGlobals = {
+		url: `https://${instance.slug}.belcoda.com/petitions/${petitionObject.slug}`,
+		encoded_url: encodeURIComponent(
+			`https://${instance.slug}.belcoda.com/petitions/${petitionObject.slug}`
+		)
+	};
+
 	const output = await renderHandlebarsTemplate({
 		template: petitionTemplate.html,
 		instanceId: instance.id,
-		context: { petition: petitionObject, status },
+		context: {
+			petition: petitionObject,
+			status,
+			instance,
+			globals
+		},
 		t
 	});
 

@@ -20,19 +20,21 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs {...$$restProps}>
-		<!-- Start form control block -->
-		<label
-			for={attrs.id}
-			class={cn('flex flex-row items-center justify-between rounded-lg border p-4', className)}
-		>
-			<div class="space-y-0.5">
-				{#if label}<Form.Label>{label}</Form.Label>{/if}
-				{#if description}<Form.Description>{description}</Form.Description>{/if}
-			</div>
-			<Switch includeInput {...attrs} bind:checked {disabled} />
-		</label>
-		<Form.FieldErrors />
-		<!-- End control block -->
+	<Form.Control {...$$restProps}>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<label
+				for={props.id}
+				class={cn('flex flex-row items-center justify-between rounded-lg border p-4', className)}
+			>
+				<div class="space-y-0.5">
+					{#if label}<Form.Label>{label}</Form.Label>{/if}
+					{#if description}<Form.Description>{description}</Form.Description>{/if}
+				</div>
+				<Switch {...props} bind:checked {disabled} />
+			</label>
+			<Form.FieldErrors />
+			<!-- End control block -->
+		{/snippet}
 	</Form.Control>
 </Form.Field>

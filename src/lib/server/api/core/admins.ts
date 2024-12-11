@@ -36,10 +36,14 @@ export async function exists({
 
 export async function create({
 	instance_id,
-	body
+	body,
+	adminId,
+	queue
 }: {
 	instance_id: number;
 	body: schema.Create;
+	adminId?: number;
+	queue: App.Queue;
 }): Promise<schema.Read> {
 	const parsed = v.parse(schema.create, body);
 	const toCreate = {
@@ -50,6 +54,9 @@ export async function create({
 	const createdParsed = v.parse(schema.read, created);
 	await redis.set(redisString(instance_id, createdParsed.id), createdParsed);
 	await redis.del(redisString(instance_id, 'all'));
+	if (adminId) {
+		await queue('utils/people/match_sanction', instance_id, { adminId: createdParsed.id }, adminId);
+	}
 	return createdParsed;
 }
 
@@ -72,6 +79,7 @@ export async function read({
 		});
 	const parsedResponse = v.parse(schema.read, response);
 	await redis.set(redisString(instance_id, admin_id), parsedResponse);
+
 	return parsedResponse;
 }
 

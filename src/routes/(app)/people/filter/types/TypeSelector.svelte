@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type FilterType } from '$lib/schema/people/filters/filters';
-	let { value = $bindable() }: { value: FilterType['type'] } = $props();
+	let { value = $bindable() }: { value: FilterType } = $props();
 	import * as Select from '$lib/comps/ui/select/';
 	const items: { value: FilterType['type']; label: string }[] = [
 		{ value: 'full_name', label: 'Full Name' },
@@ -18,19 +18,21 @@
 		{ value: 'registered_event', label: 'Registered for event' },
 		{ value: 'not_registered_event', label: 'Not registered for event' }
 	];
-	const selected = items[0];
+	const label = $derived(
+		items.find((item) => item.value === value.type)?.label ||
+			$page.data.t.forms.fields.filters.filter_type.placeholder()
+	);
 </script>
 
 <Select.Root
 	{items}
-	{selected}
-	onSelectedChange={(val) => {
-		if (!val) return;
-		value = val.value;
+	type="single"
+	onValueChange={(val) => {
+		value.type = val as (typeof items)[0]['value'];
 	}}
 >
 	<Select.Trigger class="md:w-[175px] w-full">
-		<Select.Value placeholder={$page.data.t.forms.fields.filters.filter_type.placeholder()} />
+		{label}
 	</Select.Trigger>
 	<Select.Content>
 		{#each items as item}

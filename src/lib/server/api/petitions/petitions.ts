@@ -98,6 +98,7 @@ export async function update({
 	await redis.del(redisString(instanceId, 'all'));
 	await redis.del(redisString(instanceId, petitionId));
 	const returned = await read({ instanceId, petitionId: petitionId, t: t });
+	await redis.del(redisStringSlug(instanceId, returned.slug));
 	return returned;
 }
 

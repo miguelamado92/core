@@ -11,6 +11,21 @@ export const read = async ({ instance_id }: { instance_id: number }): Promise<sc
 	return parsedResponse;
 };
 
+export const create = async ({
+	body,
+	t
+}: {
+	body: schema.Create;
+	t: App.Localization;
+}): Promise<schema.Read> => {
+	const parsed = v.parse(schema.create, body);
+	const response = await db.insert('instances', parsed).run(pool);
+	const parsedResponse = v.parse(schema.read, response);
+	await redis.set(`i:${parsedResponse.id}`, parsedResponse);
+	await redis.del('i:count');
+	return parsedResponse;
+};
+
 export const update = async ({
 	instanceId,
 	body,
@@ -87,4 +102,15 @@ export async function _getInstanceByWhatsappBAId({
 			'No instance found with that business ID'
 		);
 	return await read({ instance_id: response[0].id });
+}
+
+const instanceCountSchema = v.pipe(v.number(), v.integer(), v.minValue(0));
+
+export async function _count(): Promise<number> {
+	const count = await redis.get(`i:count`);
+	if (count) return v.parse(instanceCountSchema, count);
+	const response = await db.count('instances', {}).run(pool);
+	const parsed = v.parse(instanceCountSchema, response);
+	await redis.set(`i:count`, parsed);
+	return parsed;
 }

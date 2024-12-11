@@ -5,7 +5,8 @@ import { buildLocalLanguage } from '$lib/server/hooks/build_locals';
 import { del as expireSession } from '$lib/server/api/core/sessions';
 import { buildAdminInstance } from '$lib/server/hooks/build_locals';
 import { Localization } from '$lib/i18n';
-import { default as install } from '$lib/server/hooks/installation/install';
+import createDefaultInstance from '$lib/server/utils/install/default_instance';
+import { _count, _count as _countInstance } from '$lib/server/api/core/instances';
 process.on('warning', (e) => console.warn(e.stack));
 
 const log = pino('hooks.server.ts');
@@ -16,12 +17,14 @@ import { default as queue } from '$lib/server/utils/queue/add_job';
 import * as Sentry from '@sentry/sveltekit';
 import { type HandleServerError, type Handle } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
+import { dev } from '$app/environment';
 
 Sentry.init({
 	dsn: 'https://8b4cdb05d7907fe3f9b43aec4a060811@o4508220361342976.ingest.de.sentry.io/4508220380282960',
 
 	// We recommend adjusting this value in production, or using tracesSampler
 	// for finer control
+	enabled: !dev, //not enabled in dev
 	tracesSampleRate: 1.0
 });
 
@@ -37,6 +40,12 @@ const belcodaHandler: Handle = async ({ event, resolve }) => {
 	event.locals.language = buildLocalLanguage(event);
 	event.locals.t = new Localization(event.locals.language);
 	event.locals.queue = queue;
+
+	//get all instances. If the count is zero, run the install script... this is a one-time thing.
+	const instanceCount = await _countInstance();
+	if (!(instanceCount > 0)) {
+		await createDefaultInstance(event.locals.t, queue);
+	}
 
 	const mainHandlerOutput = await mainHandler(event, resolve);
 	if (mainHandlerOutput.continue === false) return mainHandlerOutput.response;
@@ -88,10 +97,6 @@ const belcodaHandler: Handle = async ({ event, resolve }) => {
 			status: 302,
 			headers: { location: '/login' }
 		});
-	}
-
-	if (event.locals.instance.installed === false) {
-		event = await install(event);
 	}
 
 	const response = await resolve(returnEvent);

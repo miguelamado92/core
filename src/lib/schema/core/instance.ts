@@ -2,6 +2,7 @@ import {
 	v,
 	id,
 	slug,
+	url,
 	language,
 	country,
 	timestamp,
@@ -12,9 +13,20 @@ import {
 
 export const settings = v.object({
 	default_admin_id: id,
+	home_page_url: v.nullable(url),
 	events: v.object({
 		default_template_id: id,
-		default_email_template_id: id
+		default_email_template_id: id,
+		default_event_info_settings: v.object({
+			ask_email: v.optional(v.boolean(), true),
+			ask_phone_number: v.optional(v.boolean(), true),
+			ask_postcode: v.optional(v.boolean(), true),
+			ask_address: v.optional(v.boolean(), false),
+			require_email: v.optional(v.boolean(), false),
+			require_phone_number: v.optional(v.boolean(), false),
+			require_postcode: v.optional(v.boolean(), false),
+			require_address: v.optional(v.boolean(), false)
+		})
 	}),
 	communications: v.object({
 		email: v.object({
@@ -32,12 +44,29 @@ export const settings = v.object({
 	}),
 	website: v.object({
 		default_template_id: id,
+		custom_domain: v.nullable(shortString), //if custom domain is null, the the website will be https://${instance.slug}.{ROOT_DOMAIN}. Otherwise, it will be https://${customDomain}
 		pages_content_type_id: id,
-		posts_content_type_id: id
+		posts_content_type_id: id,
+		logo_url: url,
+		favicon: v.nullable(url),
+		header_links: v.array(
+			v.object({
+				text: shortString,
+				url: url,
+				new_tab: v.boolean()
+			})
+		),
+		footer_links: v.array(
+			v.object({
+				text: shortString,
+				url: url,
+				new_tab: v.boolean()
+			})
+		)
 	})
 });
 export type Settings = v.InferOutput<typeof settings>;
-
+export type SettingsInput = v.InferInput<typeof settings>;
 //do not add to any read etc, because it is not meant to be exposed normally.
 export const secrets = v.object({
 	WHATSAPP_ACCESS_KEY: longStringNotEmpty
@@ -71,4 +100,4 @@ export type Create = v.InferOutput<typeof create>;
 
 export const update = v.partial(v.omit(read, ['id', 'created_at', 'updated_at']));
 
-export type Update = v.InferOutput<typeof update>;
+export type Update = v.InferInput<typeof update>;

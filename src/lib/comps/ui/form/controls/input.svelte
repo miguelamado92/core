@@ -20,20 +20,22 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs>
-		<!-- Start form control block -->
-		<div class="flex flex-col gap-2">
-			{#if label}<Form.Label>{label}</Form.Label>{/if}
-			<Input
-				{type}
-				{...attrs}
-				bind:value
-				class={cn('focus-visible:ring-blue-600', className)}
-				{...$$restProps}
-			/>
-		</div>
-		{#if description}<Form.Description>{description}</Form.Description>{/if}
-		<!-- End control block -->
-		<Form.FieldErrors />
+	<Form.Control>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<div class="flex flex-col gap-2">
+				{#if label}<Form.Label>{label}</Form.Label>{/if}
+				<Input
+					{type}
+					{...props}
+					bind:value
+					class={cn('focus-visible:ring-blue-600', className)}
+					{...$$restProps}
+				/>
+			</div>
+		{/snippet}
 	</Form.Control>
+	{#if description}<Form.Description>{description}</Form.Description>{/if}
+	<!-- End control block -->
+	<Form.FieldErrors />
 </Form.Field>

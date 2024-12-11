@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type List } from '$lib/schema/people/lists';
-	import { debounce } from '$lib/utils';
+	import { cn, debounce } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 
 	type Props = {
@@ -27,7 +27,7 @@
 
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
-	import Button from '$lib/comps/ui/button/button.svelte';
+	import { buttonVariants } from '$lib/comps/ui/button/button.svelte';
 	import Plus from 'lucide-svelte/icons/plus';
 
 	import { onMount } from 'svelte';
@@ -48,7 +48,7 @@
 		list = lists[selectedList];
 	}
 
-	let searchString: string | undefined = $state();
+	let searchString: string = $state('');
 
 	async function search() {
 		loading = true;
@@ -62,23 +62,21 @@
 	{@render popover()}
 </div>
 {#snippet popover()}
-	<Popover.Root bind:open let:ids>
-		<Popover.Trigger asChild let:builder>
-			<Button
-				size="sm"
-				builders={[builder]}
-				variant="outline"
-				class="justify-start gap-x-1 rounded-lg px-2 py-3 bg-white"
-			>
-				{#if list}
-					{list.name} <ChevronDown size={14} />
-				{:else if children}
-					{@render children()}
-				{:else}
-					<Plus size={14} />
-					<div class="text-sm">{label}</div>
-				{/if}
-			</Button>
+	<Popover.Root bind:open>
+		<Popover.Trigger
+			class={cn(
+				buttonVariants({ variant: 'outline', size: 'sm' }),
+				'justify-start gap-x-1 rounded-lg px-2 py-3 bg-white'
+			)}
+		>
+			{#if list}
+				{list.name} <ChevronDown size={14} />
+			{:else if children}
+				{@render children()}
+			{:else}
+				<Plus size={14} />
+				<div class="text-sm">{label}</div>
+			{/if}
 		</Popover.Trigger>
 		<Popover.Content class="p-0" align="start" side="right">
 			<Command.Root>
@@ -95,9 +93,9 @@
 						{#each lists as item, i}
 							<Command.Item
 								value={`${item.id}:::${item.name}`}
-								onSelect={(v) => {
-									const id = v.split(':::')[0];
-									handleAddPerson(Number(id));
+								forceMount={true}
+								onSelect={() => {
+									handleAddPerson(item.id);
 									open = false;
 								}}
 							>

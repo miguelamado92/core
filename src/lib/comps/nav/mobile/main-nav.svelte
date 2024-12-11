@@ -26,7 +26,7 @@
 										buttonVariants({ variant: 'ghost', size: 'sm' }),
 										$page.url.pathname === child.href({ ...$page.params })
 											? 'bg-muted hover:bg-muted'
-											: 'hover:bg-muted hover:bg-muted',
+											: 'hover:bg-muted',
 										'justify-start w-full flex gap-2 items-center'
 									)}
 								>

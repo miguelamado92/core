@@ -27,7 +27,7 @@ export async function list({
 	const peopleIds = selectAttendees.map((attendee) => attendee.person_id);
 	const selected = await db
 		.select(
-			'people.people',
+			'people.people_search',
 			{ id: db.conditions.isNotIn(peopleIds), instance_id: instance_id, ...query.where },
 			{
 				lateral: {
@@ -59,7 +59,7 @@ export async function list({
 		)
 		.run(pool);
 	const count = await db
-		.count('people.people', {
+		.count('people.people_search', {
 			id: db.conditions.isNotIn(peopleIds),
 			instance_id: instance_id,
 			...query.where

@@ -12,11 +12,15 @@
 		showOnSinglePage?: boolean;
 		loading: boolean;
 	} = $props();
+	import { MediaQuery } from 'runed';
+	const isDesktop = new MediaQuery('(min-width: 768px)');
+
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { browser } from '$app/environment';
 	const perPage = $state(Number($page.url.searchParams.get('perPage')) || 25);
 	const initialPage = $state(Number($page.url.searchParams.get('page')) || 1);
+	const siblingCount = $derived(isDesktop.matches ? 1 : 0);
 	async function handlePageChange(newPage: number) {
 		//set the params... invalidate;
 		if (browser) {
@@ -35,32 +39,33 @@
 	<Pagination.Root
 		{count}
 		{perPage}
-		let:pages
 		page={initialPage}
-		let:currentPage
+		{siblingCount}
 		class="mt-4"
 		onPageChange={handlePageChange}
 	>
-		<Pagination.Content>
-			<Pagination.Item>
-				<Pagination.PrevButton />
-			</Pagination.Item>
-			{#each pages as page (page.key)}
-				{#if page.type === 'ellipsis'}
-					<Pagination.Item class="hidden lg:block">
-						<Pagination.Ellipsis />
-					</Pagination.Item>
-				{:else}
-					<Pagination.Item class={currentPage === page.value ? '' : 'hidden lg:block'}>
-						<Pagination.Link {page} isActive={currentPage == page.value}>
-							{page.value}
-						</Pagination.Link>
-					</Pagination.Item>
-				{/if}
-			{/each}
-			<Pagination.Item>
-				<Pagination.NextButton />
-			</Pagination.Item>
-		</Pagination.Content>
+		{#snippet children({ pages, currentPage })}
+			<Pagination.Content>
+				<Pagination.Item>
+					<Pagination.PrevButton />
+				</Pagination.Item>
+				{#each pages as page (page.key)}
+					{#if page.type === 'ellipsis'}
+						<Pagination.Item class="hidden lg:block">
+							<Pagination.Ellipsis />
+						</Pagination.Item>
+					{:else}
+						<Pagination.Item class={currentPage === page.value ? '' : 'hidden lg:block'}>
+							<Pagination.Link {page} isActive={currentPage == page.value}>
+								{page.value}
+							</Pagination.Link>
+						</Pagination.Item>
+					{/if}
+				{/each}
+				<Pagination.Item>
+					<Pagination.NextButton />
+				</Pagination.Item>
+			</Pagination.Content>
+		{/snippet}
 	</Pagination.Root>
 {/if}

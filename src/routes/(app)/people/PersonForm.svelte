@@ -11,8 +11,7 @@
 	import {
 		Input,
 		Button,
-		Date as DateElement,
-		DateTime,
+		HTMLDate as DateElement,
 		Error,
 		HTML,
 		Checkbox,

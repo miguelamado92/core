@@ -41,12 +41,12 @@
 				{onAddTag}
 				{onRemoveTag}
 				buttonText={data.t.forms.fields.tags.filter_by_tag.placeholder()}
-				buttonIcon={Filter}
+				ButtonIcon={Filter}
 			/>
 			{@render filter()}
 		</div>
 	{/snippet}
-	{#snippet content(person: typeof data.people.items[0])}
+	{#snippet content(person: (typeof data.people.items)[0])}
 		<div class="flex items-center gap-2 justify-between">
 			<PersonBadge {person} />
 			<Button href={`/people/${person.id}`} variant="outline" size="sm">

@@ -11,7 +11,7 @@ export async function create({
 	body
 }: {
 	instanceId: number;
-	body: schema.Create;
+	body: schema.CreateInput;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const result = await db

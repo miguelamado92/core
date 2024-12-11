@@ -1,9 +1,6 @@
 <script lang="ts">
-	import {
-		DEFAULT_FILTER_GROUP,
-		type FilterGroup,
-		DEFAULT_FILTER_TYPE
-	} from '$lib/schema/people/filters/filters';
+	import { type FilterGroup, DEFAULT_FILTER_TYPE } from '$lib/schema/people/filters/filters';
+	import FilterGroupWidet from './FilterGroupWidget.svelte';
 	import { page } from '$app/stores';
 	let {
 		filter = $bindable(),
@@ -50,7 +47,7 @@
 	{/if}
 	<div class="p-4">
 		{#each filter.groups as _, i}
-			<svelte:self
+			<FilterGroupWidet
 				bind:filter={filter.groups[i]}
 				root={false}
 				onDelete={() => {

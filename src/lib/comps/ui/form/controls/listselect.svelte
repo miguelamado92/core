@@ -25,22 +25,24 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs>
-		<!-- Start form control block -->
-		<div class="flex flex-col gap-2">
-			{#if label}<Form.Label>{label}</Form.Label>{/if}
-			{#if description}<Form.Description>{description}</Form.Description>{/if}
-			<div class={cn(className)}>
-				{#if buttonLabel}
-					<ListDropdown label={buttonLabel} bind:value {onSelectList} />
-				{:else}
-					<ListDropdown bind:value {onSelectList} />
-				{/if}
+	<Form.Control>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<div class="flex flex-col gap-2">
+				{#if label}<Form.Label>{label}</Form.Label>{/if}
+				{#if description}<Form.Description>{description}</Form.Description>{/if}
+				<div class={cn(className)}>
+					{#if buttonLabel}
+						<ListDropdown label={buttonLabel} bind:value {onSelectList} />
+					{:else}
+						<ListDropdown bind:value {onSelectList} />
+					{/if}
+				</div>
+				<input type="text" name={props.name} {value} hidden />
 			</div>
-			<input type="text" name={attrs.name} {value} hidden />
-		</div>
-
-		<!-- End control block -->
-		<Form.FieldErrors />
+		{/snippet}
 	</Form.Control>
+
+	<!-- End control block -->
+	<Form.FieldErrors />
 </Form.Field>

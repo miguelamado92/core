@@ -1,5 +1,5 @@
-import type { MaybePromise, RequestEvent, ResolveOptions } from '@sveltejs/kit';
-type Resolve = (event: RequestEvent, opts?: ResolveOptions | undefined) => MaybePromise<Response>;
+import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
+type Resolve = (event: RequestEvent, opts?: ResolveOptions | undefined) => Promise<Response>;
 import type { HandlerResponse } from '$lib/server/hooks/handlers';
 import { pino } from '$lib/server';
 import { WHATSAPP_VERIFY_TOKEN, FACEBOOK_API_APP_SECRET, _ } from '$env/static/private';

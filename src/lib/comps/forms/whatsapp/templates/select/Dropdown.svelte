@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { type List } from '$lib/schema/communications/whatsapp/template';
-	import { debounce } from '$lib/utils';
+	import { cn, debounce } from '$lib/utils';
 	type Props = {
 		item?: List['items'][number];
 		items?: List['items'];
@@ -21,7 +21,7 @@
 
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
-	import Button from '$lib/comps/ui/button/button.svelte';
+	import { buttonVariants } from '$lib/comps/ui/button/button.svelte';
 	import Plus from 'lucide-svelte/icons/plus';
 
 	import { onMount } from 'svelte';
@@ -42,7 +42,7 @@
 		item = items[selected];
 	}
 
-	let searchString: string | undefined = $state();
+	let searchString: string = $state('');
 
 	async function search() {
 		loading = true;
@@ -56,22 +56,20 @@
 	{@render popover()}
 </div>
 {#snippet popover()}
-	<Popover.Root bind:open let:ids>
-		<Popover.Trigger asChild let:builder>
-			<Button
-				size="sm"
-				builders={[builder]}
-				variant="outline"
-				class="justify-start gap-x-1 rounded-lg px-2 py-3 bg-white flex items-center"
-			>
-				{#if item}
-					{$page.data.t.common.communications.nouns.template()}: {item.name}
-					<div><ChevronDown size={16} /></div>
-				{:else}
-					<Plus size={14} />
-					<div class="text-sm">{$page.data.t.forms.buttons.search()}</div>
-				{/if}
-			</Button>
+	<Popover.Root bind:open>
+		<Popover.Trigger
+			class={cn(
+				buttonVariants({ size: 'sm', variant: 'outline' }),
+				'justify-start gap-x-1 rounded-lg px-2 py-3 bg-white flex items-center'
+			)}
+		>
+			{#if item}
+				{$page.data.t.common.communications.nouns.template()}: {item.name}
+				<div><ChevronDown size={16} /></div>
+			{:else}
+				<Plus size={14} />
+				<div class="text-sm">{$page.data.t.forms.buttons.search()}</div>
+			{/if}
 		</Popover.Trigger>
 		<Popover.Content class="p-0" align="start" side="right">
 			<Command.Root>
@@ -87,10 +85,10 @@
 						<Command.Empty>{$page.data.t.common.data.no_items()}</Command.Empty>
 						{#each items as object, i}
 							<Command.Item
+								forceMount={true}
 								value={`${object.id}:::${object.name}`}
-								onSelect={(v) => {
-									const id = v.split(':::')[0];
-									handleAdd(Number(id));
+								onSelect={() => {
+									handleAdd(object.id);
 									open = false;
 								}}
 							>

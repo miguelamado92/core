@@ -3,6 +3,8 @@ export function getUniqueKeys(
 	baseObj: Record<string, unknown>,
 	subsetObj: Record<string, unknown>
 ): Record<string, unknown> {
-	const uniqueKeys = Object.keys(baseObj).filter((key) => !(key in subsetObj));
+	const uniqueKeys = Object.keys(baseObj).filter(
+		(key) => !(key in subsetObj) && key !== 'point_person_id'
+	);
 	return uniqueKeys.reduce((acc, key) => ({ ...acc, [key]: baseObj[key] }), {});
 }

@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	type T = Record<string, unknown>;
 </script>
 
@@ -60,94 +60,94 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs>
-		<!-- Start form control block -->
-		<div class="flex flex-col gap-2">
-			{#if label}<Form.Label>{label}</Form.Label>{/if}
-			<Popover.Root openFocus>
-				<Popover.Trigger asChild let:builder>
-					<Button
-						variant="outline"
-						class={cn(
-							'w-full bg-background justify-start text-left font-normal',
-							!value && 'text-muted-foreground'
-						)}
-						builders={[builder]}
-					>
-						<CalendarIcon class="mr-2 h-4 w-4" />
-						{value
-							? `${tf.format(zonedValue.toDate())} ${df.format(zonedValue.toDate())}`
-							: $page.data.t.forms.generic.date.placeholder()}
-					</Button>
-				</Popover.Trigger>
-				<Popover.Content class="flex w-auto flex-col space-y-2 p-2">
-					<div class="flex items-center gap-0.5">
-						<select
-							class={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm 
-		ring-offset-background 
-		ring-offset-background focus:outline-none focus:ring focus:ring-1 focus:border-blue-600  
+	<Form.Control>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<div class="flex flex-col gap-2">
+				{#if label}<Form.Label>{label}</Form.Label>{/if}
+				<Popover.Root>
+					<Popover.Trigger>
+						<Button
+							variant="outline"
+							class={cn(
+								'w-full bg-background justify-start text-left font-normal',
+								!value && 'text-muted-foreground'
+							)}
+						>
+							<CalendarIcon class="mr-2 h-4 w-4" />
+							{value
+								? `${tf.format(zonedValue.toDate())} ${df.format(zonedValue.toDate())}`
+								: $page.data.t.forms.generic.date.placeholder()}
+						</Button>
+					</Popover.Trigger>
+					<Popover.Content class="flex w-auto flex-col space-y-2 p-2">
+						<div class="flex items-center gap-0.5">
+							<select
+								class={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm 
+		ring-offset-background focus:outline-none focus:ring-1 focus:border-blue-600  
 		disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid]:border-destructive [&>span]:line-clamp-1 data-[placeholder]:[&>span]:text-muted-foreground`}
-							onchange={(ev) => {
-        if(!ev.target) return;
-        const target = ev.target as HTMLSelectElement;
-        const v = target.value;
-        if (!v) return;
-					const newValue = zonedValue.set({ hour: parseInt(v), second: 0 });
-					value = newValue.toDate();
-      }}
-						>
-							{#each hourOptions as item}
-								<option value={item.value} selected={zonedValue.hour === item.value}
-									>{item.label}</option
-								>
-							{/each}
-						</select>
-						<select
-							class={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm 
-        ring-offset-background 
-        ring-offset-background focus:outline-none focus:ring focus:ring-1 focus:border-blue-600  
+								onchange={(ev) => {
+									if (!ev.target) return;
+									const target = ev.target as HTMLSelectElement;
+									const v = target.value;
+									if (!v) return;
+									const newValue = zonedValue.set({ hour: parseInt(v), second: 0 });
+									value = newValue.toDate();
+								}}
+							>
+								{#each hourOptions as item}
+									<option value={item.value} selected={zonedValue.hour === item.value}
+										>{item.label}</option
+									>
+								{/each}
+							</select>
+							<select
+								class={`flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm 
+
+        ring-offset-background focus:outline-none focus:ring-1 focus:border-blue-600  
         disabled:cursor-not-allowed disabled:opacity-50 aria-[invalid]:border-destructive [&>span]:line-clamp-1 data-[placeholder]:[&>span]:text-muted-foreground`}
-							onchange={(ev) => {
-        if(!ev.target) return;
-        const target = ev.target as HTMLSelectElement;
-        const v = target.value;
-        if (!v) return;
-					const newValue = zonedValue.set({ minute: parseInt(v), second: 0 });
-					value = newValue.toDate();
-					console.log(value);
-      }}
+								onchange={(ev) => {
+									if (!ev.target) return;
+									const target = ev.target as HTMLSelectElement;
+									const v = target.value;
+									if (!v) return;
+									const newValue = zonedValue.set({ minute: parseInt(v), second: 0 });
+									value = newValue.toDate();
+								}}
+							>
+								{#each minuteOptions as item}
+									<option value={item.value} selected={zonedValue.minute === item.value}
+										>{item.label}</option
+									>
+								{/each}
+							</select>
+						</div>
+						<div class="rounded-md border">
+							<Calendar
+								type="single"
+								onValueChange={(v) => {
+									if (!v) return;
+									const newValue = zonedValue.set({
+										day: v.day,
+										month: v.month,
+										year: v.year,
+										second: 0
+									});
+									value = newValue.toDate();
+								}}
+							/>
+						</div>
+						<div
+							class="text-xs px-4 py-0.5 flex items-center justify-center text-muted-foreground gap-1"
 						>
-							{#each minuteOptions as item}
-								<option value={item.value} selected={zonedValue.minute === item.value}
-									>{item.label}</option
-								>
-							{/each}
-						</select>
-					</div>
-					<div class="rounded-md border">
-						<Calendar
-							onValueChange={(v) => {
-								if (!v) return;
-								const newValue = zonedValue.set({
-									day: v.day,
-									month: v.month,
-									year: v.year,
-									second: 0
-								});
-								value = newValue.toDate();
-							}}
-						/>
-					</div>
-					<div
-						class="text-xs px-4 py-0.5 flex items-center justify-center text-muted-foreground gap-1"
-					>
-						<Globe size={12} />{getLocalTimeZone()}
-					</div>
-				</Popover.Content>
-			</Popover.Root>
-		</div>
-		{#if description}<Form.Description>{description}</Form.Description>{/if}
-		<!-- End control block -->
-		<Form.FieldErrors />
+							<Globe size={12} />{getLocalTimeZone()}
+						</div>
+					</Popover.Content>
+				</Popover.Root>
+			</div>
+			{#if description}<Form.Description>{description}</Form.Description>{/if}
+			<!-- End control block -->
+			<Form.FieldErrors />
+		{/snippet}
 	</Form.Control>
 </Form.Field>

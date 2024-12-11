@@ -47,5 +47,5 @@
 </div>
 
 {#snippet typeSelector()}
-	<TypeSelector bind:value={filter.type} />
+	<TypeSelector bind:value={filter} />
 {/snippet}

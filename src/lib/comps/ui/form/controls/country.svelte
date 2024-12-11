@@ -35,42 +35,42 @@
 </script>
 
 <Form.Field {form} {name}>
-	<Form.Control let:attrs>
-		<!-- Start form control block -->
-		<div class="flex flex-col gap-2">
-			{#if label}<Form.Label>{label}</Form.Label>{/if}
-			<Select.Root
-				selected={selectedItem}
-				onSelectedChange={(v) => {
-					v && (value = v.value);
-					v && onchange(v.value as SupportedCountry);
-				}}
-			>
-				<Select.Trigger {...attrs} class={cn('focus-visible:border-2 ', className)}>
-					{#if selectedItem}
-						<div class="flex items-center gap-2 justify-start">
-							{$page.data.t.flags[value as (typeof SUPPORTED_COUNTRIES)[number]]()}
-							<Select.Value {placeholder} />
-						</div>
-					{:else}
-						<Select.Value {placeholder} />
-					{/if}
-				</Select.Trigger>
-				<Select.Content>
-					{#each options as option}
-						<Select.Item value={option.value} label={option.label} class="flex items-center gap-1">
-							<div>
-								{$page.data.t.flags[option.value as (typeof SUPPORTED_COUNTRIES)[number]]()}
+	<Form.Control>
+		{#snippet children({ props })}
+			<!-- Start form control block -->
+			<div class="flex flex-col gap-2">
+				{#if label}<Form.Label>{label}</Form.Label>{/if}
+				<Select.Root type="single" bind:value name={props.name}>
+					<Select.Trigger {...props} class={cn('focus-visible:border-2 ', className)}>
+						{#if selectedItem}
+							<div class="flex items-center gap-2 justify-start">
+								{$page.data.t.flags[value as (typeof SUPPORTED_COUNTRIES)[number]]()}
+								{selectedItem.label}
 							</div>
-							<div>{option.label}</div>
-						</Select.Item>
-					{/each}
-				</Select.Content>
-			</Select.Root>
-			<input hidden bind:value name={attrs.name} />
-		</div>
-		{#if description}<Form.Description>{description}</Form.Description>{/if}
-		<!-- End control block -->
-		<Form.FieldErrors />
+						{:else}
+							{placeholder}
+						{/if}
+					</Select.Trigger>
+					<Select.Content>
+						{#each options as option}
+							<Select.Item
+								value={option.value}
+								label={option.label}
+								class="flex items-center gap-1"
+							>
+								<div>
+									{$page.data.t.flags[option.value as (typeof SUPPORTED_COUNTRIES)[number]]()}
+								</div>
+								<div>{option.label}</div>
+							</Select.Item>
+						{/each}
+					</Select.Content>
+				</Select.Root>
+				<input hidden bind:value name={props.name} />
+			</div>
+			{#if description}<Form.Description>{description}</Form.Description>{/if}
+			<!-- End control block -->
+			<Form.FieldErrors />
+		{/snippet}
 	</Form.Control>
 </Form.Field>
