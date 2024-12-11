@@ -22,3 +22,6 @@ vite.config.ts.timestamp-*
 
 # DB
 ca-certificate.crt
+
+#TEMP
+/src/lib/server/utils/install/data/beta_test_instance/*.json
