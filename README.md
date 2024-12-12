@@ -45,11 +45,15 @@ mv .env.example .env
 
 Make changes as required to your environment variables, including adding API keys for the required services. There are also some configuration options related to the preloading test data that can be useful for running in development.
 
-Once you've got your env vars sorted, run `npm run db:migrate:latest` to run your migration up in the database.
+Once you've got your env vars sorted, run `npm run knex:migrate` to run your migration up in the database.
 
-`npm run dev`
+In order to run a complete development environment, you will need to run `npm run queue`, `npm run ngrok`, and `npm run dev` in separate terminals. For the first time, run `npm run queue` first as it will run required migrations prior to launch.
 
-Navigate to the port provided on localhost, you should see the login screen. Sign in using the details from the init seed in the migrations repo.
+If you don't want to run separate terminals, you can try `npx concurrently "npm run queue" "npm run ngrok" "npm run dev"`.
+
+You should be able to see the login screen at `http://localhost:5173`. You can login via Google with the email address set at `DEFAULT_ADMIN_EMAIL` in `.env`.
+
+Note that by default, Belcoda will use port 5173. This is hardcoded in some places, so if you are not able to use 5173 please be sure to check and make changes to `ngrok.config.cjs` and `Caddyfile` as required.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
