@@ -1,5 +1,5 @@
-import type { MaybePromise, RequestEvent, ResolveOptions } from '@sveltejs/kit';
-type Resolve = (event: RequestEvent, opts?: ResolveOptions | undefined) => MaybePromise<Response>;
+import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
+type Resolve = (event: RequestEvent, opts?: ResolveOptions | undefined) => Promise<Response>;
 import type { HandlerResponse } from '$lib/server/hooks/handlers';
 import { BelcodaError, pino } from '$lib/server';
 import { YCLOUD_VERIFY_TOKEN } from '$env/static/private';
