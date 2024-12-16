@@ -119,8 +119,8 @@ export const list = v.object({
 export type List = v.InferOutput<typeof list>;
 
 export const create = v.object({
-	name: base.entries.name,
-	slug: base.entries.slug,
+	name: v.optional(base.entries.name),
+	slug: v.optional(base.entries.slug),
 	heading: base.entries.heading,
 	html: base.entries.html,
 	starts_at: base.entries.starts_at,

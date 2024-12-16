@@ -1,9 +1,9 @@
 import { db, pool, redis, type s, BelcodaError, filterQuery, pino } from '$lib/server';
 import { DEFAULT_COUNTRY } from '$lib/i18n';
-import { parse } from '$lib/schema/valibot';
+import { parse, slug } from '$lib/schema/valibot';
 import * as schema from '$lib/schema/events/events';
 import type { Read as ReadInstance } from '$lib/schema/core/instance';
-
+import { slugify } from '$lib/utils/text/string';
 import { randomUUID } from 'crypto';
 
 import { read as readInstance } from '$lib/server/api/core/instances';
@@ -98,7 +98,38 @@ export async function create({
 		country: parsed.country || DEFAULT_COUNTRY,
 		...parsed
 	};
-	const result = await db.insert('events.events', toInsert).run(pool);
+
+	const result = await db.transaction(pool, db.IsolationLevel.Serializable, async (txnClient) => {
+		const baseName = parsed.heading;
+		const baseSlug = slugify(parsed.heading);
+		let uniqueName = parsed.heading;
+		let uniqueSlug = slugify(parsed.heading);
+		let counter = 1;
+		while (true) {
+			const exists =
+				await db.sql`SELECT id FROM events.events WHERE instance_id = ${db.param(instanceId)} AND (name = ${db.param(uniqueName)} OR slug = ${db.param(uniqueSlug)})`.run(
+					txnClient
+				);
+
+			if (exists.length === 0) {
+				// Both are unique
+				break;
+			}
+
+			// Increment counter and modify name and slug
+			uniqueName = `${baseName} ${counter}`;
+			uniqueSlug = `${baseSlug}_${counter}`;
+			counter += 1;
+		}
+		return await db
+			.insert('events.events', {
+				...toInsert,
+				name: toInsert.name || uniqueName,
+				slug: toInsert.slug || uniqueSlug
+			})
+			.run(txnClient);
+	});
+
 	await redis.del(redisString(instanceId, 'all'));
 	const returned = await read({ instanceId, eventId: result.id, t });
 	return returned;
@@ -316,6 +347,7 @@ import htmlEmailFollowup from '$lib/utils/templates/email/events/event_followup_
 import textEmailFollowup from '$lib/utils/templates/email/events/event_followup_email_text.handlebars?raw';
 import htmlEmailCancellation from '$lib/utils/templates/email/events/event_registration_cancelled_html.handlebars?raw';
 import textEmailCancellation from '$lib/utils/templates/email/events/event_registration_cancelled_text.handlebars?raw';
+import { DeleteBucketMetadataTableConfigurationCommand } from '@aws-sdk/client-s3';
 function returnHtmlTextEmails(type: 'registration' | 'reminder' | 'cancellation' | 'followup') {
 	switch (type) {
 		case 'registration':
