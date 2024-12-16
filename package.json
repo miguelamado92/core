@@ -17,6 +17,7 @@
 		"queue": "node queue.cjs",
 		"knex:reset": "npx knex migrate:rollback --all --knexfile ./knexfile.cjs && npx knex migrate:latest --knexfile ./knexfile.cjs",
 		"knex:migrate": "npx knex migrate:latest --knexfile ./knexfile.cjs",
+		"knex:rollback": "npx knex migrate:rollback --knexfile ./knexfile.cjs",
 		"knex:migrate:production": "npx knex migrate:latest --env production --knexfile ./knexfile.cjs"
 	},
 	"devDependencies": {
