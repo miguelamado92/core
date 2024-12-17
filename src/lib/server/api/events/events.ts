@@ -5,7 +5,7 @@ import * as schema from '$lib/schema/events/events';
 import type { Read as ReadInstance } from '$lib/schema/core/instance';
 import { slugify } from '$lib/utils/text/string';
 import { randomUUID } from 'crypto';
-
+import { type EventHTMLMetaTags } from '$lib/schema/utils/openai';
 import { read as readInstance } from '$lib/server/api/core/instances';
 import { create as createEmailMessage } from '$lib/server/api/communications/email/messages';
 
@@ -100,10 +100,10 @@ export async function create({
 	};
 
 	const result = await db.transaction(pool, db.IsolationLevel.Serializable, async (txnClient) => {
-		const baseName = parsed.heading;
-		const baseSlug = slugify(parsed.heading);
-		let uniqueName = parsed.heading;
-		let uniqueSlug = slugify(parsed.heading);
+		const baseName = parsed.name || parsed.heading;
+		const baseSlug = parsed.slug || slugify(parsed.heading);
+		let uniqueName = baseName;
+		let uniqueSlug = baseSlug;
 		let counter = 1;
 		while (true) {
 			const exists =
@@ -117,7 +117,7 @@ export async function create({
 			}
 
 			// Increment counter and modify name and slug
-			uniqueName = `${baseName} ${counter}`;
+			uniqueName = `${baseName} (${counter})`;
 			uniqueSlug = `${baseSlug}_${counter}`;
 			counter += 1;
 		}
@@ -139,12 +139,16 @@ export async function update({
 	instanceId,
 	eventId,
 	body,
-	t
+	queue,
+	t,
+	skipMetaGeneration = false
 }: {
 	instanceId: number;
 	eventId: number;
 	body: schema.Update;
+	queue: App.Queue;
 	t: App.Localization;
+	skipMetaGeneration?: boolean;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.update, body);
 	const resultSql = db.update('events.events', parsed, { instance_id: instanceId, id: eventId });
@@ -157,6 +161,10 @@ export async function update({
 	await redis.del(redisString(instanceId, 'all'));
 	const returned = await read({ instanceId, eventId, t });
 	await redis.del(redisStringSlug(instanceId, returned.slug));
+	const htmlMeta: EventHTMLMetaTags = { type: 'event', eventId: eventId };
+	if (skipMetaGeneration !== true) {
+		await queue('/utils/openai/generate_html_meta', instanceId, htmlMeta);
+	}
 	return returned;
 }
 
