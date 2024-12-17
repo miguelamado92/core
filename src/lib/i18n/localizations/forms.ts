@@ -1518,6 +1518,60 @@ export default function (locale: SL) {
 						});
 					}
 				},
+				event_page_link: {
+					label: () => {
+						return t(locale, {
+							en: 'Event Page Link',
+							ja: 'イベントページリンク',
+							pt: 'Link da Página do Evento',
+							es: 'Enlace de la Página del Evento',
+							fr: "Lien de la Page de l'Événement",
+							sw: 'Kiungo cha Ukurasa wa Tukio',
+							th: 'ลิงก์หน้าเหตการณ์',
+							zh: '活动页面链接'
+						});
+					}
+				},
+				event_title: {
+					label: () => {
+						return t(locale, {
+							en: 'Event Title',
+							ja: 'イベントタイトル',
+							pt: 'Título do Evento',
+							es: 'Título del Evento',
+							fr: "Titre de l'Événement",
+							sw: 'Kichwa cha Tukio',
+							th: 'ชื่อเหตการณ์',
+							zh: '活动标题'
+						});
+					}
+				},
+				event_details: {
+					label: () => {
+						return t(locale, {
+							en: 'Event Details',
+							ja: 'イベントの詳細',
+							pt: 'Detalhes do Evento',
+							es: 'Detalles del Evento',
+							fr: 'Détails de l’Événement',
+							sw: 'Maelezo ya Tukio',
+							th: 'รายละเอียดเหตการณ์',
+							zh: '活动详情'
+						});
+					},
+					description: () => {
+						return t(locale, {
+							en: "Details about the event. This will be displayed on the event's page",
+							ja: 'イベントに関する詳細。これはイベントページに表示されます',
+							pt: 'Detalhes sobre o evento. Isso será exibido na página do evento',
+							es: 'Detalles sobre el evento. Esto se mostrará en la página del evento',
+							fr: "Détails sur l'événement. Cela sera affiché sur la page de l'événement",
+							sw: 'Maelezo kuhusu tukio. Hii itaonyeshwa kwenye ukurasa wa tukio',
+							th: 'รายละเอียดเกี่ยวกับเหตการณ์ นี่จะปรากฏบนหน้าเหตการณ์',
+							zh: '活动详情。这将显示在活动页面上'
+						});
+					}
+				},
 				online_url: {
 					label: () => {
 						return t(locale, {
