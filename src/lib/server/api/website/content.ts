@@ -1,6 +1,8 @@
 import { db, pool, redis, BelcodaError, filterQuery } from '$lib/server';
 import { parse, id } from '$lib/schema/valibot';
 import * as schema from '$lib/schema/website/content';
+import { type ContentHTMLMetaTags } from '$lib/schema/utils/openai';
+
 import { read as readContentType, exists } from '$lib/server/api/website/content_types';
 
 function redisString(instanceId: number, contentTypeId: number, contentId: number | 'all') {
@@ -15,12 +17,14 @@ export async function create({
 	instanceId,
 	contentTypeId,
 	body,
-	t
+	t,
+	queue
 }: {
 	instanceId: number;
 	contentTypeId: number;
 	body: schema.Create;
 	t: App.Localization;
+	queue: App.Queue;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const contentType = await readContentType({ instanceId, contentTypeId, t });
@@ -32,7 +36,14 @@ export async function create({
 		})
 		.run(pool);
 	await redis.del(redisString(instanceId, contentTypeId, 'all'));
-	return await read({ instanceId, contentTypeId, contentId: result.id, t });
+	const returned = await read({ instanceId, contentTypeId, contentId: result.id, t }); //this already sets the cache
+	const htmlMeta: ContentHTMLMetaTags = {
+		type: 'content',
+		contentId: returned.id,
+		contentTypeId: contentTypeId
+	};
+	await queue('/utils/openai/generate_html_meta', instanceId, htmlMeta);
+	return returned;
 }
 
 export async function read({
@@ -146,13 +157,17 @@ export async function update({
 	contentTypeId,
 	contentId,
 	body,
-	t
+	t,
+	queue,
+	skipMetaGeneration = false
 }: {
 	instanceId: number;
 	contentTypeId: number;
 	contentId: number;
 	t: App.Localization;
 	body: schema.Update;
+	queue: App.Queue;
+	skipMetaGeneration?: boolean;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.update, body);
 	const result = await db
@@ -163,5 +178,14 @@ export async function update({
 	}
 	await redis.del(redisString(instanceId, contentTypeId, contentId));
 	await redis.del(redisString(instanceId, contentTypeId, 'all'));
-	return await read({ instanceId, contentTypeId, contentId, t });
+	const returned = await read({ instanceId, contentTypeId, contentId, t }); //update the cache with the new updated object
+	const htmlMeta: ContentHTMLMetaTags = {
+		type: 'content',
+		contentId: returned.id,
+		contentTypeId: contentTypeId
+	};
+	if (skipMetaGeneration !== true) {
+		await queue('/utils/openai/generate_html_meta', instanceId, htmlMeta);
+	}
+	return returned;
 }

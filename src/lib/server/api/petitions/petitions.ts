@@ -7,6 +7,7 @@ import { randomUUID } from 'crypto';
 
 import htmlEmail from '$lib/utils/templates/email/petitions/petition_autoresponse_html.handlebars?raw';
 import textEmail from '$lib/utils/templates/email/petitions/petition_autoresponse_text.handlebars?raw';
+import { type PetitionHTMLMetaTags } from '$lib/schema/utils/openai';
 
 import { read as readInstance } from '$lib/server/api/core/instances';
 import { create as createEmailMessage } from '$lib/server/api/communications/email/messages';
@@ -44,12 +45,14 @@ export async function create({
 	instanceId,
 	adminId,
 	body,
-	t
+	t,
+	queue
 }: {
 	instanceId: number;
 	adminId: number;
 	body: schema.Create;
 	t: App.Localization;
+	queue: App.Queue;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const instance = await readInstance({ instance_id: instanceId });
@@ -72,6 +75,8 @@ export async function create({
 	await redis.del(redisString(instanceId, adminId));
 	await redis.del(redisString(instanceId, 'all'));
 	const returned = await read({ instanceId, petitionId: inserted.id, t: t });
+	const htmlMeta: PetitionHTMLMetaTags = { type: 'petition', petitionId: returned.id };
+	await queue('/utils/openai/generate_html_meta', instanceId, htmlMeta);
 	return returned;
 }
 
@@ -79,12 +84,16 @@ export async function update({
 	instanceId,
 	t,
 	petitionId,
-	body
+	body,
+	queue,
+	skipMetaGeneration = false
 }: {
 	instanceId: number;
 	t: App.Localization;
 	petitionId: number;
 	body: schema.Update;
+	queue: App.Queue;
+	skipMetaGeneration?: boolean;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.update, body);
 	const updated = await db
@@ -99,6 +108,10 @@ export async function update({
 	await redis.del(redisString(instanceId, petitionId));
 	const returned = await read({ instanceId, petitionId: petitionId, t: t });
 	await redis.del(redisStringSlug(instanceId, returned.slug));
+	const htmlMeta: PetitionHTMLMetaTags = { type: 'petition', petitionId: petitionId };
+	if (skipMetaGeneration !== true) {
+		await queue('/utils/openai/generate_html_meta', instanceId, htmlMeta);
+	}
 	return returned;
 }
 
