@@ -1135,6 +1135,13 @@ export default function (locale: SL) {
 					}
 				}
 			},
+			feature_image: {
+				label: () => {
+					return t(locale, {
+						en: 'Upload or select feature image'
+					});
+				}
+			},
 			metatags: {
 				header: () => {
 					return t(locale, {
@@ -1147,6 +1154,18 @@ export default function (locale: SL) {
 						th: 'แก้ไข SEO/โซเชียลมีเดียเมตาแท็ก',
 						zh: '编辑SEO/社交媒体元标签'
 					});
+				},
+				manually_generate: {
+					label: () => {
+						return t(locale, {
+							en: 'Manually edit HTML metatags?'
+						});
+					},
+					description: () => {
+						return t(locale, {
+							en: 'If manually editing is turned off, social media and SEO metatags will be automatically generated based on the content using AI.'
+						});
+					}
 				},
 				title: {
 					label: () => {
@@ -1632,6 +1651,13 @@ export default function (locale: SL) {
 								ja: '報告を届ける？'
 							});
 						}
+					}
+				},
+				advanced_settings: {
+					label: () => {
+						return t(locale, {
+							en: 'Advanced settings'
+						});
 					}
 				},
 				user_information_settings: {
