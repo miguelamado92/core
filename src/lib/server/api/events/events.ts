@@ -47,7 +47,8 @@ export async function create({
 	t,
 	defaultTemplateId,
 	defaultEmailTemplateId,
-	adminId
+	adminId,
+	queue
 }: {
 	instanceId: number;
 	body: schema.Create;
@@ -55,6 +56,7 @@ export async function create({
 	defaultTemplateId: number;
 	defaultEmailTemplateId: number;
 	adminId: number;
+	queue: App.Queue;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const instance = await readInstance({ instance_id: instanceId });
@@ -132,6 +134,8 @@ export async function create({
 
 	await redis.del(redisString(instanceId, 'all'));
 	const returned = await read({ instanceId, eventId: result.id, t });
+	const htmlMeta: EventHTMLMetaTags = { type: 'event', eventId: returned.id };
+	await queue('/utils/openai/generate_html_meta', instanceId, htmlMeta);
 	return returned;
 }
 
