@@ -1104,6 +1104,20 @@ export default function (l: SL) {
 							});
 						}
 					}
+				},
+				advanced: {
+					index: () => {
+						return t(l, {
+							en: 'Advanced',
+							ja: '高度な',
+							pt: 'Avançado',
+							es: 'Avanzado',
+							fr: 'Avancé',
+							sw: 'Pangwa',
+							th: 'ขั้นสูง',
+							zh: '高级'
+						});
+					}
 				}
 			},
 			preferences: () => {

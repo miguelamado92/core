@@ -1,5 +1,5 @@
 import type { ComponentType, Component } from 'svelte'; //Compoment is deprecated in Svelte 5. Wait for Lucide to update its typings to the new Component type
-import { type Icon } from 'lucide-svelte';
+import { Wrench, type Icon } from 'lucide-svelte';
 
 type MenuItem = {
 	title: () => string;
@@ -248,6 +248,11 @@ function menus(t: Localization): { [key: string]: MenuItem } {
 					title: () => t.pages.config.settings.website.index(),
 					href: () => '/settings/website',
 					icon: Globe
+				},
+				{
+					title: () => t.pages.config.settings.advanced.index(),
+					href: () => '/settings/advanced',
+					icon: Wrench
 				}
 			]
 		},
