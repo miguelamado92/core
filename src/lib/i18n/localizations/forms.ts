@@ -2482,6 +2482,16 @@ export default function (locale: SL) {
 					zh: '编辑名称'
 				});
 			},
+			advanced_settings: () => {
+				return t(locale, {
+					en: 'Advanced settings'
+				});
+			},
+			notification_settings: () => {
+				return t(locale, {
+					en: 'Notification settings'
+				});
+			},
 			view: () => {
 				return t(locale, {
 					en: 'View',
