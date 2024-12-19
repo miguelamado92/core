@@ -377,6 +377,21 @@ export default function (t: Localization) {
 				title: () => t.pages.config.preferences(),
 				href: () => '/preferences'
 			}
+		],
+		// SECRETS
+		'/(app)/settings/secrets': [
+			{
+				title: () => t.pages.home.index(),
+				href: () => '/'
+			},
+			{
+				title: () => t.pages.config.settings.index(),
+				href: () => '/settings'
+			},
+			{
+				title: () => t.pages.config.settings.secrets.index(),
+				href: () => '/settings/secrets'
+			}
 		]
 	};
 }
