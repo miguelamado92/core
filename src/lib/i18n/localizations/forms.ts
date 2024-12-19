@@ -2168,6 +2168,32 @@ export default function (locale: SL) {
 				}
 			},
 			petitions: {
+				petition_title: {
+					label: () => {
+						return t(locale, {
+							en: 'Petition title'
+						});
+					}
+				},
+				petition_page_link: {
+					label: () => {
+						return t(locale, {
+							en: 'Petition page link'
+						});
+					}
+				},
+				petition_details: {
+					label: () => {
+						return t(locale, {
+							en: 'Petition Details'
+						});
+					},
+					description: () => {
+						return t(locale, {
+							en: "Details about the petition. This will be displayed on the petition's page"
+						});
+					}
+				},
 				petition_target: {
 					label: () => {
 						return t(locale, {
@@ -2217,6 +2243,15 @@ export default function (locale: SL) {
 							sw: 'Maandishi ya ombi',
 							th: 'ข้อความของการยื่นคำร้อง',
 							zh: '请愿文本'
+						});
+					}
+				}
+			},
+			website: {
+				page_link: {
+					label: () => {
+						return t(locale, {
+							en: 'Page link'
 						});
 					}
 				}

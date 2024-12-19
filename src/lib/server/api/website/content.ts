@@ -4,6 +4,7 @@ import * as schema from '$lib/schema/website/content';
 import { type ContentHTMLMetaTags } from '$lib/schema/utils/openai';
 
 import { read as readContentType, exists } from '$lib/server/api/website/content_types';
+import { slugify } from '$lib/utils/text/string';
 
 function redisString(instanceId: number, contentTypeId: number, contentId: number | 'all') {
 	return `i:${instanceId}:content_types:${contentTypeId}:content:${contentId}`;
@@ -28,13 +29,40 @@ export async function create({
 }): Promise<schema.Read> {
 	const parsed = parse(schema.create, body);
 	const contentType = await readContentType({ instanceId, contentTypeId, t });
-	const result = await db
-		.insert('website.content', {
-			content_type_id: contentTypeId,
-			template_id: contentType.content_template_id,
-			...parsed
-		})
-		.run(pool);
+	// function to insert a guaranteed unique name and slug based on the heading
+	// after checking to ensure the name and slug are unique, it inserts the item
+
+	const result = await db.transaction(pool, db.IsolationLevel.Serializable, async (txnClient) => {
+		const baseName = parsed.name || parsed.heading;
+		const baseSlug = parsed.slug || slugify(parsed.heading);
+		let uniqueName = baseName;
+		let uniqueSlug = baseSlug;
+		let counter = 1;
+		while (true) {
+			const exists =
+				await db.sql`SELECT id FROM website.content WHERE content_type_id = ${db.param(contentTypeId)} AND (name = ${db.param(uniqueName)} OR slug = ${db.param(uniqueSlug)})`.run(
+					txnClient
+				);
+
+			if (exists.length === 0) {
+				// Both are unique
+				break;
+			}
+			// Increment counter and modify name and slug
+			uniqueName = `${baseName} (${counter})`;
+			uniqueSlug = `${baseSlug}_${counter}`;
+			counter += 1;
+		}
+		return await db
+			.insert('website.content', {
+				content_type_id: contentTypeId,
+				template_id: contentType.content_template_id,
+				...parsed,
+				name: parsed.name || uniqueName,
+				slug: parsed.slug || uniqueSlug
+			})
+			.run(txnClient);
+	});
 	await redis.del(redisString(instanceId, contentTypeId, 'all'));
 	const returned = await read({ instanceId, contentTypeId, contentId: result.id, t }); //this already sets the cache
 	const htmlMeta: ContentHTMLMetaTags = {

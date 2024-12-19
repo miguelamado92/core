@@ -11,6 +11,7 @@ import { type PetitionHTMLMetaTags } from '$lib/schema/utils/openai';
 
 import { read as readInstance } from '$lib/server/api/core/instances';
 import { create as createEmailMessage } from '$lib/server/api/communications/email/messages';
+import { slugify } from '$lib/utils/text/string';
 
 export function redisString(instanceId: number, petitionId: number | 'all') {
 	return `i:${instanceId}:petitions:${petitionId}`;
@@ -63,15 +64,44 @@ export async function create({
 		instance,
 		defaultEmailTemplateId: instance.settings.communications.email.default_template_id
 	});
-	const inserted = await db
-		.insert('petitions.petitions', {
-			instance_id: instanceId,
-			point_person_id: adminId,
-			autoresponse_email: emailMessage,
-			template_id: instance.settings.petitions.default_template_id,
-			...parsed
-		})
-		.run(pool);
+
+	// function to insert a guaranteed unique name and slug based on the heading
+	// after checking to ensure the name and slug are unique, it inserts the item
+	const inserted = await db.transaction(pool, db.IsolationLevel.Serializable, async (txnClient) => {
+		const baseName = parsed.name || parsed.heading;
+		const baseSlug = parsed.slug || slugify(parsed.heading);
+		let uniqueName = baseName;
+		let uniqueSlug = baseSlug;
+		let counter = 1;
+		while (true) {
+			const exists =
+				await db.sql`SELECT id FROM petitions.petitions WHERE instance_id = ${db.param(instanceId)} AND (name = ${db.param(uniqueName)} OR slug = ${db.param(uniqueSlug)})`.run(
+					txnClient
+				);
+
+			if (exists.length === 0) {
+				// Both are unique
+				break;
+			}
+
+			// Increment counter and modify name and slug
+			uniqueName = `${baseName} (${counter})`;
+			uniqueSlug = `${baseSlug}_${counter}`;
+			counter += 1;
+		}
+		return await db
+			.insert('petitions.petitions', {
+				instance_id: instanceId,
+				point_person_id: adminId,
+				autoresponse_email: emailMessage,
+				template_id: instance.settings.petitions.default_template_id,
+				...parsed,
+				name: parsed.name || uniqueName,
+				slug: parsed.slug || uniqueSlug
+			})
+			.run(txnClient);
+	});
+
 	await redis.del(redisString(instanceId, adminId));
 	await redis.del(redisString(instanceId, 'all'));
 	const returned = await read({ instanceId, petitionId: inserted.id, t: t });

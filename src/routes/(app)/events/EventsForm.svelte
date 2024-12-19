@@ -4,7 +4,6 @@
 
 <script lang="ts" generics="T extends Record<string, unknown>">
 	import { page } from '$app/stores';
-	import Collapsible from '$lib/comps/ui/custom/collapsible/collapsible.svelte';
 	import Separator from '$lib/comps/ui/separator/separator.svelte';
 	import {
 		Input,
@@ -13,11 +12,9 @@
 		DateTime,
 		Error,
 		HTML,
-		Checkbox,
 		Textarea,
 		Grid,
 		Switch,
-		Code,
 		Debug,
 		superForm,
 		valibotClient

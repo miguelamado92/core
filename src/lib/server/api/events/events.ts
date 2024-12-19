@@ -101,6 +101,8 @@ export async function create({
 		...parsed
 	};
 
+	// function to insert a guaranteed unique name and slug based on the heading
+	// after checking to ensure the name and slug are unique, it inserts the item
 	const result = await db.transaction(pool, db.IsolationLevel.Serializable, async (txnClient) => {
 		const baseName = parsed.name || parsed.heading;
 		const baseSlug = parsed.slug || slugify(parsed.heading);

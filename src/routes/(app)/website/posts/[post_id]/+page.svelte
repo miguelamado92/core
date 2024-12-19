@@ -18,5 +18,5 @@
 	{/snippet}
 </PageHeader>
 <div class="mt-6">
-	<ContentCreateForm isCreate={true} />
+	<ContentCreateForm isCreate={true} contentTypeSlug={'posts'} />
 </div>

@@ -5,8 +5,7 @@
 		Input,
 		valibotClient,
 		Debug,
-		Code,
-		Textarea,
+		Slug,
 		Button,
 		Error,
 		Grid,
@@ -14,41 +13,33 @@
 	} from '$lib/comps/ui/forms';
 	import UploadWidget from '$lib/comps/widgets/uploads/UploadWidget.svelte';
 	import { create, update } from '$lib/schema/website/content';
-	import Collapsible from '$lib/comps/ui/custom/collapsible/collapsible.svelte';
-	const { isCreate }: { isCreate: boolean } = $props();
+	const { isCreate, contentTypeSlug = 'pages' }: { isCreate: boolean; contentTypeSlug: string } =
+		$props();
 	const form = superForm($page.data.form, {
 		validators: valibotClient(isCreate ? create : update),
 		dataType: 'json'
 	});
 	const { form: formData, message, enhance } = form;
+	import { PUBLIC_ROOT_DOMAIN } from '$env/static/public';
+	import { slugify } from '$lib/utils/text/string';
+	import { dev } from '$app/environment';
+	const pageUrl = $derived(
+		`http${dev ? '' : 's'}://${$page.data.instance.slug}.${PUBLIC_ROOT_DOMAIN}/${contentTypeSlug}/${slugify($formData.slug || $formData.heading)}`
+	);
+	import Link from 'lucide-svelte/icons/link';
+	let editSlug = $state(false);
 </script>
 
 <form method="post" use:enhance>
 	<Grid cols={1}>
 		<Error error={$message} />
-		<Grid cols={2}>
-			<Input
-				{form}
-				name="name"
-				label={$page.data.t.forms.fields.generic.name.label()}
-				bind:value={$formData.name}
-			/>
-
-			<Input
-				{form}
-				name="slug"
-				label={$page.data.t.forms.fields.generic.slug.label()}
-				description={$page.data.t.forms.fields.generic.slug.description()}
-				bind:value={$formData.slug}
-			/>
-		</Grid>
 		<Input
 			{form}
 			name="heading"
 			label={$page.data.t.forms.fields.generic.page_heading.label()}
 			bind:value={$formData.heading}
 		/>
-
+		{@render slug()}
 		<HTML
 			{form}
 			name="html"
@@ -67,3 +58,42 @@
 		<Debug data={$formData} />
 	</Grid>
 </form>
+
+{#snippet slug()}
+	{#if $formData.heading.length > 0 && !editSlug}
+		<div class="flex justify-end items-center gap-2">
+			<Link size={18} class="text-muted-foreground" />
+			<div class="text-sm text-muted-foreground">
+				{$page.data.t.forms.fields.website.page_link.label()}
+			</div>
+			<button
+				onclick={() => {
+					$formData.slug = slugify($formData.slug || $formData.heading);
+					editSlug = true;
+				}}
+				class="cursor-pointer"
+			>
+				<code class="text-sm text-primary-500 underline">{pageUrl}</code>
+			</button>
+		</div>
+	{/if}
+	{#if editSlug}
+		<div class="flex justify-end items-center gap-2">
+			<Link size={18} class="text-muted-foreground" />
+
+			<code class="text-sm text-primary-500 underline"
+				>{`http${dev ? '' : 's'}://${$page.data.instance.slug}.${PUBLIC_ROOT_DOMAIN}/events/`}</code
+			>
+			<Slug
+				{form}
+				name="slug"
+				label={null}
+				description={null}
+				bind:value={$formData.slug as string}
+			/>
+			<Button onclick={() => (editSlug = false)} size="sm" variant="ghost"
+				>{$page.data.t.forms.buttons.save()}</Button
+			>
+		</div>
+	{/if}
+{/snippet}
