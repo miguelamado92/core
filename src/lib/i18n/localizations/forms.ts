@@ -1020,11 +1020,11 @@ export default function (locale: SL) {
 			custom_code: {
 				header: () => {
 					return t(locale, {
-						en: 'Edit custom code',
-						ja: 'カスタムコードを編集',
-						pt: 'Editar código personalizado',
-						es: 'Editar código personalizado',
-						fr: 'Modifier le code personnalisé',
+						en: 'Custom code',
+						ja: 'カスタムコード',
+						pt: 'Código personalizado',
+						es: 'Código personalizado',
+						fr: 'Code personnalisé',
 						sw: 'Hariri nambari ya kibinafsi',
 						th: 'แก้ไขรหัสที่กำหนดเอง',
 						zh: '编辑自定义代码'
@@ -1145,11 +1145,11 @@ export default function (locale: SL) {
 			metatags: {
 				header: () => {
 					return t(locale, {
-						en: 'Edit SEO/social media metatags',
-						ja: 'SEO/SNSメタタグを編集',
-						pt: 'Editar metatags de SEO/mídias sociais',
-						es: 'Editar metatags de SEO/redes sociales',
-						fr: 'Modifier les métadonnées SEO/réseaux sociaux',
+						en: 'SEO/social media metatags',
+						ja: 'SEO/SNSメタタグ',
+						pt: 'Metatags de SEO/mídias sociais',
+						es: 'Metatags de SEO/redes sociales',
+						fr: 'Métadonnées SEO/réseaux sociaux',
 						sw: 'Hariri metatags ya SEO/vyombo vya habari vya kijamii',
 						th: 'แก้ไข SEO/โซเชียลมีเดียเมตาแท็ก',
 						zh: '编辑SEO/社交媒体元标签'
