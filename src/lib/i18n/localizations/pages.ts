@@ -1105,18 +1105,46 @@ export default function (l: SL) {
 						}
 					}
 				},
-				advanced: {
+				secrets: {
 					index: () => {
 						return t(l, {
-							en: 'Advanced',
-							ja: '高度な',
-							pt: 'Avançado',
-							es: 'Avanzado',
-							fr: 'Avancé',
-							sw: 'Pangwa',
-							th: 'ขั้นสูง',
-							zh: '高级'
+							en: 'Secrets',
+							ja: '秘密',
+							pt: 'Segredos',
+							es: 'Secretos',
+							fr: 'Secrets',
+							sw: 'Hakiki',
+							th: 'ความลับ',
+							zh: '秘密'
 						});
+					},
+					whatsapp_default_key: {
+						index: () => {
+							return t(l, {
+								en: 'WhatsApp Default Key',
+								ja: 'WhatsApp ダイナルキー',
+								pt: 'Chave Padrao WhatsApp',
+								es: 'Clave por Defecto de WhatsApp',
+								fr: 'Clé par Defaut WhatsApp',
+								sw: 'Kipande Kipya WhatsApp',
+								th: 'คีย์ WhatsApp ค่าเริ่มต้น',
+								zh: 'WhatsApp 默认密钥'
+							});
+						},
+						whatsapp_key_description: {
+							index: () => {
+								return t(l, {
+									en: 'The default key for WhatsApp',
+									ja: 'WhatsApp のデフォルトキー',
+									pt: 'Chave padrão para WhatsApp',
+									es: 'La clave por defecto para WhatsApp',
+									fr: 'La clé par defaut pour WhatsApp',
+									sw: 'Kipande Kipya WhatsApp',
+									th: 'คีย์ WhatsApp ค่าเริ่มต้น',
+									zh: 'WhatsApp 默认密钥'
+								});
+							}
+						}
 					}
 				}
 			},
