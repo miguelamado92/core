@@ -8,7 +8,7 @@ export const load = async (event) => {
 	const services = await _readSecretsUnsafe({ instanceId: instance.id });
 
 	const formData = {
-		secrets: services
+		secrets: services as Secrets
 	};
 
 	const form = await superValidate(formData, valibot(update));
