@@ -3,6 +3,7 @@
 	export let data;
 	import Grid from '$lib/comps/ui/custom/grid.svelte';
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
+	import PasswordInput from '$lib/comps/ui/form/controls/password-input.svelte';
 	import { Input, Button, superForm, valibotClient, Debug } from '$lib/comps/ui/forms';
 	import { secrets, update } from '$lib/schema/core/instance';
 
@@ -24,9 +25,8 @@
 		{#snippet content(service)}
 			<Grid cols={2} class="items-center gap-4">
 				<div class="font-medium">{service.key}</div>
-				<Input
+				<PasswordInput
 					{form}
-					type="text"
 					name="secrets.{service.key}"
 					bind:value={$formData.secrets[service.key]}
 					class="h-10 w-full rounded px-3 text-sm"
