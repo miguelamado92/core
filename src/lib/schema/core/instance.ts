@@ -98,6 +98,6 @@ export type List = v.InferOutput<typeof list>;
 export const create = v.omit(read, ['id', 'created_at', 'updated_at']);
 export type Create = v.InferOutput<typeof create>;
 
-export const update = v.partial(v.omit(read, ['id', 'created_at', 'updated_at']));
+export const update = v.partial(v.omit(base, ['id', 'created_at', 'updated_at']));
 
 export type Update = v.InferInput<typeof update>;
