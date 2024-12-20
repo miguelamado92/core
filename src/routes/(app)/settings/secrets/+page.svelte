@@ -4,8 +4,8 @@
 	import Grid from '$lib/comps/ui/custom/grid.svelte';
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PasswordInput from '$lib/comps/ui/form/controls/password-input.svelte';
-	import { Input, Button, superForm, valibotClient, Debug } from '$lib/comps/ui/forms';
-	import { secrets, update } from '$lib/schema/core/instance';
+	import { Button, superForm, valibotClient, Debug } from '$lib/comps/ui/forms';
+	import { update } from '$lib/schema/core/instance';
 
 	const form = superForm(data.form, {
 		validators: valibotClient(update),
