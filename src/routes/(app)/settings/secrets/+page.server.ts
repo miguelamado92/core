@@ -3,19 +3,19 @@ import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { superValidate, message, valibot, redirect, type Infer, BelcodaError } from '$lib/server';
 import { update as updateSecrets } from '$lib/server/api/core/instances';
 
-let servicesArray: Record<string, string>[] = [];
 export const load = async (event) => {
-	const form = await superValidate(valibot(update));
-	const services = await _readSecretsUnsafe({ instanceId: event.locals.instance.id });
-	servicesArray = Object.entries(services).map(([key, value]) => {
-		return {
-			key,
-			value
-		};
-	});
+	const instance = event.locals.instance;
+	const services = await _readSecretsUnsafe({ instanceId: instance.id });
+
+	const formData = {
+		secrets: services
+	};
+
+	const form = await superValidate(formData, valibot(update));
+
 	return {
 		form,
-		services: servicesArray
+		services: Object.entries(services).map(([key, value]) => ({ key, value }))
 	};
 };
 
@@ -25,6 +25,7 @@ export const actions = {
 			event.request,
 			valibot(update)
 		);
+
 		if (!form.valid) {
 			return message(
 				form,
@@ -32,19 +33,13 @@ export const actions = {
 				{ status: 400 }
 			);
 		}
-		const j = servicesArray.reduce(
-			(acc, { key, value }) => {
-				acc[key] = value;
-				return acc;
-			},
-			{} as Record<string, string>
-		);
 
 		await updateSecrets({
 			instanceId: event.locals.instance.id,
-			body: { secrets: j as Secrets },
+			body: { secrets: form.data.secrets as Secrets },
 			t: event.locals.t
 		});
+
 		return redirect(event, {
 			location: `/settings/secrets`,
 			message: event.locals.t.forms.actions.updated()

@@ -10,6 +10,7 @@
 		validators: valibotClient(update),
 		dataType: 'json'
 	});
+
 	const { form: formData, errors: formErrors, enhance } = form;
 </script>
 
@@ -26,8 +27,8 @@
 				<Input
 					{form}
 					type="text"
-					name={service.key}
-					bind:value={service.value}
+					name="secrets.{service.key}"
+					bind:value={$formData.secrets[service.key]}
 					class="h-10 w-full rounded px-3 text-sm"
 				/>
 			</Grid>
@@ -35,4 +36,4 @@
 	</DataGrid>
 	<Button type="submit" class="col-span-2 mt-4">{$page.data.t.forms.buttons.submit()}</Button>
 </form>
-<Debug data={secrets} />
+<Debug data={$formData} />
