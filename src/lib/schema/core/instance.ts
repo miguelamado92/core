@@ -68,9 +68,14 @@ export const settings = v.object({
 export type Settings = v.InferOutput<typeof settings>;
 export type SettingsInput = v.InferInput<typeof settings>;
 //do not add to any read etc, because it is not meant to be exposed normally.
-export const secrets = v.object({
-	WHATSAPP_ACCESS_KEY: longStringNotEmpty
-});
+export const secrets = v.objectWithRest(
+	{
+		WHATSAPP_ACCESS_KEY: longStringNotEmpty
+	},
+	v.string()
+);
+//objectWithRest allows any other key, but requires the keys specified in the schema
+//this will allow users to set arbitrary secrets if we implement that functionality down the track, but will require the ones specified in the schema
 export type Secrets = v.InferOutput<typeof secrets>;
 
 export const base = v.object({
