@@ -1,26 +1,38 @@
-import { update, type Secrets } from '$lib/schema/core/instance.js';
+import { update, secrets as secretsSchema, updateSecrets } from '$lib/schema/core/instance.js';
 import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
-import { superValidate, message, valibot, redirect, type Infer, BelcodaError } from '$lib/server';
-import { update as updateSecrets } from '$lib/server/api/core/instances';
+import { superValidate, valibot, redirect } from '$lib/server';
+import { parse } from '$lib/schema/valibot';
+import { formAction } from '$lib/server';
 
 export const load = async (event) => {
-	const instance = event.locals.instance;
-	const services = await _readSecretsUnsafe({ instanceId: instance.id });
-
+	const services = await event.fetch(`/api/v1/settings/secrets`);
+	const body = await services.json();
+	const parsed = parse(secretsSchema, body);
 	const formData = {
-		secrets: services
+		secrets: parsed
 	};
-
-	const form = await superValidate(formData, valibot(update));
+	const form = await superValidate(formData, valibot(updateSecrets));
 	return {
 		form,
-		services: Object.entries(services).map(([key, value]) => ({ key, value }))
+		services: Object.entries(parsed).map(([key, value]) => ({ key, value }))
 	};
 };
 
 export const actions = {
 	default: async function post(event) {
-		const form = await superValidate<Infer<typeof update>, BelcodaError>(
+		const { output, error } = await formAction({
+			event,
+			url: '/api/v1/settings/secrets',
+			inputSchema: update,
+			method: 'PUT'
+		});
+		if (error) return output;
+		parse(secretsSchema, output); // To make sure we throw an error if the response is not what we expect
+		return redirect(event, {
+			location: `/settings/secrets`,
+			message: event.locals.t.forms.actions.updated()
+		});
+		/* const form = await superValidate<Infer<typeof update>, BelcodaError>(
 			event.request,
 			valibot(update)
 		);
@@ -35,13 +47,9 @@ export const actions = {
 
 		await updateSecrets({
 			instanceId: event.locals.instance.id,
-			body: { secrets: form.data.secrets as Secrets },
+			body: { secrets: form.data.secrets },
 			t: event.locals.t
 		});
-
-		return redirect(event, {
-			location: `/settings/secrets`,
-			message: event.locals.t.forms.actions.updated()
-		});
+ */
 	}
 };

@@ -5,10 +5,10 @@
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
 	import PasswordInput from '$lib/comps/ui/form/controls/password-input.svelte';
 	import { Button, superForm, valibotClient, Debug } from '$lib/comps/ui/forms';
-	import { update } from '$lib/schema/core/instance';
+	import { updateSecrets } from '$lib/schema/core/instance';
 
 	const form = superForm(data.form, {
-		validators: valibotClient(update),
+		validators: valibotClient(updateSecrets),
 		dataType: 'json'
 	});
 

@@ -104,5 +104,9 @@ export const create = v.omit(read, ['id', 'created_at', 'updated_at']);
 export type Create = v.InferOutput<typeof create>;
 
 export const update = v.partial(v.omit(base, ['id', 'created_at', 'updated_at']));
-
 export type Update = v.InferInput<typeof update>;
+
+export const updateSecrets = v.object({
+	secrets: secrets
+});
+export type UpdateSecrets = v.InferInput<typeof updateSecrets>;
