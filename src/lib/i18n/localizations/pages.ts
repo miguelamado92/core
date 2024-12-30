@@ -1104,6 +1104,20 @@ export default function (l: SL) {
 							});
 						}
 					}
+				},
+				secrets: {
+					index: () => {
+						return t(l, {
+							en: 'Secrets',
+							ja: '秘密',
+							pt: 'Segredos',
+							es: 'Secretos',
+							fr: 'Secrets',
+							sw: 'Hakiki',
+							th: 'ความลับ',
+							zh: '秘密'
+						});
+					}
 				}
 			},
 			preferences: () => {

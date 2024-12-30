@@ -43,6 +43,7 @@ import MailWarning from 'lucide-svelte/icons/mail-warning';
 //SETTINGS
 import Cog from 'lucide-svelte/icons/cog';
 import Megaphone from 'lucide-svelte/icons/megaphone';
+import BookKey from 'lucide-svelte/icons/book-key';
 
 /* import { page as pageStore } from '$app/stores';
 import { get } from 'svelte/store'; */
@@ -248,6 +249,11 @@ function menus(t: Localization): { [key: string]: MenuItem } {
 					title: () => t.pages.config.settings.website.index(),
 					href: () => '/settings/website',
 					icon: Globe
+				},
+				{
+					title: () => t.pages.config.settings.secrets.index(),
+					href: () => '/settings/secrets',
+					icon: BookKey
 				}
 			]
 		},
