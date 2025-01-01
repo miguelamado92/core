@@ -22,7 +22,7 @@ export async function POST(event) {
 				});
 				if (eventObject.html_metatags.isManuallySet === false) {
 					const output = await generateHtmlMetatags(eventObject.heading, eventObject.html);
-					const parsedOutput = parse(htmlMetaTagSchema, output.parsed);
+					const parsedOutput = parse(htmlMetaTagSchema, output);
 					await updateEvent({
 						instanceId: event.locals.instance.id,
 						eventId: parsed.eventId,
@@ -48,7 +48,7 @@ export async function POST(event) {
 				});
 				if (petitionObject.html_metatags.isManuallySet === false) {
 					const output = await generateHtmlMetatags(petitionObject.heading, petitionObject.html);
-					const parsedOutput = parse(htmlMetaTagSchema, output.parsed);
+					const parsedOutput = parse(htmlMetaTagSchema, output);
 					await updatePetition({
 						instanceId: event.locals.instance.id,
 						petitionId: parsed.petitionId,
@@ -75,7 +75,7 @@ export async function POST(event) {
 				});
 				if (contentObject.html_metatags.isManuallySet === false) {
 					const output = await generateHtmlMetatags(contentObject.heading, contentObject.html);
-					const parsedOutput = parse(htmlMetaTagSchema, output.parsed);
+					const parsedOutput = parse(htmlMetaTagSchema, output);
 					await updateContent({
 						instanceId: event.locals.instance.id,
 						contentId: parsed.contentId,

@@ -1,3 +1,5 @@
+import { parse, htmlMetatags, type HtmlMetatags } from '$lib/schema/valibot';
+
 //export const jsonSchemaHtmlMetatags = toJsonSchema(htmlMetatags); // { type: 'string', format: 'email' }
 import { jsonCompletion } from '$lib/server/utils/openai/index';
 export const SYSTEM_PROMPT: string = `You are responsible for generating the HTML metadata tags for a web page based on the <H1> title and the HTML content of the web page. You need to generate content which is concise and engaging, but you don't want to verge into clickbaity titles or poor taste. Certain types of pages might be events, petitions or other pages that encourage the visitor to take action. If so, you can include words of that call to action in the text you generate, so long as it is coherent engaging copy and makes sense in context. 
@@ -57,9 +59,14 @@ export const JSON_SCHEMA_HTML_METATAGS = {
 	}
 };
 
-export async function generateHtmlMetatags(pageTitle: string, pageContent: string) {
+export async function generateHtmlMetatags(
+	pageTitle: string,
+	pageContent: string
+): Promise<HtmlMetatags> {
 	const prompt = `TITLE: ${pageTitle} 
 CONTENT: 
 ${pageContent}`;
-	return await jsonCompletion(SYSTEM_PROMPT, prompt, JSON_SCHEMA_HTML_METATAGS);
+	const result = await jsonCompletion(SYSTEM_PROMPT, prompt, JSON_SCHEMA_HTML_METATAGS);
+	const parsed = parse(htmlMetatags, result.parsed);
+	return parsed;
 }
