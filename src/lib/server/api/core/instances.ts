@@ -60,7 +60,7 @@ export async function _readSecretsUnsafe({
 	instanceId
 }: {
 	instanceId: number;
-}): Promise<Record<string, string>> {
+}): Promise<schema.Secrets> {
 	const response = await db
 		.selectExactlyOne('instances', { id: instanceId }, { columns: ['secrets'] })
 		.run(pool);
