@@ -61,17 +61,24 @@ describe('PUT /settings/secrets', () => {
 		});
 	});
 
-	it('should handle validation errors', async () => {
+	it('should handle errors', async () => {
 		const event = {
 			locals: {
-				instance: { id: '123' }
+				instance: { id: '123' },
+				t: {
+					errors: {
+						http: {
+							500: () => 'Internal Server Error'
+						}
+					}
+				}
 			},
 			request: {
 				json: vi.fn().mockResolvedValue({ secrets: { invalidKey: 'value' } })
 			}
 		};
 
-		vi.mocked(parse).mockRejectedValue(new Error('Validation Error'));
+		vi.mocked(updateSecrets).mockRejectedValue(new Error('Error updating secrets'));
 
 		const response = await PUT(event);
 
@@ -104,8 +111,7 @@ describe('GET /settings/secrets', () => {
 					errors: {
 						http: {
 							500: () => 'Internal Server Error'
-						},
-						not_found: () => 'Not Found'
+						}
 					}
 				}
 			}
