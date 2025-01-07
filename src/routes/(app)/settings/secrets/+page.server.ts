@@ -1,5 +1,4 @@
 import { update, secrets as secretsSchema, updateSecrets } from '$lib/schema/core/instance.js';
-import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { superValidate, valibot, redirect } from '$lib/server';
 import { parse } from '$lib/schema/valibot';
 import { formAction } from '$lib/server';
