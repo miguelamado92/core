@@ -69,6 +69,7 @@
 		"awesome-phonenumber": "^6.9.0",
 		"clsx": "^2.1.1",
 		"codeflask": "^1.4.1",
+		"dompurify": "^3.2.3",
 		"fast-csv": "^5.0.1",
 		"google-auth-library": "^9.11.0",
 		"graphile-worker": "^0.16.6",
