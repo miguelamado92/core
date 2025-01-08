@@ -157,7 +157,7 @@ export async function updateNotes({
 	adminId: number;
 	notes: string;
 	t: App.Localization;
-}): Promise<void> {
+}): Promise<Read> {
 	const interaction = await read({ instanceId, personId, interactionId });
 	const newDetails = moveNoteToEditHistory({
 		newNote: notes,
@@ -175,6 +175,7 @@ export async function updateNotes({
 		.run(pool);
 	await redis.del(personRedisString(instanceId, personId));
 	await redis.del(redisString(instanceId, personId));
+	return await read({ instanceId, personId, interactionId });
 }
 
 /**
