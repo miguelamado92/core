@@ -1,11 +1,11 @@
-import { db, pool, redis, filterQuery } from '$lib/server';
+import { db, pool, redis, filterQuery, BelcodaError } from '$lib/server';
 import {
 	create as createSchema,
 	type Create,
 	type List,
-	COMMUNICATION_INTERACTION_TYPES,
+	type Read,
 	list as listSchema,
-	ACTIVITY_INTERACTION_TYPES
+	read as readSchema
 } from '$lib/schema/people/interactions';
 
 import { filterInteractions } from '$lib/server/utils/filters/filter';
@@ -74,7 +74,7 @@ export async function create({
 	instanceId: number;
 	body: Create;
 	t: App.Localization;
-}) {
+}): Promise<Read> {
 	const parsed = parse(createSchema, body);
 	await personExists({ instanceId, personId: parsed.person_id, t });
 	await adminExists({ instanceId, adminId: parsed.admin_id, t });
@@ -117,4 +117,103 @@ export async function queue({
 		{ person_id: personId, admin_id: adminId, details },
 		adminId
 	);
+}
+
+export async function read({
+	instanceId,
+	personId,
+	interactionId
+}: {
+	instanceId: number;
+	personId: number;
+	interactionId: number;
+}): Promise<Read> {
+	const output = await db
+		.selectExactlyOne(
+			'people.interactions',
+			{ id: interactionId, instance_id: instanceId, person_id: personId },
+			{
+				lateral: {
+					admin: db.selectExactlyOne('admins', { id: db.parent('admin_id') })
+				}
+			}
+		)
+		.run(pool);
+	const parsedOut = parse(readSchema, output);
+	return parsedOut;
+}
+
+export async function updateNotes({
+	instanceId,
+	personId,
+	interactionId,
+	adminId,
+	notes,
+	t
+}: {
+	instanceId: number;
+	personId: number;
+	interactionId: number;
+	adminId: number;
+	notes: string;
+	t: App.Localization;
+}): Promise<void> {
+	const interaction = await read({ instanceId, personId, interactionId });
+	const newDetails = moveNoteToEditHistory({
+		newNote: notes,
+		adminId,
+		previousNote: interaction.details,
+		t
+	});
+
+	await db
+		.update(
+			'people.interactions',
+			{ details: newDetails },
+			{ id: interactionId, instance_id: instanceId }
+		)
+		.run(pool);
+	await redis.del(personRedisString(instanceId, personId));
+	await redis.del(redisString(instanceId, personId));
+}
+
+/**
+ * Updates a note with new content, and appends the edit history with the old note content
+ * @param {string} newNote - The new note to be updated
+ * @param {int} adminId - The id of the admin who is updating the note
+ * @param {Object} previousNote - The previous note that is being updated
+ * @param {Object} t - The localization object
+ * @returns {Object} - The new note details
+ */
+export function moveNoteToEditHistory({
+	newNote,
+	adminId,
+	previousNote,
+	t
+}: {
+	newNote: string;
+	adminId: number;
+	previousNote: Read['details'];
+	t: App.Localization;
+}) {
+	if (previousNote.type !== 'notes') {
+		throw new BelcodaError(
+			400,
+			'API:/people/interactions/moveNoteToEditHistory:01',
+			t.errors.updating_data()
+		);
+	}
+	const newNoteDetils: Read['details'] = {
+		type: 'notes',
+		notes: newNote,
+		edit_history: [
+			...previousNote.edit_history,
+			{
+				edited_at: new Date(),
+				edited_by: adminId,
+				prior_state: previousNote.notes
+			}
+		]
+	};
+	return newNoteDetils;
 }
