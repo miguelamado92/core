@@ -9,7 +9,7 @@
 	import PersonInfo from './PersonInfo.svelte';
 
 	import Interaction from '$lib/comps/widgets/interactions/Interaction.svelte';
-	import ActivityFeed from './ActivityFeed.svelte';
+	import ActivityFeed from './activity_feed/ActivityFeed.svelte';
 	import { onDestroy, onMount } from 'svelte';
 	import { parse } from '$lib/schema/valibot';
 	import { list as listParseSchema } from '$lib/schema/people/interactions';
