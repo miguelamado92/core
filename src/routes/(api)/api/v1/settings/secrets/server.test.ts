@@ -3,7 +3,9 @@ import { PUT, GET } from './+server';
 import { update as updateSecrets, _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { parse } from '$lib/schema/valibot';
 import { instance as mockInstance, secrets as mockSecrets } from '$lib/utils/mocks/instance.mock';
+import { Localization } from '$lib/i18n';
 
+const t = new Localization('en');
 vi.mock('$lib/server/api/core/instances', () => ({
 	updateSecrets: vi.fn(),
 	_readSecretsUnsafe: vi.fn(),
@@ -33,13 +35,7 @@ describe('PUT /settings/secrets', () => {
 		const event = {
 			locals: {
 				instance: { id: '123' },
-				t: {
-					errors: {
-						http: {
-							500: () => 'Internal Server Error'
-						}
-					}
-				}
+				t
 			},
 			request: {
 				json: vi.fn().mockResolvedValue({ secrets: mockSecrets })
@@ -65,13 +61,7 @@ describe('PUT /settings/secrets', () => {
 		const event = {
 			locals: {
 				instance: { id: '123' },
-				t: {
-					errors: {
-						http: {
-							500: () => 'Internal Server Error'
-						}
-					}
-				}
+				t
 			},
 			request: {
 				json: vi.fn().mockResolvedValue({ secrets: { invalidKey: 'value' } })
@@ -107,13 +97,7 @@ describe('GET /settings/secrets', () => {
 		const event = {
 			locals: {
 				instance: { id: '123' },
-				t: {
-					errors: {
-						http: {
-							500: () => 'Internal Server Error'
-						}
-					}
-				}
+				t
 			}
 		};
 

@@ -2,27 +2,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { parse } from '$lib/schema/valibot';
 import { secrets as secretsSchema } from '$lib/schema/core/instance';
 import { load } from './+page.server';
+import { Localization } from '$lib/i18n';
 
+const t = new Localization('en');
 vi.mock('$app/stores', () => ({
 	page: {
 		subscribe: vi.fn(),
 		data: {
-			t: {
-				pages: {
-					config: {
-						settings: {
-							secrets: {
-								index: () => 'Secrets'
-							}
-						}
-					}
-				},
-				forms: {
-					buttons: {
-						submit: () => 'Submit'
-					}
-				}
-			}
+			t
 		}
 	}
 }));
