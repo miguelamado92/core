@@ -4,6 +4,7 @@
 	import { type List as ListInteractions } from '$lib/schema/people/interactions';
 	import ActivityItem from './ActivityItem.svelte';
 	import SystemMessage from './SystemMessage.svelte';
+	import Notes from './notes/Notes.svelte';
 	import RenderInboundWhatsapp from '$lib/comps/widgets/interactions/RenderInboundWhatsapp.svelte';
 	import RenderOutboundWhatsapp from '$lib/comps/widgets/interactions/RenderOutboundWhatsapp.svelte';
 	import Pagination from '$lib/comps/ui/custom/pagination/pagination.svelte';
@@ -94,14 +95,14 @@
 	{/if}
 
 	{#if interaction.details.type === 'notes'}
-		<ActivityItem
+		<Notes
 			{interaction}
 			activityMessage={$page.data.t.people.interactions.interactionMessage.notes(
 				interaction.admin.full_name
 			)}
 			{person}
 			><div class="mt-2 text-sm text-muted-foreground">{interaction.details.notes}</div>
-		</ActivityItem>
+		</Notes>
 	{/if}
 
 	{#if interaction.details.type === 'phone_call_outbound'}
