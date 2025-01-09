@@ -20,6 +20,7 @@
 	let updatedNotes: string = $state(
 		'notes' in interaction.details ? interaction.details.notes : ''
 	);
+	import { addLineBreaks, sanitizeHTML } from '$lib/utils/text/string';
 </script>
 
 {#if interaction.details.type === 'notes'}
@@ -49,6 +50,7 @@
 			</div>
 		{:else}
 			<div class="mt-2 text-sm text-muted-foreground">
+				{@html sanitizeHTML(addLineBreaks(interaction.details.notes))}
 			</div>
 			{#if interaction.details.edit_history.length > 0}
 				<div class="text-right">
