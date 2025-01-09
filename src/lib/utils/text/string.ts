@@ -11,7 +11,7 @@ import DOMPurify from 'isomorphic-dompurify';
  * @returns The sanitized HTML string
  */
 export function sanitizeHTML(html: string): string {
-	return DOMPurify.sanitize(html, { USE_PROFILES: { html: true } });
+	return DOMPurify.sanitize(html);
 }
 
 export function addLineBreaks(str: string): string {
