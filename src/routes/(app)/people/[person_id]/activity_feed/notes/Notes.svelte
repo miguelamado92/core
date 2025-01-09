@@ -7,6 +7,8 @@
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import TextArea from '$lib/comps/ui/textarea/textarea.svelte';
 	import { page } from '$app/stores';
+	import EditHistory from './EditHistory.svelte';
+	let showEditHistory: boolean = $state(false);
 	type Props = {
 		interaction: List['items'][number];
 		displayUserAvatar?: boolean;
@@ -53,11 +55,17 @@
 				{@html addLineBreaks(interaction.details.notes)}
 			</div>
 			{#if interaction.details.edit_history.length > 0}
-				<div class="text-xs text-right text-muted-foreground">
-					Last edited: {$page.data.timeAgo.format(
-						interaction.details.edit_history[interaction.details.edit_history.length - 1].edited_at
-					)}
+				<div class="text-right">
+					<Button variant="ghost" size="xs" onclick={() => (showEditHistory = !showEditHistory)}>
+						Last edited: {$page.data.timeAgo.format(
+							interaction.details.edit_history[interaction.details.edit_history.length - 1]
+								.edited_at
+						)}
+					</Button>
 				</div>
+				{#if showEditHistory}
+					<EditHistory interaction={interaction.details} />
+				{/if}
 			{/if}
 		{/if}
 		{#snippet button()}

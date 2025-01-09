@@ -233,6 +233,7 @@ export const interactionTypes = {
 		group_id: id
 	})
 };
+export type InteractionTypeNotes = v.InferOutput<typeof interactionTypes.notes>;
 export type InteractionTypeOutboundWhatsapp = v.InferOutput<
 	typeof interactionTypes.outbound_whatsapp
 >;
