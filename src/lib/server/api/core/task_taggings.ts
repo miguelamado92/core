@@ -28,7 +28,7 @@ export async function create({
 			}
 		});
 	const parsedInserted = parse(schema.read, inserted);
-	await redis.del(redisString(instanceId, adminId));
+	await redis.del(redisString(instanceId, adminId, false));
 	return parsedInserted;
 }
 
@@ -90,6 +90,8 @@ export async function del({
 	await exists({ instanceId: instanceId, taskId, t });
 	await db.deletes('task_taggings', { task_id: taskId, tag_id: tagId }).run(pool);
 	const parsed = parse(schema.del, { success: true });
-	await redis.del(redisString(instanceId, adminId));
+	//need to delete the redis key whether the task is completed or not...
+	await redis.del(redisString(instanceId, adminId, false));
+	await redis.del(redisString(instanceId, adminId, true));
 	return parsed;
 }
