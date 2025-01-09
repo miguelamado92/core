@@ -20,3 +20,7 @@ export function sanitizeHTML(html: string): string {
 		throw new Error('Sanitizing HTML functionality is only available in the browser');
 	}
 }
+
+export function addLineBreaks(str: string): string {
+	return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+}
