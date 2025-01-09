@@ -8,20 +8,21 @@
 	import * as Accordion from '$lib/comps/ui/accordion';
 	import { addLineBreaks, sanitizeHTML } from '$lib/utils/text/string';
 	import ChevronDownIcon from 'lucide-svelte/icons/chevron-down';
+	import AsyncAdminBadge from '$lib/comps/widgets/AsyncAdminBadge.svelte';
 </script>
 
 <Accordion.Root type="single">
 	{#each interaction.edit_history.reverse() as edit_history, i}
 		<Accordion.Item value="item-{i}">
-			<Accordion.Trigger class="hover:no-underline">
-				<div class="flex items-center gap-4">
-					{edit_history.edited_by}
-					<div class="text-xs text-right text-muted-foreground font-light">
-						Edited: {$page.data.timeAgo.format(edit_history.edited_at)}
+			<Accordion.Trigger class="hover:no-underline hover:bg-muted px-4 py-2">
+				<div class="text-left">
+					<AsyncAdminBadge adminId={edit_history.edited_by} />
+					<div class="text-xs text-muted-foreground font-light mt-1">
+						{$page.data.timeAgo.format(edit_history.edited_at)}
 					</div>
 				</div>
 			</Accordion.Trigger>
-			<Accordion.Content>
+			<Accordion.Content class="px-4 py-2">
 				<div class="mt-2 text-sm text-muted-foreground">
 					{@html sanitizeHTML(addLineBreaks(edit_history.prior_state))}
 				</div>
