@@ -1,4 +1,4 @@
-<script lang="ts" context="module">
+<script lang="ts" module>
 	type T = Record<string, unknown>;
 </script>
 
@@ -16,17 +16,17 @@
 	} from '$lib/comps/ui/forms';
 	import { type SuperValidated } from 'sveltekit-superforms';
 	import { update } from '$lib/schema/core/instance';
-	import { SUPPORTED_LANGUAGES, type SupportedLanguage } from '$lib/i18n';
-	const items: { value: SupportedLanguage; label: string }[] = [
-		{ value: 'en', label: 'English' },
-		{ value: 'ja', label: '日本語' },
-		{ value: 'pt', label: 'Português' },
-		{ value: 'es', label: 'Español' },
-		{ value: 'fr', label: 'Français' },
-		{ value: 'sw', label: 'Kiswahili' },
-		{ value: 'th', label: 'ไทย' },
-		{ value: 'zh', label: '中文' }
-	];
+	import {
+		SUPPORTED_LANGUAGES,
+		type SupportedLanguage,
+		SUPPORTED_LANGUAGE_LABELS
+	} from '$lib/i18n';
+	const items: {
+		value: SupportedLanguage;
+		label: (typeof SUPPORTED_LANGUAGE_LABELS)[SupportedLanguage];
+	}[] = SUPPORTED_LANGUAGES.map((language) => {
+		return { value: language, label: SUPPORTED_LANGUAGE_LABELS[language] };
+	});
 	const selected = items.find((o) => o.value === $page.data.instance.language);
 
 	type Props = {
