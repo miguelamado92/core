@@ -4,7 +4,6 @@ export function clampString(str: string, maxLength: number): string {
 	}
 	return str.slice(0, maxLength);
 }
-import { browser } from '$app/environment';
 import DOMPurify from 'isomorphic-dompurify';
 
 /*

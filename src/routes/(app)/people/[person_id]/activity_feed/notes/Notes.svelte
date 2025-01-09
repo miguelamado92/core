@@ -2,7 +2,6 @@
 	import ActivityItem from '../ActivityItem.svelte';
 	import { type List } from '$lib/schema/people/interactions';
 	import { type Read as ReadPerson } from '$lib/schema/people/people';
-	import { type Snippet } from 'svelte';
 	import * as actions from './actions';
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import TextArea from '$lib/comps/ui/textarea/textarea.svelte';
@@ -11,11 +10,9 @@
 	let showEditHistory: boolean = $state(false);
 	type Props = {
 		interaction: List['items'][number];
-		displayUserAvatar?: boolean;
 		person: ReadPerson;
-		children?: Snippet;
 	};
-	let { interaction, displayUserAvatar, person, children }: Props = $props();
+	let { interaction, person }: Props = $props();
 	let edit: boolean = $state(false);
 	let updatedNotes: string = $state(
 		'notes' in interaction.details ? interaction.details.notes : ''
