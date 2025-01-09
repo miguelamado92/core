@@ -20,9 +20,6 @@
 	let updatedNotes: string = $state(
 		'notes' in interaction.details ? interaction.details.notes : ''
 	);
-	function addLineBreaks(str: string): string {
-		return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
-	}
 </script>
 
 {#if interaction.details.type === 'notes'}
@@ -52,7 +49,6 @@
 			</div>
 		{:else}
 			<div class="mt-2 text-sm text-muted-foreground">
-				{@html addLineBreaks(interaction.details.notes)}
 			</div>
 			{#if interaction.details.edit_history.length > 0}
 				<div class="text-right">
