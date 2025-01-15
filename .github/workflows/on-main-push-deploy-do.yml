@@ -8,18 +8,25 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to DigitalOcean Droplet
-        uses: appleboy/ssh-action@master
+      # Step to install doctl
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
         with:
-          host: ${{secrets.PRODUCTION_HOST}}
-          username: ${{secrets.PRODUCTION_SSH_USERNAME}}
-          key: ${{secrets.PRODUCTION_SSH_PRIVATE_KEY}}
-          script: |
-            docker system prune -af
-            rm -rf belcoda
-            git clone git@github.com:belcoda/core belcoda
-            cp .env.production ./belcoda/.env.production
-            cp .env.production ./belcoda/.env
-            cd belcoda
-            docker compose up --build -d
-            echo 'Deployment finished'
+          token: ${{ secrets.DO_DOCT_DROPLET_MODIFY_KEY }}
+
+      # Step to deploy using doctl (example for creating a new droplet or managing deployment)
+      - name: Deploy to DigitalOcean with doctl
+        run:
+          # Assuming you have a DigitalOcean Droplet, we'll SSH into it to deploy the app
+          # You can replace this with any relevant `doctl` command to interact with your droplet or manage resources
+          # For example, you might restart the droplet or trigger your deployment script
+          doctl compute ssh ${{ secrets.DO_PRODUCTION_VPS_NAME }} --ssh-command "
+          docker system prune -af
+          rm -rf belcoda
+          git clone git@github.com:belcoda/core belcoda
+          cp .env.production ./belcoda/.env.production
+          cp .env.production ./belcoda/.env
+          cd belcoda
+          docker compose up --build -d
+          echo 'Deployment finished'
+          "
