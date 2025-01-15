@@ -13,12 +13,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4 # checkout the repo
       - run: npm ci # install packages
-      - run: npm test # run tests (configured to use jest-junit reporter)
+      - run: npm test:ci # run tests (configured to use jest-junit reporter)
 
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: success()
         with:
           name: Vitest # Name of the check run which will be created
-          path: test-results.xml # Path to test results
+          path: reports/tests/test-results.xml # Path to test results
           reporter: jest-junit # Format of test results
