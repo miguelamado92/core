@@ -1,6 +1,5 @@
 import { expect, describe, it } from 'vitest';
 import { detectSubdomain } from '$lib/server/hooks/handlers';
-import { DISALLOWED_NAMES_SET } from '$lib/utils/text/bad_names';
 describe('detectSubdomain', () => {
 	it('should return false if the host is the root domain', () => {
 		expect(detectSubdomain('example.com', 'example.com')).toBe(false);
