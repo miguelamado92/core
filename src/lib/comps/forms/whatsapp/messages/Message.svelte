@@ -160,14 +160,14 @@
 					{selected}
 					items={messagesToSelect}
 					onSelectedChange={async (val) => {
-			if (val && val.value) {
-				const action = {
-					type: 'send_whatsapp_message' as const,
-					message_id: val.value
-				}
-				await setAction(buttonId, action);
-			}
-		}}
+						if (val && val.value) {
+							const action = {
+								type: 'send_whatsapp_message' as const,
+								message_id: val.value
+							};
+							await setAction(buttonId, action);
+						}
+					}}
 				>
 					<Select.Trigger class="w-full flex-grow">
 						<Select.Value

@@ -68,11 +68,11 @@
 			<Select.Root
 				{selected}
 				items={messagesToSelect}
-				onSelectedChange={async (val) => {
-					if (val && val.value) {
+				onValueChange={async (val) => {
+					if (val) {
 						const action = {
 							type: 'send_whatsapp_message' as const,
-							message_id: val.value
+							message_id: val
 						};
 						await setAction(buttonId, action);
 					}
