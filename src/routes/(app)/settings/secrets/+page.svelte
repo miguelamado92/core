@@ -17,7 +17,7 @@
 
 <form method="POST" use:enhance>
 	<DataGrid
-		title={$page.data.t.pages.config.settings.secrets.index()}
+		title={data.t.pages.config.settings.secrets.index()}
 		items={data.services}
 		count={data.services.length}
 		options={{ showFilter: false }}
@@ -34,6 +34,6 @@
 			</Grid>
 		{/snippet}
 	</DataGrid>
-	<Button type="submit" class="col-span-2 mt-4">{$page.data.t.forms.buttons.submit()}</Button>
+	<Button type="submit" class="col-span-2 mt-4">{data.t.forms.buttons.submit()}</Button>
 </form>
 <Debug data={$formData} />

@@ -16,7 +16,7 @@ client.on('error', (err) => log.error('Redis Client Error', err));
 client.on('connect', () => log.info(`Redis client connected at ${REDIS_URL}`));
 client.on('ready', () => log.info(`Redis client ready at ${REDIS_URL}`));
 
-if (!building) {
+if (!building && process.env.CI !== 'true') {
 	await client.connect();
 }
 function safe_stringify(value: any) {
