@@ -30,9 +30,9 @@ export function checkFileType(file: File, t: App.Localization, allowedTypes: str
 		throw new Error(t.errors.file_upload.unsupported_type(allowedTypes.join(', ')));
 	}
 }
-import { randomUUID } from 'crypto';
+import { v4 as uuidv4 } from 'uuid';
 export function renameFile(file: File): File {
-	const uploadableName = `${randomUUID()}-${file.name}`; // Add a random UUID to the file name to avoid conflicts
+	const uploadableName = `${uuidv4()}-${file.name}`; // Add a random UUID to the file name to avoid conflicts
 	return new File([file], uploadableName, { type: file.type });
 }
 export async function getSignedURL(file: File, t: App.Localization): Promise<string> {
