@@ -9,21 +9,26 @@
 		'image/webp',
 		'image/svg+xml'
 	];
-
+	import Button from '$lib/comps/ui/button/button.svelte';
+	const MAXIMUM_FILE_SIZE: number = 10485760; //~10mb
 	import { cn } from '$lib/utils';
 	import { PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME } from '$env/static/public';
 	import { page } from '$app/stores';
 
-	const {
+	let {
 		onUpload,
-		file_types = DEFAULT_FILE_TYPES,
+		fileTypes = DEFAULT_FILE_TYPES,
+		maxSize = MAXIMUM_FILE_SIZE,
 		label,
-		description
+		description,
+		value = $bindable()
 	}: {
-		onUpload: ({ url, type, size }: { url: string; type: string; size: number }) => void;
-		file_types: string[];
-		label: string;
-		description: string;
+		onUpload?: ({ url, type, size }: { url: string; type: string; size: number }) => void;
+		fileTypes?: string[];
+		maxSize?: number;
+		label?: string;
+		description?: string;
+		value?: string | null;
 	} = $props();
 
 	import Loader from 'lucide-svelte/icons/loader';
@@ -31,6 +36,8 @@
 	import Input from '$lib/comps/ui/input/input.svelte';
 	import * as Alert from '$lib/comps/ui/alert';
 	import AlertTriangle from 'lucide-svelte/icons/triangle-alert';
+	import X from 'lucide-svelte/icons/x';
+	import { v4 as uuidv4 } from 'uuid';
 
 	import {
 		getAndCheckFile,
@@ -38,12 +45,11 @@
 		getSignedURL,
 		uploadToS3
 	} from '$lib/comps/ui/form/controls/file_upload/upload';
-	import { randomUUID } from 'crypto';
-	const file_upload_widget_id = randomUUID();
-	const MAXIMUM_FILE_SIZE: number = 10485760; //~10mb
+	const file_upload_widget_id = uuidv4();
+
 	const bucket_url = `https://${PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com`;
 
-	const acceptable_file_types = file_types.join(', ');
+	const acceptable_file_types = fileTypes.join(', ');
 
 	let loading = $state(false);
 	let error: string | null = $state(null);
@@ -54,16 +60,19 @@
 		try {
 			//reset
 			error = null;
+			value = null;
 			success = false;
 			//start process
 			disabled = true;
 			loading = true;
 			const input = document.getElementById(file_upload_widget_id) as HTMLInputElement;
+			console.log('input');
+			console.log(input);
 			const file = getAndCheckFile({
 				fileInput: input,
 				t: $page.data.t,
-				maxFileSize: MAXIMUM_FILE_SIZE,
-				allowedTypes: file_types
+				maxFileSize: maxSize,
+				allowedTypes: fileTypes
 			});
 			const fileToUpload = await renameFile(file);
 
@@ -75,7 +84,8 @@
 				t: $page.data.t
 			});
 			const uploadedUrl = `${bucket_url}${awsPathName}`; //this is the URL to the uploaded file, no / needed
-			onUpload({ url: uploadedUrl, type: file.type, size: file.size });
+			if (onUpload) onUpload({ url: uploadedUrl, type: file.type, size: file.size });
+			value = uploadedUrl;
 			success = true;
 		} catch (err) {
 			error = err instanceof Error ? err.message : $page.data.t.errors.file_upload.upload_error();
@@ -85,12 +95,37 @@
 			loading = false;
 		}
 	}
+
+	function resetUploads() {
+		value = null;
+		success = false;
+		error = null;
+		disabled = false;
+		loading = false;
+		const input = document.getElementById(file_upload_widget_id) as HTMLInputElement;
+		//remove files from input file list
+		if (input) {
+			input.value = '';
+		}
+	}
 </script>
+
+{#if value}
+	<div class="relative">
+		<div class="absolute right-2 top-2 opacity-60 hover:opacity-100">
+			<Button variant="destructive" size="xs" class="text-white" onclick={resetUploads}
+				><X /></Button
+			>
+		</div>
+		<img src={value} alt="Uploaded file" class="contain rounded-lg object-cover" />
+	</div>
+{/if}
 
 {#if label}<label
 		class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 		for={file_upload_widget_id}>{label}</label
 	>{/if}
+
 <div class="flex items-center gap-2">
 	<Input
 		onchange={handleUpload}
@@ -100,14 +135,14 @@
 			'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
 		)}
 		aria-describedby="file_input_help"
-		id="file_input"
+		id={file_upload_widget_id}
 		type="file"
 	/>
 	{#if loading}<Loader class="animate animate-spin" />{/if}
 	{#if success}<CheckCircle />{/if}
 </div>
 {#if description}
-	<p class="mt-1 text-sm text-gray-500 dark:text-gray-300" id={file_upload_widget_id}>
+	<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
 		{description}
 	</p>
 {/if}
