@@ -66,6 +66,8 @@ describe('sanitizeHTML', () => {
 		const html = '<UL><li><A HREF=//google.com>click</UL>';
 		const expectedOutput = '<ul><li><a href="//google.com">click</a></li></ul>';
 		expect(sanitizeHTML(html)).toBe(expectedOutput);
+	});
+});
 
 import { slugify } from '$lib/utils/text/string';
 
