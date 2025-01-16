@@ -2,13 +2,13 @@
 	import { page } from '$app/stores';
 	import * as Select from '$lib/comps/ui/select';
 	import Input from '$lib/comps/ui/input/input.svelte';
+	import TextArea from '$lib/comps/ui/textarea/textarea.svelte';
 	type InteractionType =
 		| 'notes'
 		| 'phone_call_outbound'
 		| 'phone_call_inbound'
 		| 'outbound_whatsapp';
 	import Button from '$lib/comps/ui/button/button.svelte';
-	import H3 from '$lib/comps/typography/H3.svelte';
 	import sendWhatsappMessage from '$lib/comps/widgets/interactions/sendWhatsappMessage.js';
 
 	const types: { value: InteractionType; label: string }[] = [
@@ -54,16 +54,29 @@
 			activeConversationLoading = false;
 		}
 	}
+	import { onMount } from 'svelte';
+	import { sanitizeHTML } from '$lib/utils/text/string';
+	onMount(() => {
+		document.body.addEventListener('keydown', async (e: KeyboardEvent) => {
+			if (!(e.key === 'Enter' && (e.metaKey || e.ctrlKey))) return;
+			if (e.target && 'form' in e.target) {
+				await logInteraction();
+			}
+		});
+	});
 
-	async function logInteraction(e: SubmitEvent) {
+	async function logInteraction(e?: SubmitEvent) {
 		try {
-			e.preventDefault();
+			if (e) e.preventDefault();
 			if (selected === 'outbound_whatsapp' && notes) {
 				await sendWhatsappMessage(notes, personId, $page.data.admin.id);
 				onLogged();
 			}
+			// we want to allow for linebreaks and basic markdown formatting in notes
+			const formattedNotes = selected === 'notes' && notes ? sanitizeHTML(notes) : notes;
+
 			const body = {
-				details: { type: selected, notes: notes },
+				details: { type: selected, notes: formattedNotes },
 				admin_id: $page.data.admin.id,
 				person_id: personId
 			};
@@ -111,11 +124,11 @@
 						{@render noWhatsappConversation()}
 					{/if}
 				{:else}
-					<Input
+					<TextArea
 						bind:value={notes}
 						name="message"
 						class="flex items-center h-10 w-full rounded px-3 text-sm"
-						type="text"
+						rows={1}
 						placeholder={$page.data.t.people.interactions.create_types.notes_input_placeholder()}
 					/>
 				{/if}

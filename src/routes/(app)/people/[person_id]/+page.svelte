@@ -1,21 +1,6 @@
 <script lang="ts">
 	let { data } = $props();
-	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
-	import Button from '$lib/comps/ui/button/button.svelte';
-	import H1 from '$lib/comps/typography/H1.svelte';
-	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
-	import Separator from '$lib/comps/ui/separator/separator.svelte';
-
-	import PersonInfo from './PersonInfo.svelte';
-
-	import Interaction from '$lib/comps/widgets/interactions/Interaction.svelte';
-	import ActivityFeed from './ActivityFeed.svelte';
-	import { onDestroy, onMount } from 'svelte';
-	import { parse } from '$lib/schema/valibot';
-	import { list as listParseSchema } from '$lib/schema/people/interactions';
-	import LogInteraction from '$lib/comps/widgets/interactions/LogInteraction.svelte';
-
-	let interactionsArray = $derived(data.interactions.items.toReversed());
+	import ActivityFeed from './activity_feed/ActivityFeed.svelte';
 	import PersonFrame from './PersonFrame.svelte';
 </script>
 

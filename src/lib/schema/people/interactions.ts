@@ -94,7 +94,18 @@ export const interactionTypes = {
 	}),
 	notes: v.object({
 		type: v.literal('notes'),
-		notes: longString
+		notes: longString,
+		// The edit history is optional with a default of [] in order to allow notes which existed prior to the edit history, or which don't have an edit history, to be easily converted.
+		edit_history: v.optional(
+			v.array(
+				v.object({
+					edited_by: id,
+					edited_at: timestamp,
+					prior_state: longString
+				})
+			),
+			[]
+		)
 	}),
 	phone_call_outbound: v.object({
 		type: v.literal('phone_call_outbound'),
@@ -222,6 +233,7 @@ export const interactionTypes = {
 		group_id: id
 	})
 };
+export type InteractionTypeNotes = v.InferOutput<typeof interactionTypes.notes>;
 export type InteractionTypeOutboundWhatsapp = v.InferOutput<
 	typeof interactionTypes.outbound_whatsapp
 >;
@@ -252,3 +264,7 @@ export type List = v.InferOutput<typeof list>;
 
 export const create = v.omit(base, ['id', 'instance_id', 'created_at']);
 export type Create = v.InferOutput<typeof create>;
+
+export const updateNotes = v.object({
+	note: longString
+});

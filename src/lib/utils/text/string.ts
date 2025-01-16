@@ -4,6 +4,21 @@ export function clampString(str: string, maxLength: number): string {
 	}
 	return str.slice(0, maxLength);
 }
+
+import DOMPurify from 'isomorphic-dompurify';
+
+/*
+ * @param html - The HTML string to sanitize
+ * @returns The sanitized HTML string
+ */
+export function sanitizeHTML(html: string): string {
+	return DOMPurify.sanitize(html);
+}
+
+export function addLineBreaks(str: string): string {
+	return str.replace(/(?:\r\n|\r|\n)/g, '<br>');
+}
+
 export function slugify(str: string) {
 	str = str.replace(/^\s+|\s+$/g, ''); // trim
 	str = str.toLowerCase();
