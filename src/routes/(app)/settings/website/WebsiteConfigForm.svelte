@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { update, type Settings } from '$lib/schema/core/instance';
 	import { type SuperValidated } from 'sveltekit-superforms';
+	import ImageUpload from '$lib/comps/ui/form/controls/file_upload/simple_image_upload.svelte';
 	import {
 		Button,
 		Error,
@@ -17,7 +18,6 @@
 	import Checkbox from '$lib/comps/ui/checkbox/checkbox.svelte';
 	import * as Card from '$lib/comps/ui/card';
 	import Label from '$lib/comps/ui/label/label.svelte';
-
 	type Props = {
 		superform: SuperValidated<Infer<typeof update>>;
 	};
@@ -60,25 +60,22 @@
 	<Grid cols={1}>
 		<Error error={$message}></Error>
 		{#if $formData.settings}
-			<Input
+			<!-- We don't yet support custom domains, but we we will include this setting here once support is added -->
+			<!-- <Input
 				name="settings.website.custom_domain"
 				label={$page.data.t.forms.fields.settings.website.custom_domain.label()}
 				description={$page.data.t.forms.fields.settings.website.custom_domain.description()}
 				{form}
 				bind:value={$formData.settings.website.custom_domain as string}
-			/>
-			<Input
-				name="settings.website.logo_url"
+			/> -->
+			<ImageUpload
+				bind:value={$formData.settings.website.logo_url as string}
 				label={$page.data.t.forms.fields.settings.website.logo.label()}
 				description={$page.data.t.forms.fields.settings.website.logo.description()}
-				{form}
-				bind:value={$formData.settings.website.logo_url as string}
 			/>
-			<Input
-				name="settings.website.favicon"
+			<ImageUpload
 				label={$page.data.t.forms.fields.settings.website.favicon.label()}
 				description={$page.data.t.forms.fields.settings.website.favicon.description()}
-				{form}
 				bind:value={$formData.settings.website.favicon as string}
 			/>
 
