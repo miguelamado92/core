@@ -16,7 +16,6 @@ export async function updateNotes({
 	});
 	if (!result.ok) {
 		const error = await result.json();
-		console.error(error);
 		throw new Error('Failed to update notes');
 	}
 	const json = await result.json();
