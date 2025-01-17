@@ -8,7 +8,7 @@ import { Localization } from '$lib/i18n';
 import createDefaultInstance from '$lib/server/utils/install/default_instance';
 import { _count, _count as _countInstance } from '$lib/server/api/core/instances';
 process.on('warning', (e) => console.warn(e.stack));
-
+import { setLanguageTag } from '$lib/paraglide/runtime';
 const log = pino('hooks.server.ts');
 import mainHandler from '$lib/server/hooks/handlers';
 
@@ -38,6 +38,7 @@ export async function handleFetch({ event, request, fetch }) {
 const belcodaHandler: Handle = async ({ event, resolve }) => {
 	// Set up the language and translation functions (THIS MUST BE FIRST)
 	event.locals.language = buildLocalLanguage(event);
+	setLanguageTag(event.locals.language);
 	event.locals.t = new Localization(event.locals.language);
 	event.locals.queue = queue;
 
