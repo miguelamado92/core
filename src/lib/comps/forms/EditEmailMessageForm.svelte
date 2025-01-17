@@ -104,13 +104,7 @@
 			bind:value={$nameValue as string}
 		/>
 	{/if}
-	<Input
-		{disabled}
-		{form}
-		name={from}
-		label={$page.data.t.forms.fields.email.from.label()}
-		bind:value={$fromValue as string}
-	/>
+
 	<Input
 		{disabled}
 		{form}
@@ -163,31 +157,14 @@
 			</Alert.Description>
 		</Alert.Root>
 		<Grid cols={1}>
-			{#if templates.length > 0}
-				<div class="w-full">
-					<Label>{$page.data.t.forms.fields.email.template.label()}</Label>
-					<Select.Root
-						type="single"
-						onValueChange={(val) => {
-							const id = Number(val);
-							$templateIdValue = id;
-						}}
-					>
-						<Select.Trigger class="w-full">
-							{templates.find((t) => t.id === $templateIdValue)?.name ||
-								$page.data.t.forms.fields.email.template.label()}
-						</Select.Trigger>
-						<Select.Content>
-							{#each templates as template}
-								<Select.Item value={template.id.toString()}>{template.name}</Select.Item>
-							{/each}
-						</Select.Content>
-					</Select.Root>
-					<div class="text-muted-foreground text-sm mt-1.5">
-						{$page.data.t.forms.fields.email.template.description()}
-					</div>
-				</div>
-			{/if}
+			<Input
+				{disabled}
+				{form}
+				name={from}
+				label={$page.data.t.forms.fields.email.from.label()}
+				description={$page.data.t.forms.fields.email.from.description()}
+				bind:value={$fromValue as string}
+			/>
 
 			<Input
 				{disabled}
@@ -206,6 +183,9 @@
 				description={$page.data.t.forms.fields.email.preview_text.description()}
 				bind:value={$previewTextValue as string}
 			/>
+
+			{@render templateSelector()}
+
 			<Checkbox
 				{form}
 				name={useHtmlAsText}
@@ -237,3 +217,31 @@
 		</Card.Footer>
 	</Card.Root>
 {/if}
+
+{#snippet templateSelector()}
+	{#if templates.length > 0}
+		<div class="w-full mb-2">
+			<Label>{$page.data.t.forms.fields.email.template.label()}</Label>
+			<Select.Root
+				type="single"
+				onValueChange={(val) => {
+					const id = Number(val);
+					$templateIdValue = id;
+				}}
+			>
+				<Select.Trigger class="w-full">
+					{templates.find((t) => t.id === $templateIdValue)?.name ||
+						$page.data.t.forms.fields.email.template.label()}
+				</Select.Trigger>
+				<Select.Content>
+					{#each templates as template}
+						<Select.Item value={template.id.toString()}>{template.name}</Select.Item>
+					{/each}
+				</Select.Content>
+			</Select.Root>
+			<div class="text-muted-foreground text-sm mt-1.5">
+				{$page.data.t.forms.fields.email.template.description()}
+			</div>
+		</div>
+	{/if}
+{/snippet}
