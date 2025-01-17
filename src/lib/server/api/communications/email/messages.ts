@@ -90,6 +90,14 @@ export async function update({
 	};
 
 	// if the preview text is the same as before, we should autogenerate the preview because it was not manually set
+	/*
+	NOTE: This current implementation is imperfect.
+	If a user provides a manually created preview, saves it, then makes additional changes to the email and saves those changes again --
+	the system will trigger an automatic generation of new preview text which will overwrite their manually created one. 
+	I'm pretty sure avoiding this outcome would require a database migration to add a new flag for the communications.email_messages table. 
+	Given that this is a very low priority feature and custom preview text is very unlikely to be a priority for any of our users in the foreseeable future, 
+	I'm happy leaving it as is and coming back to it later.
+	*/
 	const messageBeforeUpdate = await read({ instanceId, messageId, t });
 	const autogeneratePreview = messageBeforeUpdate.preview_text === parsed.preview_text;
 
