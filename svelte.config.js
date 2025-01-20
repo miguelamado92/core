@@ -16,14 +16,16 @@ const config = {
 				'default-src': ['self'],
 				'connect-src': ['self', '*.sentry.io', 'https://api-gateway.umami.dev/api/send'],
 				// for now we need to keep 'unsafe-inline' for a couple of bits-ui components that inject inline event handlers
-				// we also need it for our custom code options, which currently inject inline styles. We can
+				// we also need it for our custom code options, which currently inject inline styles.
 				'script-src': [
 					'self',
 					'https://accounts.google.com',
 					'unsafe-inline',
 					'https://cloud.umami.is'
 				],
-				'style-src': ['self', 'unsafe-inline'],
+        'frame-src': ['self', 'https://accounts.google.com'],
+				'frame-ancestors': ['self', 'https://accounts.google.com'],
+				'style-src': ['self', 'unsafe-inline', 'https://accounts.google.com/gsi/style'],
 				'worker-src': ['self', 'blob:'],
 				'img-src': [
 					'self',
