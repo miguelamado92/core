@@ -31,7 +31,6 @@ Sentry.init({
 export const handleError: HandleServerError = Sentry.handleErrorWithSentry();
 
 export async function handleFetch({ event, request, fetch }) {
-	log.info(`🍔 FETCH ${event.request.method} ${event.url.href}`);
 	return await fetch(request);
 }
 
@@ -78,7 +77,9 @@ const belcodaHandler: Handle = async ({ event, resolve }) => {
 		jsonResponse,
 		response: apiResponse
 	} = await buildAdminInstance({ event });
-	if (jsonResponse && apiResponse) return apiResponse;
+	if (jsonResponse && apiResponse) {
+		return apiResponse;
+	}
 	if (event.url.pathname.startsWith('/login')) {
 		if (authenticated) {
 			return new Response(null, {
@@ -102,9 +103,14 @@ const belcodaHandler: Handle = async ({ event, resolve }) => {
 			}
 		});
 	}
-
+	log.info(
+		`🔒 ${event.request.method}: (${event.url.href}) [${event.locals.instance.slug}/${event.locals.admin?.id}]`
+	);
 	const response = await resolve(returnEvent);
 	return response;
 };
 
-export const handle = sequence(Sentry.sentryHandle(), belcodaHandler);
+export const handle = sequence(
+	Sentry.sentryHandle({ injectFetchProxyScript: false }), //Conflicts with CSP and no longer needed in SvelteKit 2, see here https://github.com/getsentry/sentry-javascript/pull/9969
+	belcodaHandler
+);

@@ -5,7 +5,7 @@ const log = pino('$lib/server/hooks/handlers');
 import whatsappHandler from '$lib/server/hooks/whatsapp/ycloud';
 import whapiHandler from '$lib/server/hooks/whapi';
 import emailHandler from '$lib/server/hooks/email/postmark';
-const SUBDOMAIN_LIST = ['admin', 'app', 'dashboard', 'localhost', 'www', 'localhost:5173']; //list of subdomains that are not site subdomains
+import { PUBLIC_ROOT_DOMAIN } from '$env/static/public';
 import worker from '$lib/server/hooks/worker';
 import { default as handlePageRender } from '$lib/server/hooks/website/handler';
 type MaybePromise<T> = T | Promise<T>;
@@ -20,39 +20,62 @@ export type HandlerResponse =
 	  };
 
 type Resolve = (event: RequestEvent, opts?: ResolveOptions | undefined) => MaybePromise<Response>;
-
 export default async function (event: RequestEvent, resolve: Resolve): Promise<HandlerResponse> {
-	if (event.url.pathname.startsWith('/api/v1')) {
-		log.info(`✨ ${event.request.method} ${event.url.href}`);
-	} else {
-		log.info(`🌎 ${event.request.method} ${event.url.href}`);
-	}
 	if (event.url.pathname.startsWith('/webhooks/email')) {
+		log.info(`🌎 ${event.request.method} ${event.url.href}`);
 		return await emailHandler(event, resolve);
 	}
 	if (event.url.pathname.startsWith('/favicon.ico')) {
 		return { continue: false, response: new Response(null, { status: 204 }) };
 	}
 	if (event.url.pathname.startsWith('/webhooks/whatsapp')) {
+		log.info(`🌎 ${event.request.method} ${event.url.href}`);
 		return await whatsappHandler(event, resolve);
 	}
 
 	if (event.url.pathname.startsWith('/webhooks/whapi')) {
+		log.info(`🌎 ${event.request.method} ${event.url.href}`);
 		return await whapiHandler(event, resolve);
 	}
 
+	//conditional on it being a worker request
 	const workerResponse = await worker(event, resolve);
 	if (!workerResponse.continue) return { continue: false, response: workerResponse.response };
 
 	if (event.url.host.split('.')[0]) {
-		const subdomain = event.url.host.split('.')[0];
-		if (!SUBDOMAIN_LIST.includes(subdomain)) {
-			//there is a subdomain, and it's not in the list of functinoal subdomains (eg: admin. app. dashboard. etc)... that means it's a site subdomain.
+		const subdomain = detectSubdomain(event.url.host, PUBLIC_ROOT_DOMAIN);
+		if (subdomain) {
 			log.info(`🎣 Request subdomain is ${subdomain}`);
 			const response = await handlePageRender(event, subdomain);
+			log.info(`🌎 ${event.request.method} ${event.url.href}`);
 			return { continue: false, response: response };
 		}
 	}
 
 	return handleApiFaviconRequest(event);
+}
+import { DISALLOWED_NAMES_SET } from '$lib/utils/text/bad_names';
+export function detectSubdomain(host: string, rootDomain: string): string | false {
+	if (host === rootDomain) {
+		return false;
+	}
+
+	const parts = host.split('.');
+	// if it's a single-part domain (eg: example.com), then domain.split('.').length === 2 means it's root
+	if (parts.length < 3) {
+		// note that this will false-negative for domains like .com.au or .co.uk or .co.jp, but they should all be covered by the root check domain above
+
+		if (parts[parts.length - 1].includes('localhost') === false) {
+			//subdomain.localhost:5173 is a valid subdomain but has less than 3 parts when split by '.'
+			return false;
+		}
+	}
+
+	if (DISALLOWED_NAMES_SET.has(parts[0])) {
+		// includes things like 'www', as well as 'dashboard', which was a previous hosted URL
+		return false;
+	}
+
+	const subdomain = parts[0];
+	return subdomain;
 }
