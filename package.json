@@ -22,7 +22,9 @@
 		"knex:migrate": "npx knex migrate:latest --knexfile ./knexfile.cjs",
 		"knex:rollback": "npx knex migrate:rollback --knexfile ./knexfile.cjs",
 		"knex:migrate:production": "npx knex migrate:latest --env production --knexfile ./knexfile.cjs",
-		"postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide"
+		"postinstall": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
+		"inlang:lint": "npx @inlang/cli lint --project ./project.inlang",
+		"inlang:translate": "npx @inlang/cli machine translate --project ./project.inlang --force"
 	},
 	"devDependencies": {
 		"@inlang/paraglide-js": "^1.11.8",
