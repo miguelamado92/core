@@ -66,6 +66,7 @@
 	<div class="mt-1 text-muted-foreground flex items-center gap-2">
 		<div class="flex-grow">
 			<Select.Root
+				type="single"
 				{selected}
 				items={messagesToSelect}
 				onValueChange={async (val) => {
