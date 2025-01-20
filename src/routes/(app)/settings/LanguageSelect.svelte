@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts" generics="T extends Record<string, unknown>">
+	import { setLanguageTag } from '$lib/paraglide/runtime';
+	import * as m from '$lib/paraglide/messages';
 	import { page } from '$app/stores';
 	import {
 		Button,
@@ -36,7 +38,12 @@
 
 	const form = superForm(superform, {
 		validators: valibotClient(update),
-		dataType: 'json'
+		dataType: 'json',
+		onSubmit: async (form) => {
+			if ($formData.language) {
+				setLanguageTag($formData.language);
+			}
+		}
 	});
 	const { form: formData, enhance, message } = form;
 </script>
@@ -47,7 +54,7 @@
 		<div class="flex items-center gap-4">
 			<div class="flex-grow">
 				<Select
-					label={$page.data.t.forms.fields.settings.language.choose_language.label()}
+					label={m.watery_such_jackal_flow()}
 					{form}
 					name="language"
 					options={items}
