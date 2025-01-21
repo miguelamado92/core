@@ -1,4 +1,17 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"slimy_sleek_goldfish_hope": "Doit contenir au moins 1 caractère",
+	"proud_house_thrush_shine": "La longueur maximale est {maxLength} caractères",
+	"salty_mad_polecat_pray": "Veuillez saisir un nombre entier",
+	"bad_actual_mouse_bless": "Doit être un horodatage ISO 8601 valide",
+	"super_tired_giraffe_clasp": "Doit être l'une de nos langues prises en charge ( {supportedLanguages} )",
+	"teal_cozy_ox_nudge": "Doit être l'un des pays pris en charge ( {supportedCountries} )",
+	"deft_legal_platypus_zap": "Ne peut contenir que des lettres minuscules, des chiffres et des traits de soulignement. Aucun espace ni caractère spécial n'est autorisé.",
+	"legal_antsy_alpaca_drip": "Doit être un nom de domaine (par exemple : exemple.com)",
+	"actual_early_anteater_endure": "Veuillez fournir une adresse e-mail valide",
+	"suave_weird_meerkat_imagine": "UUID non valide",
+	"spare_great_cowfish_jolt": "La latitude et la longitude doivent être des nombres compris entre -180 et 180",
+	"extra_large_marlin_dream": "Vous devez choisir un type de carte Twitter parmi {cardList}",
+	"dark_small_deer_win": "Le numéro de téléphone doit comporter entre 5 et 30 caractères et contenir uniquement des chiffres, des espaces, « + », « ( », « ) », « - », « .» et « / »",
 	"watery_such_jackal_flow": "Choisissez votre langue"
 }

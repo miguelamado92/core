@@ -1,4 +1,17 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"slimy_sleek_goldfish_hope": "Lazima iwe na angalau urefu wa herufi 1",
+	"proud_house_thrush_shine": "Urefu wa juu zaidi ni herufi {maxLength}",
+	"salty_mad_polecat_pray": "Tafadhali weka nambari nzima",
+	"bad_actual_mouse_bless": "Lazima iwe muhuri halali wa ISO 8601",
+	"super_tired_giraffe_clasp": "Lazima iwe mojawapo ya lugha zetu zinazotumika ( {supportedLanguages} )",
+	"teal_cozy_ox_nudge": "Lazima iwe mojawapo ya nchi zinazotumika ( {supportedCountries} )",
+	"deft_legal_platypus_zap": "Inaweza tu kuwa na herufi ndogo, nambari na mistari ya chini. Hakuna nafasi au herufi maalum zinazoruhusiwa.",
+	"legal_antsy_alpaca_drip": "Lazima liwe jina la kikoa (km: example.com)",
+	"actual_early_anteater_endure": "Tafadhali toa barua pepe halali",
+	"suave_weird_meerkat_imagine": "UUID batili",
+	"spare_great_cowfish_jolt": "Latitudo na longitudo lazima ziwe nambari kati ya -180 na 180",
+	"extra_large_marlin_dream": "Lazima uchague aina ya kadi ya twitter kutoka kwa {cardList}",
+	"dark_small_deer_win": "Nambari ya simu lazima iwe kati ya herufi 5 na 30 na iwe na nambari, nafasi pekee, '+', '(', ')', '-', '.' na'/'",
 	"watery_such_jackal_flow": "Chagua lugha yako"
 }
