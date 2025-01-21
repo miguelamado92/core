@@ -1,7 +1,7 @@
 import { valibot, superValidate, formAction, redirect } from '$lib/server';
 import { update, read } from '$lib/schema/core/instance';
 import { parse } from '$lib/schema/valibot';
-import { setLanguageTag } from '$lib/paraglide/runtime.js';
+import { setLocale } from '$lib/paraglide/runtime.js';
 import { Localization } from '$lib/i18n';
 import { PUBLIC_LOCALIZATION_COOKIE_NAME } from '$env/static/public';
 
@@ -27,7 +27,7 @@ export const actions = {
 			expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365),
 			path: '/'
 		});
-		setLanguageTag(() => parsed.language); //sets the language tag in the server runtime for the current request
+		setLocale(parsed.language); //sets the language tag in the server runtime for the current request
 		event.locals.t = new Localization(event.locals.language);
 		return redirect(event, {
 			message: event.locals.t.forms.actions.success()
