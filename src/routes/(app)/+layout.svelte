@@ -10,8 +10,8 @@
 		breadcrumbs as breadcrumbsConstructor,
 		renderBreadcrumb
 	} from '$lib/comps/nav/breadcrumbs/breadcrumbs';
-
 	import { getLocale } from '$lib/paraglide/runtime';
+	import { PUBLIC_UMAMI_WEBSITE_ID } from '$env/static/public';
 	import * as Sentry from '@sentry/sveltekit';
 	import { browser } from '$app/environment';
 	if (browser) {
@@ -58,10 +58,22 @@
 		flash.set(undefined);
 	});
 	import ParaglideClientSide from '$lib/i18n/ParaglideClientSide.svelte';
+  if (browser) {
+		if ('umami' in window) {
+			//@ts-expect-error
+			window.umami.identify({ team: $page.data.instance.slug, id: $page.data.admin.id });
+		}
+	}
 </script>
 
 <svelte:head>
-	{#key page.url.pathname}
+	<script
+		defer
+		src="https://cloud.umami.is/script.js"
+		data-website-id={PUBLIC_UMAMI_WEBSITE_ID}
+		data-tag={$page.data.instance.slug}
+	></script>
+	{#key $page.url.pathname}
 		<title>{pageTitle} - Belcoda</title>
 	{/key}
 </svelte:head>
