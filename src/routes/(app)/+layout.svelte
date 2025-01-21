@@ -58,10 +58,10 @@
 		flash.set(undefined);
 	});
 	import ParaglideClientSide from '$lib/i18n/ParaglideClientSide.svelte';
-  if (browser) {
+	if (browser) {
 		if ('umami' in window) {
 			//@ts-expect-error
-			window.umami.identify({ team: $page.data.instance.slug, id: $page.data.admin.id });
+			window.umami.identify({ team: page.data.instance.slug, id: page.data.admin.id });
 		}
 	}
 </script>
@@ -71,9 +71,9 @@
 		defer
 		src="https://cloud.umami.is/script.js"
 		data-website-id={PUBLIC_UMAMI_WEBSITE_ID}
-		data-tag={$page.data.instance.slug}
+		data-tag={page.data.instance.slug}
 	></script>
-	{#key $page.url.pathname}
+	{#key page.url.pathname}
 		<title>{pageTitle} - Belcoda</title>
 	{/key}
 </svelte:head>
