@@ -18,7 +18,7 @@ export default defineConfig({
 		outputFile: 'vitest/results/index.html',
 		coverage: {
 			include: ['src/**/*.{js,ts}'],
-			exclude: ['src/lib/i18n/localizations/**/*', 'src/zapatos/**/*'],
+			exclude: ['src/lib/i18n/localizations/**/*', 'src/zapatos/**/*', 'src/lib/paraglide/**/*'],
 			reporter: ['text', 'json', 'html'],
 			reportsDirectory: 'vitest/coverage'
 		}
