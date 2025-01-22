@@ -148,6 +148,20 @@ export default function (locale: SL) {
 						});
 					}
 				},
+				url: {
+					label: () => {
+						return t(locale, {
+							en: 'URL',
+							ja: 'URL',
+							pt: 'URL',
+							es: 'URL',
+							fr: 'URL',
+							sw: 'URL',
+							th: 'URL',
+							zh: 'URL'
+						});
+					}
+				},
 				title: {
 					label: () => {
 						return t(locale, {
@@ -896,6 +910,32 @@ export default function (locale: SL) {
 							th: 'ตอบกลับไปที่',
 							zh: '回复'
 						});
+					},
+					description: () => {
+						return t(locale, {
+							en: `The address that replies to this email will be sent to. If you change it, you will not automatically receive replies inside Belcoda.`,
+							ja: `このメールに返信するアドレスが送信されます。変更すると、Belcoda内で自動的に返信を受け取ることはできません。`,
+							pt: `O endereço para o qual as respostas a este email serão enviadas. Se você alterá-lo, não receberá automaticamente respostas dentro do Belcoda.`,
+							es: `La dirección a la que se enviarán las respuestas a este correo electrónico. Si lo cambia, no recibirá automáticamente respuestas dentro de Belcoda.`,
+							fr: `L'adresse à laquelle les réponses à cet e-mail seront envoyées. Si vous la modifiez, vous ne recevrez pas automatiquement de réponses à l'intérieur de Belcoda.`,
+							sw: `Anwani ambayo majibu kwa barua pepe hii yatapelekwa. Ikiwa utaibadilisha, hutapokea majibu kiotomatiki ndani ya Belcoda.`,
+							th: `ที่อยู่ที่จะส่งกลับไปยังอีเมลนี้ หากคุณเปลี่ยนมันคุณจะไม่ได้รับการตอบกลับอัตโนมัติภายใน Belcoda`,
+							zh: `将回复此电子邮件的地址发送到。如果您更改它，您将无法在Belcoda内自动接收回复。`
+						});
+					}
+				},
+				advanced_settings: {
+					warning: () => {
+						return t(locale, {
+							en: `You might not need to change these settings. The default settings are correct for the majority of cases, and making changes can break automatic handling of email replies and other features. Please read the documentation fully before making changes.`,
+							ja: `これらの設定を変更する必要がない場合があります。デフォルト設定はほとんどの場合に適しており、変更すると電子メールの返信の自動処理やその他の機能が壊れる可能性があります。変更する前に文書を十分に読んでください。`,
+							pt: `Você pode não precisar alterar essas configurações. As configurações padrão são corretas para a maioria dos casos e fazer alterações pode quebrar o tratamento automático de respostas de e-mail e outras funcionalidades. Por favor, leia a documentação completamente antes de fazer alterações.`,
+							es: `Es posible que no necesite cambiar estas configuraciones. Las configuraciones predeterminadas son correctas para la mayoría de los casos y hacer cambios puede romper el manejo automático de respuestas de correo electrónico y otras funciones. Por favor, lea completamente la documentación antes de hacer cambios.`,
+							fr: `Vous pourriez ne pas avoir besoin de modifier ces paramètres. Les paramètres par défaut sont corrects pour la plupart des cas, et apporter des modifications peut rompre le traitement automatique des réponses aux e-mails et d'autres fonctionnalités. Veuillez lire la documentation entièrement avant de faire des modifications.`,
+							sw: `Huenda usihitaji kubadilisha mipangilio hii. Mipangilio ya msingi ni sahihi kwa kesi nyingi, na kufanya mabadiliko kunaweza kuvunja kushughulikia kiotomatiki cha majibu ya barua pepe na vipengele vingine. Tafadhali soma nyaraka kabisa kabla ya kufanya mabadiliko.`,
+							th: `คุณอาจจะไม่จำเป็นต้องเปลี่ยนการตั้งค่าเหล่านี้ การตั้งค่าเริ่มต้นถูกต้องสำหรับกรณีส่วนใหญ่และการเปลี่ยนแปลงอาจทำให้การจัดการอัตโนมัติของการตอบกลับอีเมลและคุณลักษณะอื่น ๆ เสีย โปรดอ่านเอกสารอย่างเต็มที่ก่อนที่จะทำการเปลี่ยนแปลง`,
+							zh: `您可能不需要更改这些设置。默认设置适用于大多数情况，进行更改可能会破坏电子邮件回复的自动处理和其他功能。请在进行更改之前完全阅读文档。`
+						});
 					}
 				},
 				preview_text: {
@@ -913,14 +953,14 @@ export default function (locale: SL) {
 					},
 					description: () => {
 						return t(locale, {
-							en: 'This is the text that appears in the email client preview',
-							ja: 'これはメールクライアントのプレビューに表示されるテキストです',
-							pt: 'Este é o texto que aparece na pré-visualização do cliente de email',
-							es: 'Este es el texto que aparece en la vista previa del cliente de correo electrónico',
-							fr: "C'est le texte qui apparaît dans l'aperçu du client de messagerie",
-							sw: 'Hii ndio maandishi yanayoonekana kwenye hakiki ya mteja wa barua pepe',
-							th: 'นี่คือข้อความที่ปรากฏในการตัวอย่างของไคลเอนต์อีเมล',
-							zh: '这是出现在电子邮件客户端预览中的文本'
+							en: `This is the text that appears in the email client preview. If you don't make changes to this text, a preview will be automatically generated based on the email subject and body.`,
+							ja: `これは電子メールクライアントのプレビューに表示されるテキストです。このテキストを変更しない場合、プレビューは電子メールの件名と本文に基づいて自動的に生成されます。`,
+							pt: `Este é o texto que aparece na pré-visualização do cliente de email. Se você não fizer alterações neste texto, uma pré-visualização será gerada automaticamente com base no assunto e no corpo do email.`,
+							es: `Este es el texto que aparece en la vista previa del cliente de correo electrónico. Si no realiza cambios en este texto, se generará automáticamente una vista previa basada en el asunto y el cuerpo del correo electrónico.`,
+							fr: `C'est le texte qui apparaît dans l'aperçu du client de messagerie. Si vous ne modifiez pas ce texte, un aperçu sera automatiquement généré en fonction de l'objet et du corps du message.`,
+							sw: `Hii ni maandishi yanayoonekana kwenye hakiki ya mteja wa barua pepe. Ikiwa hautafanya mabadiliko kwenye maandishi haya, hakiki itazalishwa kiotomatiki kulingana na somo la barua pepe na mwili.`,
+							th: `นี่คือข้อความที่ปรากฏในการตัวอย่างของไคลเอนต์อีเมล หากคุณไม่ทำการเปลี่ยนแปลงข้อความนี้ จะมีการสร้างการตัวอย่างโดยอัตโนมัติขึ้นจากเรื่องและเนื้อหาของอีเมล`,
+							zh: `这是出现在电子邮件客户端预览中的文本。如果您不对此文本进行更改，将根据电子邮件主题和正文自动生成预览。`
 						});
 					}
 				},
@@ -979,14 +1019,14 @@ export default function (locale: SL) {
 					},
 					description: () => {
 						return t(locale, {
-							en: 'Select a template to use for the email',
-							ja: 'メールに使用するテンプレートを選択',
-							pt: 'Selecione um modelo para usar no email',
-							es: 'Seleccione una plantilla para usar en el correo electrónico',
-							fr: "Sélectionnez un modèle à utiliser pour l'e-mail",
-							sw: 'Chagua kiolezo cha kutumia kwa barua pepe',
-							th: 'เลือกเทมเพลตที่จะใช้สำหรับอีเมล',
-							zh: '选择要用于电子邮件的模板'
+							en: 'Select a template to use for the email. Templates can be managed in the "Email Templates" section.',
+							ja: 'メールに使用するテンプレートを選択。 テンプレートは「メールテンプレート」セクションで管理できます。',
+							pt: 'Selecione um modelo para usar no email. Os modelos podem ser gerenciados na seção "Modelos de Email".',
+							es: 'Seleccione una plantilla para usar en el correo electrónico. Las plantillas se pueden gestionar en la sección "Plantillas de Correo Electrónico".',
+							fr: "Sélectionnez un modèle à utiliser pour l'e-mail. Les modèles peuvent être gérés dans la section «Modèles d'e-mail».",
+							sw: 'Chagua kiolezo cha kutumia kwa barua pepe. Violezo vinaweza kusimamiwa katika sehemu ya "Violezo vya Barua pepe".',
+							th: 'เลือกเทมเพลตที่จะใช้สำหรับอีเมล เทมเพลตสามารถจัดการได้ในส่วน "เทมเพลตอีเมล"',
+							zh: '选择要用于电子邮件的模板。 模板可以在“电子邮件模板”部分中管理。'
 						});
 					}
 				},
@@ -1963,6 +2003,178 @@ export default function (locale: SL) {
 							});
 						}
 					}
+				},
+				website: {
+					custom_domain: {
+						label: () => {
+							return t(locale, {
+								en: 'Custom Domain',
+								ja: 'カスタムドメイン',
+								pt: 'Domínio Personalizado',
+								es: 'Dominio Personalizado',
+								fr: 'Domaine Personnalisé',
+								sw: 'Kikoa cha Kipekee',
+								th: 'โดเมนที่กำหนดเอง',
+								zh: '自定义域名'
+							});
+						},
+						description: () => {
+							return t(locale, {
+								en: 'Enter a custom subdomain that will be accessed by your users. For details on how to set up a custom domain, see our documentation.',
+								ja: 'ユーザーがアクセスするカスタムサブドメインを入力してください。カスタムドメインの設定方法の詳細については、ドキュメントを参照してください。',
+								pt: 'Digite um subdomínio personalizado que será acessado por seus usuários. Para obter detalhes sobre como configurar um domínio personalizado, consulte nossa documentação.',
+								es: 'Ingrese un subdominio personalizado al que accederán sus usuarios. Para obtener detalles sobre cómo configurar un dominio personalizado, consulte nuestra documentación.',
+								fr: 'Entrez un sous-domaine personnalisé qui sera accessible par vos utilisateurs. Pour plus de détails sur la configuration d’un domaine personnalisé, consultez notre documentation.',
+								sw: 'Ingiza kikoa cha kipekee ambacho kitatumika na watumiaji wako. Kwa maelezo kuhusu jinsi ya kuweka kikoa cha kipekee, angalia nyaraka zetu.',
+								th: 'ป้อนโดเมนย่อยที่กำหนดเองที่ผู้ใช้ของคุณจะเข้าถึง สำหรับรายละเอียดเกี่ยวกับวิธีตั้งค่าโดเมนที่กำหนดเอง ดูเอกสารของเรา',
+								zh: '输入用户将访问的自定义子域。有关如何设置自定义域的详细信息，请参阅我们的文档。'
+							});
+						}
+					},
+					logo: {
+						label: () => {
+							return t(locale, {
+								en: 'Logo',
+								ja: 'ロゴ',
+								pt: 'Logotipo',
+								es: 'Logotipo',
+								fr: 'Logo',
+								sw: 'Alama',
+								th: 'โลโก้',
+								zh: '商标'
+							});
+						},
+						description: () => {
+							return t(locale, {
+								en: 'The logo for your organization. Ideally, this should be at least 500px wide by 100px tall, and in PNG or SVG format. It will be displayed in the header of your website.',
+								ja: '組織のロゴです。理想的には、幅500px、高さ100px以上で、PNGまたはSVG形式であるべきです。ウェブサイトのヘッダーに表示されます。',
+								pt: 'O logotipo da sua organização. Idealmente, ele deve ter pelo menos 500px de largura por 100px de altura, e no formato PNG ou SVG. Ele será exibido no cabeçalho do seu site.',
+								es: 'El logotipo de su organización. Idealmente, debe tener al menos 500px de ancho por 100px de alto, y en formato PNG o SVG. Se mostrará en el encabezado de su sitio web.',
+								fr: 'Le logo de votre organisation. Idéalement, il devrait mesurer au moins 500px de large par 100px de haut, et être au format PNG ou SVG. Il sera affiché dans l’en-tête de votre site Web.',
+								sw: 'Alama ya shirika lako. Kwa kawaida, hii inapaswa kuwa angalau upana wa 500px kwa urefu wa 100px, na katika muundo wa PNG au SVG. Itaonyeshwa kwenye kichwa cha tovuti yako.',
+								th: 'โลโก้สำหรับองค์กรของคุณ อย่างไรก็ตาม ควรมีความกว้างอย่างน้อย 500px โดย 100px สูง และในรูปแบบ PNG หรือ SVG จะแสดงในส่วนหัวของเว็บไซต์ของคุณ',
+								zh: '您的组织标志。理想情况下，宽度至少为 500px，高度为 100px，并且为 PNG 或 SVG 格式。它将显示在您网站的页眉中。'
+							});
+						}
+					},
+					favicon: {
+						label: () => {
+							return t(locale, {
+								en: 'Favicon',
+								ja: 'ファビコン',
+								pt: 'Favicon',
+								es: 'Favicon',
+								fr: 'Favicon',
+								sw: 'Favicon',
+								th: 'ไอคอนเว็บ',
+								zh: '网站图标'
+							});
+						},
+						description: () => {
+							return t(locale, {
+								en: 'A small icon that represents your organization. It will be displayed in the browser tab when users visit your website.',
+								ja: '組織を表す小さなアイコンです。ユーザーがウェブサイトを訪れると、ブラウザのタブに表示されます。',
+								pt: 'Um pequeno ícone que representa sua organização. Ele será exibido na guia do navegador quando os usuários visitarem seu site.',
+								es: 'Un pequeño icono que representa a su organización. Se mostrará en la pestaña del navegador cuando los usuarios visiten su sitio web.',
+								fr: 'Une petite icône qui représente votre organisation. Il sera affiché dans l’onglet du navigateur lorsque les utilisateurs visitent votre site Web.',
+								sw: 'Alama ndogo inayowakilisha shirika lako. Itaonyeshwa kwenye kichupo cha kivinjari wakati watumiaji wanapozuru tovuti yako.',
+								th: 'ไอคอนขนาดเล็กที่แสดงถึงองค์กรของคุณ จะแสดงในแท็บของเบราว์เซอร์เมื่อผู้ใช้เข้าชมเว็บไซต์ของคุณ',
+								zh: '代表您的组织的小图标。当用户访问您的网站时，它将显示在浏览器选项卡中。'
+							});
+						}
+					},
+					header_links: {
+						title: () => {
+							return t(locale, {
+								en: 'Header Links',
+								ja: 'ヘッダーリンク',
+								pt: 'Links do Cabeçalho',
+								es: 'Enlaces del Encabezado',
+								fr: 'Liens de l’En-tête',
+								sw: 'Viungo vya Kichwa',
+								th: 'ลิงก์ด้านบน',
+								zh: '页眉链接'
+							});
+						},
+						description: () => {
+							return t(locale, {
+								en: 'Links that will be displayed in the header of your website.',
+								ja: 'ウェブサイトのヘッダーに表示されるリンクです。',
+								pt: 'Links que serão exibidos no cabeçalho do seu site.',
+								es: 'Enlaces que se mostrarán en el encabezado de su sitio web.',
+								fr: 'Liens qui seront affichés dans l’en-tête de votre site Web.',
+								sw: 'Viungo ambavyo vitaonyeshwa kwenye kichwa cha tovuti yako.',
+								th: 'ลิงก์ที่จะแสดงในส่วนหัวของเว็บไซต์ของคุณ',
+								zh: '将显示在您网站页眉中的链接。'
+							});
+						}
+					},
+					open_in_new_tab: {
+						label: () => {
+							return t(locale, {
+								en: 'Open in new tab',
+								ja: '新しいタブで開く',
+								pt: 'Abrir em nova aba',
+								es: 'Abrir en una nueva pestaña',
+								fr: 'Ouvrir dans un nouvel onglet',
+								sw: 'Fungua kwenye kichupo kipya',
+								th: 'เปิดในแท็บใหม่',
+								zh: '在新标签页中打开'
+							});
+						},
+						description: () => {
+							return t(locale, {
+								en: 'Should the link open in a new tab?',
+								ja: 'リンクは新しいタブで開きますか？',
+								pt: 'O link deve abrir em uma nova aba?',
+								es: '¿El enlace debe abrirse en una nueva pestaña?',
+								fr: 'Le lien doit-il s’ouvrir dans un nouvel onglet?',
+								sw: 'Je, kiungo kifunguliwe kwenye kichupo kipya?',
+								th: 'ควรเปิดลิงก์ในแท็บใหม่หรือไม่?',
+								zh: '链接是否应在新标签页中打开？'
+							});
+						}
+					},
+					add_link: {
+						label: () => {
+							return t(locale, {
+								en: 'Add a link',
+								ja: 'リンクを追加',
+								pt: 'Adicionar um link',
+								es: 'Agregar un enlace',
+								fr: 'Ajouter un lien',
+								sw: 'Ongeza kiungo',
+								th: 'เพิ่มลิงก์',
+								zh: '添加链接'
+							});
+						}
+					},
+					footer_links: {
+						title: () => {
+							return t(locale, {
+								en: 'Footer Links',
+								ja: 'フッターリンク',
+								pt: 'Links do Rodapé',
+								es: 'Enlaces del Pie de Página',
+								fr: 'Liens du Pied de Page',
+								sw: 'Viungo vya Chini',
+								th: 'ลิงก์ด้านล่าง',
+								zh: '页脚链接'
+							});
+						},
+						description: () => {
+							return t(locale, {
+								en: 'Links that will be displayed in the footer of your website.',
+								ja: 'ウェブサイトのフッターに表示されるリンクです。',
+								pt: 'Links que serão exibidos no rodapé do seu site.',
+								es: 'Enlaces que se mostrarán en el pie de página de su sitio web.',
+								fr: 'Liens qui seront affichés dans le pied de page de votre site Web.',
+								sw: 'Viungo ambavyo vitaonyeshwa kwenye chini ya tovuti yako.',
+								th: 'ลิงก์ที่จะแสดงในส่วนท้ายของเว็บไซต์ของคุณ',
+								zh: '将显示在您网站页脚中的链接。'
+							});
+						}
+					}
 				}
 			},
 			admins: {
@@ -2443,6 +2655,18 @@ export default function (locale: SL) {
 			remove: () => {
 				return t(locale, {
 					en: 'Remove'
+				});
+			},
+			toggle: () => {
+				return t(locale, {
+					en: 'Toggle',
+					ja: 'トグル',
+					pt: 'Alternar',
+					es: 'Alternar',
+					fr: 'Basculer',
+					sw: 'Badilisha',
+					th: 'สลับ',
+					zh: '切换'
 				});
 			},
 			create: () => {

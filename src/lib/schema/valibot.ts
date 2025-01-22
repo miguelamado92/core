@@ -41,6 +41,13 @@ export const slug = v.pipe(
 	v.maxLength(SHORT_STRING_MAX_LENGTH),
 	v.regex(SLUG_REGEXP)
 );
+
+//taken from https://github.com/fabian-hiller/valibot/pull/907/commits/27efeef44cd8f1e7e7ee37ea65e4d8c3836ab2fd
+export const domainName = v.pipe(
+	v.string(),
+	v.regex(/^(?!-)([a-z0-9-]{1,63}(?<!-)\.)+[a-z]{2,6}$/iu)
+);
+
 export const email = v.pipe(v.string(), v.email());
 export const url = v.pipe(v.string(), v.url(), v.maxLength(LONG_STRING_MAX_LENGTH));
 export const uuid = v.pipe(v.string(), v.uuid());
