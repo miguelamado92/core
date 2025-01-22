@@ -14,5 +14,6 @@
 	"extra_large_marlin_dream": "Debe elegir un tipo de tarjeta de Twitter de {cardList}",
 	"dark_small_deer_win": "El número de teléfono debe tener entre 5 y 30 caracteres y contener solo números, espacios, '+', '(', ')', '-', '.' y '/'",
 	"trite_loose_mammoth_devour": "Error en {path} : {message}",
+	"cozy_shy_jackal_revive": "Error de validación: ",
 	"watery_such_jackal_flow": "Elige tu idioma"
 }

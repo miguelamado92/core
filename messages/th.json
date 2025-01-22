@@ -14,5 +14,6 @@
 	"extra_large_marlin_dream": "ต้องเลือกประเภทการ์ด Twitter จาก {cardList}",
 	"dark_small_deer_win": "หมายเลขโทรศัพท์ต้องมีความยาวระหว่าง 5 ถึง 30 ตัวอักษรและประกอบด้วยตัวเลข ช่องว่าง '+' '(' ')' '-' '.' และ '/' เท่านั้น",
 	"trite_loose_mammoth_devour": "ข้อผิดพลาดที่ {path} : {message}",
+	"cozy_shy_jackal_revive": "ข้อผิดพลาดในการตรวจสอบ: ",
 	"watery_such_jackal_flow": "เลือกภาษาของคุณ"
 }
