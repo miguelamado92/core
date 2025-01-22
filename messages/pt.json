@@ -13,5 +13,6 @@
 	"spare_great_cowfish_jolt": "Latitude e longitude devem ser números entre -180 e 180",
 	"extra_large_marlin_dream": "Deve escolher um tipo de cartão do Twitter em {cardList}",
 	"dark_small_deer_win": "O número de telefone deve ter entre 5 e 30 caracteres e conter apenas números, espaços, '+', '(', ')', '-', '.' e '/'",
+	"trite_loose_mammoth_devour": "Erro em {path} : {message}",
 	"watery_such_jackal_flow": "Escolha seu idioma"
 }

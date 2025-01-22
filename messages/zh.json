@@ -13,5 +13,6 @@
 	"spare_great_cowfish_jolt": "纬度和经度必须是 -180 至 180 之间的数字",
 	"extra_large_marlin_dream": "必须从{cardList}中选择一个 Twitter 卡类型",
 	"dark_small_deer_win": "电话号码必须介于 5 到 30 个字符之间，并且只能包含数字、空格、“+”、“(”、“)”、“-”、“.”和“/”",
+	"trite_loose_mammoth_devour": "{path} {message}",
 	"watery_such_jackal_flow": "选择您的语言"
 }

@@ -13,5 +13,6 @@
 	"spare_great_cowfish_jolt": "ละติจูดและลองจิจูดต้องเป็นตัวเลขระหว่าง -180 ถึง 180",
 	"extra_large_marlin_dream": "ต้องเลือกประเภทการ์ด Twitter จาก {cardList}",
 	"dark_small_deer_win": "หมายเลขโทรศัพท์ต้องมีความยาวระหว่าง 5 ถึง 30 ตัวอักษรและประกอบด้วยตัวเลข ช่องว่าง '+' '(' ')' '-' '.' และ '/' เท่านั้น",
+	"trite_loose_mammoth_devour": "ข้อผิดพลาดที่ {path} : {message}",
 	"watery_such_jackal_flow": "เลือกภาษาของคุณ"
 }
