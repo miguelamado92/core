@@ -28,6 +28,7 @@ export class BelcodaError extends Error {
 	}
 }
 
+import * as m from '$lib/paraglide/messages';
 export function error(code: NumericRange<400, 599>, name: string, message: string, err?: unknown) {
 	const id = randomUUID();
 	if (err) {
@@ -44,16 +45,11 @@ export function error(code: NumericRange<400, 599>, name: string, message: strin
 		} else {
 			const valiErrorOutput = renderValiError(err);
 			if (valiErrorOutput.isValiError) {
-				log.error(
-					`❌ ERROR 400 (ValibotValidationError(${valiErrorOutput.issues.length}): ${valiErrorOutput.name}) ${valiErrorOutput.errorMessage} [${id}] ❌`
-				);
-				valiErrorOutput.issues.forEach((issue) => {
-					log.error(`📝 ${issue}`);
-				});
+				log.error(`❌ ERROR 400 ${valiErrorOutput.message}} [${id}]`);
 				return returnError(400, {
 					error: true,
 					name: name,
-					message: valiErrorOutput.message,
+					message: `${m.cozy_shy_jackal_revive()} ${valiErrorOutput.message}`,
 					id: id
 				});
 			}
