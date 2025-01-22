@@ -281,41 +281,36 @@ export const phoneNumber = v.pipe(
 
 export { DEFAULT_COUNTRY, DEFAULT_LANGUAGE };
 
-export const parse = v.parse;
-export const safeParse = v.safeParse;
-export const parseAsync = v.parseAsync;
-export const safeParseAsync = v.safeParseAsync;
+export const templateGlobals = v.object({
+	url: url,
+	encoded_url: mediumString
+});
+export type TemplateGlobals = v.InferOutput<typeof templateGlobals>;
 
 export function renderValiError(err: unknown):
 	| {
 			isValiError: true;
-			issues: string[];
 			message: string;
 			name: string;
-			errorMessage: string;
 			stack: string | undefined;
 	  }
 	| { isValiError: false } {
 	if (v.isValiError(err)) {
-		let issuesMap: string[] = [];
-		let messageArr: string[] = [];
+		const simpleMessagesArr: string[] = [];
 		err.issues.forEach((issue) => {
 			const dotPath = issue.path?.map((item) => item.key).join('.');
-			const paths =
-				issue.path?.map((p) => {
-					return `type: ${p.type} - origin: ${JSON.stringify(p.origin)} - input: ${'JSON.stringify(p.input)'} - path: ${dotPath} -  value: ${p.value}`;
-				}) ?? [];
-
-			issuesMap.push(
-				`[${issue.kind.toUpperCase()} at ${issue.type.toUpperCase()}: (${issue.input})] Expected ${issue.expected}; received ${issue.received}: ${issue.message} [${paths.join(' __')}]`
-			);
-			messageArr.push(issue.message);
+			if (!dotPath) {
+				simpleMessagesArr.push(issue.message);
+			} else {
+				simpleMessagesArr.push(
+					m.trite_loose_mammoth_devour({ path: dotPath, message: issue.message })
+				);
+			}
+			//messageArr.push(issue.message);
 		});
 		return {
 			isValiError: true,
-			issues: issuesMap,
-			message: messageArr.join('; '),
-			errorMessage: err.message,
+			message: simpleMessagesArr.join('; '),
 			name: err.name,
 			stack: err.stack
 		};
@@ -324,10 +319,8 @@ export function renderValiError(err: unknown):
 	}
 }
 
-export const templateGlobals = v.object({
-	url: url,
-	encoded_url: mediumString
-});
-export type TemplateGlobals = v.InferOutput<typeof templateGlobals>;
-
+export const parse = v.parse;
+export const safeParse = v.safeParse;
+export const parseAsync = v.parseAsync;
+export const safeParseAsync = v.safeParseAsync;
 export { v };
