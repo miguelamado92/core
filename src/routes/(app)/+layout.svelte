@@ -77,7 +77,8 @@
 		<title>{pageTitle} - Belcoda</title>
 	{/key}
 </svelte:head>
-<ParaglideClientSide bind:locale />
+<!-- Must be only browser side. If allowed to run in SSR, it will pollute the server Paraglide runtime -->
+{#if browser}<ParaglideClientSide bind:locale />{/if}
 <!-- Forces the layout to rerender when language is changed -->
 {#key locale}
 	<!-- Also required for the old localization library -->
