@@ -204,3 +204,14 @@ export const preview = v.object({
 		instance: readInstance
 	})
 });
+
+export const whatsappEventSignup = v.object({
+	phone_number: phoneNumber,
+	country: country,
+	full_name: v.string()
+});
+
+export const whatsappEventSignupQueueMessage = v.object({
+	event_id: id,
+	signup: whatsappEventSignup
+});
