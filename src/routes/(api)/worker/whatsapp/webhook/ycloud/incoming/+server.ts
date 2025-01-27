@@ -1,15 +1,20 @@
-import { json, error, pino } from '$lib/server';
+import { json, error, pino, BelcodaError } from '$lib/server';
 import { parse } from '$lib/schema/valibot';
-import { yCloudWebhook } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
+import {
+	yCloudWebhook,
+	type WhatsappInboundMessage
+} from '$lib/schema/communications/whatsapp/webhooks/ycloud';
 const log = pino('WORKER:/webhooks/whatsapp/+server.ts');
 
 import { create as createReceivedMessage } from '$lib/server/api/communications/whatsapp/received_messages';
 import { create as createInteraction } from '$lib/server/api/people/interactions';
 import { create as createInteractionSchema } from '$lib/schema/people/interactions';
-import { _getPersonByWhatsappId } from '$lib/server/api/people/people';
+import { _createPersonByWhatsappId, _getPersonByWhatsappId } from '$lib/server/api/people/people';
 import { triggerAction } from '$lib/schema/communications/actions/actions';
 import { _getByAction } from '$lib/server/api/communications/whatsapp/messages.js';
 import { _idempotentUpdateExpiryTime } from '$lib/server/api/communications/whatsapp/conversations.js';
+import { _getInstanceIdByEventId } from '$lib/server/api/core/instances.js';
+import type { RequestEvent } from './$types.js';
 
 export async function POST(event) {
 	try {
@@ -72,6 +77,35 @@ export async function POST(event) {
 				} catch (err) {
 					log.error(err);
 				}
+			} else if (message.type === 'text') {
+				// Pick out the string [#4fg6XFDE32:3] in the message
+				// and split it into #4fg6XFDE32 and 3.
+				if (!message.text) {
+					throw new Error('No message text found');
+				}
+				const pattern = /\[(#[A-Za-z0-9]+:[0-9])\]/;
+				const identifier = pattern.exec(message.text.body);
+				if (!identifier || !identifier[1]) {
+					throw new Error('No identifier found');
+				}
+
+				const parts = identifier[1].split(/:(\d+)/);
+				if (parts.length > 1) {
+					const action = parts[0];
+					const eventId = parts[1];
+					console.log(action, eventId);
+					switch (action) {
+						case '#4fg6XFDE32':
+							registerPersonForEvent(eventId, message, event);
+							break;
+						default:
+							return error(
+								400,
+								'WORKER:/webhooks/whatsapp/+server.ts',
+								'Unknown action' // TODO: i18n this
+							);
+					}
+				}
 			}
 		}
 		return json({ success: true });
@@ -81,6 +115,53 @@ export async function POST(event) {
 			'WORKER:/webhooks/whatsapp/+server.ts',
 			event.locals.t.errors.http[500](),
 			err
+		);
+	}
+}
+
+//TODO: This should be in a queue
+async function registerPersonForEvent(
+	eventId: string,
+	message: WhatsappInboundMessage,
+	event: RequestEvent
+) {
+	const instance = await _getInstanceIdByEventId(eventId);
+	let person;
+	try {
+		person = await _getPersonByWhatsappId({
+			instanceId: instance.id,
+			whatsappId: message.from,
+			t: event.locals.t
+		});
+	} catch (err) {
+		if (err instanceof BelcodaError && err.code === 404) {
+			console.log('Person not found by whatsappId. Creating person');
+			person = await _createPersonByWhatsappId({
+				instanceId: instance.id,
+				whatsappId: message.from,
+				name: message.customerProfile?.name,
+				t: event.locals.t,
+				queue: event.locals.queue
+			});
+		} else {
+			throw err;
+		}
+	}
+
+	if (person) {
+		// TODO: Work in progress: Actions don't work like this. Refractor!
+		const actionParsed = parse(triggerAction, {
+			type: 'whatsapp_message',
+			person_id: person.id,
+			event_id: eventId,
+			person,
+			message
+		});
+		await event.locals.queue(
+			'/utils/communications/actions',
+			event.locals.instance.id,
+			actionParsed,
+			event.locals.admin.id
 		);
 	}
 }

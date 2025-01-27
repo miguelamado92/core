@@ -10,6 +10,7 @@ export function renderRegistrationLink(
 		'+',
 		''
 	);
+	// TODO: Pick the string #4fg6XFDE32 from some sort of actions store
 	const text = `Hi! I'm interested in ${event.name} [#4fg6XFDE32:${event.id}] on ${formatDate(event.starts_at)}`;
 	return {
 		text: 'Whatsapp registration link',
