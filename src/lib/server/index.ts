@@ -89,7 +89,7 @@ type RedirectOptions = {
 	location?: string;
 	code?: NumericRange<300, 399>;
 };
-export function redirect(event: RequestEvent, options: RedirectOptions) {
+export function redirect(event: RequestEvent, options: RedirectOptions): void {
 	if (options.location && options.code)
 		return sveltekit_flash_redirect(
 			options.code,

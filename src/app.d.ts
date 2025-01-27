@@ -11,14 +11,14 @@ declare global {
 			id: string; //uuid
 		}
 		interface Locals {
-			language: import('$lib/i18n/index').SUPPORTED_LANGUAGES[number];
+			language: import('$lib/i18n/index').SupportedLanguage;
 			t: import('$lib/i18n/index').Localization;
 			admin: import('$lib/schema/core/admin').Read;
 			instance: import('$lib/schema/core/instance').Read;
 			queue: typeof import('$lib/server/utils/queue/add_job').default;
 		}
 		interface PageData {
-			language: import('$lib/i18n/index').SUPPORTED_LANGUAGES[number];
+			language: import('$lib/i18n/index').SupportedLanguage;
 			t: import('$lib/i18n/index').Localization;
 			admin: import('$lib/schema/core/admin').Read;
 			instance: import('$lib/schema/core/instance').Read;

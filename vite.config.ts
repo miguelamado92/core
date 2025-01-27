@@ -1,16 +1,24 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
 import { sentrySvelteKit } from '@sentry/sveltekit';
+import { paraglideVitePlugin } from '@inlang/paraglide-js';
 
 export default defineConfig({
-	plugins: [sentrySvelteKit(), sveltekit()],
+	plugins: [
+		sentrySvelteKit(),
+		sveltekit(),
+		paraglideVitePlugin({
+			project: './project.inlang',
+			outdir: './src/lib/paraglide'
+		})
+	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}'],
 		reporters: ['default', 'html'],
 		outputFile: 'vitest/results/index.html',
 		coverage: {
 			include: ['src/**/*.{js,ts}'],
-			exclude: ['src/lib/i18n/localizations/**/*', 'src/zapatos/**/*'],
+			exclude: ['src/lib/i18n/localizations/**/*', 'src/zapatos/**/*', 'src/lib/paraglide/**/*'],
 			reporter: ['text', 'json', 'html'],
 			reportsDirectory: 'vitest/coverage'
 		}

@@ -41,18 +41,18 @@ import * as i18n from './localizations';
 export { i18n };
 export type LocalizationObject = typeof i18n;
 
-export function parseLocale(event: RequestEvent): SL[number] {
+export function parseLocale(event: RequestEvent): SupportedLanguage {
 	const url_locale = event.url.searchParams.get('lng');
 	if (url_locale && SUPPORTED_LANGUAGES.includes(url_locale as SupportedLanguage)) {
-		return url_locale;
+		return url_locale as SupportedLanguage; //type casting to SupportedLanguage is ok as we are checking it above
 	}
 	const chosen_locale = event.cookies.get(PUBLIC_LOCALIZATION_COOKIE_NAME);
 	if (chosen_locale && SUPPORTED_LANGUAGES.includes(chosen_locale as SupportedLanguage)) {
-		return chosen_locale;
+		return chosen_locale as SupportedLanguage; //type casting to SupportedLanguage is ok as we are checking it above
 	}
 	const accepted_language = event.request.headers.get('accept-language')?.split(',')[0].trim();
 	if (accepted_language && SUPPORTED_LANGUAGES.includes(accepted_language as SupportedLanguage)) {
-		return accepted_language;
+		return accepted_language as SupportedLanguage; //type casting to SupportedLanguage is ok as we are checking it above
 	}
 	return 'en';
 }

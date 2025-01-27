@@ -1,12 +1,12 @@
 import { type RequestEvent } from '@sveltejs/kit';
 import { parseLocale } from '$lib/i18n';
-import type { SL } from '$lib/i18n';
+import type { SupportedLanguage } from '$lib/i18n';
 import { pino } from '$lib/server';
 
 import getApiKey from '$lib/server/hooks/get_api_key';
 import getSession from '$lib/server/hooks/get_session';
 
-export function buildLocalLanguage(event: RequestEvent): SL[number] {
+export function buildLocalLanguage(event: RequestEvent): SupportedLanguage {
 	const locale = parseLocale(event);
 	return locale;
 }
@@ -26,7 +26,7 @@ export async function buildAdminInstance({ event }: { event: RequestEvent }): Pr
 			const { admin, instance } = await getSession(event);
 			event.locals.admin = admin;
 			event.locals.instance = instance;
-			event.locals.language = instance.language;
+			//event.locals.language = instance.language; //don't overwrite user selected language with instance default
 			//log the request to umami only on /api/v1 routes
 			await logToAnalytics(event);
 			return { authenticated: true, event, jsonResponse: false };
@@ -37,7 +37,7 @@ export async function buildAdminInstance({ event }: { event: RequestEvent }): Pr
 				const { admin, instance } = await getApiKey(event);
 				event.locals.admin = admin;
 				event.locals.instance = instance;
-				event.locals.language = instance.language;
+				//event.locals.language = instance.language; //don't overwrite user selected language with instance default
 				//log the request to umami only on /api/v1 routes
 				await logToAnalytics(event);
 				return { authenticated: true, event, jsonResponse: false };
@@ -67,7 +67,7 @@ export async function buildAdminInstance({ event }: { event: RequestEvent }): Pr
 		const { admin, instance } = await getSession(event);
 		event.locals.admin = admin;
 		event.locals.instance = instance;
-		event.locals.language = instance.language;
+    //event.locals.language = instance.language; //don't overwrite user selected language with instance default
 		return { authenticated: true, event, jsonResponse: false };
 	} catch (err) {
 		log.error(err);
