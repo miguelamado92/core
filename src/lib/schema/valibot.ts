@@ -34,22 +34,45 @@ export const longStringNotEmpty = v.pipe(
 	v.minLength(1),
 	v.maxLength(LONG_STRING_MAX_LENGTH)
 );
+
+export const slug = v.pipe(
+	v.string(),
+	v.minLength(1),
+	v.maxLength(SHORT_STRING_MAX_LENGTH),
+	v.regex(SLUG_REGEXP)
+);
+
+//taken from https://github.com/fabian-hiller/valibot/pull/907/commits/27efeef44cd8f1e7e7ee37ea65e4d8c3836ab2fd
+export const domainName = v.pipe(
+	v.string(),
+	v.regex(/^(?!-)([a-z0-9-]{1,63}(?<!-)\.)+[a-z]{2,6}$/iu)
+);
+
+export const email = v.pipe(v.string(), v.email());
+export const url = v.pipe(v.string(), v.url(), v.maxLength(LONG_STRING_MAX_LENGTH));
+export const uuid = v.pipe(v.string(), v.uuid());
+
 export const integer = v.pipe(v.number(), v.integer());
 export const id = v.pipe(v.number(), v.integer(), v.minValue(1));
 export const count = v.pipe(v.number(), v.integer(), v.minValue(0));
+
 export const timestamp = v.union([
 	v.optional(v.date(), new Date()),
 	v.pipe(
 		v.string(),
+		v.transform((input) => new Date(input).toISOString()),
 		v.isoTimestamp(),
 		v.transform((input) => new Date(input))
 	)
 ]);
-export const date = v.union([
+export type Timestamp = v.InferOutput<typeof timestamp>;
+
+export const timestampNoDefault = v.union([
 	v.pipe(
 		v.union([
 			v.pipe(
 				v.string(),
+				v.transform((input) => new Date(input).toISOString()),
 				v.isoTimestamp(),
 				v.transform((input) => new Date(input)),
 				v.date()
@@ -58,26 +81,14 @@ export const date = v.union([
 		])
 	)
 ]);
-export type DateType = v.InferOutput<typeof date>;
+export type TimestampNoDefault = v.InferOutput<typeof timestampNoDefault>;
 export const isoTimestamp = v.pipe(v.string(), v.isoTimestamp());
+export type ISOTimestamp = v.InferOutput<typeof isoTimestamp>;
+
 export const language = v.picklist(SUPPORTED_LANGUAGES);
+export type Language = v.InferOutput<typeof language>;
 export const country = v.picklist(SUPPORTED_COUNTRIES);
 export type Country = v.InferOutput<typeof country>;
-export const slug = v.pipe(
-	v.string(),
-	v.minLength(1),
-	v.maxLength(SHORT_STRING_MAX_LENGTH),
-	v.regex(SLUG_REGEXP)
-);
-//taken from https://github.com/fabian-hiller/valibot/pull/907/commits/27efeef44cd8f1e7e7ee37ea65e4d8c3836ab2fd
-export const domainName = v.pipe(
-	v.string(),
-	v.regex(/^(?!-)([a-z0-9-]{1,63}(?<!-)\.)+[a-z]{2,6}$/iu)
-);
-
-export const email = v.pipe(v.string(), v.email());
-export const url = v.pipe(v.string(), v.maxLength(LONG_STRING_MAX_LENGTH)); //currently JSON schema library doesn't support URL verification
-export const uuid = v.pipe(v.string(), v.uuid());
 
 export const address = v.object({
 	address_line_1: v.nullable(v.pipe(v.string(), v.maxLength(SHORT_STRING_MAX_LENGTH))),
