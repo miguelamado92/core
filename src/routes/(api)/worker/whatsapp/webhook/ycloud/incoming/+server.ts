@@ -15,6 +15,7 @@ import { _getByAction } from '$lib/server/api/communications/whatsapp/messages.j
 import { _idempotentUpdateExpiryTime } from '$lib/server/api/communications/whatsapp/conversations.js';
 import { _getInstanceIdByEventId } from '$lib/server/api/core/instances.js';
 import type { RequestEvent } from './$types.js';
+import { signUpQueueMessage } from '$lib/schema/events/events.js';
 
 export async function POST(event) {
 	try {
@@ -149,19 +150,38 @@ async function registerPersonForEvent(
 	}
 
 	if (person) {
-		// TODO: Work in progress: Actions don't work like this. Refractor!
-		const actionParsed = parse(triggerAction, {
-			type: 'whatsapp_message',
-			person_id: person.id,
-			event_id: eventId,
-			person,
-			message
+		// Send to events/registration queue
+		const parsed = parse(signUpQueueMessage, {
+			event_id: Number(eventId),
+			signup: {
+				full_name: message.customerProfile?.name,
+				phone_number: message.from,
+				country: 'us', // TODO: Get this from the instance or country code
+				whatsapp_id: message.from,
+				whatsapp_message_id: message.id,
+				message: message,
+				// Default stuff
+				family_name: null,
+				family_name_alt: null,
+				given_name: null,
+				given_name_alt: null,
+				dob: null,
+				organisation: null,
+				position: null,
+				details: null,
+				do_not_contact: false,
+				preferred_language: 'en', // TODO: Pick this from somewhere
+				email: 'kenneth@belcoda.org', // TODO: String expected. Handle this
+				address_line_1: '',
+				address_line_2: '',
+				address_line_3: '',
+				address_line_4: '',
+				locality: '',
+				state: '',
+				postcode: '',
+				opt_in: true
+			}
 		});
-		await event.locals.queue(
-			'/utils/communications/actions',
-			event.locals.instance.id,
-			actionParsed,
-			event.locals.admin.id
-		);
+		await event.locals.queue('/events/registration', instance.id, parsed, event.locals.admin.id);
 	}
 }
