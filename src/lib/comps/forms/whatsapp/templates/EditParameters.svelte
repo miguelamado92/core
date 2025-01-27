@@ -12,7 +12,7 @@
 	let { components = $bindable(), messages, actions = $bindable() }: Props = $props();
 	import * as Select from '$lib/comps/ui/select';
 	import Input from '$lib/comps/ui/input/input.svelte';
-	import FileUpload from '$lib/comps/ui/form/controls/file_upload/file_upload.svelte';
+	import FileUpload from '$lib/comps/ui/form/controls/file_upload/simple_file_upload.svelte';
 
 	const messagesToSelect = $derived(
 		messages.map((m) => ({ value: m.id, label: `MSGID:${m.id}`, message: m }))
@@ -43,9 +43,8 @@
 				{/if}
 				{#if components[i].parameters[j].type === 'image'}
 					<FileUpload
-						label={null}
-						on:uploaded={(ev) => {
-							const url = ev.detail.url;
+						onUpload={(data) => {
+							const url = data.url;
 							if (components[i].parameters[j].type === 'image') {
 								components[i].parameters[j].image.link = url;
 							}
