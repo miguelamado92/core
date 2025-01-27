@@ -15,7 +15,7 @@ import {
 	slug,
 	customCode,
 	htmlMetatags,
-	date
+	timestampNoDefault
 } from '$lib/schema/valibot';
 
 import { read as readAdmin } from '$lib/schema/core/admin';
@@ -43,8 +43,8 @@ export const base = v.object({
 	slug: slug,
 	heading: shortStringNotEmpty,
 	html: longStringNotEmpty,
-	starts_at: date,
-	ends_at: date,
+	starts_at: timestampNoDefault,
+	ends_at: timestampNoDefault,
 	online: v.boolean(),
 	online_url: v.nullable(url),
 	online_instructions: v.nullable(longString),
