@@ -3,6 +3,8 @@
 </script>
 
 <script lang="ts" generics="T extends Record<string, unknown>">
+	import { setLocale } from '$lib/paraglide/runtime';
+	import * as m from '$lib/paraglide/messages';
 	import { page } from '$app/stores';
 	import {
 		Button,
@@ -16,7 +18,7 @@
 	} from '$lib/comps/ui/forms';
 	import { type SuperValidated } from 'sveltekit-superforms';
 	import { update } from '$lib/schema/core/instance';
-	import { SUPPORTED_LANGUAGES, type SupportedLanguage } from '$lib/i18n';
+	import { type SupportedLanguage } from '$lib/i18n';
 	const items: { value: SupportedLanguage; label: string }[] = [
 		{ value: 'en', label: 'English' },
 		{ value: 'ja', label: '日本語' },
@@ -36,7 +38,12 @@
 
 	const form = superForm(superform, {
 		validators: valibotClient(update),
-		dataType: 'json'
+		dataType: 'json',
+		onSubmit: async () => {
+			if ($formData.language) {
+				setLocale($formData.language);
+			}
+		}
 	});
 	const { form: formData, enhance, message } = form;
 </script>
@@ -47,7 +54,7 @@
 		<div class="flex items-center gap-4">
 			<div class="flex-grow">
 				<Select
-					label={$page.data.t.forms.fields.settings.language.choose_language.label()}
+					label={m.watery_such_jackal_flow()}
 					{form}
 					name="language"
 					options={items}
