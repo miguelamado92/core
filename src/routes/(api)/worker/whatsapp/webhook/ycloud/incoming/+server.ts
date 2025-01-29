@@ -13,9 +13,13 @@ import { _createPersonByWhatsappId, _getPersonByWhatsappId } from '$lib/server/a
 import { triggerAction } from '$lib/schema/communications/actions/actions';
 import { _getByAction } from '$lib/server/api/communications/whatsapp/messages.js';
 import { _idempotentUpdateExpiryTime } from '$lib/server/api/communications/whatsapp/conversations.js';
-import { _getInstanceIdByEventId } from '$lib/server/api/core/instances.js';
+import {
+	_getInstanceIdByEventId,
+	_getInstanceIdByPetitionId
+} from '$lib/server/api/core/instances.js';
 import type { RequestEvent } from './$types.js';
-import { signUpQueueMessage } from '$lib/schema/events/events.js';
+import { signUpQueueMessage, update } from '$lib/schema/events/events.js';
+import { signatureQueueMessage } from '$lib/schema/petitions/petitions.js';
 
 export async function POST(event) {
 	try {
@@ -127,27 +131,7 @@ async function registerPersonForEvent(
 	event: RequestEvent
 ) {
 	const instance = await _getInstanceIdByEventId(eventId);
-	let person;
-	try {
-		person = await _getPersonByWhatsappId({
-			instanceId: instance.id,
-			whatsappId: message.from,
-			t: event.locals.t
-		});
-	} catch (err) {
-		if (err instanceof BelcodaError && err.code === 404) {
-			console.log('Person not found by whatsappId. Creating person');
-			person = await _createPersonByWhatsappId({
-				instanceId: instance.id,
-				whatsappId: message.from,
-				name: message.customerProfile?.name,
-				t: event.locals.t,
-				queue: event.locals.queue
-			});
-		} else {
-			throw err;
-		}
-	}
+	const person = await getPerson(instance.id, message.from, message, event);
 
 	if (person) {
 		// Send to events/registration queue
@@ -156,7 +140,7 @@ async function registerPersonForEvent(
 			signup: {
 				full_name: message.customerProfile?.name,
 				phone_number: message.from,
-				country: 'us', // TODO: Get this from the instance or country code
+				country: instance.country,
 				whatsapp_id: message.from,
 				whatsapp_message_id: message.id,
 				message: message,
@@ -185,3 +169,32 @@ async function registerPersonForEvent(
 		await event.locals.queue('/events/registration', instance.id, parsed, event.locals.admin.id);
 	}
 }
+
+async function getPerson(
+	instanceId: number,
+	whatsappId: string,
+	message: WhatsappInboundMessage,
+	event: RequestEvent
+) {
+	try {
+		return await _getPersonByWhatsappId({
+			instanceId,
+			whatsappId,
+			t: event.locals.t
+		});
+	} catch (err) {
+		if (err instanceof BelcodaError && err.code === 404) {
+			log.debug('Person not found by whatsappId. Creating person');
+			return await _createPersonByWhatsappId({
+				instanceId,
+				whatsappId,
+				name: message.customerProfile?.name,
+				t: event.locals.t,
+				queue: event.locals.queue
+			});
+		} else {
+			throw err;
+		}
+	}
+}
+

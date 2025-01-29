@@ -118,6 +118,20 @@ export async function _getInstanceIdByEventId(eventId: string): Promise<schema.R
 	return await read({ instance_id: response[0].instance_id });
 }
 
+export async function _getInstanceIdByPetitionId(petitionId: string): Promise<schema.Read> {
+	const response =
+		await db.sql`SELECT instance_id from petitions.petitions WHERE id = ${db.param(petitionId)} limit 1`.run(
+			pool
+		);
+	if (response.length !== 1)
+		throw new BelcodaError(
+			400,
+			'DATA:INSTANCES:GET_BY_PETITION_ID:01',
+			'No instance found with that petition ID'
+		);
+	return await read({ instance_id: response[0].instance_id });
+}
+
 const instanceCountSchema = v.pipe(v.number(), v.integer(), v.minValue(0));
 
 export async function _count(): Promise<number> {
