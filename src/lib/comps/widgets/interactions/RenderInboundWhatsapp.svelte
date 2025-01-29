@@ -2,19 +2,18 @@
 	import { page } from '$app/stores';
 	import Frame from '$lib/comps/forms/whatsapp/Frame.svelte';
 	import type { Message as WebhookMessage } from '$lib/schema/communications/whatsapp/webhooks/messages';
-	import type { Message } from '$lib/schema/communications/whatsapp/elements/message';
+	import type { Message as InboundMessage } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
 	import type { Read as ReadPerson, SimplePersonRecord } from '$lib/schema/people/people';
 	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
 	import Whatsapp from '$lib/comps/icons/whatsapp.svelte';
 	type Props = {
 		messageId: string;
-		message: WebhookMessage;
+		message: WebhookMessage | InboundMessage;
 		person: ReadPerson | SimplePersonRecord;
 		timeAgo: Date;
 	};
 	const { messageId, person, timeAgo, message }: Props = $props();
 	const selected = false;
-	const me = message.type === 'image';
 </script>
 
 <div class="flex items-start gap-2 mb-3">
@@ -23,13 +22,15 @@
 		<Frame selected={false}>
 			{#if message.type === 'image'}
 				{@render renderImage('https://via.placeholder.com/250x250')}
-				{#if message.image.caption}{message.image.caption}{/if}
-			{/if}
-			{#if message.type === 'text'}
-				{message.text.body}
-			{/if}
-			{#if message.type === 'button'}
-				{message.button.text}
+				{#if 'image' in message && message.image.caption}{message.image.caption}{/if}
+			{:else if message.type === 'text'}
+				<div class="text-sm">
+					{message.text.body}
+				</div>
+			{:else if message.type === 'button'}
+				<div class="text-sm">
+					{message.button.text}
+				</div>
 			{/if}
 		</Frame>
 		<div class="flex items-center gap-1 mt-1">
