@@ -83,33 +83,27 @@ export async function POST(event) {
 					log.error(err);
 				}
 			} else if (message.type === 'text') {
-				// Pick out the string [#4fg6XFDE32:3] in the message
-				// and split it into #4fg6XFDE32 and 3.
+				// Pick out the string [SIGNUP:3] in the message
+				// and split it into SIGNUP and 3.
 				if (!message.text) {
 					throw new Error('No message text found');
 				}
-				const pattern = /\[(#[A-Za-z0-9]+:[0-9])\]/;
+				const pattern = /\[(SIGNUP|PETITION):([0-9]+)\]/;
 				const identifier = pattern.exec(message.text.body);
-				if (!identifier || !identifier[1]) {
+				if (!identifier) {
 					throw new Error('No identifier found');
 				}
-
-				const parts = identifier[1].split(/:(\d+)/);
-				if (parts.length > 1) {
-					const action = parts[0];
-					const eventId = parts[1];
-					console.log(action, eventId);
-					switch (action) {
-						case '#4fg6XFDE32':
-							registerPersonForEvent(eventId, message, event);
-							break;
-						default:
-							return error(
-								400,
-								'WORKER:/webhooks/whatsapp/+server.ts',
-								'Unknown action' // TODO: i18n this
-							);
-					}
+				const action = identifier[1]; // "SIGNUP" or "PETITION"
+				const id = identifier[2]; // The numeric ID
+				switch (action) {
+					case 'SIGNUP':
+						registerPersonForEvent(id, message, event);
+						break;
+					case 'PETITION':
+						signPetition(id, message, event);
+						break;
+					default:
+						return error(400, 'WORKER:/webhooks/whatsapp/+server.ts', 'Unknown action');
 				}
 			}
 		}
@@ -124,7 +118,6 @@ export async function POST(event) {
 	}
 }
 
-//TODO: This should be in a queue
 async function registerPersonForEvent(
 	eventId: string,
 	message: WhatsappInboundMessage,
@@ -154,7 +147,7 @@ async function registerPersonForEvent(
 				position: null,
 				details: null,
 				do_not_contact: false,
-				preferred_language: 'en', // TODO: Pick this from somewhere
+				preferred_language: instance.language,
 				email: 'kenneth@belcoda.org', // TODO: String expected. Handle this
 				address_line_1: '',
 				address_line_2: '',
@@ -198,3 +191,29 @@ async function getPerson(
 	}
 }
 
+async function signPetition(
+	petitionId: string,
+	message: WhatsappInboundMessage,
+	event: RequestEvent
+) {
+	const instance = await _getInstanceIdByPetitionId(petitionId);
+	const person = await getPerson(instance.id, message.from, message, event);
+
+	if (person) {
+		const parsed = parse(signatureQueueMessage, {
+			petition_id: Number(petitionId),
+			signup: {
+				full_name: message.customerProfile?.name,
+				phone_number: message.from,
+				country: instance.country,
+				whatsapp_id: message.from,
+				whatsapp_message_id: message.id,
+				message: message,
+				opt_in: true,
+				email: 'kenneth@belcoda.org' // TODO: String expected. Handle this
+			}
+		});
+		console.log('parsed ', parsed);
+		await event.locals.queue('/petitions/signature', instance.id, parsed, event.locals.admin.id);
+	}
+}
