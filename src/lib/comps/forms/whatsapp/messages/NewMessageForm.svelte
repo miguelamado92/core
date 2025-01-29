@@ -15,7 +15,7 @@
 	let message: Message = $state({
 		type: 'text',
 		text: {
-			body: '',
+			body: '[Message text]',
 			preview_url: true
 		}
 	});
@@ -30,7 +30,7 @@
 	<div>
 		<Button
 			class="btn btn-primary"
-			on:click={() => {
+			onclick={() => {
 				oncreate(message);
 			}}
 		>
