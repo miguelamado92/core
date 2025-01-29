@@ -14,7 +14,16 @@ const config = {
 			mode: 'auto',
 			directives: {
 				'default-src': ['self'],
-				'connect-src': ['self', '*.sentry.io', 'https://api-gateway.umami.dev/api/send'],
+				'connect-src': [
+					'self',
+					'*.sentry.io',
+					'https://api-gateway.umami.dev/api/send',
+					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`,
+					`https://${process.env.AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`,
+					`https://${process.env.AWS_S3_USER_IMPORT_BUCKET_NAME}.s3.amazonaws.com/`,
+					`https://${process.env.AWS_S3_USER_EXPORT_BUCKET_NAME}.s3.amazonaws.com/`,
+					`https://*.amazonaws.com/`
+				],
 				// for now we need to keep 'unsafe-inline' for a couple of bits-ui components that inject inline event handlers
 				// we also need it for our custom code options, which currently inject inline styles.
 				'script-src': [
@@ -23,16 +32,16 @@ const config = {
 					'unsafe-inline',
 					'https://cloud.umami.is'
 				],
-        'frame-src': ['self', 'https://accounts.google.com'],
+				'frame-src': ['self', 'https://accounts.google.com'],
 				'frame-ancestors': ['self', 'https://accounts.google.com'],
 				'style-src': ['self', 'unsafe-inline', 'https://accounts.google.com/gsi/style'],
 				'worker-src': ['self', 'blob:'],
 				'img-src': [
 					'self',
-					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com`
+					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`
 				],
 				'object-src': [
-					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com`
+					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`
 				]
 			}
 		},
