@@ -35,10 +35,9 @@
 	}}
 />
 <div>
-	<div class="mt-1 text-xs text-muted-foreground">MSGID:{messages[index].id}</div>
 	<div class="flex">
 		<div
-			class={'rounded-lg border text-sm text-left px-2 py-1.5'}
+			class={'rounded-lg border text-sm text-left'}
 			class:bg-white={!selected}
 			class:bg-blue-500={selected}
 			class:border-blue-500={selected}
@@ -53,7 +52,7 @@
 					(messages[index].message = imageActions.removeImage(messages[index].message))}
 			/>
 			<!-- Display buttons-->
-			<div class="mt-1"><DisplayInteractive {messages} {index} /></div>
+			<div class=""><DisplayInteractive {selected} {messages} {index} /></div>
 		</div>
 	</div>
 </div>

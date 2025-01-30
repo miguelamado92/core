@@ -39,12 +39,8 @@
 				<EditButtons bind:messages {index} />
 			</div>
 			<Drawer.Footer>
-				<Drawer.Close
-					onclick={async () => {
-						await onSaveMessage(messages[index]);
-						selectedMessageId = null;
-					}}
-					class={cn(buttonVariants({ size: 'sm', variant: 'default' }))}>Save</Drawer.Close
+				<Drawer.Close class={cn(buttonVariants({ size: 'sm', variant: 'default' }))}
+					>Save</Drawer.Close
 				>
 			</Drawer.Footer>
 		</Drawer.Content>
