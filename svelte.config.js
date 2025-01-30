@@ -18,10 +18,6 @@ const config = {
 					'self',
 					'*.sentry.io',
 					'https://api-gateway.umami.dev/api/send',
-					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`,
-					`https://${process.env.AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`,
-					`https://${process.env.AWS_S3_USER_IMPORT_BUCKET_NAME}.s3.amazonaws.com/`,
-					`https://${process.env.AWS_S3_USER_EXPORT_BUCKET_NAME}.s3.amazonaws.com/`,
 					`https://*.amazonaws.com/`
 				],
 				// for now we need to keep 'unsafe-inline' for a couple of bits-ui components that inject inline event handlers
