@@ -31,32 +31,33 @@ export const whatsAppBusinessAccountUpdated = v.object({
 	})
 });
 
+export const whatsappInboundMessage = v.object({
+	...wb.messageBase.entries,
+	id: shortStringNotEmpty,
+	wabaId: shortStringNotEmpty,
+	from: shortStringNotEmpty,
+	customerProfile: v.object({
+		name: mediumString
+	}),
+	to: shortStringNotEmpty,
+	sendTime: isoTimestamp,
+	type: wb.messages_type,
+	audio: v.optional(wb.audio),
+	button: v.optional(wb.button),
+	document: v.optional(wb.document),
+	text: v.optional(wb.text),
+	image: v.optional(wb.image),
+	interactive: v.optional(wb.interactive),
+	order: v.optional(wb.order),
+	sticker: v.optional(wb.sticker),
+	system: v.optional(wb.system),
+	video: v.optional(wb.video)
+});
+
 export const whatsappInboundMessageReceived = v.object({
 	...base.entries,
 	type: v.literal('whatsapp.inbound_message.received'),
-	whatsappInboundMessage: v.object({
-		...wb.messageBase.entries,
-		id: shortStringNotEmpty,
-		wabaId: shortStringNotEmpty,
-		from: shortStringNotEmpty,
-		customerProfile: v.object({
-			name: mediumString
-		}),
-		to: shortStringNotEmpty,
-		sendTime: isoTimestamp,
-		type: wb.messages_type,
-		audio: v.optional(wb.audio),
-		button: v.optional(wb.button),
-		document: v.optional(wb.document),
-		text: v.optional(wb.text),
-		image: v.optional(wb.image),
-		interactive: v.optional(wb.interactive),
-		order: v.optional(wb.order),
-		sticker: v.optional(wb.sticker),
-		system: v.optional(wb.system),
-		//unknown: v.optional(wb.unknown),
-		video: v.optional(wb.video)
-	})
+	whatsappInboundMessage: whatsappInboundMessage
 });
 export type WhatsappInboundMessageReceived = v.InferOutput<typeof whatsappInboundMessageReceived>;
 
