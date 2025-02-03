@@ -9,8 +9,14 @@
 		messages: Read[];
 		index: number;
 		selectedMessageId: string | null;
+		loading: boolean;
 	};
-	let { messages = $bindable(), index, selectedMessageId = $bindable(null) }: Props = $props();
+	let {
+		messages = $bindable(),
+		loading = $bindable(),
+		index,
+		selectedMessageId = $bindable(null)
+	}: Props = $props();
 
 	// This is the main component that will display the message
 	import DisplayMessage from './display/DisplayMessage.svelte';
@@ -29,9 +35,15 @@
 	bind:messages
 	{index}
 	onSaveMessage={async (message) => {
-		// TODO:
-		await updateMessage(message);
-		$flash = { type: 'success', message: 'Message saved' };
+		try {
+			loading = true;
+			await updateMessage(message);
+			$flash = { type: 'success', message: 'Message saved' };
+		} catch (err) {
+			$flash = { type: 'error', message: 'Failed to save message' };
+		} finally {
+			loading = false;
+		}
 	}}
 />
 <div>
@@ -52,7 +64,7 @@
 					(messages[index].message = imageActions.removeImage(messages[index].message))}
 			/>
 			<!-- Display buttons-->
-			<div class=""><DisplayInteractive {selected} {messages} {index} /></div>
+			<div><DisplayInteractive {selected} {messages} {index} /></div>
 		</div>
 	</div>
 </div>
