@@ -31,10 +31,3 @@ export async function createNewMessage(message: Message, threadId: number) {
 	});
 	if (!res.ok) alert('Error!');
 }
-
-export async function fetchMessages(threadId: number) {
-	const res = await fetch(`/api/v1/communications/whatsapp/threads/${threadId}/messages`);
-	const data = await res.json();
-	const parsed = parse(list, data);
-	return parsed.items;
-}
