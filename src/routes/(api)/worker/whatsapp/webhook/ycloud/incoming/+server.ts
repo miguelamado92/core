@@ -137,25 +137,8 @@ async function registerPersonForEvent(
 				whatsapp_id: message.from,
 				whatsapp_message_id: message.id,
 				message: message,
-				// Default stuff
-				family_name: null,
-				family_name_alt: null,
-				given_name: null,
-				given_name_alt: null,
-				dob: null,
-				organisation: null,
-				position: null,
-				details: null,
-				do_not_contact: false,
 				preferred_language: instance.language,
 				email: 'kenneth@belcoda.org', // TODO: String expected. Handle this
-				address_line_1: '',
-				address_line_2: '',
-				address_line_3: '',
-				address_line_4: '',
-				locality: '',
-				state: '',
-				postcode: '',
 				opt_in: true
 			}
 		});
@@ -216,4 +199,21 @@ async function signPetition(
 		console.log('parsed ', parsed);
 		await event.locals.queue('/petitions/signature', instance.id, parsed, event.locals.admin.id);
 	}
+}
+
+function getSignupQueueMessage(
+	eventId: string,
+	message: WhatsappInboundMessage,
+	instance: Instance
+): SignupQueueMessage {
+	return {
+		event_id: Number(eventId),
+		signup: {
+			full_name: message.customerProfile?.name,
+			phone_number: message.from,
+			country: instance.country,
+			email: 'kenneth@belcoda.org', // TODO: String expected. Handle this
+			opt_in: true
+		}
+	};
 }
