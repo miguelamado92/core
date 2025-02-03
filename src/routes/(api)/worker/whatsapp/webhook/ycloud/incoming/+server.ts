@@ -18,8 +18,9 @@ import {
 	_getInstanceIdByPetitionId
 } from '$lib/server/api/core/instances.js';
 import type { RequestEvent } from './$types.js';
-import { signUpQueueMessage, update } from '$lib/schema/events/events.js';
 import { signatureQueueMessage } from '$lib/schema/petitions/petitions.js';
+import type { Read as Instance } from '$lib/schema/core/instance.js';
+import { signUpQueueMessage, type SignupQueueMessage } from '$lib/schema/events/events.js';
 
 export async function POST(event) {
 	try {
@@ -27,11 +28,12 @@ export async function POST(event) {
 		const parsed = parse(yCloudWebhook, body);
 		if (parsed.type === 'whatsapp.inbound_message.received') {
 			//const contact = value.contacts[index];
-			const person = await _getPersonByWhatsappId({
-				t: event.locals.t,
-				instanceId: event.locals.instance.id,
-				whatsappId: parsed.whatsappInboundMessage.from
-			});
+			const person = await getPerson(
+				event.locals.instance.id,
+				parsed.whatsappInboundMessage.from,
+				parsed.whatsappInboundMessage,
+				event
+			);
 			const receivedMessageToCreate = {
 				person_id: person.id,
 				message_id: parsed.whatsappInboundMessage.id,
@@ -70,7 +72,8 @@ export async function POST(event) {
 							type: 'whatsapp_message',
 							person_id: person.id,
 							received_whatsapp_message_id: receivedMessage.id,
-							action_id: payload
+							action_id: payload,
+							queueMessage: getSignupQueueMessage(payload, message, event.locals.instance)
 						});
 						await event.locals.queue(
 							'/utils/communications/actions',
