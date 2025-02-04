@@ -88,7 +88,11 @@
 				</Select.Trigger>
 				<Select.Content>
 					{#each messagesToSelect as m}
-						<Select.Item value={m.value}>{m.message.message.text.body}</Select.Item>
+						<Select.Item value={m.value}
+							>{m.message.message.interactive
+								? m.message.message.interactive.body.text
+								: m.message.message.text.body}</Select.Item
+						>
 					{/each}
 				</Select.Content>
 				<Select.Input />
