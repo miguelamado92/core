@@ -67,7 +67,6 @@ export function removeButton(message: Read['message'], buttonIndex: number): Rea
 			} else {
 				//it's a text message
 				return {
-					...message,
 					type: 'text',
 					text: {
 						body: message.interactive.body.text,
