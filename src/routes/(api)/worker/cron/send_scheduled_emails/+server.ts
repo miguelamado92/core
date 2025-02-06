@@ -48,6 +48,14 @@ async function queueEmailsToAttendees({
 }) {
 	for (let index = 0; index < eventObjects.length; index++) {
 		const eventObject = eventObjects[index];
+		await updateEvent({
+			instanceId: eventObject.instance_id,
+			eventId: eventObject.id,
+			body: { followup_sent_at: new Date(Date.now()) },
+			t: t,
+			queue: queue,
+			skipMetaGeneration: true
+		});
 		const attendees = await unsafeListAllForEvent({
 			instanceId: eventObject.instance_id,
 			eventId: eventObject.id
@@ -67,13 +75,5 @@ async function queueEmailsToAttendees({
 				);
 			}
 		}
-		await updateEvent({
-			instanceId: eventObject.instance_id,
-			eventId: eventObject.id,
-			body: { followup_sent_at: new Date(Date.now()) },
-			t: t,
-			queue: queue,
-			skipMetaGeneration: true
-		});
 	}
 }
