@@ -1,5 +1,6 @@
 import { json, error, pino } from '$lib/server';
 import { type TriggerEventMessage } from '$lib/schema/utils/email';
+import { type Update as UpdateEventSchema } from '$lib/schema/events/events';
 import {
 	selectEventsForReminderFollowupEmail,
 	update as updateEvent
@@ -48,10 +49,14 @@ async function queueEmailsToAttendees({
 }) {
 	for (let index = 0; index < eventObjects.length; index++) {
 		const eventObject = eventObjects[index];
+		const updateBody: UpdateEventSchema =
+			type === 'reminder'
+				? { reminder_sent_at: new Date(Date.now()) }
+				: { followup_sent_at: new Date(Date.now()) };
 		await updateEvent({
 			instanceId: eventObject.instance_id,
 			eventId: eventObject.id,
-			body: { followup_sent_at: new Date(Date.now()) },
+			body: updateBody,
 			t: t,
 			queue: queue,
 			skipMetaGeneration: true
