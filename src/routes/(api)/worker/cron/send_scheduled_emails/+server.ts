@@ -11,9 +11,19 @@ export async function POST(event) {
 	try {
 		const { followups, reminders } = await selectEventsForReminderFollowupEmail();
 		//followups
-		await queueEmailsToAttendees(event.locals.t, followups, event.locals.queue);
+		await queueEmailsToAttendees({
+			t: event.locals.t,
+			eventObjects: followups,
+			queue: event.locals.queue,
+			type: 'followup'
+		});
 		//reminders
-		await queueEmailsToAttendees(event.locals.t, reminders, event.locals.queue);
+		await queueEmailsToAttendees({
+			t: event.locals.t,
+			eventObjects: reminders,
+			queue: event.locals.queue,
+			type: 'reminder'
+		});
 		return json({ success: true });
 	} catch (err) {
 		return error(
@@ -25,11 +35,17 @@ export async function POST(event) {
 	}
 }
 
-async function queueEmailsToAttendees(
-	t: App.Localization,
-	eventObjects: { id: number; instance_id: number; point_person_id: number }[],
-	queue: App.Queue
-) {
+async function queueEmailsToAttendees({
+	t,
+	eventObjects,
+	queue,
+	type
+}: {
+	t: App.Localization;
+	eventObjects: { id: number; instance_id: number; point_person_id: number }[];
+	queue: App.Queue;
+	type: 'reminder' | 'followup';
+}) {
 	for (let index = 0; index < eventObjects.length; index++) {
 		const eventObject = eventObjects[index];
 		const attendees = await unsafeListAllForEvent({
