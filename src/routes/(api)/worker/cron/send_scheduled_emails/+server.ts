@@ -72,8 +72,9 @@ async function queueEmailsToAttendees({
 					person_id: attendee.person_id,
 					event_id: eventObject.id
 				};
+				const urlForQueue = type === 'reminder' ? 'send_reminder_email' : 'send_followup_email';
 				await queue(
-					'utils/email/events/send_reminder_email',
+					`utils/email/events/${urlForQueue}`,
 					eventObject.instance_id,
 					sendToQueue,
 					eventObject.point_person_id
