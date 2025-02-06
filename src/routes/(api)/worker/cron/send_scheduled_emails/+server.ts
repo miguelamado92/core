@@ -71,7 +71,9 @@ async function queueEmailsToAttendees({
 			instanceId: eventObject.instance_id,
 			eventId: eventObject.id,
 			body: { followup_sent_at: new Date(Date.now()) },
-			t: t
+			t: t,
+			queue: queue,
+			skipMetaGeneration: true
 		});
 	}
 }
