@@ -23,8 +23,8 @@ Sentry.init({
 
 	// We recommend adjusting this value in production, or using tracesSampler
 	// for finer control
-	enabled: !dev, //not enabled in dev
-	tracesSampleRate: 1.0
+	tracesSampleRate: dev ? 0 : 1.0,
+	environment: dev ? 'development' : 'production'
 });
 const locale = new AsyncLocalStorage<SupportedLanguage>();
 export const handleError: HandleServerError = Sentry.handleErrorWithSentry();

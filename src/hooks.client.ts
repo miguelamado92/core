@@ -6,8 +6,8 @@ Sentry.init({
 
 	// We recommend adjusting this value in production, or using tracesSampler
 	// for finer control
-	tracesSampleRate: 1.0,
-	enabled: !dev,
+	tracesSampleRate: dev ? 0 : 1.0,
+	environment: dev ? 'development' : 'production',
 	// Optional: Initialize Session Replay:
 	integrations: [Sentry.replayIntegration()],
 	replaysSessionSampleRate: 0.05,
