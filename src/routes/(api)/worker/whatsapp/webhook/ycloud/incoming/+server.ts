@@ -11,8 +11,6 @@ import { create as createInteraction } from '$lib/server/api/people/interactions
 import { create as createInteractionSchema } from '$lib/schema/people/interactions';
 import { _createPersonByWhatsappId, _getPersonByWhatsappId } from '$lib/server/api/people/people';
 import { triggerAction } from '$lib/schema/communications/actions/actions';
-import { _getByAction } from '$lib/server/api/communications/whatsapp/messages.js';
-import { _idempotentUpdateExpiryTime } from '$lib/server/api/communications/whatsapp/conversations.js';
 import {
 	_getInstanceIdByEventId,
 	_getInstanceIdByPetitionId
@@ -66,7 +64,7 @@ export async function POST(event) {
 			// if the message type is button... then find the matching message to the interactive ID.
 			if (message.type === 'button') {
 				try {
-					if (message.button && message.button && message.button.payload) {
+					if (message.button && message.button.payload) {
 						const payload = message.button.payload; //this is the uuid of the action...
 						const actionParsed = parse(triggerAction, {
 							type: 'whatsapp_message',
@@ -137,11 +135,8 @@ async function registerPersonForEvent(
 				full_name: message.customerProfile?.name,
 				phone_number: message.from,
 				country: instance.country,
-				whatsapp_id: message.from,
-				whatsapp_message_id: message.id,
 				message: message,
-				preferred_language: instance.language,
-				email: 'kenneth@belcoda.org', // TODO: String expected. Handle this
+				email: null,
 				opt_in: true
 			}
 		});
@@ -215,8 +210,8 @@ function getSignupQueueMessage(
 			full_name: message.customerProfile?.name,
 			phone_number: message.from,
 			country: instance.country,
-			email: 'kenneth@belcoda.org', // TODO: String expected. Handle this
-			opt_in: true
+			opt_in: true,
+			email: null
 		}
 	};
 }
