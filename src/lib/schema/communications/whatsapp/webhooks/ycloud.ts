@@ -51,7 +51,6 @@ export const whatsappInboundMessage = v.object({
 	order: v.optional(wb.order),
 	sticker: v.optional(wb.sticker),
 	system: v.optional(wb.system),
-	//unknown: v.optional(wb.unknown),
 	video: v.optional(wb.video)
 });
 export type WhatsappInboundMessage = v.InferOutput<typeof whatsappInboundMessage>;
