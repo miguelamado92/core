@@ -25,7 +25,8 @@
 		value = $bindable(),
 		class: className,
 		bucketName = PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME,
-		siteUploadsUrl = '/api/v1/website/uploads/link'
+		siteUploadsUrl = '/api/v1/website/uploads/link',
+		onResetUploads
 	}: {
 		onUpload?: ({
 			url,
@@ -46,6 +47,7 @@
 		class?: string;
 		bucketName?: string;
 		siteUploadsUrl?: string;
+		onResetUploads?: () => void;
 	} = $props();
 
 	import Loader from 'lucide-svelte/icons/loader';
@@ -123,6 +125,7 @@
 		if (input) {
 			input.value = '';
 		}
+		if (onResetUploads) onResetUploads();
 	}
 </script>
 
@@ -135,41 +138,41 @@
 		</div>
 		<img src={value} alt="Uploaded file" class="contain rounded-lg object-cover" />
 	</div>
-{/if}
+{:else}
+	{#if label}<label
+			class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+			for={file_upload_widget_id}>{label}</label
+		>{/if}
 
-{#if label}<label
-		class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-		for={file_upload_widget_id}>{label}</label
-	>{/if}
+	<div class="flex items-center gap-2">
+		<Input
+			onchange={handleUpload}
+			{disabled}
+			accept={acceptable_file_types}
+			class={cn(
+				className,
+				'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
+			)}
+			aria-describedby="file_input_help"
+			id={file_upload_widget_id}
+			type="file"
+		/>
+		{#if loading}<Loader class="animate animate-spin" />{/if}
+		{#if success}<CheckCircle />{/if}
+	</div>
+	{#if description}
+		<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
+			{description}
+		</p>
+	{/if}
 
-<div class="flex items-center gap-2">
-	<Input
-		onchange={handleUpload}
-		{disabled}
-		accept={acceptable_file_types}
-		class={cn(
-			className,
-			'block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400'
-		)}
-		aria-describedby="file_input_help"
-		id={file_upload_widget_id}
-		type="file"
-	/>
-	{#if loading}<Loader class="animate animate-spin" />{/if}
-	{#if success}<CheckCircle />{/if}
-</div>
-{#if description}
-	<p class="mt-1 text-sm text-gray-500 dark:text-gray-300">
-		{description}
-	</p>
-{/if}
-
-{#if error}
-	<Alert.Root variant="destructive" class="mt-1">
-		<AlertTriangle class="h-4 w-4" />
-		<Alert.Title>{$page.data.t.errors.generic()}</Alert.Title>
-		<Alert.Description>
-			{error}
-		</Alert.Description>
-	</Alert.Root>
+	{#if error}
+		<Alert.Root variant="destructive" class="mt-1">
+			<AlertTriangle class="h-4 w-4" />
+			<Alert.Title>{$page.data.t.errors.generic()}</Alert.Title>
+			<Alert.Description>
+				{error}
+			</Alert.Description>
+		</Alert.Root>
+	{/if}
 {/if}

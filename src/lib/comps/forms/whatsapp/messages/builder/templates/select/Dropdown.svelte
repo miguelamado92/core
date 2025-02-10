@@ -17,7 +17,7 @@
 	let loading = $state(false);
 	let open = $state(false);
 
-	import { load } from '$lib/comps/forms/whatsapp/templates/select/actions';
+	import { load } from '$lib/comps/forms/whatsapp/messages/builder/templates/select/actions';
 
 	import * as Command from '$lib/comps/ui/command';
 	import * as Popover from '$lib/comps/ui/popover';
