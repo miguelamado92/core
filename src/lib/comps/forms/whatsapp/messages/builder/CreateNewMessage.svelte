@@ -1,14 +1,10 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import {
-		type Message,
-		type AllowableTypes
-	} from '$lib/schema/communications/whatsapp/elements/message';
+	import * as m from '$lib/paraglide/messages';
+	import { type Message } from '$lib/schema/communications/whatsapp/elements/message';
 	type Props = {
-		threadId: number;
 		oncreate: (message: Message) => void;
 	};
-	let { threadId, oncreate }: Props = $props();
+	let { oncreate }: Props = $props();
 	import Button from '$lib/comps/ui/button/button.svelte';
 	import Input from '$lib/comps/ui/input/input.svelte';
 
@@ -30,11 +26,11 @@
 	<div>
 		<Button
 			class="btn btn-primary"
-			on:click={() => {
+			onclick={() => {
 				oncreate(message);
 			}}
 		>
-			{$page.data.t.forms.buttons.create()}
+			{m.tidy_watery_ape_lift()}
 		</Button>
 	</div>
 </div>

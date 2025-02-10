@@ -1,5 +1,5 @@
 import type { Template } from '$lib/schema/communications/whatsapp/elements/template';
-import { PLACEHOLDER_IMAGE_URL } from '$lib/comps/forms/whatsapp/messages/actions';
+import { PLACEHOLDER_IMAGE_URL } from '$lib/comps/forms/whatsapp/messages/builder/actions/messages';
 import type {
 	Template as TemplateMessage,
 	HeaderParams,
@@ -62,6 +62,7 @@ export function extractTemplateMessageComponents(componentArray: TemplateMessage
 	const buttons = componentArray.filter((component) => component.type === 'button');
 	return { header, body, buttons };
 }
+
 import { type Read as ReadMessage } from '$lib/schema/communications/whatsapp/messages';
 export function createMessageComponentsFromTemplateComponents(
 	componentArray: Template['components'],
