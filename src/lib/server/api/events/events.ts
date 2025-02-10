@@ -165,9 +165,9 @@ export async function update({
 	skipMetaGeneration?: boolean;
 }): Promise<schema.Read> {
 	const parsed = parse(schema.update, body);
-	const resultSql = db.update('events.events', parsed, { instance_id: instanceId, id: eventId });
-	log.debug(resultSql.compile().text);
-	const result = await resultSql.run(pool);
+	const result = await db
+		.update('events.events', parsed, { instance_id: instanceId, id: eventId })
+		.run(pool);
 	if (result.length !== 1) {
 		throw new BelcodaError(404, 'DATA:EVENTS:UPDATE:01', t.errors.not_found());
 	}
