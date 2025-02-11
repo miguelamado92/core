@@ -34,10 +34,10 @@ const config = {
 				'worker-src': ['self', 'blob:'],
 				'img-src': [
 					'self',
-					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com`
+					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`
 				],
 				'object-src': [
-					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com`
+					`https://${process.env.PUBLIC_AWS_S3_SITE_UPLOADS_BUCKET_NAME}.s3.amazonaws.com/`
 				]
 			}
 		},

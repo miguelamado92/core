@@ -4,6 +4,9 @@ import { sentrySvelteKit } from '@sentry/sveltekit';
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 
 export default defineConfig({
+	optimizeDeps: {
+		include: ['lucide-svelte']
+	},
 	plugins: [
 		sentrySvelteKit(),
 		sveltekit(),

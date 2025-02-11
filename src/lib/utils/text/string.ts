@@ -5,6 +5,10 @@ export function clampString(str: string, maxLength: number): string {
 	return str.slice(0, maxLength);
 }
 
+export function clampStringWithEllipsis(str: string, maxLength: number): string {
+	return str.length > maxLength ? str.slice(0, maxLength) + '…' : str;
+}
+
 import DOMPurify from 'isomorphic-dompurify';
 
 /*
