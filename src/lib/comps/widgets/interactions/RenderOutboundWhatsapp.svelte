@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Frame from '$lib/comps/forms/whatsapp/Frame.svelte';
-	import PreviewTemplate from '$lib/comps/forms/whatsapp/templates/Preview.svelte';
+	import Frame from '$lib/comps/widgets/interactions/WhatsAppFrame.svelte';
+	import PreviewTemplate from '$lib/comps/forms/whatsapp/messages/builder/templates/Display.svelte';
 	import type { Message } from '$lib/schema/communications/whatsapp/elements/message';
 	import { type Template as TemplateMessage } from '$lib/schema/communications/whatsapp/elements/template';
 	import { type Read as ReadAdmin } from '$lib/schema/core/admin';
