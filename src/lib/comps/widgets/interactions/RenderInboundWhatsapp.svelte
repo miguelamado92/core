@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import Frame from '$lib/comps/forms/whatsapp/Frame.svelte';
+	import Frame from '$lib/comps/forms/whatsapp/messages/WhatsAppFrame.svelte';
 	import type { Message as WebhookMessage } from '$lib/schema/communications/whatsapp/webhooks/messages';
 	import type { Message as InboundMessage } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
 	import type { Read as ReadPerson, SimplePersonRecord } from '$lib/schema/people/people';
