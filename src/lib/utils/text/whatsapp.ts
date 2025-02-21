@@ -12,11 +12,17 @@ export function renderRegistrationLink(
 		''
 	);
 	let text = '';
-	if ('starts_at' in event) {
-		// Only events have a starts_at attribute
-		text = `Hi! I'm interested in ${event.name} [SIGNUP:${event.id}] on ${formatDate(event.starts_at)}`;
-	} else {
-		text = `Hi! I would like to sign the petition ${event.name} [PETITION:${event.id}]`;
+	if (event) {
+		if ('starts_at' in event) {
+			// Only events have a starts_at attribute
+			text = `Hi! I'm interested in ${event.name} [SIGNUP:${event.id}] on ${formatDate(event.starts_at)}`;
+		} else {
+			text = `Hi! I would like to sign the petition ${event.name} [PETITION:${event.id}]`;
+		}
+		return {
+			text: 'Whatsapp registration link',
+			url: `https://wa.me/${whatsappPhoneNumberId}?text=${encodeURIComponent(text)}`
+		};
 	}
 	return {
 		text: 'Whatsapp registration link',
