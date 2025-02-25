@@ -191,10 +191,9 @@ async function signPetition(
 				whatsapp_message_id: message.id,
 				message: message,
 				opt_in: true,
-				email: 'kenneth@belcoda.org' // TODO: String expected. Handle this
+				email: null
 			}
 		});
-		console.log('parsed ', parsed);
 		await event.locals.queue('/petitions/signature', instance.id, parsed, event.locals.admin.id);
 	}
 }
