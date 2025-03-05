@@ -9,8 +9,11 @@
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import CalendarClock from 'lucide-svelte/icons/calendar-clock';
 	import Link from 'lucide-svelte/icons/link';
+	import Copy from 'lucide-svelte/icons/copy';
+	import Check from 'lucide-svelte/icons/check';
 	import { PUBLIC_HOST } from '$env/static/public';
 	import { page } from '$app/stores';
+
 	const url = new URL(PUBLIC_HOST);
 	const previewUrl = `${url.protocol}//${$page.data.instance.slug}.${url.host}/events/${data.event.slug}`;
 	import EditRegistrationForm from './EditRegistrationForm.svelte';
@@ -30,11 +33,19 @@
 
 	const attendees = $state(data.attendees.items);
 
+	let isCopied = $state(false);
+
 	function makeStatusOptions(status: (typeof attendanceStatus)[number]) {
 		return {
 			value: status,
 			label: data.t.events.status[status].title()
 		};
+	}
+
+	function copyEventUrl() {
+		navigator.clipboard.writeText(previewUrl);
+		isCopied = true;
+		setTimeout(() => (isCopied = false), 2000);
 	}
 </script>
 
@@ -60,6 +71,30 @@
 	<div class="flex items-center gap-1.5">
 		<CalendarClock size={16} />
 		{formatDateTimeRange(data.event.starts_at, data.event.ends_at)}
+	</div>
+	<div class="flex items-center gap-1.5">
+		<Link size={16} />
+		<span class="text-muted-foreground text-sm">
+			<span class="text-foreground">{previewUrl}</span>
+		</span>
+		<button
+			class="ml-1 p-1 hover:bg-muted rounded-sm transition-colors duration-200 {isCopied
+				? 'text-green-600'
+				: ''}"
+			title={isCopied
+				? data.t.forms.actions.copied_to_clipboard()
+				: data.t.forms.buttons.copy_url_to_clipboard()}
+			onclick={copyEventUrl}
+		>
+			{#if isCopied}
+				<div class="flex items-center gap-1">
+					<Check size={14} />
+					<span class="text-xs font-medium">Copied!</span>
+				</div>
+			{:else}
+				<Copy size={14} />
+			{/if}
+		</button>
 	</div>
 	{#if data.event.online}
 		<div class="flex items-center gap-1.5">
