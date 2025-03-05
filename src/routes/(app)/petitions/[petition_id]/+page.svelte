@@ -10,8 +10,7 @@
 	import PersonDropdown from '$lib/comps/widgets/person/PersonDropdown.svelte';
 	import { type _ListWithSearch } from '$lib/schema/people/people';
 	import Link from 'lucide-svelte/icons/link';
-	import Copy from 'lucide-svelte/icons/copy';
-	import Check from 'lucide-svelte/icons/check';
+	import CopyButton from '$lib/comps/ui/copy-button/copy-button.svelte';
 	import { PUBLIC_HOST } from '$env/static/public';
 
 	const signatureIds = $derived(data.signatures.items.map((signature) => signature.person_id));
@@ -20,16 +19,9 @@
 	import { invalidateAll } from '$app/navigation';
 
 	let flash = getFlash(page);
-	let isCopied = $state(false);
 
 	const url = new URL(PUBLIC_HOST);
 	const previewUrl = `${url.protocol}//${$page.data.instance.slug}.${url.host}/petitions/${data.petition.slug}`;
-
-	function copyPetitionUrl() {
-		navigator.clipboard.writeText(previewUrl);
-		isCopied = true;
-		setTimeout(() => (isCopied = false), 2000);
-	}
 
 	async function addPerson(person: _ListWithSearch['items'][number]) {
 		try {
@@ -73,24 +65,7 @@
 		<span class="text-muted-foreground text-sm">
 			<span class="text-foreground">{previewUrl}</span>
 		</span>
-		<button
-			class="ml-1 p-1 hover:bg-muted rounded-sm transition-colors duration-200 {isCopied
-				? 'text-green-600'
-				: ''}"
-			title={isCopied
-				? data.t.forms.actions.copied_to_clipboard()
-				: data.t.forms.buttons.copy_url_to_clipboard()}
-			onclick={copyPetitionUrl}
-		>
-			{#if isCopied}
-				<div class="flex items-center gap-1">
-					<Check size={14} />
-					<span class="text-xs font-medium">Copied!</span>
-				</div>
-			{:else}
-				<Copy size={14} />
-			{/if}
-		</button>
+		<CopyButton textToCopy={previewUrl} />
 	</div>
 	<div class="flex justify-between items-baseline flex-wrap gap-4">
 		<Tags type="events" personOrEventId={data.petition.id} />
