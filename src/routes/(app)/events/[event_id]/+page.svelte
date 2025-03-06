@@ -9,8 +9,10 @@
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import CalendarClock from 'lucide-svelte/icons/calendar-clock';
 	import Link from 'lucide-svelte/icons/link';
+	import CopyButton from '$lib/comps/ui/copy-button/copy-button.svelte';
 	import { PUBLIC_HOST } from '$env/static/public';
 	import { page } from '$app/stores';
+
 	const url = new URL(PUBLIC_HOST);
 	const previewUrl = `${url.protocol}//${$page.data.instance.slug}.${url.host}/events/${data.event.slug}`;
 	import EditRegistrationForm from './EditRegistrationForm.svelte';
@@ -60,6 +62,13 @@
 	<div class="flex items-center gap-1.5">
 		<CalendarClock size={16} />
 		{formatDateTimeRange(data.event.starts_at, data.event.ends_at)}
+	</div>
+	<div class="flex items-center gap-1.5">
+		<Link size={16} />
+		<span class="text-muted-foreground text-sm">
+			<span class="text-foreground">{previewUrl}</span>
+		</span>
+		<CopyButton textToCopy={previewUrl} />
 	</div>
 	{#if data.event.online}
 		<div class="flex items-center gap-1.5">
