@@ -9,10 +9,10 @@
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import CalendarClock from 'lucide-svelte/icons/calendar-clock';
 	import Link from 'lucide-svelte/icons/link';
-	import Copy from 'lucide-svelte/icons/copy';
-	import Check from 'lucide-svelte/icons/check';
+	import CopyButton from '$lib/comps/ui/copy-button/copy-button.svelte';
 	import { PUBLIC_HOST } from '$env/static/public';
 	import { page } from '$app/stores';
+
 	const url = new URL(PUBLIC_HOST);
 	const previewUrl = `${url.protocol}//${$page.data.instance.slug}.${url.host}/events/${data.event.slug}`;
 	import EditRegistrationForm from './EditRegistrationForm.svelte';
@@ -79,26 +79,11 @@
 		{formatDateTimeRange(data.event.starts_at, data.event.ends_at)}
 	</div>
 	<div class="flex items-center gap-1.5">
-		<Whatsapp />
-		<div class="flex items-center gap-2">
-			<a
-				href={renderRegistrationLink(data.instance, data.event).url}
-				target="_blank"
-				class="hover:underline cursor-pointer"
-				>{renderRegistrationLink(data.instance, data.event).text}</a
-			>
-			<button
-				class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-				onclick={copyRegistrationLink}
-				aria-label="Copy registration link to clipboard"
-			>
-				{#if copied}
-					<Check size={16} class="text-green-500" />
-				{:else}
-					<Copy size={16} />
-				{/if}
-			</button>
-		</div>
+		<Link size={16} />
+		<span class="text-muted-foreground text-sm">
+			<span class="text-foreground">{previewUrl}</span>
+		</span>
+		<CopyButton textToCopy={previewUrl} />
 	</div>
 	{#if data.event.online}
 		<div class="flex items-center gap-1.5">
