@@ -36,22 +36,13 @@
 	}));
 
 	const attendees = $state(data.attendees.items);
+	const registrationLink = renderRegistrationLink(data.instance, data.event).url;
 
 	function makeStatusOptions(status: (typeof attendanceStatus)[number]) {
 		return {
 			value: status,
 			label: data.t.events.status[status].title()
 		};
-	}
-
-	function copyRegistrationLink() {
-		const registrationLink = renderRegistrationLink(data.instance, data.event).url;
-		navigator.clipboard.writeText(registrationLink);
-		$flash = { type: 'success', message: $page.data.t.forms.actions.copied_to_clipboard() };
-		copied = true;
-		setTimeout(() => {
-			copied = false;
-		}, 2000);
 	}
 </script>
 
@@ -84,6 +75,18 @@
 			<span class="text-foreground">{previewUrl}</span>
 		</span>
 		<CopyButton textToCopy={previewUrl} />
+	</div>
+	<div class="flex items-center gap-1.5">
+		<Whatsapp />
+		<div class="flex items-center gap-2">
+			<a
+				href={renderRegistrationLink(data.instance, data.event).url}
+				target="_blank"
+				class="hover:underline cursor-pointer"
+				>{renderRegistrationLink(data.instance, data.event).text}</a
+			>
+			<CopyButton textToCopy={registrationLink} />
+		</div>
 	</div>
 	{#if data.event.online}
 		<div class="flex items-center gap-1.5">
