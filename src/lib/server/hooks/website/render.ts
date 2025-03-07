@@ -52,6 +52,8 @@ export function render({
 		<html lang="en">
 			<head>
 				<meta charset="utf-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1">
+
 				${generate_html_head(parsedMetatags, template.html_metatags)}
 				${parsedCustomCode.custom_html_head}
 				${parsedCustomCode.custom_css ? `<style>${parsedCustomCode.custom_css}</style>` : ''}
