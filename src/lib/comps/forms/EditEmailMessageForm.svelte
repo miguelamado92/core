@@ -77,6 +77,17 @@
 				messageId,
 				successMessage: page.data.t.forms.actions.success(),
 				errorMessage: page.data.t.forms.actions.failed(),
+				updateMessage: {
+					name: $nameValue as string,
+					from: $fromValue as string,
+					reply_to: $replyToValue as string,
+					preview_text: $previewTextValue as string,
+					subject: $subjectValue as string,
+					html: $htmlValue as string,
+					text: $textValue as string,
+					use_html_for_plaintext: $useHtmlAsTextValue as boolean,
+					template_id: $templateIdValue as number
+				},
 				message: {
 					id: messageId,
 					name: $nameValue as string,
