@@ -233,9 +233,6 @@
 		{:else}
 			<Card.Content>
 				<InputWidget bind:value={testEmail} />
-				<div class="text-muted-foreground mt-1">
-					{page.data.t.forms.fields.email.send_test_email.description()}
-				</div>
 			</Card.Content>
 			<Card.Footer>
 				<Button type="button" onclick={() => triggerTestSend()}
