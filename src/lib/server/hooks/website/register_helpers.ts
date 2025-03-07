@@ -3,7 +3,7 @@ import { pino } from '$lib/server';
 const log = pino('/lib/server/website_render/register_helpers');
 import { type Read } from '$lib/schema/website/blocks';
 import { type Read as EventRead } from '$lib/schema/events/events';
-
+import templateBlocks from '$lib/server/templates/website/blocks';
 import { formatDateOnly, formatDateTimeRange } from '$lib/utils/text/date';
 import { renderAddress } from '$lib/utils/text/address';
 import { type Read as ReadInstance } from '$lib/schema/core/instance';
@@ -48,6 +48,16 @@ export default function (
 			);
 		}
 	});
+
+	// Note that the user-defined blocks are loaded AFTER the hardcoded blocks
+	// This means that users are able to overwrite hardcoded blocks with custom display and functionality.
+
+	for (let i = 0; i < templateBlocks.length; i++) {
+		const block = templateBlocks[i];
+		const template = block.template;
+		hb.registerPartial(`blocks.${block.name}`, template);
+	}
+
 	for (let i = 0; i < blocks.length; i++) {
 		const block = blocks[i];
 		const template = `${block.custom_css ? `<style>${block.custom_css}</style>` : ''}${block.html}${block.custom_js ? `<script>${block.custom_js}</script>` : ''}`;
