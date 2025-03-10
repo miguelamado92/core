@@ -479,7 +479,7 @@ export async function _getPersonByWhatsappId({
 	log.debug('phoneNumber.number.e164');
 	log.debug(parsedPhoneNumber);
 	const person =
-		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(whatsappId)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)} OR phone_number ->>'whapi_id' = ${db.param(whapiId)}) AND instance_id = ${db.param(instanceId)}`.run(
+		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(parsedPhoneNumber)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)} OR phone_number ->>'whapi_id' = ${db.param(whapiId)}) AND instance_id = ${db.param(instanceId)} LIMIT 1`.run(
 			pool
 		);
 	log.info(whatsappId);
@@ -490,7 +490,7 @@ export async function _getPersonByWhatsappId({
 			t.errors.not_found_variants.person()
 		);
 	}
-	log.debug('_getPersonByWhatsappId done');
+	log.debug('_getPersonByWhatsappId done: ', person);
 	return await read({ instance_id: instanceId, person_id: person[0].id, t });
 }
 
