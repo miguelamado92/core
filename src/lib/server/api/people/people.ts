@@ -9,6 +9,7 @@ import { queue as queueInteraction } from '$lib/server/api/people/interactions';
 import { getUniqueKeys } from '$lib/utils/objects/get_unique_keys';
 import { parse, v, mediumString, longString } from '$lib/schema/valibot';
 import { whatsappNumberForVerification } from '$lib/schema/people/channels/channels';
+import type { WhatsappInboundMessage } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
 
 export const redisString = (instance_id: number, person_id: number | 'all') =>
 	`i:${instance_id}:people:${person_id}`;
@@ -202,44 +203,51 @@ export async function update({
 	queue: App.Queue;
 	options?: UpdateOptions;
 }) {
-	const parsed = parse(schema.update, body);
-	const updated = await db
-		.update(
-			'people.people',
-			{
-				...parsed
-			},
-			{ instance_id, id: person_id }
-		)
-		.run(pool)
-		.catch((err) => {
-			throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:UPDATE:01', t.errors.updating_data(), err);
-		});
-	if (updated.length !== 1)
-		throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:UPDATE:01', t.errors.http[404]());
-	if (options?.skipCustomFieldsQueue !== true) {
-		await queueCustomFieldSet({
-			objectSchema: schema.update,
-			body,
-			instance_id,
-			admin_id,
-			person_id: updated[0].id,
-			queue: queue
-		});
-	}
-	if (options?.skipWhatsappCheck !== true) {
-		const cachedPerson = await redis.get(redisString(instance_id, updated[0].id));
-		const cachedPersonParsed = parse(schema.read, cachedPerson);
-		if (cachedPersonParsed.phone_number?.phone_number !== updated[0].phone_number?.phone_number) {
-			const personToUpdate = parse(whatsappNumberForVerification, { person_id: updated[0].id });
-			await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
-		}
-	}
+	try {
+		const parsed = parse(schema.update, body);
+		const updated = await db
+			.update(
+				'people.people',
+				{
+					...parsed
+				},
+				{ instance_id, id: person_id }
+			)
+			.run(pool)
+			.catch((err) => {
+				throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:UPDATE:01', t.errors.updating_data(), err);
+			});
 
-	await redis.del(redisString(instance_id, person_id));
-	await redis.del(redisString(instance_id, 'all'));
-	const person = await read({ instance_id, person_id: updated[0].id, t });
-	return person;
+		if (updated.length !== 1)
+			throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:UPDATE:01', t.errors.http[404]());
+
+		if (options?.skipCustomFieldsQueue !== true) {
+			await queueCustomFieldSet({
+				objectSchema: schema.update,
+				body,
+				instance_id,
+				admin_id,
+				person_id: updated[0].id,
+				queue: queue
+			});
+		}
+		if (options?.skipWhatsappCheck !== true) {
+			const cachedPerson = await redis.get(redisString(instance_id, updated[0].id));
+			const cachedPersonParsed = parse(schema.read, cachedPerson);
+			if (cachedPersonParsed.phone_number?.phone_number !== updated[0].phone_number?.phone_number) {
+				const personToUpdate = parse(whatsappNumberForVerification, { person_id: updated[0].id });
+				await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
+			}
+		}
+
+		await redis.del(redisString(instance_id, person_id));
+		await redis.del(redisString(instance_id, 'all'));
+		const person = await read({ instance_id, person_id: updated[0].id, t });
+		return person;
+	} catch (err) {
+		log.error('Update person error:', { error: err, body });
+		throw err;
+	}
 }
 
 export async function read({
