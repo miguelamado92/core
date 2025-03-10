@@ -541,3 +541,32 @@ export async function _getInstanceIdByPersonId({
 		.run(pool);
 	return response.instance_id;
 }
+
+export async function getPersonOrCreatePersonByWhatsappId(
+	instanceId: number,
+	whatsappId: string,
+	message: WhatsappInboundMessage,
+	t: App.Localization,
+	queue: App.Queue
+) {
+	try {
+		return await _getPersonByWhatsappId({
+			instanceId,
+			whatsappId,
+			t
+		});
+	} catch (err) {
+		if (err instanceof BelcodaError && err.code === 404) {
+			log.debug('Person not found by whatsappId. Creating person');
+			return await _createPersonByWhatsappId({
+				instanceId,
+				whatsappId,
+				name: message.customerProfile?.name,
+				t,
+				queue
+			});
+		} else {
+			throw err;
+		}
+	}
+}
