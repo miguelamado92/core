@@ -32,7 +32,6 @@ export async function POST(event) {
 			},
 			queue: event.locals.queue
 		}).catch((err) => {
-			console.log(err);
 			throw new BelcodaError(
 				400,
 				'WORKER:/events/registration:01',

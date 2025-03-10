@@ -233,19 +233,23 @@ export async function update({
 		}
 		if (options?.skipWhatsappCheck !== true) {
 			const cachedPerson = await redis.get(redisString(instance_id, updated[0].id));
-			const cachedPersonParsed = parse(schema.read, cachedPerson);
-			if (cachedPersonParsed.phone_number?.phone_number !== updated[0].phone_number?.phone_number) {
-				const personToUpdate = parse(whatsappNumberForVerification, { person_id: updated[0].id });
-				await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
+			console.log('cachedPerson', cachedPerson);
+			if (cachedPerson) {
+				const cachedPersonParsed = parse(schema.read, cachedPerson);
+				if (
+					cachedPersonParsed.phone_number?.phone_number !== updated[0].phone_number?.phone_number
+				) {
+					const personToUpdate = parse(whatsappNumberForVerification, { person_id: updated[0].id });
+					await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
+				}
 			}
 		}
-
 		await redis.del(redisString(instance_id, person_id));
 		await redis.del(redisString(instance_id, 'all'));
 		const person = await read({ instance_id, person_id: updated[0].id, t });
 		return person;
 	} catch (err) {
-		log.error('Update person error:', { error: err, body });
+		console.log('Update person error:', { error: err, body });
 		throw err;
 	}
 }
