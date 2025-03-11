@@ -23,6 +23,11 @@
 	import MapPin from 'lucide-svelte/icons/map-pin';
 	import CalendarClock from 'lucide-svelte/icons/calendar-clock';
 	import Link from 'lucide-svelte/icons/link';
+
+	import { onMount } from 'svelte';
+	onMount(() => {
+		window.print();
+	});
 </script>
 
 <div class="max-w-4xl mx-auto py-8 px-4">
