@@ -141,13 +141,13 @@
 
 {#snippet attendanceStatus()}
 	<div class="flex gap-4 text-left">
-		<div class="flex">
-			<div class="border border-black w-4 h-4 mr-2"></div>
-			<div class="text-sm font-medium">{m.upper_lime_giraffe_vent()}</div>
+		<div>
+			<div class="flex justify-center mb-1"><div class="border border-black w-4 h-4"></div></div>
+			<div class="text-xs font-medium">{m.upper_lime_giraffe_vent()}</div>
 		</div>
-		<div class="flex">
-			<div class="border border-black w-4 h-4 mr-2"></div>
-			<div class="text-sm font-medium">{m.east_gray_fly_enchant()}</div>
+		<div>
+			<div class="flex justify-center mb-1"><div class="border border-black w-4 h-4"></div></div>
+			<div class="text-xs font-medium">{m.east_gray_fly_enchant()}</div>
 		</div>
 	</div>
 {/snippet}
