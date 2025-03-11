@@ -12,7 +12,7 @@ import type { Read as ReadEvent } from '$lib/schema/events/events';
 import type { Read as ReadPetition } from '$lib/schema/petitions/petitions';
 
 import { pino } from '$lib/server';
-const log = pino(`/server/website_render/render.ts`);
+const log = pino(import.meta.url);
 
 export function compile_custom_code(content: unknown, template: unknown) {
 	const customCode = parse(customCodeSchema, content);

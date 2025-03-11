@@ -9,7 +9,7 @@ import createDefaultInstance from '$lib/server/utils/install/default_instance';
 import { _count, _count as _countInstance } from '$lib/server/api/core/instances';
 process.on('warning', (e) => console.warn(e.stack));
 import { defineGetLocale, baseLocale } from '$lib/paraglide/runtime';
-const log = pino('hooks.server.ts');
+const log = pino(import.meta.url);
 import mainHandler from '$lib/server/hooks/handlers';
 
 import { default as queue } from '$lib/server/utils/queue/add_job';

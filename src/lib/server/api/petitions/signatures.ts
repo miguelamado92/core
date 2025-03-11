@@ -3,7 +3,7 @@ import { parse } from '$lib/schema/valibot';
 import * as schema from '$lib/schema/petitions/signatures';
 import { exists } from '$lib/server/api/petitions/petitions';
 import { exists as personExists } from '$lib/server/api/people/people';
-const log = pino('API:/api/v1/petitions/signatures/+server.ts');
+const log = pino(import.meta.url);
 function redisString(instanceId: number, petitionId: number, personId: number | 'all') {
 	return `i:${instanceId}:petitions:${petitionId}:signatures:${personId}`;
 }

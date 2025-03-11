@@ -9,7 +9,7 @@ import { type EventHTMLMetaTags } from '$lib/schema/utils/openai';
 import { read as readInstance } from '$lib/server/api/core/instances';
 import { create as createEmailMessage } from '$lib/server/api/communications/email/messages';
 
-const log = pino('DATA:/events/events');
+const log = pino(import.meta.url);
 
 export function redisString(instanceId: number, eventId: number | 'all') {
 	return `i:${instanceId}:events:${eventId}`;

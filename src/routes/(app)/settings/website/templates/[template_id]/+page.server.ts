@@ -12,7 +12,7 @@ import {
 import { update, read } from '$lib/schema/website/templates';
 import { v } from '$lib/schema/valibot';
 
-const log = pino('(app)/settings/website/templates/[template_id]/+page.server.ts');
+const log = pino(import.meta.url);
 
 export async function load(event) {
 	const response = await event.fetch(`/api/v1/website/templates/${event.params.template_id}`);

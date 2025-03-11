@@ -7,7 +7,7 @@ export { json } from '@sveltejs/kit';
 export { filterQuery } from '$lib/server/utils/filters/filter';
 
 import { pino } from '$lib/server';
-const log = pino('$lib/server/errors');
+const log = pino(import.meta.url);
 import { error as returnError, type NumericRange } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
 import { renderValiError } from '$lib/schema/valibot';

@@ -7,7 +7,7 @@ import { create } from '$lib/server/api/petitions/signatures';
 import { read as readPetition } from '$lib/server/api/petitions/petitions';
 import { queue as queueInteraction } from '$lib/server/api/people/interactions';
 
-const log = pino('/worker/events/registration');
+const log = pino(import.meta.url);
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
