@@ -14,7 +14,7 @@ import { read } from '$lib/schema/events/events';
 import { list as listForEvent, update as updateAttendee } from '$lib/schema/events/attendees';
 import { unsafeListAllForEvent } from '$lib/server/api/events/attendees.js';
 import { parse } from '$lib/schema/valibot';
-const log = pino('(app)/events/[event_id]/print/+page.server.ts');
+const log = pino(import.meta.url);
 
 export async function load(event) {
 	const response = await event.fetch(`/api/v1/events/${event.params.event_id}`);

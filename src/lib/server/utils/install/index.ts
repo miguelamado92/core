@@ -39,7 +39,7 @@ import createInstanceSettings from '$lib/server/utils/install/default_instance_s
 
 import createTestData from '$lib/server/utils/install/data/test/testData';
 
-const log = pino('utils:install');
+const log = pino(import.meta.url);
 
 export default async function install(
 	options: InstallOptions,

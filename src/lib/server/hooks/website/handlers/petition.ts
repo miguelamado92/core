@@ -9,7 +9,7 @@ import {
 	type RenderStatus
 } from '$lib/server/hooks/website/render';
 import { pino } from '$lib/server';
-const log = pino('/lib/server/hooks/website/handlers/event');
+const log = pino(import.meta.url);
 const error404 = {
 	title: 'Error',
 	error_code: 'Error 404',

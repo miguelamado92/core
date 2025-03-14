@@ -13,7 +13,7 @@ import { whatsappNumberForVerification } from '$lib/schema/people/channels/chann
 export const redisString = (instance_id: number, person_id: number | 'all') =>
 	`i:${instance_id}:people:${person_id}`;
 
-const log = pino('$lib/server/api/people/people');
+const log = pino(import.meta.url);
 
 async function queueCustomFieldSet({
 	objectSchema,

@@ -14,7 +14,7 @@ import {
 
 import { pino } from '$lib/server';
 
-const log = pino('/lib/server/hooks/website/handlers/content');
+const log = pino(import.meta.url);
 const error404 = {
 	title: 'Error',
 	error_code: 'Error 404',

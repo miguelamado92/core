@@ -1,5 +1,5 @@
 import { pino } from '$lib/server';
-const log = pino('utils:install:testData');
+const log = pino(import.meta.url);
 import { parse } from '$lib/schema/valibot';
 import { create as createEvent } from '$lib/server/api/events/events';
 import { create as createPetition } from '$lib/server/api/petitions/petitions';

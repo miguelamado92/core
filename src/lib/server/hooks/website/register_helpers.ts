@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 import { pino } from '$lib/server';
-const log = pino('/lib/server/website_render/register_helpers');
+const log = pino(import.meta.url);
 import { type Read } from '$lib/schema/website/blocks';
 import { type Read as EventRead } from '$lib/schema/events/events';
 
