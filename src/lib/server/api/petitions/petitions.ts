@@ -62,6 +62,7 @@ export async function create({
 		queue,
 		instanceId,
 		adminId,
+		t,
 		instance,
 		defaultEmailTemplateId: instance.settings.communications.email.default_template_id
 	});
@@ -277,6 +278,7 @@ async function createPetitionEmail({
 	instanceId,
 	adminId,
 	instance,
+	t,
 	defaultEmailTemplateId,
 	queue
 }: {
@@ -284,12 +286,14 @@ async function createPetitionEmail({
 	instanceId: number;
 	adminId: number;
 	instance: ReadInstance;
+	t: App.Localization;
 	defaultEmailTemplateId: number;
 	queue: App.Queue;
 }): Promise<number> {
 	const registrationEmail = await createEmailMessage({
 		instanceId,
 		queue,
+		t,
 		body: {
 			name: randomUUID(),
 			point_person_id: adminId,
