@@ -45,7 +45,6 @@ export async function create({
 	instanceId,
 	body,
 	t,
-	defaultTemplateId,
 	defaultEmailTemplateId,
 	adminId,
 	queue
@@ -103,7 +102,6 @@ export async function create({
 			queue,
 			t
 		}),
-		template_id: parsed.template_id || defaultTemplateId,
 		point_person_id: parsed.point_person_id || adminId,
 		country: parsed.country || instance.country || DEFAULT_COUNTRY,
 		...parsed

@@ -95,7 +95,6 @@ export async function create({
 				instance_id: instanceId,
 				point_person_id: adminId,
 				autoresponse_email: emailMessage,
-				template_id: instance.settings.petitions.default_template_id,
 				...parsed,
 				name: parsed.name || uniqueName,
 				slug: parsed.slug || uniqueSlug
