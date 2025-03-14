@@ -8,7 +8,7 @@ import { create as createSend } from '$lib/server/api/communications/email/sends
 import { create as createTag } from '$lib/server/api/core/tags';
 import { create as createList } from '$lib/server/api/people/lists';
 import { create as createGroup } from '$lib/server/api/people/groups';
-import { update as updateInstance } from '$lib/server/api/core/instances';
+import { _updateSetInstalled } from '$lib/server/api/core/instances';
 
 import { list as listPeople } from '$lib/server/api/people/people';
 import { queue as queueInteraction } from '$lib/server/api/people/interactions';
@@ -163,10 +163,8 @@ export default async function ({
 		url: new URL(PUBLIC_HOST)
 	});
 
-	await updateInstance({
-		instanceId: instance.id,
-		body: { installed: true },
-		t: t
+	await _updateSetInstalled({
+		instanceId: instance.id
 	});
 	instance.installed = true;
 
