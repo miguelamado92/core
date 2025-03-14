@@ -38,7 +38,6 @@ export const eventUserInfoSettings = v.object({
 export const base = v.object({
 	id: id,
 	instance_id: id,
-	template_id: id,
 	name: longStringNotEmpty,
 	slug: slug,
 	heading: shortStringNotEmpty,
@@ -127,8 +126,6 @@ export const create = v.object({
 	starts_at: base.entries.starts_at,
 	ends_at: base.entries.ends_at,
 	...v.partial(eventUserInfoSettings).entries,
-
-	template_id: v.optional(base.entries.template_id),
 
 	online: v.optional(base.entries.online, false),
 	online_url: v.optional(base.entries.online_url),
