@@ -189,15 +189,3 @@ export const signUpQueueMessage = v.object({
 	event_id: id,
 	signup: eventSignup
 });
-
-export const preview = v.object({
-	html: longString,
-	text: longString,
-	template_text: longString,
-	template_html: longString,
-	context: v.object({
-		event: read,
-		person: readPerson,
-		instance: readInstance
-	})
-});
