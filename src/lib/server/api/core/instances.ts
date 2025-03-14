@@ -115,7 +115,7 @@ export async function _count(): Promise<number> {
 	return parsed;
 }
 
-export async function _updateSetInstalled(instanceId: number): Promise<void> {
+export async function _updateSetInstalled({ instanceId }: { instanceId: number }): Promise<void> {
 	await db.update('instances', { installed: true }, { id: instanceId }).run(pool);
 	await redis.del(`i:${instanceId}`);
 }

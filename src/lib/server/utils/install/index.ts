@@ -31,7 +31,11 @@ import {
 	create as createInstanceSchema
 } from '$lib/schema/core/instance';
 
-import { create as createInstance, update as updateInstance } from '$lib/server/api/core/instances';
+import {
+	create as createInstance,
+	_updateSetInstalled as _updateInstanceSetInstalled,
+	update as updateInstance
+} from '$lib/server/api/core/instances';
 import { create as createAdmin } from '$lib/server/api/core/admins';
 
 import createTemplates from '$lib/server/utils/install/templates/create_templates';
@@ -92,10 +96,8 @@ export default async function install(
 		await createTestData({ instance: updatedInstance, admin, t, queue });
 	}
 	log.debug('updating instance to set installed to true');
-	await updateInstance({
-		instanceId: instance.id,
-		body: { installed: true },
-		t: t
+	await _updateInstanceSetInstalled({
+		instanceId: instance.id
 	});
 	log.debug(`install script complete`);
 
