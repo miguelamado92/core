@@ -36,7 +36,6 @@ export const petitionUserInfoSettings = v.object({
 export const base = v.object({
 	id: id,
 	instance_id: id,
-	template_id: id,
 	name: longStringNotEmpty,
 	slug: slug,
 	heading: shortStringNotEmpty,
@@ -85,8 +84,6 @@ export const create = v.object({
 	petition_target: base.entries.petition_target,
 	petition_text: base.entries.petition_text,
 	...v.partial(petitionUserInfoSettings).entries,
-
-	template_id: v.optional(base.entries.template_id),
 
 	autoresponse_email: v.optional(base.entries.autoresponse_email),
 	send_autoresponse_email: v.optional(base.entries.send_autoresponse_email),
