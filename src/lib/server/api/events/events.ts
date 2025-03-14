@@ -52,7 +52,6 @@ export async function create({
 	instanceId: number;
 	body: schema.Create;
 	t: App.Localization;
-	defaultTemplateId: number;
 	defaultEmailTemplateId: number;
 	adminId: number;
 	queue: App.Queue;
