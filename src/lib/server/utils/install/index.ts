@@ -70,9 +70,12 @@ export default async function install(
 	// because we're not including an admin ID above, we can use this admin ID to do the sanctions check now we've created the admin
 	await queue('utils/people/match_sanction', instance.id, { adminId: admin.id }, admin.id);
 	log.debug(`sanctions check queued for admin ${admin.id}`);
+
+	// ➡️ Removed user-generated templates from the app. See: https://github.com/belcoda/core/tree/feature/improved_templates
 	const templates = await createTemplates({ instance, t });
 	log.debug(`templates created`);
 	log.debug(templates);
+
 	const newSettings = createInstanceSettings(options, t, templates, admin.id);
 	log.debug(`new settings created`);
 	log.debug(newSettings);

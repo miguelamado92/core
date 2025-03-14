@@ -1,3 +1,8 @@
+/*
+/ This file is responsible for creating the default templates for the instance.
+/ It is currently DISABLED. It is not to be used. It is kept here as a reference, in case we need to re-enable it in the future to allow customized templates. 
+*/
+
 import { PUBLIC_ROOT_DOMAIN } from '$env/static/public';
 
 import createWhatsAppTemplates from '$lib/server/utils/install/templates/whatsapp/whatsapp_templates';
@@ -19,9 +24,7 @@ import { type Read as ReadInstance } from '$lib/schema/core/instance';
 
 import { create as createWhatsAppTemplateApi } from '$lib/server/api/communications/whatsapp/templates';
 import { create as createEamilTemplateApi } from '$lib/server/api/communications/email/templates';
-import { create as createWebsiteTemplateApi } from '$lib/server/api/website/templates';
 import { create as createContentTypes } from '$lib/server/api/website/content_types';
-import { create as createWebsiteBlocksApi } from '$lib/server/api/website/blocks';
 
 export default async function ({ instance, t }: { instance: ReadInstance; t: App.Localization }) {
 	const templates = {
@@ -52,7 +55,6 @@ export default async function ({ instance, t }: { instance: ReadInstance; t: App
 		instanceId: instance.id,
 		body: templates.whatsApp.freeResponse
 	});
-
 	//email templates
 	const emailDefaultTemplate = await createEamilTemplateApi({
 		instanceId: instance.id,
@@ -84,7 +86,8 @@ export default async function ({ instance, t }: { instance: ReadInstance; t: App
 	});
 
 	//website templates
-	const websiteDefaultTemplate = await createWebsiteTemplateApi({
+	// website templates have been removed. See: https://github.com/belcoda/core/tree/feature/improved_templates
+	/* const websiteDefaultTemplate = await createWebsiteTemplateApi({
 		instanceId: instance.id,
 		body: {
 			name: 'Default',
@@ -121,68 +124,28 @@ export default async function ({ instance, t }: { instance: ReadInstance; t: App
 				twitter: {}
 			}
 		}
-	});
+	}); */
 
 	//content types
 	const pageContentType = await createContentTypes({
 		instanceId: instance.id,
 		body: {
 			name: 'Page',
-			slug: 'page',
-			collection_template_id: websiteDefaultTemplate.id,
-			content_template_id: websiteDefaultTemplate.id
+			slug: 'page'
 		}
 	});
 	const postContentType = await createContentTypes({
 		instanceId: instance.id,
 		body: {
 			name: 'Post',
-			slug: 'post',
-			collection_template_id: websiteDefaultTemplate.id,
-			content_template_id: websiteDefaultTemplate.id
-		}
-	});
-
-	//blocks
-	const headerBlock = await createWebsiteBlocksApi({
-		instanceId: instance.id,
-		body: {
-			name: 'Header',
-			slug: 'header',
-			html: templates.website.blocks.header
-		}
-	});
-	const footerBlock = await createWebsiteBlocksApi({
-		instanceId: instance.id,
-		body: {
-			name: 'Footer',
-			slug: 'footer',
-			html: templates.website.blocks.footer
-		}
-	});
-	const ctaBlock = await createWebsiteBlocksApi({
-		instanceId: instance.id,
-		body: {
-			name: 'CTA',
-			slug: 'cta',
-			html: templates.website.blocks.cta
+			slug: 'post'
 		}
 	});
 
 	return {
 		website: {
 			page: pageContentType,
-			post: postContentType,
-			templates: {
-				default: websiteDefaultTemplate,
-				event: websiteEventTemplate,
-				petition: websitePetitionTemplate
-			},
-			blocks: {
-				header: headerBlock,
-				footer: footerBlock,
-				cta: ctaBlock
-			}
+			post: postContentType
 		},
 		email: {
 			default: emailDefaultTemplate,
