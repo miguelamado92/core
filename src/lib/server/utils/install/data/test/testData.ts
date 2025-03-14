@@ -73,7 +73,7 @@ export default async function ({
 		adminId: admin.id,
 		t: t,
 		defaultEmailTemplateId: instance.settings.events.default_email_template_id,
-		defaultTemplateId: instance.settings.events.default_template_id
+		queue: queue
 	});
 
 	const inPersonEventBody: CreateEvent = parse(createEventSchema, {
@@ -99,7 +99,7 @@ export default async function ({
 		adminId: admin.id,
 		t: t,
 		defaultEmailTemplateId: instance.settings.events.default_email_template_id,
-		defaultTemplateId: instance.settings.events.default_template_id
+		queue: queue
 	});
 
 	const petitionBody: CreatePetition = parse(createPetitionSchema, {
@@ -119,7 +119,8 @@ export default async function ({
 		instanceId: instance.id,
 		body: petitionBody,
 		adminId: admin.id,
-		t: t
+		t: t,
+		queue
 	});
 
 	const emailSendBody = parse(createSendSchema, {
@@ -130,7 +131,8 @@ export default async function ({
 		body: emailSendBody,
 		adminId: admin.id,
 		defaultTemplateId: instance.settings.communications.email.default_template_id,
-		t: t
+		t: t,
+		queue
 	});
 
 	await createTag({ instanceId: instance.id, body: { name: 'topic:energy' } });
