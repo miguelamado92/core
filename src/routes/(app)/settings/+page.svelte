@@ -76,11 +76,11 @@
 		</Card.Header>
 		<Card.Content>
 			<Grid>
+				<Button variant="outline" href="/settings/website"
+					>{$page.data.t.pages.config.settings.website.index()}</Button
+				>
 				<Button variant="outline" href="/settings/website/blocks"
 					>{$page.data.t.pages.config.settings.website.blocks.index()}</Button
-				>
-				<Button variant="outline" href="/settings/website/blocks/new"
-					>{$page.data.t.pages.config.settings.website.blocks.new()}</Button
 				>
 			</Grid>
 		</Card.Content>
