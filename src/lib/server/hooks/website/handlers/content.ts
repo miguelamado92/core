@@ -1,9 +1,7 @@
-import renderTemplate from '$lib/server/utils/handlebars/render';
-import updatePerson from '$lib/server/hooks/website/utils/update_person';
+import renderHandlebarsTemplate from '$lib/server/utils/handlebars/render';
 
 import { readBySlug as readContentTypeBySlug } from '$lib/server/api/website/content_types';
 import { readBySlug as readContentBySlug } from '$lib/server/api/website/content';
-import { read as readTemplate } from '$lib/server/api/website/templates';
 
 import {
 	render,
@@ -13,6 +11,12 @@ import {
 } from '$lib/server/hooks/website/render';
 
 import { pino } from '$lib/server';
+
+import contentPageTemplate from '$lib/server/templates/website/content/default.hbs?raw';
+import contentPageCopy from '$lib/server/templates/website/content/default.copy';
+import utilsCopy from '$lib/server/templates/website/blocks/utils/utils.copy';
+
+import { parse, type TemplateGlobals } from '$lib/schema/valibot';
 
 const log = pino('/lib/server/hooks/website/handlers/content');
 const error404 = {
@@ -65,27 +69,37 @@ export default async function ({
 		throw error404;
 	});
 
-	const template = await readTemplate({
-		instanceId: instance.id,
-		templateId: content.template_id,
-		t: t
-	}).catch((err) => {
-		log.error('Error reading template');
-		log.error(err);
-		throw error404;
-	});
+	const globals: TemplateGlobals = {
+		url: `https://${instance.slug}.belcoda.com/${contentType.slug}/${content.slug}`,
+		encoded_url: encodeURIComponent(
+			`https://${instance.slug}.belcoda.com/${contentType.slug}/${content.slug}`
+		)
+	};
 
-	const output = await renderTemplate({
+	const output = await renderHandlebarsTemplate({
+		template: contentPageTemplate,
 		instanceId: instance.id,
-		template: template.html,
-		context: { content: content },
+		context: {
+			content: content,
+			status,
+			instance,
+			globals
+		},
 		t
 	});
-	const custom_code = compile_custom_code(content, template);
+
+	//this is needed to avoid the error: "Cannot read property 'custom_css' of undefined"
+	const DEFAULT_CUSTOM_TEMPLATE_CODE = {
+		custom_html_head: '',
+		custom_html_body: '',
+		custom_css: '',
+		custom_js: ''
+	};
+
+	const custom_code = compile_custom_code(content, DEFAULT_CUSTOM_TEMPLATE_CODE);
 	const final = render({
-		template: template,
 		renderedContent: output,
-		context: { content: content, status },
+		context: { content: content, status, instance },
 		customCode: custom_code,
 		metatags: content.html_metatags
 	});

@@ -4,7 +4,6 @@ import eventPageTemplate from '$lib/server/templates/website/events/default.hbs?
 import eventPageCopy from '$lib/server/templates/website/events/default.copy';
 import utilsCopy from '$lib/server/templates/website/blocks/utils/utils.copy';
 
-import { read as readTemplate } from '$lib/server/api/website/templates';
 import renderHandlebarsTemplate from '$lib/server/utils/handlebars/render';
 import {
 	render,
@@ -50,14 +49,6 @@ export default async function ({
 	}).catch((err) => {
 		log.error('Error reading event');
 		log.error(err);
-		throw error404;
-	});
-	const event_template = await readTemplate({
-		instanceId: instance.id,
-		templateId: eventObject.template_id,
-		t: t
-	}).catch((err) => {
-		log.debug('Error reading petition template', err);
 		throw error404;
 	});
 
@@ -117,10 +108,9 @@ export default async function ({
 
 	const custom_code = compile_custom_code(eventObject, DEFAULT_CUSTOM_TEMPLATE_CODE);
 	const final = render({
-		context: { event: eventObject, status },
+		context: { event: eventObject, status, instance },
 		renderedContent: output,
 		customCode: custom_code,
-		template: event_template,
 		metatags: eventObject.html_metatags
 	});
 
