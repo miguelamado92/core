@@ -15,6 +15,6 @@ export async function load(event) {
 	const url = new URL(PUBLIC_HOST);
 	return redirect(
 		301,
-		`${url.protocol}//${event.locals.instance.slug}.${url.host}/pages/${parsed.slug}`
+		`${url.protocol}//${event.locals.instance.slug}.${url.host}/page/${parsed.slug}`
 	);
 }
