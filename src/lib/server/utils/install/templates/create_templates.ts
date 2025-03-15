@@ -6,19 +6,11 @@
 import { PUBLIC_ROOT_DOMAIN } from '$env/static/public';
 
 import createWhatsAppTemplates from '$lib/server/utils/install/templates/whatsapp/whatsapp_templates';
-import PetitionTemplate from '$lib/server/utils/install/templates/petitions/petition_template.hbs?raw';
-import EventTemplate from '$lib/server/utils/install/templates/events/event_template.hbs?raw';
 
 import EmailDefaultTemplate from '$lib/server/utils/install/templates/email/templates/default_template.hbs?raw';
 import EmailDefaultTemplateText from '$lib/server/utils/install/templates/email/templates/default_template_text.hbs?raw';
 import EmailEventTemplate from '$lib/server/utils/install/templates/email/templates/event_notification_template.hbs?raw';
 import EmailEventTemplateText from '$lib/server/utils/install/templates/email/templates/event_notification_text.hbs?raw';
-
-import PageTemplate from '$lib/server/utils/install/templates/website/page.hbs?raw';
-
-import HeaderBlock from '$lib/server/utils/install/templates/website/blocks/header.hbs?raw';
-import FooterBlock from '$lib/server/utils/install/templates/website/blocks/footer.hbs?raw';
-import CTABlock from '$lib/server/utils/install/templates/website/blocks/cta.hbs?raw';
 
 import { type Read as ReadInstance } from '$lib/schema/core/instance';
 
@@ -34,16 +26,6 @@ export default async function ({ instance, t }: { instance: ReadInstance; t: App
 			defaultText: EmailDefaultTemplateText,
 			event: EmailEventTemplate,
 			eventText: EmailEventTemplateText
-		},
-		event: EventTemplate,
-		petition: PetitionTemplate,
-		website: {
-			page: PageTemplate,
-			blocks: {
-				header: HeaderBlock,
-				footer: FooterBlock,
-				cta: CTABlock
-			}
 		}
 	};
 
