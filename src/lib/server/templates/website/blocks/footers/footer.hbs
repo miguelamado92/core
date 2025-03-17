@@ -8,9 +8,10 @@
 
     <ul class="flex flex-wrap items-center mb-6 text-sm text-gray-500 sm:mb-0 hover:text-gray-600">
       <li>
-        {{#each links}}
-        <a href="{{this.url}}" class="mr-4 hover:underline md:mr-6"
-          target="{{#if this.new_tab}}_blank{{/if}}{{#unless this.new_tab}}_self{{/unless}}">{{link.text}}</a>
+
+        {{#each instance.settings.website.footer_links}}
+        <a href="{{this.url}}" class="mr-4 hover:underline md:mr-6 "
+          target="{{#if this.new_tab}}_blank{{/if}}{{#unless this.new_tab}}_self{{/unless}}">{{this.text}}</a>
         {{/each}}
       </li>
 
