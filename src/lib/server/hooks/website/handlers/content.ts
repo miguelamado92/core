@@ -91,7 +91,8 @@ export default async function ({
 			content: content,
 			status,
 			instance,
-			globals
+			globals,
+			copy: { event: contentPageCopy(), utils: utilsCopy() }
 		},
 		t
 	}).catch((err) => {

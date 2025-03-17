@@ -94,7 +94,8 @@ export default async function ({
 			petition: petitionObject,
 			status,
 			instance,
-			globals
+			globals,
+			copy: { event: petitionsPageCopy(), utils: utilsCopy() }
 		},
 		t
 	});
