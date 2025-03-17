@@ -19,11 +19,8 @@ import utilsCopy from '$lib/server/templates/website/blocks/utils/utils.copy';
 import { parse, type TemplateGlobals } from '$lib/schema/valibot';
 
 const log = pino('/lib/server/hooks/website/handlers/content');
-const error404 = {
-	title: 'Error',
-	error_code: 'Error 404',
-	error_message: 'Page not found'
-};
+
+import { error500, error404 } from '$lib/server/hooks/website/handlers/errors';
 
 export default async function ({
 	content_slug,
@@ -86,6 +83,10 @@ export default async function ({
 			globals
 		},
 		t
+	}).catch((err) => {
+		log.error('Error rendering content');
+		log.error(err);
+		throw error500;
 	});
 
 	//this is needed to avoid the error: "Cannot read property 'custom_css' of undefined"
