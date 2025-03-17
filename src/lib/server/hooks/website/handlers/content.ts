@@ -27,11 +27,6 @@ import { parse, type TemplateGlobals } from '$lib/schema/valibot';
 
 import { error500, error404 } from '$lib/server/hooks/website/handlers/errors';
 const log = pino(import.meta.url);
-const error404 = {
-	title: 'Error',
-	error_code: 'Error 404',
-	error_message: 'Page not found'
-};
 
 export default async function ({
 	content_slug,
