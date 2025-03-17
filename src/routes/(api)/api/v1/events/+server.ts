@@ -26,7 +26,6 @@ export async function POST(event) {
 			body: parsed,
 			t: event.locals.t,
 			adminId: event.locals.admin.id,
-			defaultTemplateId: event.locals.instance.settings.events.default_template_id,
 			defaultEmailTemplateId: event.locals.instance.settings.events.default_email_template_id,
 			queue: event.locals.queue
 		});
