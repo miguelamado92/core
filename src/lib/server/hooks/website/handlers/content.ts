@@ -12,7 +12,14 @@ import {
 
 import { pino } from '$lib/server';
 
-import contentPageTemplate from '$lib/server/templates/website/content/default.hbs?raw';
+import contentDefaultTemplate from '$lib/server/templates/website/content/default.hbs?raw';
+import contentPageTemplate from '$lib/server/templates/website/content/page.hbs?raw';
+import contentPostTemplate from '$lib/server/templates/website/content/post.hbs?raw';
+const templates = {
+	page: contentPageTemplate,
+	post: contentPostTemplate,
+	default: contentDefaultTemplate
+};
 import contentPageCopy from '$lib/server/templates/website/content/default.copy';
 import utilsCopy from '$lib/server/templates/website/blocks/utils/utils.copy';
 
@@ -55,6 +62,10 @@ export default async function ({
 		throw error404;
 	});
 
+	// Get the correct template to correspond with the content type
+	// Type casting here should be okay becuse there is a fallback to the default template if needed
+	const contentTemplate = templates[contentType.slug as 'post' | 'page'] ?? contentDefaultTemplate;
+
 	const content = await readContentBySlug({
 		instanceId: instance.id,
 		slug: content_slug,
@@ -74,7 +85,7 @@ export default async function ({
 	};
 
 	const output = await renderHandlebarsTemplate({
-		template: contentPageTemplate,
+		template: contentTemplate,
 		instanceId: instance.id,
 		context: {
 			content: content,
