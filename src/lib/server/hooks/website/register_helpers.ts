@@ -19,6 +19,11 @@ export default function (
 		}
 		return formatDateOnly(date);
 	});
+
+	hb.registerHelper('GLOBAL_CURRENT_YEAR', function () {
+		return new Date().getFullYear();
+	});
+
 	hb.registerHelper('render_event_time', function (event: EventRead) {
 		return formatDateTimeRange(event.starts_at, event.ends_at);
 	});
