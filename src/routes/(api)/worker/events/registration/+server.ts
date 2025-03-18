@@ -12,8 +12,7 @@ export async function POST(event) {
 		const body = await event.request.json();
 		const parsed = parse(signUpQueueMessage, {
 			event_id: body.event_id,
-			signup: body.signup.signup,
-			person_id: body.person_id
+			signup: body.signup
 		});
 		const eventObject = await readEvent({
 			instanceId: event.locals.instance.id,
