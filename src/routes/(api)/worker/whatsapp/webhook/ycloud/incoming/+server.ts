@@ -76,6 +76,29 @@ export async function POST(event) {
 				} catch (err) {
 					log.error(err);
 				}
+			} else if (message.type === 'interactive') {
+				try {
+					if (message.interactive && message.interactive.button_reply) {
+						const payload = message.interactive.button_reply.id; //this is the uuid of the action...
+
+						const actionParsed = parse(triggerAction, {
+							type: 'whatsapp_message',
+							person_id: person.id,
+							received_whatsapp_message_id: receivedMessage.id,
+							action_id: payload,
+							data: message
+						});
+						log.debug(actionParsed, 'handling incoming interactive message');
+						await event.locals.queue(
+							'/utils/communications/actions',
+							event.locals.instance.id,
+							actionParsed,
+							event.locals.admin.id
+						);
+					}
+				} catch (err) {
+					log.error(err);
+				}
 			} else if (message.type === 'text') {
 				// Pick out the string [SIGNUP:3] in the message
 				// and split it into SIGNUP and 3.
