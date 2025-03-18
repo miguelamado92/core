@@ -1,4 +1,4 @@
-import { pino, BelcodaError, json, error } from '$lib/server';
+import { BelcodaError, json, error, pino } from '$lib/server';
 import { signUpQueueMessage } from '$lib/schema/events/events';
 import { triggerEventMessage } from '$lib/schema/utils/email';
 import { parse } from '$lib/schema/valibot';
@@ -10,7 +10,10 @@ const log = pino(import.meta.url);
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
-		const parsed = parse(signUpQueueMessage, body);
+		const parsed = parse(signUpQueueMessage, {
+			event_id: body.event_id,
+			signup: body.signup
+		});
 		const eventObject = await readEvent({
 			instanceId: event.locals.instance.id,
 			eventId: parsed.event_id,

@@ -8,7 +8,6 @@ import { create as createInteraction } from '$lib/server/api/people/interactions
 import { create as createInteractionSchema } from '$lib/schema/people/interactions';
 import { _getPersonByWhatsappId } from '$lib/server/api/people/people';
 import { triggerAction } from '$lib/schema/communications/actions/actions';
-import { _getByAction } from '$lib/server/api/communications/whatsapp/messages.js';
 import { _idempotentUpdateExpiryTime } from '$lib/server/api/communications/whatsapp/conversations.js';
 
 import { update as updateSentMessage } from '$lib/server/api/communications/whatsapp/sent_messages';
