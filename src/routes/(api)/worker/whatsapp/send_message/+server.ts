@@ -12,7 +12,7 @@ import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { _updateWhatsappId, read } from '$lib/server/api/people/people';
 
 import type { AfterSend } from '$lib/schema/communications/whatsapp/worker/sending.js';
-const log = pino('/worker/whatsapp/send_message');
+const log = pino(import.meta.url);
 export async function POST(event) {
 	try {
 		const body = await event.request.json();

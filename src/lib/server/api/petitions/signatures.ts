@@ -9,7 +9,7 @@ import {
 import type { WhatsappInboundMessage } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
 import { _getInstanceIdByPetitionId } from '../core/instances';
 import { signatureQueueMessage } from '$lib/schema/petitions/petitions';
-const log = pino('API:/api/v1/petitions/signatures/+server.ts');
+const log = pino(import.meta.url);
 function redisString(instanceId: number, petitionId: number, personId: number | 'all') {
 	return `i:${instanceId}:petitions:${petitionId}:signatures:${personId}`;
 }
