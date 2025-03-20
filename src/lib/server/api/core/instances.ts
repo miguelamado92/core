@@ -104,6 +104,34 @@ export async function _getInstanceByWhatsappBAId({
 	return await read({ instance_id: response[0].id });
 }
 
+export async function _getInstanceIdByEventId(eventId: string): Promise<schema.Read> {
+	const response =
+		await db.sql`SELECT instance_id from events.events WHERE id = ${db.param(eventId)} limit 1`.run(
+			pool
+		);
+	if (response.length !== 1)
+		throw new BelcodaError(
+			400,
+			'DATA:INSTANCES:GET_BY_EVENT_ID:01',
+			'No instance found with that event ID'
+		);
+	return await read({ instance_id: response[0].instance_id });
+}
+
+export async function _getInstanceIdByPetitionId(petitionId: string): Promise<schema.Read> {
+	const response =
+		await db.sql`SELECT instance_id from petitions.petitions WHERE id = ${db.param(petitionId)} limit 1`.run(
+			pool
+		);
+	if (response.length !== 1)
+		throw new BelcodaError(
+			400,
+			'DATA:INSTANCES:GET_BY_PETITION_ID:01',
+			'No instance found with that petition ID'
+		);
+	return await read({ instance_id: response[0].instance_id });
+}
+
 const instanceCountSchema = v.pipe(v.number(), v.integer(), v.minValue(0));
 
 export async function _count(): Promise<number> {
@@ -113,4 +141,9 @@ export async function _count(): Promise<number> {
 	const parsed = v.parse(instanceCountSchema, response);
 	await redis.set(`i:count`, parsed);
 	return parsed;
+}
+
+export async function _updateSetInstalled({ instanceId }: { instanceId: number }): Promise<void> {
+	await db.update('instances', { installed: true }, { id: instanceId }).run(pool);
+	await redis.del(`i:${instanceId}`);
 }

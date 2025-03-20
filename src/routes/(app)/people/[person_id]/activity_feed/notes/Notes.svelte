@@ -11,6 +11,8 @@
 	type Props = {
 		interaction: List['items'][number];
 		person: ReadPerson;
+		activityMessage?: string;
+		children?: any;
 	};
 	let { interaction, person }: Props = $props();
 	let edit: boolean = $state(false);
@@ -27,6 +29,7 @@
 		activityMessage={$page.data.t.people.interactions.interactionMessage.notes(
 			interaction.admin.full_name
 		)}
+		class="bg-yellow-100"
 	>
 		{#if edit}
 			<div class="mt-2">
@@ -46,7 +49,7 @@
 				</div>
 			</div>
 		{:else}
-			<div class="mt-2 text-sm text-muted-foreground">
+			<div class="mt-2 text-sm text-muted-foreground bg-yellow-100">
 				{@html sanitizeHTML(addLineBreaks(interaction.details.notes))}
 			</div>
 			{#if interaction.details.edit_history.length > 0}
