@@ -29,6 +29,7 @@ export const base = v.object({
 	family_name: v.nullable(mediumString),
 	family_name_alt: v.nullable(mediumString),
 
+	gender: v.nullable(v.picklist(['male', 'female', 'other', 'not_specified']), 'not_specified'),
 	dob: v.nullable(timestamp),
 	organization: v.nullable(shortString),
 	position: v.nullable(shortString),
