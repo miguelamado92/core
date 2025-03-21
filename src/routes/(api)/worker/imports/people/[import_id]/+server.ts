@@ -2,6 +2,7 @@ import { json, error, BelcodaError, pino } from '$lib/server';
 import { getCsvFromBucket } from '$lib/server/utils/s3/put';
 import { PUBLIC_AWS_S3_USER_IMPORT_BUCKET_NAME } from '$env/static/public';
 import { update } from '$lib/server/api/people/imports';
+import { type SupportedCountry, SUPPORTED_COUNTRIES } from '$lib/i18n/index.js';
 import * as csv from 'fast-csv';
 import { create as createPerson } from '$lib/server/api/people/people';
 import { create as createSchema } from '$lib/schema/people/people';
@@ -20,21 +21,29 @@ export async function POST(event) {
 				email_subscribed: v.optional(v.string(), 'true'),
 				phone_number: v.nullable(v.string()),
 				phone_subscribed: v.optional(v.string(), 'true'),
-				organization: v.nullable(v.string()),
-				position: v.nullable(v.string()),
 				address_line_1: v.nullable(v.string()),
 				address_line_2: v.nullable(v.string()),
 				city: v.nullable(v.string()),
 				postcode: v.nullable(v.string()),
-				state: v.nullable(v.string())
+				state: v.nullable(v.string()),
+				country: v.nullable(v.pipe(v.string(), v.length(2))),
+				organization: v.nullable(v.string()),
+				position: v.nullable(v.string()),
+				gender: v.nullable(v.picklist(['male', 'female', 'other', 'not_specified'])),
+				date_of_birth: v.nullable(v.pipe(v.string(), v.regex(new RegExp(/^\d{4}-\d{2}-\d{2}$/)))),
+				preferred_language: v.nullable(v.pipe(v.string(), v.length(2)))
 			}),
 			v.transform((input) => {
 				const hasPhoneNumber = input.phone_number && input.phone_number.length > 0;
 				const hasEmail = input.email && input.email.length > 0;
+				//this has casting, but it's tested against the SUPPORTED_COUNTRIES array.
+				const inputCountry = SUPPORTED_COUNTRIES.includes(input.country as SupportedCountry)
+					? (input.country as SupportedCountry)
+					: event.locals.instance.country;
 				return {
 					family_name: input.family_name,
 					given_name: input.given_name,
-					full_name: renderName(input, event.locals.instance.country),
+					full_name: renderName(input, inputCountry),
 					email: !hasEmail
 						? null
 						: {
@@ -46,14 +55,19 @@ export async function POST(event) {
 						: {
 								phone_number: input.phone_number,
 								subscribed: input.phone_subscribed === 'true',
-								country: event.locals.instance.country
+								country: input.country || event.locals.instance.country
 							},
 					address_line_1: input.address_line_1,
 					address_line_2: input.address_line_2,
 					locality: input.city,
 					postcode: input.postcode,
 					state: input.state,
-					country: event.locals.instance.country
+					country: inputCountry,
+					organization: input.organization,
+					position: input.position,
+					preferred_language: input.preferred_language,
+					gender: input.gender,
+					date_of_birth: input.date_of_birth
 				};
 			})
 		);
