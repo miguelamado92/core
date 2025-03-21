@@ -44,8 +44,9 @@ export async function PUT(event) {
 export async function DELETE(event) {
 	try {
 		const deletedPerson = await api.deletePerson({
-			instanceId: event.locals.instance.id,
-			personId: Number(event.params.person_id)
+			instance_id: event.locals.instance.id,
+			person_id: Number(event.params.person_id),
+			t: event.locals.t
 		});
 		return json(deletedPerson);
 	} catch (err) {
