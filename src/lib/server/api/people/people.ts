@@ -602,7 +602,14 @@ export async function deletePerson({
 	await redis.del(redisString(instance_id, person_id));
 	await redis.del(redisString(instance_id, 'all'));
 
-	// Queue interaction for deletion ?
+	// Queue interaction for deletion
+	await queueInteraction({
+		personId: person_id,
+		adminId: admin_id,
+		instanceId: instance_id,
+		details: { type: 'person_deleted', person_id: person_id },
+		queue
+	});
 
 	return true;
 }
