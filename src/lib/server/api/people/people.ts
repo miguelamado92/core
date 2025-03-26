@@ -211,7 +211,7 @@ export async function update({
 				{
 					...parsed
 				},
-				{ instance_id, id: person_id }
+				{ instance_id, id: person_id, deleted_at: db.conditions.isNull }
 			)
 			.run(pool)
 			.catch((err) => {
@@ -357,17 +357,12 @@ export async function list({
 
 	// Add deleted_at condition if not including deleted records
 	if (!includeDeleted) {
-		console.log('includeDeleted', includeDeleted);
 		query.where = { ...query.where, deleted_at: db.conditions.isNull };
 	}
 
 	if (query.filtered === false && !includeDeleted) {
-		console.log('!includeDeleted', !includeDeleted);
-		console.log('query.filtered', query.filtered);
-		console.log('Checking cache');
 		// Deleted records are not included in the cache
 		const cached = await redis.get(redisString(instance_id, 'all'));
-		console.log('cached', cached);
 		if (cached) {
 			return v.parse(schema.list, cached);
 		}
@@ -389,7 +384,6 @@ export async function list({
 		}
 	}
 	const checkTags = tagIds.length > 0 ? { id: db.conditions.isIn(personIds) } : {}; //can't be personIds length, because then it won't apply the condition when there are zero results
-	console.log('where ', { instance_id: instance_id, ...checkTags, ...query.where });
 	const selected = await db
 		.select(
 			'people.people_search',
@@ -450,7 +444,11 @@ export async function exists({
 		return true;
 	}
 	await db
-		.selectExactlyOne('people.people', { instance_id: instanceId, id: personId })
+		.selectExactlyOne('people.people', {
+			instance_id: instanceId,
+			id: personId,
+			deleted_at: db.conditions.isNull
+		})
 		.run(pool)
 		.catch((err) => {
 			throw new BelcodaError(
@@ -475,7 +473,7 @@ export async function _updateWhatsappId({
 }): Promise<true> {
 	log.debug('_updateWhatsappId');
 	const sql = format(
-		`UPDATE people.people SET "phone_number" = jsonb_set("phone_number", '{whatsapp_id}', %L) WHERE id = %L AND instance_id = %L`,
+		`UPDATE people.people SET "phone_number" = jsonb_set("phone_number", '{whatsapp_id}', %L) WHERE id = %L AND instance_id = %L AND deleted_at IS NULL`,
 		`"${whatsappId}"`,
 		personId,
 		instanceId
@@ -505,7 +503,7 @@ export async function _getPersonByWhatsappId({
 	log.debug('phoneNumber.number.e164');
 	log.debug(parsedPhoneNumber);
 	const person =
-		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(parsedPhoneNumber)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)} OR phone_number ->>'whapi_id' = ${db.param(whapiId)}) AND instance_id = ${db.param(instanceId)} LIMIT 1`.run(
+		await db.sql`SELECT id FROM ${'people.people'} WHERE (phone_number->>'whatsapp_id' = ${db.param(parsedPhoneNumber)} OR phone_number->>'phone_number' = ${db.param(parsedPhoneNumber)} OR phone_number ->>'whapi_id' = ${db.param(whapiId)}) AND instance_id = ${db.param(instanceId)} AND deleted_at IS NULL LIMIT 1`.run(
 			pool
 		);
 	log.info(whatsappId);
@@ -563,19 +561,27 @@ export async function _getInstanceIdByPersonId({
 	personId: number;
 }): Promise<number> {
 	const response = await db
-		.selectExactlyOne('people.people', { id: personId }, { columns: ['instance_id'] })
+		.selectExactlyOne(
+			'people.people',
+			{ id: personId, deleted_at: db.conditions.isNull },
+			{ columns: ['instance_id'] }
+		)
 		.run(pool);
 	return response.instance_id;
 }
 
-export async function deletePerson({
+export async function del({
 	instance_id,
 	person_id,
-	t
+	admin_id,
+	t,
+	queue
 }: {
 	instance_id: number;
 	person_id: number;
+	admin_id: number;
 	t: App.Localization;
+	queue: App.Queue;
 }): Promise<true> {
 	// Check if person exists and is not already deleted
 	await read({ instance_id, person_id, t });
@@ -622,6 +628,7 @@ export async function getPersonOrCreatePersonByWhatsappId(
 	queue: App.Queue
 ) {
 	try {
+		// ?Qn: If person is deleted, create a new person or undelete the person?
 		return await _getPersonByWhatsappId({
 			instanceId,
 			whatsappId,
