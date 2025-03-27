@@ -79,7 +79,7 @@ export async function POST(event) {
 					position: input.position,
 					preferred_language: input.preferred_language,
 					gender: input.gender,
-					date_of_birth: input.date_of_birth,
+					dob: input.date_of_birth,
 					tags: filteredTags,
 					events: filteredEvents
 				};
@@ -122,10 +122,11 @@ export async function POST(event) {
 					try {
 						//todo: transform phoneNumber, etc into the budgets and add them to the created entries
 						const parsedItem = v.parse(v.looseObject({ ...createSchema.entries }), parsed); //because we want to allow custom fields to be passed through to the function
+						const { events, tags, ...strippedPerson } = parsedItem; //remove events and tags from the person object
 						const createdPerson = await createPerson({
 							instance_id: event.locals.instance.id,
 							admin_id: event.locals.admin.id,
-							body: parsedItem,
+							body: strippedPerson,
 							t: event.locals.t,
 							queue: event.locals.queue,
 							method: 'import'
