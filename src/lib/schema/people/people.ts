@@ -7,6 +7,7 @@ import {
 	timestamp,
 	shortString,
 	uuid,
+	date,
 	mediumString,
 	longString,
 	mediumStringNotEmpty,
@@ -30,7 +31,7 @@ export const base = v.object({
 	family_name_alt: v.nullable(mediumString),
 
 	gender: v.nullable(v.picklist(['male', 'female', 'other', 'not_specified']), 'not_specified'),
-	dob: v.nullable(timestamp),
+	dob: v.nullable(date),
 	organization: v.nullable(shortString),
 	position: v.nullable(shortString),
 
