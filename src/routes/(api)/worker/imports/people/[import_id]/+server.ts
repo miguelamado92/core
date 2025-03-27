@@ -31,7 +31,9 @@ export async function POST(event) {
 				position: v.nullable(v.string()),
 				gender: v.nullable(v.picklist(['male', 'female', 'other', 'not_specified'])),
 				date_of_birth: v.nullable(v.pipe(v.string(), v.regex(new RegExp(/^\d{4}-\d{2}-\d{2}$/)))),
-				preferred_language: v.nullable(v.pipe(v.string(), v.length(2)))
+				preferred_language: v.nullable(v.pipe(v.string(), v.length(2))),
+				tags: v.optional(v.nullable(v.string()), null),
+				events: v.optional(v.nullable(v.string()), null)
 			}),
 			v.transform((input) => {
 				const hasPhoneNumber = input.phone_number && input.phone_number.length > 0;
@@ -40,6 +42,16 @@ export async function POST(event) {
 				const inputCountry = SUPPORTED_COUNTRIES.includes(input.country as SupportedCountry)
 					? (input.country as SupportedCountry)
 					: event.locals.instance.country;
+
+				function filterEmpty(value: string[]) {
+					return value.filter((v) => {
+						return v;
+					});
+				}
+
+				const filteredTags = input.tags ? filterEmpty(input.tags.split(',')) : [];
+				const filteredEvents = input.events ? filterEmpty(input.events.split(',')) : [];
+
 				return {
 					family_name: input.family_name,
 					given_name: input.given_name,
@@ -67,7 +79,9 @@ export async function POST(event) {
 					position: input.position,
 					preferred_language: input.preferred_language,
 					gender: input.gender,
-					date_of_birth: input.date_of_birth
+					date_of_birth: input.date_of_birth,
+					tags: filteredTags,
+					events: filteredEvents
 				};
 			})
 		);
@@ -108,7 +122,7 @@ export async function POST(event) {
 					try {
 						//todo: transform phoneNumber, etc into the budgets and add them to the created entries
 						const parsedItem = v.parse(v.looseObject({ ...createSchema.entries }), parsed); //because we want to allow custom fields to be passed through to the function
-						await createPerson({
+						const createdPerson = await createPerson({
 							instance_id: event.locals.instance.id,
 							admin_id: event.locals.admin.id,
 							body: parsedItem,
@@ -116,6 +130,24 @@ export async function POST(event) {
 							queue: event.locals.queue,
 							method: 'import'
 						});
+						for (const tag of parsed.tags) {
+							await addPersonToTag({
+								instanceId: event.locals.instance.id,
+								personId: createdPerson.id,
+								tagName: tag,
+								t: event.locals.t
+							});
+						}
+						for (const eventSlug of parsed.events) {
+							await addPersonToEvent({
+								instanceId: event.locals.instance.id,
+								personId: createdPerson.id,
+								eventSlug,
+								t: event.locals.t,
+								queue: event.locals.queue,
+								importId
+							});
+						}
 						successCount++;
 					} catch (err) {
 						log.error(err);
@@ -144,6 +176,79 @@ export async function POST(event) {
 			'API:/api/v1/worker/imports/people/[import_id]:POST:01',
 			event.locals.t.errors.http[500](),
 			err
+		);
+	}
+}
+
+import { readByName, create as createTag } from '$lib/server/api/core/tags';
+import { create as createTagging } from '$lib/server/api/people/taggings';
+async function addPersonToTag({
+	instanceId,
+	personId,
+	tagName,
+	t
+}: {
+	instanceId: number;
+	personId: number;
+	tagName: string;
+	t: App.Localization;
+}): Promise<void> {
+	try {
+		//try to add them to an existing tag
+		const tag = await readByName({ instanceId, tagName });
+		await createTagging({ instanceId, personId, tagId: tag.id, t });
+		log.debug({ instanceId, personId, tagName }, 'Added tag');
+	} catch (err) {
+		//if no tag exists, readByName will error. So we create a new tag
+		try {
+			const newTag = await createTag({ instanceId, body: { name: tagName } });
+			log.debug(newTag, 'Created new tag');
+			await createTagging({ instanceId, personId, tagId: newTag.id, t });
+			log.debug({ instanceId, personId, tagName, newTag }, 'Added person to new tag');
+		} catch (err) {
+			//If something went wrong with the creation or adding of a new tag.
+			log.debug({ instanceId, personId, tagName }, 'Unable to create tag');
+		}
+	}
+}
+
+import { readBySlug } from '$lib/server/api/events/events';
+import { create as createAttendee } from '$lib/server/api/events/attendees';
+async function addPersonToEvent({
+	instanceId,
+	personId,
+	eventSlug,
+	t,
+	queue,
+	importId
+}: {
+	instanceId: number;
+	personId: number;
+	eventSlug: string;
+	t: App.Localization;
+	queue: App.Queue;
+	importId: number;
+}): Promise<void> {
+	try {
+		const event = await readBySlug({ instanceId, slug: eventSlug });
+		await createAttendee({
+			instanceId,
+			eventId: event.id,
+			body: {
+				person_id: personId,
+				status: 'attended',
+				send_notifications: false,
+				notes: `import:${importId}`
+			},
+			t,
+			queue
+		});
+		log.debug({ instanceId, personId, eventSlug }, 'Added person to event');
+	} catch (err) {
+		//no event?
+		log.debug(
+			{ instanceId, personId, eventSlug },
+			'Unable to add person to event. Probably no event exists with this slug'
 		);
 	}
 }
