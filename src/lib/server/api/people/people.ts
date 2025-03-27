@@ -67,7 +67,6 @@ export async function create({
 	instance_id,
 	admin_id,
 	body,
-	t,
 	queue,
 	method,
 	options
@@ -75,7 +74,6 @@ export async function create({
 	instance_id: number;
 	admin_id?: number;
 	body: schema.Create;
-	t: App.Localization;
 	queue: App.Queue;
 	method: 'manual' | 'import' | 'event_registration' | 'petition_signature';
 	options?: CreateOptions;
@@ -109,7 +107,7 @@ export async function create({
 		await queue('/whatsapp/whapi/check_phone_number', instance_id, personToUpdate, admin_id);
 	}
 	await redis.del(redisString(instance_id, 'all'));
-	const person = await read({ instance_id, person_id: inserted.id, t });
+	const person = await read({ instance_id, person_id: inserted.id });
 
 	switch (method) {
 		case 'petition_signature': {
@@ -192,7 +190,6 @@ export async function update({
 	person_id,
 	body,
 	admin_id,
-	t,
 	queue,
 	options
 }: {
@@ -200,7 +197,6 @@ export async function update({
 	person_id: number;
 	admin_id: number;
 	body: schema.Update;
-	t: App.Localization;
 	queue: App.Queue;
 	options?: UpdateOptions;
 }) {
@@ -252,7 +248,7 @@ export async function update({
 		}
 		await redis.del(redisString(instance_id, person_id));
 		await redis.del(redisString(instance_id, 'all'));
-		const person = await read({ instance_id, person_id: updated[0].id, t });
+		const person = await read({ instance_id, person_id: updated[0].id });
 		return person;
 	} catch (err) {
 		console.log('Update person error:', { error: err, body });
@@ -263,13 +259,11 @@ export async function update({
 export async function read({
 	instance_id,
 	person_id,
-	t,
 	url,
-	includeDeleted
+	includeDeleted = false
 }: {
 	instance_id: number;
 	person_id: number;
-	t: App.Localization;
 	url?: URL;
 	includeDeleted?: boolean;
 }): Promise<schema.Read> {
@@ -277,7 +271,7 @@ export async function read({
 	if (cached) {
 		const parsed = v.parse(schema.read, cached);
 		if (!includeDeleted && parsed.deleted_at) {
-			return error(404, 'DATA:PEOPLE:PEOPLE:READ:01', t.errors.not_found());
+			return error(404, 'DATA:PEOPLE:PEOPLE:READ:01', m.pretty_tired_fly_lead());
 		}
 		return parsed;
 	}
@@ -346,13 +340,11 @@ export async function getIdsFromEmailPhoneNumber({
 export async function list({
 	instance_id,
 	url,
-	t,
 	notPaged,
 	includeDeleted = false
 }: {
 	instance_id: number;
 	url: URL;
-	t: App.Localization;
 	notPaged?: boolean;
 	includeDeleted?: boolean;
 }): Promise<schema.List | schema._ListWithSearch> {
@@ -438,12 +430,10 @@ export async function list({
 
 export async function exists({
 	instanceId,
-	personId,
-	t
+	personId
 }: {
 	instanceId: number;
 	personId: number;
-	t: App.Localization;
 }): Promise<true> {
 	const cached = await redis.get(redisString(instanceId, personId));
 	if (cached) {
@@ -494,12 +484,10 @@ import { parsePhoneNumber } from 'awesome-phonenumber';
 
 export async function _getPersonByWhatsappId({
 	instanceId,
-	whatsappId,
-	t
+	whatsappId
 }: {
 	instanceId: number;
 	whatsappId: string;
-	t: App.Localization;
 }): Promise<schema.Read> {
 	const phoneNumber = parsePhoneNumber(whatsappId);
 	const parsedPhoneNumber = phoneNumber.valid ? phoneNumber.number.e164 : whatsappId;
@@ -521,21 +509,19 @@ export async function _getPersonByWhatsappId({
 		);
 	}
 	log.debug('_getPersonByWhatsappId done: ', person);
-	return await read({ instance_id: instanceId, person_id: person[0].id, t });
+	return await read({ instance_id: instanceId, person_id: person[0].id });
 }
 
 export async function _createPersonByWhatsappId({
 	instanceId,
 	whatsappId,
 	name,
-	queue,
-	t
+	queue
 }: {
 	instanceId: number;
 	whatsappId: string;
 	name: string;
 	queue: App.Queue;
-	t: App.Localization;
 }) {
 	return await create({
 		instance_id: instanceId,
@@ -556,8 +542,7 @@ export async function _createPersonByWhatsappId({
 			country: DEFAULT_COUNTRY // TODO: Get country from phone number country code
 		},
 		method: 'event_registration',
-		queue,
-		t
+		queue
 	});
 }
 
@@ -580,17 +565,15 @@ export async function del({
 	instance_id,
 	person_id,
 	admin_id,
-	t,
 	queue
 }: {
 	instance_id: number;
 	person_id: number;
 	admin_id: number;
-	t: App.Localization;
 	queue: App.Queue;
 }): Promise<true> {
 	// Check if person exists and is not already deleted
-	await read({ instance_id, person_id, t });
+	await read({ instance_id, person_id });
 
 	const updated = await db
 		.update(
@@ -603,11 +586,11 @@ export async function del({
 		)
 		.run(pool)
 		.catch((err) => {
-			throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:DELETE:01', t.errors.not_found(), err);
+			throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:DELETE:01', m.pretty_tired_fly_lead(), err);
 		});
 
 	if (updated.length !== 1) {
-		throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:DELETE:01', t.errors.http[404]());
+		throw new BelcodaError(404, 'DATA:PEOPLE:PEOPLE:DELETE:01', m.pretty_tired_fly_lead());
 	}
 
 	// Clear cache
@@ -630,15 +613,13 @@ export async function getPersonOrCreatePersonByWhatsappId(
 	instanceId: number,
 	whatsappId: string,
 	message: WhatsappInboundMessage,
-	t: App.Localization,
 	queue: App.Queue
 ) {
 	try {
 		// ?Qn: If person is deleted, create a new person or undelete the person?
 		return await _getPersonByWhatsappId({
 			instanceId,
-			whatsappId,
-			t
+			whatsappId
 		});
 	} catch (err) {
 		if (err instanceof BelcodaError && err.code === 404) {
@@ -647,7 +628,6 @@ export async function getPersonOrCreatePersonByWhatsappId(
 				instanceId,
 				whatsappId,
 				name: message.customerProfile?.name,
-				t,
 				queue
 			});
 		} else {
