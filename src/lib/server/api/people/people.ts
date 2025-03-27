@@ -278,7 +278,11 @@ export async function read({
 	const person = await db
 		.selectExactlyOne(
 			'people.people',
-			{ instance_id, id: person_id, ...(!includeDeleted && { deleted_at: db.sql`NULL` }) },
+			{
+				instance_id,
+				id: person_id,
+				...(!includeDeleted && { deleted_at: db.conditions.isNull })
+			},
 			{
 				lateral: {
 					custom_fields: db.select(
