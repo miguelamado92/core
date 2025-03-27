@@ -99,7 +99,6 @@ export async function POST(event) {
 							instance_id: event.locals.instance.id,
 							admin_id: event.locals.admin.id,
 							body: parsedItem,
-							t: event.locals.t,
 							queue: event.locals.queue,
 							method: 'import'
 						});

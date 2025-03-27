@@ -620,7 +620,6 @@ export async function getPersonOrCreatePersonByWhatsappId(
 	queue: App.Queue
 ) {
 	try {
-		// ?Qn: If person is deleted, create a new person or undelete the person?
 		return await _getPersonByWhatsappId({
 			instanceId,
 			whatsappId
