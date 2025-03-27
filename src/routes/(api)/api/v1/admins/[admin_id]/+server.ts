@@ -32,3 +32,18 @@ export async function GET(event) {
 		return error(500, 'API:/ADMINS:GET:01', m.spry_ago_baboon_cure(), err);
 	}
 }
+
+export async function DELETE(event) {
+	try {
+		await api.del({
+			instance_id: event.locals.instance.id,
+			admin_id: Number(event.params.admin_id),
+			currentlySignedInAdminId: event.locals.admin.id,
+			t: event.locals.t,
+			queue: event.locals.queue
+		});
+		return json({ success: true });
+	} catch (err) {
+		return error(500, 'API:/admins/[admin_id]:DELETE:01', event.locals.t.errors.http[500](), err);
+	}
+}

@@ -1,4 +1,6 @@
-<script>
+
+<script lang="ts">
+  import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import * as m from '$lib/paraglide/messages';
 	export let data;
@@ -6,6 +8,24 @@
 	import Avatar from '$lib/comps/ui/custom/avatar/avatar.svelte';
 	import { Badge } from '$lib/comps/ui/badge';
 	import DataGrid from '$lib/comps/ui/custom/table/DataGrid.svelte';
+	import { page } from '$app/stores';
+	import { getFlash } from 'sveltekit-flash-message';
+	const flash = getFlash(page);
+
+	async function deleteAdmin(adminId: number) {
+		try {
+			const response = await fetch(`/api/v1/admins/${adminId}`, {
+				method: 'DELETE'
+			});
+			if (!response.ok) throw new Error('Failed to delete admin');
+
+			$flash = { type: 'success', message: data.t.forms.actions.success() };
+			goto('/settings/admins', { invalidateAll: true });
+		} catch (error) {
+			console.error('Error deleting admin: ', error);
+			$flash = { type: 'error', message: data.t.forms.actions.failed() };
+		}
+	}
 </script>
 
 <DataGrid
@@ -40,9 +60,20 @@
 					{/if}
 				</div>
 			</div>
-			<div>
+			<div class="flex gap-2">
 				<Button href="/settings/admins/{admin.id}" variant="outline" size="sm">
 					{m.giant_misty_shrimp_stop()}
+				</Button>
+				<Button
+					size="sm"
+					variant="destructive"
+					on:click={() => {
+						if (window.confirm(data.t.forms.messages.confirm_delete())) {
+							deleteAdmin(admin.id);
+						}
+					}}
+				>
+					{data.t.forms.buttons.delete()}
 				</Button>
 			</div>
 		</div>
