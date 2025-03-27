@@ -66,6 +66,16 @@ export async function read({
 	return parsedFetched;
 }
 
+export async function readByName({ instanceId, tagName }: { instanceId: number; tagName: string }) {
+	const fetched = await db
+		.selectExactlyOne('tags', { instance_id: instanceId, name: tagName })
+		.run(pool);
+	if (!fetched) {
+		throw new BelcodaError(404, 'DATA:TAGS:READ:01', `Unable to find tag with name: ${tagName}`);
+	}
+	return parse(schema.read, fetched);
+}
+
 export async function update({
 	instanceId,
 	tagId,
