@@ -21,6 +21,7 @@
 		Switch,
 		Code,
 		Debug,
+		Select,
 		superForm,
 		valibotClient,
 		type Infer
@@ -43,6 +44,8 @@
 	import { DEFAULT_COUNTRY } from '$lib/i18n';
 	let storedPhoneNumber: PhoneNumber | null | undefined = null;
 	let storedEmail: Email | null | undefined = null;
+
+	import * as m from '$lib/paraglide/messages';
 </script>
 
 <form use:enhance method="post">
@@ -187,9 +190,33 @@
 			<DateElement
 				{form}
 				name="dob"
-				bind:value={$formData.dob as Date}
+				bind:value={$formData.dob as string}
 				label={m.slow_factual_wolf_find()}
 			/>
+			<Select
+				{form}
+				name="gender"
+				bind:value={$formData.gender as string}
+				label="Gender"
+				options={[
+					{
+						value: 'male',
+						label: m.jolly_round_martin_trip()
+					},
+					{
+						value: 'female',
+						label: m.clean_sea_thrush_dial()
+					},
+					{
+						value: 'other',
+						label: m.teal_maroon_mantis_scoop()
+					},
+					{
+						value: 'not_specified',
+						label: m.awake_topical_rook_jolt()
+					}
+				]}
+			></Select>
 		</Grid>
 
 		<Button type="submit"></Button>
