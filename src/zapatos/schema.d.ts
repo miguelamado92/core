@@ -4594,7 +4594,7 @@ declare module 'zapatos/schema' {
         do_not_contact: boolean | null;
         /**
         * **people.people.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
         dob: Date | null;
@@ -4622,6 +4622,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         full_name: string;
+        /**
+        * **people.people.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender: string | null;
         /**
         * **people.people.given_name**
         * - `text` in database
@@ -4782,10 +4788,10 @@ declare module 'zapatos/schema' {
         do_not_contact: boolean | null;
         /**
         * **people.people.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob: db.TimestampTzString | null;
+        dob: db.DateString | null;
         /**
         * **people.people.email**
         * - `email` (base type: `jsonb`) in database
@@ -4810,6 +4816,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         full_name: string;
+        /**
+        * **people.people.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender: string | null;
         /**
         * **people.people.given_name**
         * - `text` in database
@@ -4970,10 +4982,10 @@ declare module 'zapatos/schema' {
         do_not_contact?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
         /**
         * **people.people.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        dob?: (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | db.SQLFragment | db.ParentColumn>;
         /**
         * **people.people.email**
         * - `email` (base type: `jsonb`) in database
@@ -4998,6 +5010,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         full_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.people.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
         * **people.people.given_name**
         * - `text` in database
@@ -5158,10 +5176,10 @@ declare module 'zapatos/schema' {
         do_not_contact?: boolean | db.Parameter<boolean> | null | db.DefaultType | db.SQLFragment;
         /**
         * **people.people.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+        dob?: (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | null | db.DefaultType | db.SQLFragment;
         /**
         * **people.people.email**
         * - `email` (base type: `jsonb`) in database
@@ -5186,6 +5204,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         full_name: string | db.Parameter<string> | db.SQLFragment;
+        /**
+        * **people.people.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
         /**
         * **people.people.given_name**
         * - `text` in database
@@ -5346,10 +5370,10 @@ declare module 'zapatos/schema' {
         do_not_contact?: boolean | db.Parameter<boolean> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **people.people.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+        dob?: (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **people.people.email**
         * - `email` (base type: `jsonb`) in database
@@ -5374,6 +5398,12 @@ declare module 'zapatos/schema' {
         * - `NOT NULL`, no default
         */
         full_name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+        /**
+        * **people.people.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **people.people.given_name**
         * - `text` in database
@@ -5528,6 +5558,12 @@ declare module 'zapatos/schema' {
         */
         created_at: Date | null;
         /**
+        * **people.people_search.deleted_at**
+        * - `timestamptz` in database
+        * - Nullable, no default
+        */
+        deleted_at: Date | null;
+        /**
         * **people.people_search.details**
         * - `text` in database
         * - Nullable, no default
@@ -5541,7 +5577,7 @@ declare module 'zapatos/schema' {
         do_not_contact: boolean | null;
         /**
         * **people.people_search.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
         dob: Date | null;
@@ -5569,6 +5605,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         full_name: string | null;
+        /**
+        * **people.people_search.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender: string | null;
         /**
         * **people.people_search.given_name**
         * - `text` in database
@@ -5716,6 +5758,12 @@ declare module 'zapatos/schema' {
         */
         created_at: db.TimestampTzString | null;
         /**
+        * **people.people_search.deleted_at**
+        * - `timestamptz` in database
+        * - Nullable, no default
+        */
+        deleted_at: db.TimestampTzString | null;
+        /**
         * **people.people_search.details**
         * - `text` in database
         * - Nullable, no default
@@ -5729,10 +5777,10 @@ declare module 'zapatos/schema' {
         do_not_contact: boolean | null;
         /**
         * **people.people_search.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob: db.TimestampTzString | null;
+        dob: db.DateString | null;
         /**
         * **people.people_search.email**
         * - `email` (base type: `jsonb`) in database
@@ -5757,6 +5805,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         full_name: string | null;
+        /**
+        * **people.people_search.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender: string | null;
         /**
         * **people.people_search.given_name**
         * - `text` in database
@@ -5904,6 +5958,12 @@ declare module 'zapatos/schema' {
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
         /**
+        * **people.people_search.deleted_at**
+        * - `timestamptz` in database
+        * - Nullable, no default
+        */
+        deleted_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        /**
         * **people.people_search.details**
         * - `text` in database
         * - Nullable, no default
@@ -5917,10 +5977,10 @@ declare module 'zapatos/schema' {
         do_not_contact?: boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
         /**
         * **people.people_search.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | db.SQLFragment | db.ParentColumn>;
+        dob?: (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | db.SQLFragment | db.ParentColumn>;
         /**
         * **people.people_search.email**
         * - `email` (base type: `jsonb`) in database
@@ -5945,6 +6005,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         full_name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+        /**
+        * **people.people_search.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
         /**
         * **people.people_search.given_name**
         * - `text` in database
@@ -6092,6 +6158,12 @@ declare module 'zapatos/schema' {
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
         /**
+        * **people.people_search.deleted_at**
+        * - `timestamptz` in database
+        * - Nullable, no default
+        */
+        deleted_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+        /**
         * **people.people_search.details**
         * - `text` in database
         * - Nullable, no default
@@ -6105,10 +6177,10 @@ declare module 'zapatos/schema' {
         do_not_contact?: boolean | db.Parameter<boolean> | null | db.DefaultType | db.SQLFragment;
         /**
         * **people.people_search.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment;
+        dob?: (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | null | db.DefaultType | db.SQLFragment;
         /**
         * **people.people_search.email**
         * - `email` (base type: `jsonb`) in database
@@ -6133,6 +6205,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         full_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
+        /**
+        * **people.people_search.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment;
         /**
         * **people.people_search.given_name**
         * - `text` in database
@@ -6280,6 +6358,12 @@ declare module 'zapatos/schema' {
         */
         created_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
         /**
+        * **people.people_search.deleted_at**
+        * - `timestamptz` in database
+        * - Nullable, no default
+        */
+        deleted_at?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+        /**
         * **people.people_search.details**
         * - `text` in database
         * - Nullable, no default
@@ -6293,10 +6377,10 @@ declare module 'zapatos/schema' {
         do_not_contact?: boolean | db.Parameter<boolean> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, boolean | db.Parameter<boolean> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **people.people_search.dob**
-        * - `timestamptz` in database
+        * - `date` in database
         * - Nullable, no default
         */
-        dob?: (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.TimestampTzString | Date) | db.Parameter<(db.TimestampTzString | Date)> | null | db.DefaultType | db.SQLFragment>;
+        dob?: (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, (db.DateString | Date) | db.Parameter<(db.DateString | Date)> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **people.people_search.email**
         * - `email` (base type: `jsonb`) in database
@@ -6321,6 +6405,12 @@ declare module 'zapatos/schema' {
         * - Nullable, no default
         */
         full_name?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
+        /**
+        * **people.people_search.gender**
+        * - `text` in database
+        * - Nullable, no default
+        */
+        gender?: string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | null | db.DefaultType | db.SQLFragment>;
         /**
         * **people.people_search.given_name**
         * - `text` in database
