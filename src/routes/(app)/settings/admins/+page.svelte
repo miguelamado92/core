@@ -1,7 +1,5 @@
-
 <script lang="ts">
-  import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import * as m from '$lib/paraglide/messages';
 	export let data;
 	import Button from '$lib/comps/ui/button/button.svelte';
