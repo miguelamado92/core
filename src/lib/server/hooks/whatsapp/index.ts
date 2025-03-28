@@ -7,7 +7,7 @@ import { createHmac } from 'crypto';
 
 import { parse } from '$lib/schema/valibot';
 import { webhook } from '$lib/schema/communications/whatsapp/webhooks/webhook';
-import { _getInstanceByWhatsappPhoneNumberId } from '$lib/server/api/core/instances';
+//import { _getInstanceByWhatsappPhoneNumberId } from '$lib/server/api/core/instances'; //no longer needed
 
 const log = pino(import.meta.url);
 export default async function (event: RequestEvent, resolve: Resolve): Promise<HandlerResponse> {
@@ -47,7 +47,8 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 			for (let index = 0; index < parsed.entry.length; index++) {
 				const entry = parsed.entry[index];
 				for (let j = 0; j < entry.changes.length; j++) {
-					const change = entry.changes[j];
+					//no longer needed (we are using ycloud instead of the standard whatsapp business API)
+					/* const change = entry.changes[j];
 					const value = change.value;
 					const PHONE_NUMBER_ID = value.metadata.phone_number_id;
 					const instance = await _getInstanceByWhatsappPhoneNumberId({
@@ -58,7 +59,7 @@ export default async function (event: RequestEvent, resolve: Resolve): Promise<H
 						instance.id,
 						change,
 						instance.settings.default_admin_id
-					);
+					); */
 				}
 			}
 		} catch (err) {

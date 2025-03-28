@@ -6,11 +6,7 @@ import { YCLOUD_VERIFY_TOKEN } from '$env/static/private';
 
 import { parse } from '$lib/schema/valibot';
 import { yCloudWebhook } from '$lib/schema/communications/whatsapp/webhooks/ycloud';
-import {
-	_getInstanceByWhatsappBAId,
-	_getInstanceByWhatsappPhoneNumberId,
-	read
-} from '$lib/server/api/core/instances';
+import { _getInstanceByWhatsappBAId, read } from '$lib/server/api/core/instances';
 import { _getSentWhatsappMessageById } from '$lib/server/api/communications/whatsapp/sent_messages';
 import { _getInstanceIdByPersonId } from '$lib/server/api/people/people';
 

@@ -20,7 +20,7 @@ export async function POST(event) {
 		const { WHATSAPP_ACCESS_KEY } = await _readSecretsUnsafe({
 			instanceId: event.locals.instance.id
 		});
-		const PHONE_NUMBER_ID = event.locals.instance.settings.communications.whatsapp.phone_number_id;
+		const PHONE_NUMBER_ID = event.locals.instance.settings.communications.whatsapp.phone_number;
 		const person = await read({
 			instance_id: event.locals.instance.id,
 			person_id: parsedMessage.person_id,
