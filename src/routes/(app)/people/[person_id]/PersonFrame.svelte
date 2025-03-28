@@ -17,7 +17,7 @@
 	import * as Dialog from '$lib/comps/ui/dialog/index.js';
 	import { goto } from '$app/navigation';
 	import { enhance } from '$app/forms';
-
+	import * as m from '$lib/paraglide/messages';
 	let showDeleteDialog = $state(false);
 </script>
 
@@ -98,7 +98,7 @@
 	<Separator />
 
 	<div class="flex gap-2">
-		<Button href="/people/{person.id}/edit" variant="outline">Edit</Button>
+		<Button href="/people/{person.id}/edit" variant="outline">{m.giant_misty_shrimp_stop()}</Button>
 		<Button variant="destructive" onclick={() => (showDeleteDialog = true)}>Delete</Button>
 	</div>
 </div>
