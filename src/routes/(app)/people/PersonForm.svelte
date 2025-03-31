@@ -45,7 +45,6 @@
 	let storedPhoneNumber: PhoneNumber | null | undefined = null;
 	let storedEmail: Email | null | undefined = null;
 
-	import * as m from '$lib/paraglide/messages';
 </script>
 
 <form use:enhance method="post">
