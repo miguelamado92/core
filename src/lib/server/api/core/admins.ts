@@ -10,7 +10,6 @@ import { create as createSession, expireAllSessionsForAdmin } from '$lib/server/
 import { read as readInstance } from '$lib/server/api/core/instances';
 
 const log = pino(import.meta.url);
-import * as m from '$lib/paraglide/messages';
 
 const redisString = (instance_id: number, admin_id: number | 'all') =>
 	`i:${instance_id}:admin:${admin_id}`;
