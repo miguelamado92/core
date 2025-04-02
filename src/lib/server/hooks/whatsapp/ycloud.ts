@@ -2,7 +2,8 @@ import type { RequestEvent, ResolveOptions } from '@sveltejs/kit';
 type Resolve = (event: RequestEvent, opts?: ResolveOptions | undefined) => Promise<Response>;
 import type { HandlerResponse } from '$lib/server/hooks/handlers';
 
-import { DEFAULT_WHATSAPP_PHONE_NUMBER, YCLOUD_VERIFY_TOKEN } from '$env/static/private';
+import { YCLOUD_VERIFY_TOKEN } from '$env/static/private';
+import { PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER } from '$env/static/public';
 
 import { pino } from '$lib/server';
 const log = pino(import.meta.url);
@@ -182,7 +183,7 @@ export function isDefaultWhatsAppNumber(to: string): boolean {
 	if (!to) {
 		throw new Error('No phone number provided');
 	}
-	if (to === DEFAULT_WHATSAPP_PHONE_NUMBER) {
+	if (to === PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER) {
 		return true;
 	}
 	return false;
@@ -192,7 +193,7 @@ export async function getInstanceFromWhatsAppNumber(to: string): Promise<Instanc
 	if (!to) {
 		throw new Error('No phone number provided');
 	}
-	if (to === DEFAULT_WHATSAPP_PHONE_NUMBER) {
+	if (to === PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER) {
 		throw new Error('WhatsApp phone number is default');
 	}
 
