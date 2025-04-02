@@ -22,20 +22,27 @@ export async function POST(event) {
 	try {
 		const body = await event.request.json();
 		const parsedMessage = parse(sendMessage, body);
+
 		const { WHATSAPP_ACCESS_KEY } = await _readSecretsUnsafe({
 			instanceId: event.locals.instance.id
 		});
 		const PHONE_NUMBER = event.locals.instance.settings.communications.whatsapp.phone_number;
+
 		const person = await read({
 			instance_id: event.locals.instance.id,
 			person_id: parsedMessage.person_id,
 			t: event.locals.t
 		});
+
 		const message = await readMessage({
 			instanceId: event.locals.instance.id,
 			messageId: parsedMessage.message_id,
 			t: event.locals.t
 		});
+
+		log.debug(
+			`Sending message ${message.id} to person id ${person.id} [${person.phone_number?.phone_number}] from ${PHONE_NUMBER}`
+		);
 
 		if (!person.phone_number?.phone_number) {
 			throw new BelcodaError(
@@ -73,8 +80,7 @@ export async function POST(event) {
 			...message.message
 		};
 
-		//using the ycloud api
-
+		// this queues the message at the ycloud api end...
 		const response = await fetch(`https://api.ycloud.com/v2/whatsapp/messages`, {
 			method: 'POST',
 			headers: {
@@ -90,7 +96,8 @@ export async function POST(event) {
 
 		if (response.ok) {
 			const body = await response.json();
-			log.debug(body);
+			log.debug(body, 'Successful response from YCloud API');
+
 			const parsed = parse(successfulYCloudResponse, body);
 
 			const afterSendBody: AfterSend = {
@@ -108,13 +115,11 @@ export async function POST(event) {
 				event.locals.admin.id
 			);
 		} else {
-			log.error('Whatsapp responded with an error');
-			log.error(await response.json());
-			log.error(response.status);
-			log.error('End whatsapp error');
+			log.error(await response.json(), `YCloud API responded with an error [${response.status}`);
 		}
-		return json({ success: true });
 	} catch (err) {
-		return error(500, 'WORKER:/whatsapp/send_message/+server.ts:05', m.spry_ago_baboon_cure(), err);
+		log.error(err, 'Error sending WhatsApp message');
+	} finally {
+		return json({ success: true });
 	}
 }
