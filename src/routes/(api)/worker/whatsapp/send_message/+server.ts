@@ -1,18 +1,23 @@
 import { json, error, BelcodaError, pino } from '$lib/server';
 import { parsePhoneNumber } from 'awesome-phonenumber';
 import { randomUUID } from 'crypto';
+
+import { parse } from '$lib/schema/valibot';
 import {
 	successfulYCloudResponse,
 	sendMessage,
 	type MessageWithBase
 } from '$lib/schema/communications/whatsapp/elements/message';
 import { read as readMessage } from '$lib/server/api/communications/whatsapp/messages';
-import { parse } from '$lib/schema/valibot';
+import type { AfterSend } from '$lib/schema/communications/whatsapp/worker/sending.js';
+
 import { _readSecretsUnsafe } from '$lib/server/api/core/instances';
 import { _updateWhatsappId, read } from '$lib/server/api/people/people';
+
 import * as m from '$lib/paraglide/messages';
-import type { AfterSend } from '$lib/schema/communications/whatsapp/worker/sending.js';
+
 const log = pino(import.meta.url);
+
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
