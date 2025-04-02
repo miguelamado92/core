@@ -20,7 +20,7 @@ export async function POST(event) {
 		const { WHATSAPP_ACCESS_KEY } = await _readSecretsUnsafe({
 			instanceId: event.locals.instance.id
 		});
-		const PHONE_NUMBER_ID = event.locals.instance.settings.communications.whatsapp.phone_number;
+		const PHONE_NUMBER = event.locals.instance.settings.communications.whatsapp.phone_number;
 		const person = await read({
 			instance_id: event.locals.instance.id,
 			person_id: parsedMessage.person_id,
@@ -50,7 +50,7 @@ export async function POST(event) {
 			);
 		}
 
-		if (!PHONE_NUMBER_ID) {
+		if (!PHONE_NUMBER) {
 			throw new BelcodaError(
 				400,
 				'DATA:/whatsapp/send_message/+server.ts:03',
@@ -61,7 +61,7 @@ export async function POST(event) {
 
 		const messageBody: MessageWithBase = {
 			to: parsedPhoneNumberTo.number.e164.replace('+', ''), //whatsapp only accepts without the +
-			from: PHONE_NUMBER_ID, //we don't need to do any parsing of the instance phone number. It should be set correctly in the settings.
+			from: PHONE_NUMBER, //we don't need to do any parsing of the instance phone number. It should be set correctly in the settings.
 			externalId: sentMessageId,
 			messaging_product: 'whatsapp',
 			recipient_type: 'individual',
