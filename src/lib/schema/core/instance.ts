@@ -38,7 +38,7 @@ export const settings = v.object({
 		}),
 		whatsapp: v.object({
 			default_template_id: id,
-			phone_number: v.nullable(phoneNumber, DEFAULT_WHATSAPP_PHONE_NUMBER),
+			phone_number: v.optional(phoneNumber, DEFAULT_WHATSAPP_PHONE_NUMBER),
 			business_account_id: v.nullable(shortString)
 		})
 	}),
