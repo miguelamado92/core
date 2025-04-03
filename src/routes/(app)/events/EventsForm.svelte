@@ -156,7 +156,7 @@
 				<Country
 					{form}
 					name="country"
-					label={m.sea_heroic_bee_ascend()}
+					label={m.fluffy_fair_gecko_arrive()}
 					bind:value={$formData.country as string}
 				/>
 			</Grid>
