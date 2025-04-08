@@ -40,8 +40,7 @@ export async function POST(event) {
 
 				messageObj = await readMessage({
 					instanceId: event.locals.instance.id,
-					messageId: messageId,
-					t: event.locals.t
+					messageId: messageId
 				});
 			} catch (err) {
 				throw new BelcodaError(
@@ -61,6 +60,10 @@ export async function POST(event) {
 			instance_id: event.locals.instance.id,
 			person_id: personId,
 			t: event.locals.t
+		});
+		await readMessage({
+			instanceId: event.locals.instance.id,
+			messageId: messageId
 		});
 
 		if (!person.phone_number?.phone_number) {
