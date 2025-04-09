@@ -5,7 +5,7 @@ import type { HandlerResponse } from '$lib/server/hooks/handlers';
 import { YCLOUD_VERIFY_TOKEN } from '$env/static/private';
 import { PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER } from '$env/static/public';
 
-import { pino } from '$lib/server';
+import { pino } from '$lib/server/utils/logs/pino';
 const log = pino(import.meta.url);
 
 import { parse } from '$lib/schema/valibot';
@@ -20,6 +20,7 @@ import {
 	_getInstanceByEventId,
 	_getInstanceByPetitionId
 } from '$lib/server/api/core/instances';
+
 import {
 	_getInstanceIdBySentMessageIdUnsafe,
 	_getInstanceIdByWamidUnsafe,
