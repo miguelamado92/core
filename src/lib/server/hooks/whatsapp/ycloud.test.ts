@@ -18,8 +18,9 @@ import {
 	checkYCloudToken,
 	default as handler
 } from '$lib/server/hooks/whatsapp/ycloud';
-import { PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER } from '$env/static/public';
-import { YCLOUD_VERIFY_TOKEN } from '$env/static/private';
+
+const YCLOUD_VERIFY_TOKEN = 'mocked-token';
+const PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER = '+440123456789';
 
 import { Localization } from '$lib/i18n';
 const t = new Localization('en');
@@ -95,22 +96,19 @@ const resolve: Resolve = async (event: RequestEvent, opts?: ResolveOptions) => {
 
 describe('webhook handler', () => {
 	let event: Partial<RequestEvent>;
-	const YCLOUD_VERIFY_TOKEN = 'mocked-token';
-	const PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER = '+440123456789';
+
 	beforeEach(() => {
-		vi.mock('$env/static/public', async () => {
-			const actual =
-				await vi.importActual<typeof import('$env/static/public')>('$env/static/public');
+		vi.mock('$env/static/public', async (importOriginal) => {
+			const actual = await importOriginal();
 			return {
-				...actual,
+				...(actual as typeof import('$env/static/public')),
 				PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER: '+440123456789'
 			};
 		});
-		vi.mock('$env/static/private', async () => {
-			const actual =
-				await vi.importActual<typeof import('$env/static/private')>('$env/static/private');
+		vi.mock('$env/static/private', async (importOriginal) => {
+			const actual = await importOriginal();
 			return {
-				...actual,
+				...(actual as typeof import('$env/static/private')),
 				LOG_LEVEL: 'debug',
 				YCLOUD_VERIFY_TOKEN: 'mocked-token'
 			};
