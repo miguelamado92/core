@@ -95,8 +95,25 @@ const resolve: Resolve = async (event: RequestEvent, opts?: ResolveOptions) => {
 
 describe('webhook handler', () => {
 	let event: Partial<RequestEvent>;
-
+	const YCLOUD_VERIFY_TOKEN = 'mocked-token';
+	const PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER = '+440123456789';
 	beforeEach(() => {
+		vi.mock('$env/static/public', async () => {
+			const actual =
+				await vi.importActual<typeof import('$env/static/public')>('$env/static/public');
+			return {
+				...actual,
+				PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER: '+440123456789'
+			};
+		});
+		vi.mock('$env/static/private', async () => {
+			const actual =
+				await vi.importActual<typeof import('$env/static/private')>('$env/static/private');
+			return {
+				...actual,
+				YCLOUD_VERIFY_TOKEN: 'mocked-token'
+			};
+		});
 		event = {
 			request: {
 				json: vi.fn()
