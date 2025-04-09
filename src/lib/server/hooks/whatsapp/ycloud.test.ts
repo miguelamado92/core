@@ -111,6 +111,7 @@ describe('webhook handler', () => {
 				await vi.importActual<typeof import('$env/static/private')>('$env/static/private');
 			return {
 				...actual,
+				LOG_LEVEL: 'debug',
 				YCLOUD_VERIFY_TOKEN: 'mocked-token'
 			};
 		});
