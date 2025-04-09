@@ -12,20 +12,78 @@ const whatsappMessageBase = {
 };
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import {
-	extractCodeFromMessage,
-	isDefaultWhatsAppNumber,
-	checkYCloudToken,
-	default as handler
-} from '$lib/server/hooks/whatsapp/ycloud';
 
 const YCLOUD_VERIFY_TOKEN = 'mocked-token';
 const PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER = '+440123456789';
 
+const resolve: Resolve = async (event: RequestEvent, opts?: ResolveOptions) => {
+	return new Response('ok', {
+		status: 200,
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	});
+};
+
 import { Localization } from '$lib/i18n';
 const t = new Localization('en');
 
-describe('extractCodeFromMessage', () => {
+let event: Partial<RequestEvent> = {
+	request: {
+		json: vi.fn()
+	} as any,
+	url: new URL(`https://example.com/?verify=${YCLOUD_VERIFY_TOKEN}`),
+	locals: {
+		language: 'en',
+		t: t,
+		admin: mockAdmin,
+		instance: mockInstance,
+		queue: vi.fn()
+	}
+};
+// set up mocks
+beforeEach(async () => {
+	vi.mock('$env/static/public', async (importOriginal) => {
+		const actual = await importOriginal();
+		return {
+			...(actual as typeof import('$env/static/public')),
+			PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER: '+440123456789'
+		};
+	});
+	vi.mock('$env/static/private', async (importOriginal) => {
+		const actual = await importOriginal();
+		console.trace('Accessing PGHOST mocks');
+		return {
+			...(actual as typeof import('$env/static/private')),
+			LOG_LEVEL: 'debug',
+			YCLOUD_VERIFY_TOKEN: 'mocked-token'
+		};
+	});
+
+	vi.mock('$lib/server/api/core/instances', () => ({
+		_getInstanceByWhatsappPhoneNumber: vi.fn(async () => mockInstance),
+		_getInstanceByEventId: vi.fn(async () => mockInstance),
+		_getInstanceByPetitionId: vi.fn(async () => mockInstance)
+	}));
+
+	vi.mock('$lib/server/api/communications/whatsapp/messages', () => ({
+		_getInstanceIdBySentMessageIdUnsafe: vi.fn(async () => mockInstance.id),
+		_getInstanceIdByWamidUnsafe: vi.fn(async () => mockInstance.id),
+		_getInstanceIdByActionUuidUnsafe: vi.fn(async () => mockInstance.id)
+	}));
+});
+
+afterEach(() => {
+	vi.clearAllMocks();
+	vi.restoreAllMocks();
+});
+
+//import the functions to test after mocks have been set up
+
+describe('extractCodeFromMessage', async () => {
+	const extractCodeFromMessage = await (
+		await import('$lib/server/hooks/whatsapp/ycloud')
+	).extractCodeFromMessage;
 	it('parses valid SIGNUP message', () => {
 		const message = {
 			type: 'whatsapp.inbound_message.received',
@@ -42,7 +100,7 @@ describe('extractCodeFromMessage', () => {
 				type: 'something.else',
 				whatsappInboundMessage: { text: { body: '[SIGNUP:123]' } }
 			} as any)
-		).toThrow(/Message type is not whatsapp.inbound_message.received/);
+		).toThrow('Message type is not whatsapp.inbound_message.received');
 	});
 
 	it('throws if no code in message', () => {
@@ -51,11 +109,14 @@ describe('extractCodeFromMessage', () => {
 				type: 'whatsapp.inbound_message.received',
 				whatsappInboundMessage: { text: { body: 'hello' } }
 			} as any)
-		).toThrow(/No identifier found/);
+		).toThrow('No identifier found');
 	});
 });
 
-describe('isDefaultWhatsAppNumber', () => {
+describe('isDefaultWhatsAppNumber', async () => {
+	const isDefaultWhatsAppNumber = await (
+		await import('$lib/server/hooks/whatsapp/ycloud')
+	).isDefaultWhatsAppNumber;
 	it('returns true if matches default number', () => {
 		expect(isDefaultWhatsAppNumber(PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER)).toBe(true);
 	});
@@ -69,81 +130,27 @@ describe('isDefaultWhatsAppNumber', () => {
 	});
 });
 
-describe('checkYCloudToken', () => {
+describe('checkYCloudToken', async () => {
+	const checkYCloudToken = await (
+		await import('$lib/server/hooks/whatsapp/ycloud')
+	).checkYCloudToken;
 	it('passes if token matches', () => {
 		const event = {
 			url: new URL(`https://test.com/?verify=${YCLOUD_VERIFY_TOKEN}`)
 		};
-		expect(() => checkYCloudToken(event as any)).not.toThrow();
+		expect(() => checkYCloudToken(event as RequestEvent)).not.toThrow();
 	});
 
 	it('throws if token mismatches', () => {
 		const event = {
 			url: new URL('https://test.com/?verify=wrong')
 		};
-		expect(() => checkYCloudToken(event as any)).toThrow(/Invalid Ycloud verify token/);
+		expect(() => checkYCloudToken(event as RequestEvent)).toThrow(/Invalid Ycloud verify token/);
 	});
 });
 
-const resolve: Resolve = async (event: RequestEvent, opts?: ResolveOptions) => {
-	return new Response('ok', {
-		status: 200,
-		headers: {
-			'Content-Type': 'application/json'
-		}
-	});
-};
-
-describe('webhook handler', () => {
-	let event: Partial<RequestEvent>;
-
-	beforeEach(() => {
-		vi.mock('$env/static/public', async (importOriginal) => {
-			const actual = await importOriginal();
-			return {
-				...(actual as typeof import('$env/static/public')),
-				PUBLIC_DEFAULT_WHATSAPP_PHONE_NUMBER: '+440123456789'
-			};
-		});
-		vi.mock('$env/static/private', async (importOriginal) => {
-			const actual = await importOriginal();
-			return {
-				...(actual as typeof import('$env/static/private')),
-				LOG_LEVEL: 'debug',
-				YCLOUD_VERIFY_TOKEN: 'mocked-token'
-			};
-		});
-		event = {
-			request: {
-				json: vi.fn()
-			} as any,
-			url: new URL(`https://example.com/?verify=${YCLOUD_VERIFY_TOKEN}`),
-			locals: {
-				language: 'en',
-				t: t,
-				admin: mockAdmin,
-				instance: mockInstance,
-				queue: vi.fn()
-			}
-		};
-
-		vi.mock('$lib/server/api/core/instances', () => ({
-			_getInstanceByWhatsappPhoneNumber: vi.fn(async () => mockInstance),
-			_getInstanceByEventId: vi.fn(async () => mockInstance),
-			_getInstanceByPetitionId: vi.fn(async () => mockInstance)
-		}));
-
-		vi.mock('$lib/server/api/communications/whatsapp/messages', () => ({
-			_getInstanceIdBySentMessageIdUnsafe: vi.fn(async () => mockInstance.id),
-			_getInstanceIdByWamidUnsafe: vi.fn(async () => mockInstance.id),
-			_getInstanceIdByActionUuidUnsafe: vi.fn(async () => mockInstance.id)
-		}));
-	});
-
-	afterEach(() => {
-		vi.restoreAllMocks();
-	});
-
+describe('webhook handler', async () => {
+	const handler = await (await import('$lib/server/hooks/whatsapp/ycloud')).default;
 	it('handles updates and send the correct queue message', async () => {
 		const mockBody = {
 			id: 'testID',
