@@ -15,12 +15,38 @@
 	import Badge from '$lib/comps/ui/badge/badge.svelte';
 	import LoaderCircle from 'lucide-svelte/icons/loader-circle';
 
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { browser } from '$app/environment';
+
+	import { getFlash } from 'sveltekit-flash-message';
+	import { page } from '$app/state';
+	const flash = getFlash(page);
+
+	let loading: boolean = $state(false);
+
 	if (data.send.started_at && !data.send.completed_at && browser) {
 		setTimeout(() => {
 			invalidateAll();
 		}, 10000);
+	}
+
+	async function deleteMessage() {
+		if (!window.confirm(m.moving_acidic_crow_imagine())) {
+			return;
+		}
+
+		try {
+			loading = true;
+			await fetch(`/api/v1/communications/email/messages/${data.message.id}`, {
+				method: 'DELETE'
+			});
+			loading = false;
+			$flash.success(m.dizzy_actual_elephant_evoke());
+			goto(`/communications/email`);
+		} catch (error) {
+			loading = false;
+			$flash.error(m.keen_agent_shell_mop());
+		}
 	}
 </script>
 
@@ -80,7 +106,19 @@
 			html="html"
 			text="text"
 		/>
-		<Button {disabled} type="submit">{m.empty_warm_squirrel_chop()}</Button>
+		<div class="flex gap-2 justify-end">
+			<Button {disabled} type="submit">{m.empty_warm_squirrel_chop()}</Button>
+			<Button
+				type="button"
+				variant="destructive"
+				onclick={() => {
+					deleteMessage();
+				}}
+			>
+				{m.wide_major_pig_swim()}
+			</Button>
+		</div>
+
 		<Debug data={formData} />
 	</Grid>
 </form>
