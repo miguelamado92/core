@@ -2,7 +2,14 @@
 	const { data } = $props();
 	import { update } from '$lib/schema/communications/email/messages';
 	import * as m from '$lib/paraglide/messages';
-	import { Debug, Button, superForm, Grid, valibotClient, Error } from '$lib/comps/ui/forms';
+	import {
+		Debug,
+		Button,
+		superForm,
+		Grid,
+		valibotClient,
+		Error as FormError
+	} from '$lib/comps/ui/forms';
 	import PageHeader from '$lib/comps/layout/PageHeader.svelte';
 	import EditMessageForm from '$lib/comps/forms/EditEmailMessageForm.svelte';
 	const form = superForm(data.form, {
@@ -37,15 +44,23 @@
 
 		try {
 			loading = true;
-			await fetch(`/api/v1/communications/email/messages/${data.message.id}`, {
+			const response = await fetch(`/api/v1/communications/email/messages/${data.message.id}`, {
 				method: 'DELETE'
 			});
+			if (!response.ok) {
+				throw new Error(m.keen_agent_shell_mop());
+			}
 			loading = false;
-			$flash.success(m.dizzy_actual_elephant_evoke());
+			$flash = { type: 'success', message: m.dizzy_actual_elephant_evoke() };
 			goto(`/communications/email`);
 		} catch (error) {
+			if (error instanceof Error) {
+				$flash = { type: 'error', message: error.message };
+			} else {
+				$flash = { type: 'error', message: 'An error occurred' };
+			}
+		} finally {
 			loading = false;
-			$flash.error(m.keen_agent_shell_mop());
 		}
 	}
 </script>
@@ -90,7 +105,7 @@
 
 <form use:enhance method="post" action="?message_id={data.message.id}">
 	<Grid cols={1} class="mt-6">
-		<Error error={$message} />
+		<FormError error={$message} />
 		<EditMessageForm
 			{form}
 			{disabled}
