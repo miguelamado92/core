@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let data;
+	const { data } = $props();
 	import { update } from '$lib/schema/communications/email/messages';
 	import * as m from '$lib/paraglide/messages';
 	import { Debug, Button, superForm, Grid, valibotClient, Error } from '$lib/comps/ui/forms';
