@@ -1,8 +1,7 @@
 import { json, error, pino } from '$lib/server';
-import { triggerEventMessage, sendEventEmailMessage } from '$lib/schema/utils/email';
+import { triggerEventMessage, type SendEventEmailMessage } from '$lib/schema/utils/email';
 import { read as readPerson } from '$lib/server/api/people/people';
 import { read as readEvent } from '$lib/server/api/events/events';
-import { read as readMessage } from '$lib/server/api/communications/email/messages';
 const log = pino(import.meta.url);
 import * as m from '$lib/paraglide/messages';
 import { queue as queueInteraction } from '$lib/server/api/people/interactions';
@@ -12,6 +11,7 @@ export async function POST(event) {
 	try {
 		const body = await event.request.json();
 		const parsed = parse(triggerEventMessage, body);
+		log.debug(parsed, 'Send cancellation email initated');
 		const eventResponse = await readEvent({
 			instanceId: event.locals.instance.id,
 			eventId: parsed.event_id,
@@ -19,6 +19,7 @@ export async function POST(event) {
 		});
 
 		if (eventResponse.send_cancellation_email === false) {
+			log.debug('No cancellation email required');
 			return json({ success: true, message: 'No cancellation email required' });
 		}
 
@@ -28,25 +29,24 @@ export async function POST(event) {
 			t: event.locals.t
 		});
 
-		const messageResponse = await readMessage({
-			instanceId: event.locals.instance.id,
-			messageId: eventResponse.cancellation_email.id,
-			t: event.locals.t
-		});
-
-		const sendToQueue = {
+		const sendToQueue: SendEventEmailMessage = {
 			instance: event.locals.instance,
 			person: personResponse,
 			event: eventResponse,
-			email: messageResponse
+			details: {
+				type: 'event_cancellation',
+				event_id: eventResponse.id
+			},
+			template: 'event_cancelled'
 		};
-		const parsedSendToQueue = parse(sendEventEmailMessage, sendToQueue);
 		await event.locals.queue(
 			'utils/email/send_event_email',
 			event.locals.instance.id,
-			parsedSendToQueue,
+			sendToQueue,
 			event.locals.admin.id
 		);
+
+		log.debug(sendToQueue, 'Sent event email to queue with these details');
 
 		await queueInteraction({
 			instanceId: event.locals.instance.id,
@@ -55,8 +55,7 @@ export async function POST(event) {
 			details: {
 				type: 'received_event_cancellation_email',
 				event_id: eventResponse.id,
-				event_name: eventResponse.name,
-				message_id: messageResponse.id
+				event_name: eventResponse.name
 			},
 			queue: event.locals.queue
 		});
