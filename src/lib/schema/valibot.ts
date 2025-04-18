@@ -240,9 +240,15 @@ export const emailMessage = v.object({
 });
 export type EmailMessage = v.InferOutput<typeof emailMessage>;
 
-type JsonSchema = string | number | boolean | null | { [key: string]: JsonSchema } | JsonSchema[];
+export type JsonSchema =
+	| string
+	| number
+	| boolean
+	| null
+	| { [key: string]: JsonSchema }
+	| JsonSchema[];
 
-const jsonSchema: v.GenericSchema<JsonSchema> = v.lazy(() =>
+export const jsonSchema: v.GenericSchema<JsonSchema> = v.lazy(() =>
 	v.union([
 		v.string(),
 		v.number(),
@@ -253,6 +259,13 @@ const jsonSchema: v.GenericSchema<JsonSchema> = v.lazy(() =>
 	])
 );
 
+export type JsonSchemaObject = { [key: string]: JsonSchema };
+export const jsonSchemaObject: v.GenericSchema<JsonSchemaObject> = v.record(v.string(), jsonSchema);
+
+export type EmailTemplateContext = {
+	[key: string]: string | null | number | EmailTemplateContext;
+};
+
 export const emailAttachments = v.object({
 	name: shortStringNotEmpty, //Name in Postmark API
 	content: v.pipe(
@@ -261,23 +274,6 @@ export const emailAttachments = v.object({
 		v.maxBytes(10 * 1024 * 1024, m.proud_house_thrush_shine({ maxLength: 10 * 1024 * 1024 }))
 	),
 	type: shortStringNotEmpty //ContentType in Postmark API
-});
-
-export const emailTemplateMessage = v.object({
-	recipient: email,
-	subject: mediumString,
-	template: v.picklist([
-		'main',
-		'transactional',
-		'event_registration',
-		'event_reminder',
-		'event_cancelled',
-		'event_followup'
-	]),
-	context: jsonSchema,
-	from: shortStringNotEmpty,
-	reply_to: v.optional(v.nullable(email), null),
-	attachments: v.optional(v.array(emailAttachments))
 });
 
 export const htmlMetatags = v.object({
