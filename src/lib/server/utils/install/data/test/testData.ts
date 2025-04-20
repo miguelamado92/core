@@ -116,7 +116,6 @@ export default async function ({
 		instanceId: instance.id,
 		body: petitionBody,
 		adminId: admin.id,
-		t: t,
 		queue
 	});
 
