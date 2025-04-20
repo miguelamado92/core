@@ -576,5 +576,6 @@
 	"dizzy_mellow_otter_clap": "Has cancelado tu firma para la petición {activityTitle}",
 	"east_north_osprey_hurl": "Ya has firmado la petición {activityTitle}",
 	"keen_agent_shell_mop": "No se pudo eliminar el registro",
-	"dizzy_actual_elephant_evoke": "Registro eliminado exitosamente"
+	"dizzy_actual_elephant_evoke": "Registro eliminado exitosamente",
+	"misty_awful_kitten_walk": "datos.t.forms.campos.código_personalizado.custom_js.etiqueta()"
 }
