@@ -18,7 +18,7 @@ export const emailTemplates = [
 	'main-nologo',
 	'minimal',
 	'transactional',
-	'event-registration-reminder',
+	'event-reminder-registration',
 	'event-cancelled'
 ] as const;
 export const emailTemplateName = v.picklist(emailTemplates);
