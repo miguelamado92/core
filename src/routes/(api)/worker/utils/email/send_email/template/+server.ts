@@ -17,9 +17,7 @@ import { type Create as CreateSentEmail } from '$lib/schema/communications/email
 
 const TRANSACTIONAL_TEMPLATES: EmailTemplateName[] = [
 	'transactional',
-	'event_registration',
-	'event_reminder',
-	'event_cancelled'
+	'event-reminder-registration'
 ];
 
 export async function POST(event) {
