@@ -1,11 +1,14 @@
 import { json, error, pino } from '$lib/server';
-import { triggerEventMessage, type SendEventEmailMessage } from '$lib/schema/utils/email';
+import { triggerEventMessage } from '$lib/schema/utils/email';
+import { type EmailTemplateMessage } from '$lib/schema/communications/email/messages';
+
 import { read as readPerson } from '$lib/server/api/people/people';
 import { read as readEvent } from '$lib/server/api/events/events';
 const log = pino(import.meta.url);
 import * as m from '$lib/paraglide/messages';
 import { queue as queueInteraction } from '$lib/server/api/people/interactions';
 import { parse } from '$lib/schema/valibot';
+import { eventCancellationOptions } from '$lib/server/utils/email/context/eventCancellation';
 
 export async function POST(event) {
 	try {
@@ -29,24 +32,31 @@ export async function POST(event) {
 			t: event.locals.t
 		});
 
-		const sendToQueue: SendEventEmailMessage = {
+		const context = eventCancellationOptions({
 			instance: event.locals.instance,
-			person: personResponse,
 			event: eventResponse,
-			details: {
+			language: personResponse.preferred_language || event.locals.instance.language
+		});
+
+		const output: EmailTemplateMessage = {
+			context,
+			send_details: {
 				type: 'event_cancellation',
 				event_id: eventResponse.id
 			},
-			template: 'event_cancelled'
+			template: 'transactional',
+			person_id: personResponse.id,
+			reply_to: null
 		};
+
 		await event.locals.queue(
-			'utils/email/send_event_email',
+			'utils/email/send_email/template',
 			event.locals.instance.id,
-			sendToQueue,
+			output,
 			event.locals.admin.id
 		);
 
-		log.debug(sendToQueue, 'Sent event email to queue with these details');
+		log.debug(output, 'Sent event cancellation email to queue with these details');
 
 		await queueInteraction({
 			instanceId: event.locals.instance.id,
