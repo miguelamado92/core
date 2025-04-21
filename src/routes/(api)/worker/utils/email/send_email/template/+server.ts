@@ -28,8 +28,7 @@ export async function POST(event) {
 		//make sure we only send to people who are subscribed and contactable
 		const person = await read({
 			instance_id: event.locals.instance.id,
-			person_id: parsed.person_id,
-			t: event.locals.t
+			person_id: parsed.person_id
 		});
 		if (!person.email || !person.email.email)
 			throw new BelcodaError(
