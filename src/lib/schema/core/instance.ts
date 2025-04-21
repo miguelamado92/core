@@ -12,7 +12,7 @@ import {
 	domainName
 } from '$lib/schema/valibot';
 
-import { emailTemplateName } from '$lib/schema/communications/email/messages';
+import { emailTemplates } from '$lib/schema/communications/email/messages';
 
 export const settings = v.object({
 	default_admin_id: id,
@@ -33,7 +33,7 @@ export const settings = v.object({
 	communications: v.object({
 		email: v.object({
 			default_from_name: shortString,
-			default_template_name: v.optional(emailTemplateName, 'main')
+			default_template_name: v.optional(v.picklist(emailTemplates), 'main')
 		}),
 		whatsapp: v.object({
 			default_template_id: id,
