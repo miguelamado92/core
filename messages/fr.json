@@ -620,5 +620,16 @@
 	"helpful_grassy_wren_yell": "Votre signature a été ajoutée à <strong>{petitionName}</strong> . Si vous avez choisi de recevoir des mises à jour, vous serez informé(e) de toute évolution de la campagne.",
 	"same_light_mink_soar": "Votre signature a été ajoutée à {petitionName}",
 	"fuzzy_petty_anteater_exhale": "Une erreur s'est produite lors de l'envoi de l'e-mail. Veuillez patienter quelques instants et actualiser la page pour voir si les détails des e-mails envoyés apparaissent. Sinon, réessayez. Si le problème persiste, veuillez contacter l'assistance.",
-	"real_front_finch_emerge": "Impossible d'envoyer l'e-mail. Veuillez réessayer."
+	"real_front_finch_emerge": "Impossible d'envoyer l'e-mail. Veuillez réessayer.",
+	"cozy_agent_sloth_slide": "Rappel d'événement : {eventTitle}",
+	"close_lucky_gull_hurl": "Rappel",
+	"day_wise_newt_promise": "Inscription confirmée : {eventTitle}",
+	"orange_sound_beaver_fear": "Inscription confirmée",
+	"jolly_lofty_chicken_work": "Ceci est une notification indiquant que votre inscription pour assister à <strong>{eventTitle}</strong> ( {dateTime} ) a été annulée.",
+	"gross_raw_gazelle_fetch": "Ceci est une notification indiquant que votre inscription pour assister à ** {eventTitle} ** ( {dateTime} ) a été annulée.",
+	"factual_heavy_shrike_thrive": "Annulé : {eventTitle}",
+	"super_curly_boar_hug": "Invitation : Rejoignez {instanceName} sur Belcoda",
+	"deft_deft_polecat_stab": "Invitation : Rejoignez {instanceName} sur Belcoda",
+	"warm_wild_grebe_gasp": "Voir la page de l'événement",
+	"just_patient_finch_mix": "Votre inscription a été annulée. Nous ne vous attendons plus."
 }

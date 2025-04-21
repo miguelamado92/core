@@ -645,5 +645,16 @@
 	"helpful_grassy_wren_yell": "Your signature has been added to <strong>{petitionName}</strong>. If you've opted in to receive updates, you'll be notified of any developments in the campaign.",
 	"same_light_mink_soar": "Your signature has been added to {petitionName}",
 	"fuzzy_petty_anteater_exhale": "We encountered an error while sending the email. Please wait a few moments and refresh the page to see if any details of sent emails appear. If not, try again. If the problem persists, please contact support.",
-	"real_front_finch_emerge": "Unable to send the email. Please try again."
+	"real_front_finch_emerge": "Unable to send the email. Please try again.",
+	"cozy_agent_sloth_slide": "Event Reminder: {eventTitle}",
+	"close_lucky_gull_hurl": "Reminder",
+	"day_wise_newt_promise": "Registration confirmed: {eventTitle}",
+	"orange_sound_beaver_fear": "Registration confirmed",
+	"jolly_lofty_chicken_work": "This is a notification that your registration to attend <strong>{eventTitle}</strong> ({dateTime}) has been cancelled.",
+	"gross_raw_gazelle_fetch": "This is a notification that your registration to attend **{eventTitle}** ({dateTime}) has been cancelled.",
+	"factual_heavy_shrike_thrive": "Cancelled: {eventTitle}",
+	"super_curly_boar_hug": "Invitation: Join the {instanceName} on Belcoda",
+	"deft_deft_polecat_stab": "Invitation: Join {instanceName} on Belcoda",
+	"warm_wild_grebe_gasp": "View event page",
+	"just_patient_finch_mix": "Your registration was cancelled. We won't be expecting you."
 }

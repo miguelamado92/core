@@ -621,5 +621,16 @@
 	"helpful_grassy_wren_yell": "您的签名已添加到<strong>{petitionName}</strong> 。如果您选择接收更新，我们将通知您活动的任何进展。",
 	"same_light_mink_soar": "您的签名已添加到{petitionName}",
 	"fuzzy_petty_anteater_exhale": "发送电子邮件时遇到错误。请稍等片刻，然后刷新页面，查看是否显示已发送电子邮件的详细信息。如果没有，请重试。如果问题仍然存在，请联系客服。",
-	"real_front_finch_emerge": "无法发送电子邮件。请重试。"
+	"real_front_finch_emerge": "无法发送电子邮件。请重试。",
+	"cozy_agent_sloth_slide": "事件提醒： {eventTitle}",
+	"close_lucky_gull_hurl": "提醒",
+	"day_wise_newt_promise": "注册已确认： {eventTitle}",
+	"orange_sound_beaver_fear": "已确认注册",
+	"jolly_lofty_chicken_work": "这是一条通知，您参加<strong>{eventTitle}</strong> ( {dateTime} ) 的注册已被取消。",
+	"gross_raw_gazelle_fetch": "这是一条通知，您参加 ** {eventTitle} ** ( {dateTime} ) 的注册已被取消。",
+	"factual_heavy_shrike_thrive": "已取消： {eventTitle}",
+	"super_curly_boar_hug": "邀请：加入 Belcoda 上的{instanceName}",
+	"deft_deft_polecat_stab": "邀请：加入 Belcoda 上的{instanceName}",
+	"warm_wild_grebe_gasp": "查看活动页面",
+	"just_patient_finch_mix": "您的注册已取消。我们不会再接待您。"
 }
