@@ -6,18 +6,25 @@ import { type EmailTemplateMessage } from '$lib/schema/communications/email/mess
 const log = pino(import.meta.url);
 import * as m from '$lib/paraglide/messages';
 
-import { baseEventOptions } from '$lib/server/utils/email/context/events';
+import { eventReminderOptions } from '$lib/server/utils/email/context/eventReminder';
+import { eventRegistrationOptions } from '$lib/server/utils/email/context/eventRegistration';
 
 export async function POST(event) {
 	try {
 		const body = await event.request.json();
 		const parsed = parse(sendEventEmailMessage, body);
 
-		const context = baseEventOptions({
+		const contextOptions = {
 			instance: event.locals.instance,
 			event: parsed.event,
 			language: parsed.person.preferred_language || event.locals.instance.language
-		});
+		};
+
+		// the only two types of event_email are reminder and registration
+		const context =
+			parsed.details.type === 'event_reminder'
+				? eventReminderOptions(contextOptions)
+				: eventRegistrationOptions(contextOptions);
 
 		const output: EmailTemplateMessage = {
 			context,
