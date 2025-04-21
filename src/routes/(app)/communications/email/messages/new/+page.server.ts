@@ -4,7 +4,14 @@ import { parse } from '$lib/schema/valibot';
 import * as m from '$lib/paraglide/messages';
 //load form
 export async function load(event) {
-	const form = await superValidate({ point_person_id: event.locals.admin.id }, valibot(create));
+	const form = await superValidate(
+		{
+			point_person_id: event.locals.admin.id,
+			from: event.locals.instance.settings.communications.email.default_from_name,
+			reply_to: `${event.locals.instance.slug}@belcoda.com`
+		},
+		valibot(create)
+	);
 	return { form };
 }
 
