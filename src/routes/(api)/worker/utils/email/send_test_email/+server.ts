@@ -25,8 +25,7 @@ export async function POST(event) {
 			//return a default person (ie: the first person in the list)
 			const returnedList = await listPeople({
 				instance_id: event.locals.instance.id,
-				url: event.url,
-				t: event.locals.t
+				url: event.url
 			});
 			return returnedList.items[0];
 		});
