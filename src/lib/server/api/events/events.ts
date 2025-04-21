@@ -320,68 +320,6 @@ export async function list({
 	return parsedResult;
 }
 
-import htmlEmailRegistration from '$lib/utils/templates/email/events/event_registration_html.handlebars?raw';
-import textEmailRegistration from '$lib/utils/templates/email/events/event_registration_text.handlebars?raw';
-import htmlEmailReminder from '$lib/utils/templates/email/events/event_reminder_email_html.handlebars?raw';
-import textEmailReminder from '$lib/utils/templates/email/events/event_reminder_email_text.handlebars?raw';
-import htmlEmailFollowup from '$lib/utils/templates/email/events/event_followup_email_html.handlebars?raw';
-import textEmailFollowup from '$lib/utils/templates/email/events/event_followup_email_text.handlebars?raw';
-import htmlEmailCancellation from '$lib/utils/templates/email/events/event_registration_cancelled_html.handlebars?raw';
-import textEmailCancellation from '$lib/utils/templates/email/events/event_registration_cancelled_text.handlebars?raw';
-function returnHtmlTextEmails(type: 'registration' | 'reminder' | 'cancellation' | 'followup') {
-	switch (type) {
-		case 'registration':
-			return { htmlEmail: htmlEmailRegistration, textEmail: textEmailRegistration };
-		case 'reminder':
-			return { htmlEmail: htmlEmailReminder, textEmail: textEmailReminder };
-		case 'followup':
-			return { htmlEmail: htmlEmailFollowup, textEmail: textEmailFollowup };
-		case 'cancellation':
-			return { htmlEmail: htmlEmailCancellation, textEmail: textEmailCancellation };
-	}
-}
-
-async function createEventEmailNotification({
-	type,
-	body,
-	instanceId,
-	adminId,
-	instance,
-	defaultEmailTemplateId,
-	queue,
-	t
-}: {
-	type: 'registration' | 'reminder' | 'cancellation' | 'followup';
-	body: schema.Create;
-	instanceId: number;
-	adminId: number;
-	instance: ReadInstance;
-	defaultEmailTemplateId: number;
-	queue: App.Queue;
-	t: App.Localization;
-}): Promise<number> {
-	const { htmlEmail, textEmail } = returnHtmlTextEmails(type);
-	const registrationEmail = await createEmailMessage({
-		instanceId,
-		body: {
-			name: randomUUID(),
-			point_person_id: adminId,
-			from: `${instance.name} <${instance.slug}@belcoda.com>`,
-			reply_to: `${instance.slug}@belcoda.com`,
-			subject: `${type}: ${body.heading}`,
-			html: htmlEmail,
-			text: textEmail,
-			preview_text: `${type} confirmation for {{event.name}}`,
-			use_html_for_plaintext: true,
-			template_id: defaultEmailTemplateId
-		},
-		t,
-		queue: queue,
-		defaultTemplateId: defaultEmailTemplateId
-	});
-	return registrationEmail.id;
-}
-
 export async function selectEventsForReminderFollowupEmail(): Promise<{
 	reminders: { id: number; instance_id: number; point_person_id: number }[];
 	followups: { id: number; instance_id: number; point_person_id: number }[];
