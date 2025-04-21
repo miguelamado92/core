@@ -14,6 +14,10 @@ export function newAdmin(options: Input) {
 	const loginUrl = `${PUBLIC_HOST}/login`;
 	return {
 		language: options.language,
+		subject: m.deft_deft_polecat_stab(
+			{ instanceName: options.instance.name },
+			{ locale: options.language }
+		),
 		title: m.whole_still_macaw_bless(
 			{ instanceName: options.instance.name },
 			{ locale: options.language }
