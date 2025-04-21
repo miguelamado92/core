@@ -18,15 +18,11 @@ export const emailTemplates = [
 	'main-nologo',
 	'minimal',
 	'transactional',
-	'event-reminder-registration',
-	'event-cancelled'
+	'event-reminder-registration'
 ] as const;
 export const emailTemplateName = v.picklist(emailTemplates);
 export type EmailTemplateName = v.InferOutput<typeof emailTemplateName>;
-export const emailTemplateNameEvent = v.picklist([
-	'event-reminder-registration',
-	'event-cancelled'
-]);
+export const emailTemplateNameEvent = v.picklist(['event-reminder-registration']);
 export type EmailTemplateNameEvent = v.InferOutput<typeof emailTemplateNameEvent>;
 
 export const base = v.object({
