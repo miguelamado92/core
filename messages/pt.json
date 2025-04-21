@@ -621,16 +621,5 @@
 	"helpful_grassy_wren_yell": "Sua assinatura foi adicionada a <strong>{petitionName}</strong> . Se você optou por receber atualizações, será notificado sobre quaisquer novidades na campanha.",
 	"same_light_mink_soar": "Sua assinatura foi adicionada a {petitionName}",
 	"fuzzy_petty_anteater_exhale": "Encontramos um erro ao enviar o e-mail. Aguarde alguns instantes e atualize a página para ver se algum detalhe dos e-mails enviados aparece. Caso contrário, tente novamente. Se o problema persistir, entre em contato com o suporte.",
-	"real_front_finch_emerge": "Não foi possível enviar o e-mail. Tente novamente.",
-	"cozy_agent_sloth_slide": "Lembrete de evento: {eventTitle}",
-	"close_lucky_gull_hurl": "Lembrete",
-	"day_wise_newt_promise": "Registro confirmado: {eventTitle}",
-	"orange_sound_beaver_fear": "Inscrição confirmada",
-	"jolly_lofty_chicken_work": "Esta é uma notificação de que sua inscrição para participar <strong>{eventTitle}</strong> ( {dateTime} ) foi cancelada.",
-	"gross_raw_gazelle_fetch": "Esta é uma notificação de que sua inscrição para participar de ** {eventTitle} ** ( {dateTime} ) foi cancelada.",
-	"factual_heavy_shrike_thrive": "Cancelado: {eventTitle}",
-	"super_curly_boar_hug": "Convite: Junte-se ao {instanceName} no Belcoda",
-	"deft_deft_polecat_stab": "Convite: Junte-se {instanceName} Belcoda",
-	"warm_wild_grebe_gasp": "Ver página do evento",
-	"just_patient_finch_mix": "Sua inscrição foi cancelada. Não estaremos esperando você."
+	"real_front_finch_emerge": "Não foi possível enviar o e-mail. Tente novamente."
 }

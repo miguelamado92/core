@@ -17,8 +17,7 @@ export async function POST(event) {
 		log.debug(parsed, 'Send cancellation email initated');
 		const eventResponse = await readEvent({
 			instanceId: event.locals.instance.id,
-			eventId: parsed.event_id,
-			t: event.locals.t
+			eventId: parsed.event_id
 		});
 
 		if (eventResponse.send_cancellation_email === false) {
@@ -28,8 +27,7 @@ export async function POST(event) {
 
 		const personResponse = await readPerson({
 			instance_id: event.locals.instance.id,
-			person_id: parsed.person_id,
-			t: event.locals.t
+			person_id: parsed.person_id
 		});
 
 		const context = eventCancellationOptions({

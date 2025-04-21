@@ -51,8 +51,7 @@ export async function POST(event) {
 		}
 		const ids = await getAllPersonIds({
 			instanceId: event.locals.instance.id,
-			listId: send.list_id,
-			t: event.locals.t
+			listId: send.list_id
 		});
 
 		//main loop to queue sending emails to the list
@@ -61,8 +60,7 @@ export async function POST(event) {
 			const uuid = randomUUID();
 			const person = await readPerson({
 				instance_id: event.locals.instance.id,
-				person_id: id,
-				t: event.locals.t
+				person_id: id
 			});
 
 			const templateContext = {

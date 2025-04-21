@@ -620,16 +620,5 @@
 	"helpful_grassy_wren_yell": "あなたの署名が<strong>{petitionName}</strong>に追加されました。最新情報の受信を希望される場合は、キャンペーンの進捗状況をお知らせいたします。",
 	"same_light_mink_soar": "あなたの署名が{petitionName}に追加されました",
 	"fuzzy_petty_anteater_exhale": "メールの送信中にエラーが発生しました。しばらくお待ちいただき、ページを更新して送信済みメールの詳細が表示されるかご確認ください。表示されない場合は、もう一度お試しください。問題が解決しない場合は、サポートにお問い合わせください。",
-	"real_front_finch_emerge": "メールを送信できません。もう一度お試しください。",
-	"cozy_agent_sloth_slide": "イベントリマインダー: {eventTitle}",
-	"close_lucky_gull_hurl": "リマインダー",
-	"day_wise_newt_promise": "登録が確認されました: {eventTitle}",
-	"orange_sound_beaver_fear": "登録確認",
-	"jolly_lofty_chicken_work": "これは<strong>{eventTitle}</strong> ( {dateTime} ) への参加登録がキャンセルされたことを通知するものです。",
-	"gross_raw_gazelle_fetch": "** {eventTitle} ** ( {dateTime} ) への参加登録がキャンセルされたことをお知らせします。",
-	"factual_heavy_shrike_thrive": "キャンセルされました: {eventTitle}",
-	"super_curly_boar_hug": "招待: Belcoda の{instanceName}に参加しましょう",
-	"deft_deft_polecat_stab": "招待: Belcoda の{instanceName}に参加しましょう",
-	"warm_wild_grebe_gasp": "イベントページを見る",
-	"just_patient_finch_mix": "ご登録はキャンセルされました。ご来場はお待ちいただけません。"
+	"real_front_finch_emerge": "メールを送信できません。もう一度お試しください。"
 }

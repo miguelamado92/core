@@ -29,7 +29,7 @@
 	"trite_loose_mammoth_devour": "Error at {path}: {message}",
 	"cozy_shy_jackal_revive": "Validation Error: ",
 	"whole_polite_loris_edit": "Please enter a valid URL",
-	"sharp_less_shrimp_greet": "The information provided is not invalid. Please check the values and try again.",
+	"sharp_less_shrimp_greet": "The information provided is not valid. Please check the values and try again.",
 	"formal_still_albatross_chop": "Error",
 	"round_direct_moose_burn": "Error 404",
 	"left_smug_wallaby_ripple": "Page not found",
@@ -656,5 +656,7 @@
 	"super_curly_boar_hug": "Invitation: Join the {instanceName} on Belcoda",
 	"deft_deft_polecat_stab": "Invitation: Join {instanceName} on Belcoda",
 	"warm_wild_grebe_gasp": "View event page",
-	"just_patient_finch_mix": "Your registration was cancelled. We won't be expecting you."
+	"just_patient_finch_mix": "Your registration was cancelled. We won't be expecting you.",
+	"keen_agent_shell_mop": "Failed to delete record",
+	"dizzy_actual_elephant_evoke": "Record deleted successfully"
 }

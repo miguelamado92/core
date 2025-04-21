@@ -8325,7 +8325,7 @@ declare module 'zapatos/schema' {
 							c.PgWhatsapp | db.Parameter<c.PgWhatsapp> | null | db.DefaultType | db.SQLFragment
 					  >;
 			}
-			export type UniqueIndex = 'people_pkey' | 'unique_instance_email' | 'unique_instance_phone';
+			export type UniqueIndex = 'people_pkey';
 			export type Column = keyof Selectable;
 			export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
 			export type SQLExpression =
@@ -12815,11 +12815,11 @@ declare module 'zapatos/schema' {
 				 */
 				subject: string;
 				/**
-				 * **communications.email_messages.template_name**
-				 * - `text` in database
+				 * **communications.email_messages.template_id**
+				 * - `int4` in database
 				 * - `NOT NULL`, no default
 				 */
-				template_name: string;
+				template_id: number;
 				/**
 				 * **communications.email_messages.text**
 				 * - `text` in database
@@ -12907,11 +12907,11 @@ declare module 'zapatos/schema' {
 				 */
 				subject: string;
 				/**
-				 * **communications.email_messages.template_name**
-				 * - `text` in database
+				 * **communications.email_messages.template_id**
+				 * - `int4` in database
 				 * - `NOT NULL`, no default
 				 */
-				template_name: string;
+				template_id: number;
 				/**
 				 * **communications.email_messages.text**
 				 * - `text` in database
@@ -13066,16 +13066,16 @@ declare module 'zapatos/schema' {
 					| db.ParentColumn
 					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
 				/**
-				 * **communications.email_messages.template_name**
-				 * - `text` in database
+				 * **communications.email_messages.template_id**
+				 * - `int4` in database
 				 * - `NOT NULL`, no default
 				 */
-				template_name?:
-					| string
-					| db.Parameter<string>
+				template_id?:
+					| number
+					| db.Parameter<number>
 					| db.SQLFragment
 					| db.ParentColumn
-					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
 				/**
 				 * **communications.email_messages.text**
 				 * - `text` in database
@@ -13193,11 +13193,11 @@ declare module 'zapatos/schema' {
 				 */
 				subject: string | db.Parameter<string> | db.SQLFragment;
 				/**
-				 * **communications.email_messages.template_name**
-				 * - `text` in database
+				 * **communications.email_messages.template_id**
+				 * - `int4` in database
 				 * - `NOT NULL`, no default
 				 */
-				template_name: string | db.Parameter<string> | db.SQLFragment;
+				template_id: number | db.Parameter<number> | db.SQLFragment;
 				/**
 				 * **communications.email_messages.text**
 				 * - `text` in database
@@ -13351,15 +13351,15 @@ declare module 'zapatos/schema' {
 					| db.SQLFragment
 					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
 				/**
-				 * **communications.email_messages.template_name**
-				 * - `text` in database
+				 * **communications.email_messages.template_id**
+				 * - `int4` in database
 				 * - `NOT NULL`, no default
 				 */
-				template_name?:
-					| string
-					| db.Parameter<string>
+				template_id?:
+					| number
+					| db.Parameter<number>
 					| db.SQLFragment
-					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
 				/**
 				 * **communications.email_messages.text**
 				 * - `text` in database
@@ -13906,6 +13906,543 @@ declare module 'zapatos/schema' {
 					  >;
 			}
 			export type UniqueIndex = 'email_sends_pkey';
+			export type Column = keyof Selectable;
+			export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
+			export type SQLExpression =
+				| Table
+				| db.ColumnNames<Updatable | (keyof Updatable)[]>
+				| db.ColumnValues<Updatable>
+				| Whereable
+				| Column
+				| db.ParentColumn
+				| db.GenericSQLExpression;
+			export type SQL = SQLExpression | SQLExpression[];
+		}
+
+		/**
+		 * **communications.email_templates**
+		 * - Table in database
+		 */
+		export namespace email_templates {
+			export type Table = 'communications.email_templates';
+			export interface Selectable {
+				/**
+				 * **communications.email_templates.active**
+				 * - `bool` in database
+				 * - `NOT NULL`, default: `true`
+				 */
+				active: boolean;
+				/**
+				 * **communications.email_templates.created_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				created_at: Date;
+				/**
+				 * **communications.email_templates.from**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				from: string;
+				/**
+				 * **communications.email_templates.html**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				html: string;
+				/**
+				 * **communications.email_templates.id**
+				 * - `int4` in database
+				 * - `NOT NULL`, default: `nextval('communications.email_templates_id_seq'::regclass)`
+				 */
+				id: number;
+				/**
+				 * **communications.email_templates.instance_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				instance_id: number;
+				/**
+				 * **communications.email_templates.name**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				name: string;
+				/**
+				 * **communications.email_templates.preview_text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				preview_text: string;
+				/**
+				 * **communications.email_templates.reply_to**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				reply_to: string;
+				/**
+				 * **communications.email_templates.subject**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				subject: string;
+				/**
+				 * **communications.email_templates.text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				text: string;
+				/**
+				 * **communications.email_templates.updated_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				updated_at: Date;
+			}
+			export interface JSONSelectable {
+				/**
+				 * **communications.email_templates.active**
+				 * - `bool` in database
+				 * - `NOT NULL`, default: `true`
+				 */
+				active: boolean;
+				/**
+				 * **communications.email_templates.created_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				created_at: db.TimestampTzString;
+				/**
+				 * **communications.email_templates.from**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				from: string;
+				/**
+				 * **communications.email_templates.html**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				html: string;
+				/**
+				 * **communications.email_templates.id**
+				 * - `int4` in database
+				 * - `NOT NULL`, default: `nextval('communications.email_templates_id_seq'::regclass)`
+				 */
+				id: number;
+				/**
+				 * **communications.email_templates.instance_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				instance_id: number;
+				/**
+				 * **communications.email_templates.name**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				name: string;
+				/**
+				 * **communications.email_templates.preview_text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				preview_text: string;
+				/**
+				 * **communications.email_templates.reply_to**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				reply_to: string;
+				/**
+				 * **communications.email_templates.subject**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				subject: string;
+				/**
+				 * **communications.email_templates.text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				text: string;
+				/**
+				 * **communications.email_templates.updated_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				updated_at: db.TimestampTzString;
+			}
+			export interface Whereable {
+				/**
+				 * **communications.email_templates.active**
+				 * - `bool` in database
+				 * - `NOT NULL`, default: `true`
+				 */
+				active?:
+					| boolean
+					| db.Parameter<boolean>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.created_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				created_at?:
+					| (db.TimestampTzString | Date)
+					| db.Parameter<db.TimestampTzString | Date>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<
+							any,
+							| (db.TimestampTzString | Date)
+							| db.Parameter<db.TimestampTzString | Date>
+							| db.SQLFragment
+							| db.ParentColumn
+					  >;
+				/**
+				 * **communications.email_templates.from**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				from?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.html**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				html?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.id**
+				 * - `int4` in database
+				 * - `NOT NULL`, default: `nextval('communications.email_templates_id_seq'::regclass)`
+				 */
+				id?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.instance_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				instance_id?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.name**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				name?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.preview_text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				preview_text?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.reply_to**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				reply_to?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.subject**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				subject?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				text?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.email_templates.updated_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				updated_at?:
+					| (db.TimestampTzString | Date)
+					| db.Parameter<db.TimestampTzString | Date>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<
+							any,
+							| (db.TimestampTzString | Date)
+							| db.Parameter<db.TimestampTzString | Date>
+							| db.SQLFragment
+							| db.ParentColumn
+					  >;
+			}
+			export interface Insertable {
+				/**
+				 * **communications.email_templates.active**
+				 * - `bool` in database
+				 * - `NOT NULL`, default: `true`
+				 */
+				active?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
+				/**
+				 * **communications.email_templates.created_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				created_at?:
+					| (db.TimestampTzString | Date)
+					| db.Parameter<db.TimestampTzString | Date>
+					| db.DefaultType
+					| db.SQLFragment;
+				/**
+				 * **communications.email_templates.from**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				from: string | db.Parameter<string> | db.SQLFragment;
+				/**
+				 * **communications.email_templates.html**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				html?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+				/**
+				 * **communications.email_templates.id**
+				 * - `int4` in database
+				 * - `NOT NULL`, default: `nextval('communications.email_templates_id_seq'::regclass)`
+				 */
+				id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+				/**
+				 * **communications.email_templates.instance_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				instance_id: number | db.Parameter<number> | db.SQLFragment;
+				/**
+				 * **communications.email_templates.name**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				name: string | db.Parameter<string> | db.SQLFragment;
+				/**
+				 * **communications.email_templates.preview_text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				preview_text?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+				/**
+				 * **communications.email_templates.reply_to**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				reply_to: string | db.Parameter<string> | db.SQLFragment;
+				/**
+				 * **communications.email_templates.subject**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				subject: string | db.Parameter<string> | db.SQLFragment;
+				/**
+				 * **communications.email_templates.text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				text?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+				/**
+				 * **communications.email_templates.updated_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				updated_at?:
+					| (db.TimestampTzString | Date)
+					| db.Parameter<db.TimestampTzString | Date>
+					| db.DefaultType
+					| db.SQLFragment;
+			}
+			export interface Updatable {
+				/**
+				 * **communications.email_templates.active**
+				 * - `bool` in database
+				 * - `NOT NULL`, default: `true`
+				 */
+				active?:
+					| boolean
+					| db.Parameter<boolean>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.created_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				created_at?:
+					| (db.TimestampTzString | Date)
+					| db.Parameter<db.TimestampTzString | Date>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<
+							any,
+							| (db.TimestampTzString | Date)
+							| db.Parameter<db.TimestampTzString | Date>
+							| db.DefaultType
+							| db.SQLFragment
+					  >;
+				/**
+				 * **communications.email_templates.from**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				from?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.html**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				html?:
+					| string
+					| db.Parameter<string>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.id**
+				 * - `int4` in database
+				 * - `NOT NULL`, default: `nextval('communications.email_templates_id_seq'::regclass)`
+				 */
+				id?:
+					| number
+					| db.Parameter<number>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.instance_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				instance_id?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.name**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				name?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.preview_text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				preview_text?:
+					| string
+					| db.Parameter<string>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.reply_to**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				reply_to?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.subject**
+				 * - `text` in database
+				 * - `NOT NULL`, no default
+				 */
+				subject?:
+					| string
+					| db.Parameter<string>
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.text**
+				 * - `text` in database
+				 * - `NOT NULL`, default: `''::text`
+				 */
+				text?:
+					| string
+					| db.Parameter<string>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **communications.email_templates.updated_at**
+				 * - `timestamptz` in database
+				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
+				 */
+				updated_at?:
+					| (db.TimestampTzString | Date)
+					| db.Parameter<db.TimestampTzString | Date>
+					| db.DefaultType
+					| db.SQLFragment
+					| db.SQLFragment<
+							any,
+							| (db.TimestampTzString | Date)
+							| db.Parameter<db.TimestampTzString | Date>
+							| db.DefaultType
+							| db.SQLFragment
+					  >;
+			}
+			export type UniqueIndex = 'email_templates_instance_id_name_unique' | 'email_templates_pkey';
 			export type Column = keyof Selectable;
 			export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
 			export type SQLExpression =
@@ -15204,17 +15741,17 @@ declare module 'zapatos/schema' {
 			export type Table = 'communications.sent_emails';
 			export interface Selectable {
 				/**
-				 * **communications.sent_emails.details**
-				 * - `sent_email_details` (base type: `jsonb`) in database
-				 * - Nullable, no default
-				 */
-				details: c.PgSent_email_details | null;
-				/**
 				 * **communications.sent_emails.id**
 				 * - `uuid` in database
 				 * - `NOT NULL`, default: `uuid_generate_v4()`
 				 */
 				id: string;
+				/**
+				 * **communications.sent_emails.message_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				message_id: number;
 				/**
 				 * **communications.sent_emails.person_id**
 				 * - `int4` in database
@@ -15236,17 +15773,17 @@ declare module 'zapatos/schema' {
 			}
 			export interface JSONSelectable {
 				/**
-				 * **communications.sent_emails.details**
-				 * - `sent_email_details` (base type: `jsonb`) in database
-				 * - Nullable, no default
-				 */
-				details: c.PgSent_email_details | null;
-				/**
 				 * **communications.sent_emails.id**
 				 * - `uuid` in database
 				 * - `NOT NULL`, default: `uuid_generate_v4()`
 				 */
 				id: string;
+				/**
+				 * **communications.sent_emails.message_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				message_id: number;
 				/**
 				 * **communications.sent_emails.person_id**
 				 * - `int4` in database
@@ -15268,23 +15805,6 @@ declare module 'zapatos/schema' {
 			}
 			export interface Whereable {
 				/**
-				 * **communications.sent_emails.details**
-				 * - `sent_email_details` (base type: `jsonb`) in database
-				 * - Nullable, no default
-				 */
-				details?:
-					| c.PgSent_email_details
-					| db.Parameter<c.PgSent_email_details>
-					| db.SQLFragment
-					| db.ParentColumn
-					| db.SQLFragment<
-							any,
-							| c.PgSent_email_details
-							| db.Parameter<c.PgSent_email_details>
-							| db.SQLFragment
-							| db.ParentColumn
-					  >;
-				/**
 				 * **communications.sent_emails.id**
 				 * - `uuid` in database
 				 * - `NOT NULL`, default: `uuid_generate_v4()`
@@ -15295,6 +15815,17 @@ declare module 'zapatos/schema' {
 					| db.SQLFragment
 					| db.ParentColumn
 					| db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **communications.sent_emails.message_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				message_id?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
 				/**
 				 * **communications.sent_emails.person_id**
 				 * - `int4` in database
@@ -15337,22 +15868,17 @@ declare module 'zapatos/schema' {
 			}
 			export interface Insertable {
 				/**
-				 * **communications.sent_emails.details**
-				 * - `sent_email_details` (base type: `jsonb`) in database
-				 * - Nullable, no default
-				 */
-				details?:
-					| c.PgSent_email_details
-					| db.Parameter<c.PgSent_email_details>
-					| null
-					| db.DefaultType
-					| db.SQLFragment;
-				/**
 				 * **communications.sent_emails.id**
 				 * - `uuid` in database
 				 * - `NOT NULL`, default: `uuid_generate_v4()`
 				 */
 				id?: string | db.Parameter<string> | db.DefaultType | db.SQLFragment;
+				/**
+				 * **communications.sent_emails.message_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				message_id: number | db.Parameter<number> | db.SQLFragment;
 				/**
 				 * **communications.sent_emails.person_id**
 				 * - `int4` in database
@@ -15378,25 +15904,6 @@ declare module 'zapatos/schema' {
 			}
 			export interface Updatable {
 				/**
-				 * **communications.sent_emails.details**
-				 * - `sent_email_details` (base type: `jsonb`) in database
-				 * - Nullable, no default
-				 */
-				details?:
-					| c.PgSent_email_details
-					| db.Parameter<c.PgSent_email_details>
-					| null
-					| db.DefaultType
-					| db.SQLFragment
-					| db.SQLFragment<
-							any,
-							| c.PgSent_email_details
-							| db.Parameter<c.PgSent_email_details>
-							| null
-							| db.DefaultType
-							| db.SQLFragment
-					  >;
-				/**
 				 * **communications.sent_emails.id**
 				 * - `uuid` in database
 				 * - `NOT NULL`, default: `uuid_generate_v4()`
@@ -15407,6 +15914,16 @@ declare module 'zapatos/schema' {
 					| db.DefaultType
 					| db.SQLFragment
 					| db.SQLFragment<any, string | db.Parameter<string> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **communications.sent_emails.message_id**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				message_id?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
 				/**
 				 * **communications.sent_emails.person_id**
 				 * - `int4` in database
@@ -20358,6 +20875,7 @@ declare module 'zapatos/schema' {
 		export type Table =
 			| email_messages.Table
 			| email_sends.Table
+			| email_templates.Table
 			| received_emails.Table
 			| received_sms.Table
 			| received_whatsapp_group_messages.Table
@@ -20379,6 +20897,7 @@ declare module 'zapatos/schema' {
 		export type Selectable =
 			| email_messages.Selectable
 			| email_sends.Selectable
+			| email_templates.Selectable
 			| received_emails.Selectable
 			| received_sms.Selectable
 			| received_whatsapp_group_messages.Selectable
@@ -20400,6 +20919,7 @@ declare module 'zapatos/schema' {
 		export type JSONSelectable =
 			| email_messages.JSONSelectable
 			| email_sends.JSONSelectable
+			| email_templates.JSONSelectable
 			| received_emails.JSONSelectable
 			| received_sms.JSONSelectable
 			| received_whatsapp_group_messages.JSONSelectable
@@ -20421,6 +20941,7 @@ declare module 'zapatos/schema' {
 		export type Whereable =
 			| email_messages.Whereable
 			| email_sends.Whereable
+			| email_templates.Whereable
 			| received_emails.Whereable
 			| received_sms.Whereable
 			| received_whatsapp_group_messages.Whereable
@@ -20442,6 +20963,7 @@ declare module 'zapatos/schema' {
 		export type Insertable =
 			| email_messages.Insertable
 			| email_sends.Insertable
+			| email_templates.Insertable
 			| received_emails.Insertable
 			| received_sms.Insertable
 			| received_whatsapp_group_messages.Insertable
@@ -20463,6 +20985,7 @@ declare module 'zapatos/schema' {
 		export type Updatable =
 			| email_messages.Updatable
 			| email_sends.Updatable
+			| email_templates.Updatable
 			| received_emails.Updatable
 			| received_sms.Updatable
 			| received_whatsapp_group_messages.Updatable
@@ -20484,6 +21007,7 @@ declare module 'zapatos/schema' {
 		export type UniqueIndex =
 			| email_messages.UniqueIndex
 			| email_sends.UniqueIndex
+			| email_templates.UniqueIndex
 			| received_emails.UniqueIndex
 			| received_sms.UniqueIndex
 			| received_whatsapp_group_messages.UniqueIndex
@@ -20505,6 +21029,7 @@ declare module 'zapatos/schema' {
 		export type Column =
 			| email_messages.Column
 			| email_sends.Column
+			| email_templates.Column
 			| received_emails.Column
 			| received_sms.Column
 			| received_whatsapp_group_messages.Column
@@ -20527,6 +21052,7 @@ declare module 'zapatos/schema' {
 		export type AllBaseTables = [
 			email_messages.Table,
 			email_sends.Table,
+			email_templates.Table,
 			received_emails.Table,
 			received_sms.Table,
 			received_whatsapp_group_messages.Table,
@@ -20552,6 +21078,7 @@ declare module 'zapatos/schema' {
 		export type AllTablesAndViews = [
 			email_messages.Table,
 			email_sends.Table,
+			email_templates.Table,
 			received_emails.Table,
 			received_sms.Table,
 			received_whatsapp_group_messages.Table,
@@ -21451,6 +21978,12 @@ declare module 'zapatos/schema' {
 				 */
 				ask_postcode: boolean;
 				/**
+				 * **events.events.cancellation_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				cancellation_email: number;
+				/**
 				 * **events.events.country**
 				 * - `varchar` in database
 				 * - `NOT NULL`, no default
@@ -21489,9 +22022,9 @@ declare module 'zapatos/schema' {
 				/**
 				 * **events.events.followup_email**
 				 * - `int4` in database
-				 * - Nullable, no default
+				 * - `NOT NULL`, no default
 				 */
-				followup_email: number | null;
+				followup_email: number;
 				/**
 				 * **events.events.followup_sent_at**
 				 * - `timestamptz` in database
@@ -21589,6 +22122,18 @@ declare module 'zapatos/schema' {
 				 */
 				published_at: Date | null;
 				/**
+				 * **events.events.registration_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				registration_email: number;
+				/**
+				 * **events.events.reminder_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				reminder_email: number;
+				/**
 				 * **events.events.reminder_sent_at**
 				 * - `timestamptz` in database
 				 * - Nullable, no default
@@ -21625,12 +22170,6 @@ declare module 'zapatos/schema' {
 				 */
 				send_cancellation_email: boolean;
 				/**
-				 * **events.events.send_event_cancellation_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_event_cancellation_email: boolean;
-				/**
 				 * **events.events.send_followup_email**
 				 * - `bool` in database
 				 * - `NOT NULL`, default: `false`
@@ -21660,12 +22199,6 @@ declare module 'zapatos/schema' {
 				 * - `NOT NULL`, default: `24`
 				 */
 				send_reminder_hours_before_start: number;
-				/**
-				 * **events.events.send_update_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_update_email: boolean;
 				/**
 				 * **events.events.slug**
 				 * - `text` in database
@@ -21747,6 +22280,12 @@ declare module 'zapatos/schema' {
 				 */
 				ask_postcode: boolean;
 				/**
+				 * **events.events.cancellation_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				cancellation_email: number;
+				/**
 				 * **events.events.country**
 				 * - `varchar` in database
 				 * - `NOT NULL`, no default
@@ -21785,9 +22324,9 @@ declare module 'zapatos/schema' {
 				/**
 				 * **events.events.followup_email**
 				 * - `int4` in database
-				 * - Nullable, no default
+				 * - `NOT NULL`, no default
 				 */
-				followup_email: number | null;
+				followup_email: number;
 				/**
 				 * **events.events.followup_sent_at**
 				 * - `timestamptz` in database
@@ -21885,6 +22424,18 @@ declare module 'zapatos/schema' {
 				 */
 				published_at: db.TimestampTzString | null;
 				/**
+				 * **events.events.registration_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				registration_email: number;
+				/**
+				 * **events.events.reminder_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				reminder_email: number;
+				/**
 				 * **events.events.reminder_sent_at**
 				 * - `timestamptz` in database
 				 * - Nullable, no default
@@ -21921,12 +22472,6 @@ declare module 'zapatos/schema' {
 				 */
 				send_cancellation_email: boolean;
 				/**
-				 * **events.events.send_event_cancellation_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_event_cancellation_email: boolean;
-				/**
 				 * **events.events.send_followup_email**
 				 * - `bool` in database
 				 * - `NOT NULL`, default: `false`
@@ -21956,12 +22501,6 @@ declare module 'zapatos/schema' {
 				 * - `NOT NULL`, default: `24`
 				 */
 				send_reminder_hours_before_start: number;
-				/**
-				 * **events.events.send_update_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_update_email: boolean;
 				/**
 				 * **events.events.slug**
 				 * - `text` in database
@@ -22088,6 +22627,17 @@ declare module 'zapatos/schema' {
 					| db.ParentColumn
 					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
 				/**
+				 * **events.events.cancellation_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				cancellation_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+				/**
 				 * **events.events.country**
 				 * - `varchar` in database
 				 * - `NOT NULL`, no default
@@ -22177,7 +22727,7 @@ declare module 'zapatos/schema' {
 				/**
 				 * **events.events.followup_email**
 				 * - `int4` in database
-				 * - Nullable, no default
+				 * - `NOT NULL`, no default
 				 */
 				followup_email?:
 					| number
@@ -22380,6 +22930,28 @@ declare module 'zapatos/schema' {
 							| db.ParentColumn
 					  >;
 				/**
+				 * **events.events.registration_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				registration_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **events.events.reminder_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				reminder_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+				/**
 				 * **events.events.reminder_sent_at**
 				 * - `timestamptz` in database
 				 * - Nullable, no default
@@ -22452,17 +23024,6 @@ declare module 'zapatos/schema' {
 					| db.ParentColumn
 					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
 				/**
-				 * **events.events.send_event_cancellation_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_event_cancellation_email?:
-					| boolean
-					| db.Parameter<boolean>
-					| db.SQLFragment
-					| db.ParentColumn
-					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
-				/**
 				 * **events.events.send_followup_email**
 				 * - `bool` in database
 				 * - `NOT NULL`, default: `false`
@@ -22517,17 +23078,6 @@ declare module 'zapatos/schema' {
 					| db.SQLFragment
 					| db.ParentColumn
 					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-				/**
-				 * **events.events.send_update_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_update_email?:
-					| boolean
-					| db.Parameter<boolean>
-					| db.SQLFragment
-					| db.ParentColumn
-					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
 				/**
 				 * **events.events.slug**
 				 * - `text` in database
@@ -22641,6 +23191,12 @@ declare module 'zapatos/schema' {
 				 */
 				ask_postcode?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
 				/**
+				 * **events.events.cancellation_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				cancellation_email: number | db.Parameter<number> | db.SQLFragment;
+				/**
 				 * **events.events.country**
 				 * - `varchar` in database
 				 * - `NOT NULL`, no default
@@ -22700,9 +23256,9 @@ declare module 'zapatos/schema' {
 				/**
 				 * **events.events.followup_email**
 				 * - `int4` in database
-				 * - Nullable, no default
+				 * - `NOT NULL`, no default
 				 */
-				followup_email?: number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment;
+				followup_email: number | db.Parameter<number> | db.SQLFragment;
 				/**
 				 * **events.events.followup_sent_at**
 				 * - `timestamptz` in database
@@ -22819,6 +23375,18 @@ declare module 'zapatos/schema' {
 					| db.DefaultType
 					| db.SQLFragment;
 				/**
+				 * **events.events.registration_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				registration_email: number | db.Parameter<number> | db.SQLFragment;
+				/**
+				 * **events.events.reminder_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				reminder_email: number | db.Parameter<number> | db.SQLFragment;
+				/**
 				 * **events.events.reminder_sent_at**
 				 * - `timestamptz` in database
 				 * - Nullable, no default
@@ -22860,16 +23428,6 @@ declare module 'zapatos/schema' {
 				 */
 				send_cancellation_email?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
 				/**
-				 * **events.events.send_event_cancellation_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_event_cancellation_email?:
-					| boolean
-					| db.Parameter<boolean>
-					| db.DefaultType
-					| db.SQLFragment;
-				/**
 				 * **events.events.send_followup_email**
 				 * - `bool` in database
 				 * - `NOT NULL`, default: `false`
@@ -22907,12 +23465,6 @@ declare module 'zapatos/schema' {
 					| db.Parameter<number>
 					| db.DefaultType
 					| db.SQLFragment;
-				/**
-				 * **events.events.send_update_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_update_email?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
 				/**
 				 * **events.events.slug**
 				 * - `text` in database
@@ -23062,6 +23614,16 @@ declare module 'zapatos/schema' {
 					| db.SQLFragment
 					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
 				/**
+				 * **events.events.cancellation_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				cancellation_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+				/**
 				 * **events.events.country**
 				 * - `varchar` in database
 				 * - `NOT NULL`, no default
@@ -23154,18 +23716,13 @@ declare module 'zapatos/schema' {
 				/**
 				 * **events.events.followup_email**
 				 * - `int4` in database
-				 * - Nullable, no default
+				 * - `NOT NULL`, no default
 				 */
 				followup_email?:
 					| number
 					| db.Parameter<number>
-					| null
-					| db.DefaultType
 					| db.SQLFragment
-					| db.SQLFragment<
-							any,
-							number | db.Parameter<number> | null | db.DefaultType | db.SQLFragment
-					  >;
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
 				/**
 				 * **events.events.followup_sent_at**
 				 * - `timestamptz` in database
@@ -23382,6 +23939,26 @@ declare module 'zapatos/schema' {
 							| db.SQLFragment
 					  >;
 				/**
+				 * **events.events.registration_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				registration_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+				/**
+				 * **events.events.reminder_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				reminder_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+				/**
 				 * **events.events.reminder_sent_at**
 				 * - `timestamptz` in database
 				 * - Nullable, no default
@@ -23456,17 +24033,6 @@ declare module 'zapatos/schema' {
 					| db.SQLFragment
 					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
 				/**
-				 * **events.events.send_event_cancellation_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_event_cancellation_email?:
-					| boolean
-					| db.Parameter<boolean>
-					| db.DefaultType
-					| db.SQLFragment
-					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
-				/**
 				 * **events.events.send_followup_email**
 				 * - `bool` in database
 				 * - `NOT NULL`, default: `false`
@@ -23521,17 +24087,6 @@ declare module 'zapatos/schema' {
 					| db.DefaultType
 					| db.SQLFragment
 					| db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
-				/**
-				 * **events.events.send_update_email**
-				 * - `bool` in database
-				 * - `NOT NULL`, default: `true`
-				 */
-				send_update_email?:
-					| boolean
-					| db.Parameter<boolean>
-					| db.DefaultType
-					| db.SQLFragment
-					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
 				/**
 				 * **events.events.slug**
 				 * - `text` in database
@@ -24261,6 +24816,12 @@ declare module 'zapatos/schema' {
 				 */
 				ask_postcode: boolean;
 				/**
+				 * **petitions.petitions.autoresponse_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				autoresponse_email: number;
+				/**
 				 * **petitions.petitions.created_at**
 				 * - `timestamptz` in database
 				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -24418,6 +24979,12 @@ declare module 'zapatos/schema' {
 				 * - `NOT NULL`, default: `true`
 				 */
 				ask_postcode: boolean;
+				/**
+				 * **petitions.petitions.autoresponse_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				autoresponse_email: number;
 				/**
 				 * **petitions.petitions.created_at**
 				 * - `timestamptz` in database
@@ -24601,6 +25168,17 @@ declare module 'zapatos/schema' {
 					| db.SQLFragment
 					| db.ParentColumn
 					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.SQLFragment | db.ParentColumn>;
+				/**
+				 * **petitions.petitions.autoresponse_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				autoresponse_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.ParentColumn
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
 				/**
 				 * **petitions.petitions.created_at**
 				 * - `timestamptz` in database
@@ -24895,6 +25473,12 @@ declare module 'zapatos/schema' {
 				 */
 				ask_postcode?: boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment;
 				/**
+				 * **petitions.petitions.autoresponse_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				autoresponse_email: number | db.Parameter<number> | db.SQLFragment;
+				/**
 				 * **petitions.petitions.created_at**
 				 * - `timestamptz` in database
 				 * - `NOT NULL`, default: `CURRENT_TIMESTAMP`
@@ -25108,6 +25692,16 @@ declare module 'zapatos/schema' {
 					| db.DefaultType
 					| db.SQLFragment
 					| db.SQLFragment<any, boolean | db.Parameter<boolean> | db.DefaultType | db.SQLFragment>;
+				/**
+				 * **petitions.petitions.autoresponse_email**
+				 * - `int4` in database
+				 * - `NOT NULL`, no default
+				 */
+				autoresponse_email?:
+					| number
+					| db.Parameter<number>
+					| db.SQLFragment
+					| db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
 				/**
 				 * **petitions.petitions.created_at**
 				 * - `timestamptz` in database
@@ -25945,6 +26539,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.Selectable;
 		'communications.email_messages': communications.email_messages.Selectable;
 		'communications.email_sends': communications.email_sends.Selectable;
+		'communications.email_templates': communications.email_templates.Selectable;
 		'communications.received_emails': communications.received_emails.Selectable;
 		'communications.received_sms': communications.received_sms.Selectable;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.Selectable;
@@ -26003,6 +26598,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.JSONSelectable;
 		'communications.email_messages': communications.email_messages.JSONSelectable;
 		'communications.email_sends': communications.email_sends.JSONSelectable;
+		'communications.email_templates': communications.email_templates.JSONSelectable;
 		'communications.received_emails': communications.received_emails.JSONSelectable;
 		'communications.received_sms': communications.received_sms.JSONSelectable;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.JSONSelectable;
@@ -26061,6 +26657,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.Whereable;
 		'communications.email_messages': communications.email_messages.Whereable;
 		'communications.email_sends': communications.email_sends.Whereable;
+		'communications.email_templates': communications.email_templates.Whereable;
 		'communications.received_emails': communications.received_emails.Whereable;
 		'communications.received_sms': communications.received_sms.Whereable;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.Whereable;
@@ -26119,6 +26716,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.Insertable;
 		'communications.email_messages': communications.email_messages.Insertable;
 		'communications.email_sends': communications.email_sends.Insertable;
+		'communications.email_templates': communications.email_templates.Insertable;
 		'communications.received_emails': communications.received_emails.Insertable;
 		'communications.received_sms': communications.received_sms.Insertable;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.Insertable;
@@ -26177,6 +26775,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.Updatable;
 		'communications.email_messages': communications.email_messages.Updatable;
 		'communications.email_sends': communications.email_sends.Updatable;
+		'communications.email_templates': communications.email_templates.Updatable;
 		'communications.received_emails': communications.received_emails.Updatable;
 		'communications.received_sms': communications.received_sms.Updatable;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.Updatable;
@@ -26235,6 +26834,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.UniqueIndex;
 		'communications.email_messages': communications.email_messages.UniqueIndex;
 		'communications.email_sends': communications.email_sends.UniqueIndex;
+		'communications.email_templates': communications.email_templates.UniqueIndex;
 		'communications.received_emails': communications.received_emails.UniqueIndex;
 		'communications.received_sms': communications.received_sms.UniqueIndex;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.UniqueIndex;
@@ -26293,6 +26893,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.Column;
 		'communications.email_messages': communications.email_messages.Column;
 		'communications.email_sends': communications.email_sends.Column;
+		'communications.email_templates': communications.email_templates.Column;
 		'communications.received_emails': communications.received_emails.Column;
 		'communications.received_sms': communications.received_sms.Column;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.Column;
@@ -26351,6 +26952,7 @@ declare module 'zapatos/schema' {
 		'website.uploads': website.uploads.SQL;
 		'communications.email_messages': communications.email_messages.SQL;
 		'communications.email_sends': communications.email_sends.SQL;
+		'communications.email_templates': communications.email_templates.SQL;
 		'communications.received_emails': communications.received_emails.SQL;
 		'communications.received_sms': communications.received_sms.SQL;
 		'communications.received_whatsapp_group_messages': communications.received_whatsapp_group_messages.SQL;

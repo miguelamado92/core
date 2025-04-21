@@ -18,8 +18,7 @@ export async function POST(event) {
 		const parsed = parse(triggerEventMessage, body);
 		const eventResponse = await readEvent({
 			instanceId: event.locals.instance.id,
-			eventId: parsed.event_id,
-			t: event.locals.t
+			eventId: parsed.event_id
 		});
 
 		if (eventResponse.send_followup_email === false || !eventResponse.followup_email) {
@@ -28,8 +27,7 @@ export async function POST(event) {
 
 		const person = await readPerson({
 			instance_id: event.locals.instance.id,
-			person_id: parsed.person_id,
-			t: event.locals.t
+			person_id: parsed.person_id
 		});
 
 		//now create the email body as though it was a regular send-to-list email (which it kinda is)
