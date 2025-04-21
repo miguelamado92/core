@@ -2,7 +2,7 @@ import { type Read as ReadInstance } from '$lib/schema/core/instance';
 import { type Read as ReadEvent } from '$lib/schema/events/events';
 import { type SupportedLanguage } from '$lib/i18n';
 
-import { PUBLIC_HOST } from '$env/static/public';
+import { PUBLIC_ROOT_DOMAIN } from '$env/static/public';
 
 type Input = {
 	instance: ReadInstance;
@@ -19,7 +19,7 @@ import { renderAddress } from '$lib/utils/text/address';
 import { htmlToPlaintext } from '$lib/utils/text/string';
 
 export function baseEventOptions(options: Input) {
-	const eventUrl = `${dev ? 'http://' : 'https://'}${options.instance.slug}.${PUBLIC_HOST}/events/${options.event.slug}`;
+	const eventUrl = `${dev ? 'http://' : 'https://'}${options.instance.slug}.${PUBLIC_ROOT_DOMAIN}/events/${options.event.slug}`;
 	return {
 		title: options.event.heading,
 		featureImage: options.event.feature_image?.url || null,
