@@ -17,6 +17,8 @@
 			if (!response.ok) {
 				throw new Error(m.keen_agent_shell_mop());
 			}
+			$flash = { type: 'success', message: m.dizzy_actual_elephant_evoke() };
+			window.location.reload();
 		} catch (error) {
 			if (error instanceof Error) {
 				$flash = { type: 'error', message: error.message };
