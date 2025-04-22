@@ -81,3 +81,21 @@ export async function list({
 	await redis.set(redisString(instanceId, 'all'), parsedResult);
 	return parsedResult;
 }
+
+export async function del({
+	instanceId,
+	uploadId
+}: {
+	instanceId: number;
+	uploadId: number;
+}): Promise<void> {
+	await db
+		.update(
+			'website.uploads',
+			{ instance_id: instanceId, id: uploadId },
+			{ deleted_at: new Date() }
+		)
+		.run(pool);
+	await redis.del(redisString(instanceId, uploadId));
+	await redis.del(redisString(instanceId, 'all'));
+}
