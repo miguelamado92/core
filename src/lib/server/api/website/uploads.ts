@@ -100,10 +100,13 @@ export async function del({
 	await db
 		.update(
 			'website.uploads',
-			{ instance_id: instanceId, id: uploadId },
-			{ deleted_at: new Date() }
+			{ deleted_at: new Date() },
+			{ instance_id: instanceId, id: uploadId }
 		)
-		.run(pool);
+		.run(pool)
+		.catch((err) => {
+			throw new BelcodaError(404, 'DATA:WEBSITE:UPLOADS:DEL:01', m.pretty_tired_fly_lead(), err);
+		});
 	await redis.del(redisString(instanceId, uploadId));
 	await redis.del(redisString(instanceId, 'all'));
 }
