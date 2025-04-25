@@ -152,6 +152,8 @@
 	"brave_long_iguana_nurture": "Inscrito para <a href=\"{eventUrl}\">{eventName}</a> por {adminName}",
 	"ago_noisy_ray_inspire": "Inscrição para <a href={eventUrl}>{eventName}</a> cancelado por {adminName}",
 	"stout_formal_jay_snap": "{personName} cancelou sua inscrição para <a href={eventUrl}>{eventName}</a>",
+	"round_long_weasel_forgive": "{personName} compareceu a <a href={eventUrl}>{eventName}</a>",
+	"male_ornate_orangutan_roar": "Registrado como ausente em <a href={eventUrl}>{eventName}</a> por {adminName}",
 	"giant_watery_camel_mix": "Número do WhatsApp verificado: {phoneNumber}",
 	"quaint_shy_stingray_ask": "Etiqueta adicionada",
 	"misty_top_moth_loop": "Etiqueta removida",
