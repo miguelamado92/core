@@ -154,6 +154,8 @@
 	"stout_formal_jay_snap": "{personName} cancelou sua inscrição para <a href={eventUrl}>{eventName}</a>",
 	"round_long_weasel_forgive": "{personName} compareceu a <a href={eventUrl}>{eventName}</a>",
 	"male_ornate_orangutan_roar": "Registrado como ausente em <a href={eventUrl}>{eventName}</a> por {adminName}",
+	"weak_mad_shad_promise": "Recebeu <a href=\"/communications/email/messages/{messageId}\">e-mail de acompanhamento</a> para <a href=\"/events/{eventId}\">{eventName}</a>",
+	"sea_cute_nils_rise": "Recebeu <a href=\"/communications/email/messages/{messageId}\">e-mail de lembrete </a> para <a href=\"/events/{eventId}\">{eventName}</a>",
 	"giant_watery_camel_mix": "Número do WhatsApp verificado: {phoneNumber}",
 	"quaint_shy_stingray_ask": "Etiqueta adicionada",
 	"misty_top_moth_loop": "Etiqueta removida",
